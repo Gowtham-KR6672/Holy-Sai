@@ -34,6 +34,9 @@ In a third terminal:
 npm run dev:web           # http://localhost:5173 (proxies /api to the API)
 ```
 
+Phones and other computers on the same network can open the site at `http://<this computer's IP>:5173` (Vite prints
+it as "Network:"). The firewall must allow Node.js on that network.
+
 Sign in with `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` from `apps/api/.env` (to change that login later, edit those
 two values and run `node tools/reset-admin.mjs`).
 

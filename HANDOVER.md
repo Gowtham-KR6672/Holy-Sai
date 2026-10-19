@@ -115,6 +115,7 @@ npm workspaces: `packages/shared`, `apps/api`, `apps/web` (the mobile app is **n
    - `npm run db:seed` — roles, permissions, 35 settings and the Super Admin from `apps/api/.env`.
    - `npm run dev:api` → http://localhost:4000/api (health: `/api/public/health`).
 8. Terminal 3: `npm run dev:web` → http://localhost:5173 — sign in with `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`.
+   Other devices on the network use `http://<this computer's IP>:5173` (the dev server listens on all addresses).
 9. Optional test database (keeps test records out of the school's data):
    - create it once: `node tools/create-db.mjs holysai_test` (UTF-8), then
      `DATABASE_URL=postgresql://holysai:holysai_dev@localhost:5433/holysai_test npx prisma migrate deploy` in `apps/api`
