@@ -431,7 +431,9 @@ the mobile app on real Android/iOS phones, the mobile Pay Now path.
 **Rebuild additions to the original UI (so they are not mistaken for regressions):** School Setup, AI Providers and
 Integrations pages; account linking on Users & Roles; Student 360 "Mark as left / Re-enrol"; Razorpay Checkout on
 Parent 360 (the original simulated payments); sign-in page fixed to the screen (`apps/web/src/styles/login-fit.css`,
-requested by the client); full-page translation and language-aware dates.
+requested by the client); full-page translation and language-aware dates; popups keep the cursor in the field being
+typed in (the original `Modal` in `apps/web/src/components/ui/overlay.tsx` jumped back to the first field on every
+keystroke).
 
 ---
 

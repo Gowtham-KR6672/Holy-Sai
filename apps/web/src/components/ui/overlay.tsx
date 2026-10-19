@@ -11,12 +11,20 @@ export function Modal({ open, onClose, title, sub, children, foot, size, busy }:
   size?: 'wide' | 'full'; busy?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  // Latest onClose/busy kept in refs: pages pass a new onClose on every render, and re-running the open effect
+  // on each keystroke would pull focus back to the first field.
+  const onCloseRef = useRef(onClose);
+  const busyRef = useRef(busy);
+  useLayoutEffect(() => {
+    onCloseRef.current = onClose;
+    busyRef.current = busy;
+  });
   useEffect(() => {
     if (!open) return;
     const prev = document.activeElement as HTMLElement | null;
     document.body.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && !busy) onClose();
+      if (e.key === 'Escape' && !busyRef.current) onCloseRef.current();
       if (e.key === 'Tab' && ref.current) {
         // Keep focus inside the dialog
         const f = ref.current.querySelectorAll<HTMLElement>('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
@@ -27,16 +35,17 @@ export function Modal({ open, onClose, title, sub, children, foot, size, busy }:
       }
     };
     document.addEventListener('keydown', onKey);
-    setTimeout(() => {
+    const focusTimer = setTimeout(() => {
       const target = ref.current?.querySelector<HTMLElement>('[autofocus], input, select, textarea') ?? ref.current;
       target?.focus();
     }, 0);
     return () => {
+      clearTimeout(focusTimer);
       document.body.style.overflow = '';
       document.removeEventListener('keydown', onKey);
       prev?.focus?.();
     };
-  }, [open, onClose, busy]);
+  }, [open]);
 
   if (!open) return null;
   return createPortal(
