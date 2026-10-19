@@ -51,7 +51,7 @@ npx expo start                # then press a (Android emulator), i (iOS simulato
 - **Development build** (recommended for testing like production): `npx expo run:android` / `npx expo run:ios` locally,
   or `npx eas-cli@latest build --profile development --platform android|ios` and install the result.
 - **Web smoke test**: `npx expo start --web` (port 8081). The API only allows the origins in `WEB_ORIGIN`
-  (apps/api/.env), so add `http://localhost:8081` there if you want the web build to reach the API. Phones are not
+  (apps/api/.env), which already includes `http://localhost:8081`. Phones are not
   affected by CORS.
 
 Checks:
@@ -80,9 +80,9 @@ Identifiers: iOS bundle id and Android package are both `com.holysai.smartschool
 
 ## Notes and to-dos
 
-- **Push notifications**: `src/lib/push.ts` can obtain an Expo push token, but the API has no endpoint yet to store it
-  (the `User.pushToken` column exists and the notification service already delivers to it). Once an endpoint such as
-  `PUT /me/push-token` exists, call `registerForPushNotifications()` after sign-in and send the token there.
+- **Push notifications**: after sign-in the app asks for permission and registers its Expo push token with
+  `PUT /api/auth/push-token` (`src/lib/push.ts`); signing out on the phone removes it on the server. Remote push needs
+  `eas init` (project id) and a development/store build, and the school must enable Integrations › Push.
 - **Payments**: Pay Now creates a Razorpay order (`POST /finance/gateway/orders`), opens Razorpay Checkout in a WebView
   (UPI apps are handed to the phone) and confirms it with `POST /finance/gateway/verify`. A 503 means the school has not
   connected a payment gateway yet; the parent is asked to pay at the office.

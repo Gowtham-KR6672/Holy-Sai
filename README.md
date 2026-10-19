@@ -14,7 +14,8 @@ The connected digital campus for Holy Sai International School — web applicati
 Requirements: Node.js 22 or newer.
 
 ```bash
-npm install
+npm install               # approve install scripts if npm 11 asks: npm install-scripts approve
+npm run build:shared      # builds packages/shared (the API imports its compiled output)
 npm run db:start          # local PostgreSQL on port 5433 (keeps running; data in .data/pg)
 ```
 
@@ -77,11 +78,15 @@ browser console lists on-screen text that has no translation yet.
 ## Testing
 
 - `node tools/smoke-api.mjs` — signs in as the Super Admin and calls every page's GET endpoint.
+- `tools/tests/` — end-to-end checks against the test API on port 4001 (account linking, student leave/re-enrol with
+  Tamil and Hindi data) and the S3 request-signing check (`npx tsx tools/tests/s3-sign.test.ts`).
 - A separate **test database** (`holysai_test`) keeps test records out of the school's data: run a second API with
   `PORT=4001 DATABASE_URL=postgresql://holysai:holysai_dev@localhost:5433/holysai_test node apps/api/dist/main.js`
   (after `npm run build -w @holysai/api`; apply migrations to it with `DATABASE_URL=… npx prisma migrate deploy`).
 
 ## Project notes
+
+- `HANDOVER.md` — full handover: requirements, decisions, status, open items, how to continue on a new computer.
 
 - `docs/backend-conventions.md` — how API modules are built (envelope, errors, scope, audit, Prisma rules).
 - `docs/api-inventory.txt` — every API call the web app makes.

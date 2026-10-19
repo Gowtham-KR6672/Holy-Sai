@@ -15,3 +15,4 @@ apps/mobile/android/
 .DS_Store
 Thumbs.db
 apps/web/src/i18n/work/
+handover.env
