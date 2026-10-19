@@ -1,0 +1,11 @@
+// Holy Sai Smart School 360 — database schema.
+// The schema is split by module: one .prisma file per module in this folder.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}

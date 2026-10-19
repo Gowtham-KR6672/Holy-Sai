@@ -1,0 +1,17 @@
+node_modules/
+dist/
+dist-test/
+build/
+.expo/
+.data/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+apps/api/uploads/
+apps/mobile/ios/
+apps/mobile/android/
+.DS_Store
+Thumbs.db
+apps/web/src/i18n/work/

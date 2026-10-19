@@ -1,0 +1,35 @@
+{
+  "name": "holy-sai-smart-school-360",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Holy Sai Smart School 360 — connected digital campus (web, API and mobile).",
+  "workspaces": [
+    "packages/shared",
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "db:start": "node tools/dev-db.mjs",
+    "build:shared": "npm run build -w @holysai/shared",
+    "db:migrate": "npm run prisma:migrate -w @holysai/api",
+    "db:seed": "npm run prisma:seed -w @holysai/api",
+    "dev:api": "npm run start:dev -w @holysai/api",
+    "dev:web": "npm run dev -w @holysai/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build": "npm run build -w @holysai/shared && npm run build -w @holysai/api && npm run build -w @holysai/web"
+  },
+  "devDependencies": {
+    "embedded-postgres": "18.4.0-beta.17",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "allowScripts": {
+    "@embedded-postgres/windows-x64@18.4.0-beta.17": true,
+    "@prisma/client@6.19.3": true,
+    "prisma@6.19.3": true,
+    "@prisma/engines@6.19.3": true,
+    "esbuild@0.28.2": true
+  }
+}

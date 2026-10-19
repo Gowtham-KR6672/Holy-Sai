@@ -1,0 +1,329 @@
+// Academics: timetable and cover, student attendance, lesson plans, homework, question bank,
+// Cambridge curriculum stages and objectives, assessments and marks, and report cards.
+// Core records (Campus, SchoolClass, Section, Subject, Student, Employee, User) are referenced
+// by plain uuid columns and joined in code.
+
+/// Bell schedule of a campus: one row per period.
+model TimetablePeriod {
+  id        String   @id @default(uuid()) @db.Uuid
+  campusId  String   @db.Uuid
+  periodNo  Int
+  /// "08:50"
+  startsAt  String
+  endsAt    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([campusId, periodNo])
+}
+
+/// One lesson slot of a section's weekly timetable.
+model TimetableEntry {
+  id                String    @id @default(uuid()) @db.Uuid
+  campusId          String    @db.Uuid
+  sectionId         String    @db.Uuid
+  /// 1 = Monday … 6 = Saturday
+  day               Int
+  periodNo          Int
+  subjectId         String?   @db.Uuid
+  /// Non-subject period, e.g. "Games", "Library", "Club".
+  activity          String?
+  /// Teacher (Employee id).
+  employeeId        String?   @db.Uuid
+  room              String?
+  needsSubstitute   Boolean   @default(false)
+  /// Cover teacher (Employee id) for `coverDate`.
+  substituteId      String?   @db.Uuid
+  substituteNote    String?
+  coverDate         DateTime? @db.Date
+  coverAssignedById String?   @db.Uuid
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([sectionId, day, periodNo])
+  @@index([campusId])
+  @@index([employeeId])
+  @@index([substituteId])
+}
+
+/// One attendance mark per student per day per section.
+model StudentAttendance {
+  id               String    @id @default(uuid()) @db.Uuid
+  studentId        String    @db.Uuid
+  sectionId        String    @db.Uuid
+  campusId         String    @db.Uuid
+  date             DateTime  @db.Date
+  /// present | late | absent | leave
+  status           String
+  /// "08:52" for late arrivals.
+  arrivalTime      String?
+  parentNotifiedAt DateTime?
+  markedById       String?   @db.Uuid
+  markedByName     String?
+  markedAt         DateTime  @default(now())
+  createdAt        DateTime  @default(now())
+
+  @@unique([studentId, sectionId, date])
+  @@index([sectionId, date])
+  @@index([campusId, date])
+  @@index([date, status])
+}
+
+/// A section's register for a day: who saved it and the counts at the time.
+model StudentAttendanceRegister {
+  id            String   @id @default(uuid()) @db.Uuid
+  sectionId     String   @db.Uuid
+  campusId      String   @db.Uuid
+  date          DateTime @db.Date
+  total         Int      @default(0)
+  present       Int      @default(0)
+  late          Int      @default(0)
+  absent        Int      @default(0)
+  leave         Int      @default(0)
+  markedById    String?  @db.Uuid
+  markedByName  String?
+  firstMarkedAt DateTime @default(now())
+  markedAt      DateTime @default(now())
+
+  @@unique([sectionId, date])
+  @@index([campusId, date])
+}
+
+model LessonPlan {
+  id             String    @id @default(uuid()) @db.Uuid
+  title          String
+  /// Draft | Submitted | Under Review | Approved | Rejected
+  status         String    @default("Draft")
+  plannedFor     DateTime? @db.Date
+  aiGenerated    Boolean   @default(false)
+  campusId       String    @db.Uuid
+  sectionId      String?   @db.Uuid
+  subjectId      String    @db.Uuid
+  objectiveId    String?   @db.Uuid
+  /// Author (Employee id).
+  authorId       String    @db.Uuid
+  /// { objective, plan[], activities[], differentiation[], homework }
+  content        Json      @default("{}")
+  submittedAt    DateTime?
+  reviewStartedAt DateTime?
+  approvedAt     DateTime?
+  /// Reviewer who approved or returned the plan (User id).
+  approvedById   String?   @db.Uuid
+  approvedByName String?
+  reviewNote     String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([campusId, status])
+  @@index([authorId])
+  @@index([sectionId])
+  @@index([objectiveId])
+}
+
+model Homework {
+  id               String    @id @default(uuid()) @db.Uuid
+  title            String
+  instructions     String?
+  /// Draft | Open | Closed  (Overdue and "Closing today" are shown from the due date)
+  status           String    @default("Open")
+  assignedOn       DateTime  @db.Date
+  dueOn            DateTime  @db.Date
+  campusId         String    @db.Uuid
+  sectionId        String    @db.Uuid
+  subjectId        String    @db.Uuid
+  /// Teacher (Employee id), when set by a staff member with a staff record.
+  assignedById     String?   @db.Uuid
+  assignedByUserId String?   @db.Uuid
+  assignedByName   String?
+  publishedAt      DateTime?
+  closedAt         DateTime?
+  lastRemindedAt   DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  submissions HomeworkSubmission[]
+
+  @@index([campusId, status])
+  @@index([sectionId])
+  @@index([dueOn])
+}
+
+model HomeworkSubmission {
+  id          String    @id @default(uuid()) @db.Uuid
+  homeworkId  String    @db.Uuid
+  homework    Homework  @relation(fields: [homeworkId], references: [id], onDelete: Cascade)
+  studentId   String    @db.Uuid
+  /// Submitted | Late | Reviewed
+  status      String
+  submittedAt DateTime  @default(now())
+  feedback    String?
+  updatedById String?   @db.Uuid
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([homeworkId, studentId])
+  @@index([studentId])
+}
+
+model QuestionBankItem {
+  id            String   @id @default(uuid()) @db.Uuid
+  subjectId     String   @db.Uuid
+  topic         String
+  /// e.g. "Primary 5"
+  stageLabel    String
+  question      String
+  /// short | mcq | long | numeric
+  questionType  String   @default("short")
+  /// Foundation | Core | Higher
+  difficulty    String   @default("Core")
+  marks         Int      @default(1)
+  timesUsed     Int      @default(0)
+  /// Draft | Approved | Retired
+  status        String   @default("Draft")
+  objectiveId   String?  @db.Uuid
+  createdById   String?  @db.Uuid
+  createdByName String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([subjectId, topic])
+  @@index([status])
+}
+
+/// Cambridge curriculum stages (reference catalog, seeded).
+model CurriculumStage {
+  id        String   @id @default(uuid()) @db.Uuid
+  /// e.g. "Cambridge Primary"
+  name      String   @unique
+  gradeFrom Int
+  gradeTo   Int
+  /// Lower-case words that identify the stage in a class stage or an objective stage label.
+  keywords  String[]
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+/// A Cambridge learning objective, tracked for coverage (taught) and mastery (learned).
+model CurriculumObjective {
+  id          String   @id @default(uuid()) @db.Uuid
+  /// e.g. "5Nf.09"
+  code        String   @unique
+  description String
+  subjectId   String   @db.Uuid
+  /// e.g. "Primary 5"
+  stageLabel  String
+  coveragePct Int      @default(0)
+  masteryPct  Int      @default(0)
+  createdById String?  @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([subjectId])
+  @@index([stageLabel])
+}
+
+/// Coverage and mastery at the end of each term, for the "mastery against coverage" trend.
+model CurriculumSnapshot {
+  id         String   @id @default(uuid()) @db.Uuid
+  termLabel  String   @unique
+  termStart  DateTime @db.Date
+  coverage   Float
+  mastery    Float
+  objectives Int
+  updatedAt  DateTime @updatedAt
+}
+
+model Assessment {
+  id               String    @id @default(uuid()) @db.Uuid
+  /// e.g. "AS-3313"
+  code             String    @unique
+  name             String
+  /// test | exam | unit_test | quiz | mock | project
+  assessmentType   String    @default("test")
+  /// Scheduled | In Progress | Moderation | Completed
+  status           String    @default("Scheduled")
+  heldOn           DateTime  @db.Date
+  maxMarks         Float
+  campusId         String    @db.Uuid
+  classId          String    @db.Uuid
+  /// Null = the whole grade.
+  sectionId        String?   @db.Uuid
+  subjectId        String    @db.Uuid
+  createdById      String?   @db.Uuid
+  createdByName    String?
+  moderationAt     DateTime?
+  completedAt      DateTime?
+  completedById    String?   @db.Uuid
+  completedByName  String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  marks AssessmentMark[]
+
+  @@index([campusId, status])
+  @@index([classId])
+  @@index([sectionId])
+  @@index([heldOn])
+}
+
+model AssessmentMark {
+  id            String     @id @default(uuid()) @db.Uuid
+  assessmentId  String     @db.Uuid
+  assessment    Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  studentId     String     @db.Uuid
+  marks         Float?
+  isAbsent      Boolean    @default(false)
+  /// A* | A+ | A | B+ | B | C | D | E
+  grade         String?
+  enteredById   String?    @db.Uuid
+  enteredByName String?
+  enteredAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@unique([assessmentId, studentId])
+  @@index([studentId])
+}
+
+/// One section's report cards for one term, moving through
+/// Marks → Moderation → AI draft comments → Teacher review → Approval → Parent release.
+model ReportCardBatch {
+  id             String    @id @default(uuid()) @db.Uuid
+  sectionId      String    @db.Uuid
+  campusId       String    @db.Uuid
+  /// e.g. "Term 1 2026–27"
+  term           String
+  termStart      DateTime  @db.Date
+  termEnd        DateTime  @db.Date
+  /// 0 Marks · 1 Moderation · 2 AI draft comments · 3 Teacher review · 4 Approval · 5 Released
+  stage          Int       @default(0)
+  due            DateTime  @db.Date
+  releasedAt     DateTime?
+  approvedById   String?   @db.Uuid
+  approvedByName String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  comments ReportCardComment[]
+
+  @@unique([sectionId, term])
+  @@index([campusId, stage])
+}
+
+model ReportCardComment {
+  id             String          @id @default(uuid()) @db.Uuid
+  batchId        String          @db.Uuid
+  batch          ReportCardBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  studentId      String          @db.Uuid
+  comment        String          @default("")
+  aiDrafted      Boolean         @default(false)
+  /// Draft | Approved | Rejected
+  status         String          @default("Draft")
+  reviewedById   String?         @db.Uuid
+  reviewedByName String?
+  /// { assessments, observations, behaviour } used for the draft.
+  sources        Json?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@unique([batchId, studentId])
+  @@index([studentId])
+}

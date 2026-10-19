@@ -1,0 +1,212 @@
+// Transport and GPS tracking: vehicles, route run state, bus GPS pings, boarding / de-boarding,
+// GPS devices, device assignments and student location pings.
+// Core records (TransportRoute, RouteStop, StudentTransport, Student, Campus, Employee, User) are
+// referenced with plain uuid columns; relations exist only between the tables in this file.
+
+/// A bus or van. A route uses a vehicle through TransportRouteProfile.vehicleId.
+model TransportVehicle {
+  id             String   @id @default(uuid()) @db.Uuid
+  campusId       String   @db.Uuid
+  /// Fleet label, e.g. "Bus 4"
+  busNo          String
+  /// e.g. "TN 11 AB 1234"
+  registrationNo String   @unique
+  capacity       Int      @default(40)
+  /// active | maintenance | retired
+  status         String   @default("active")
+  /// GPS tracker mounted on the vehicle (TrackingDevice.id); its pings become the bus position.
+  gpsDeviceId    String?  @unique @db.Uuid
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([campusId])
+}
+
+/// Route details the core route record does not carry: area served, vehicle and the day's run state.
+model TransportRouteProfile {
+  routeId          String    @id @db.Uuid
+  /// Area served, e.g. "Urapakkam, Guduvanchery East"
+  area             String    @default("")
+  vehicleId        String?   @db.Uuid
+  /// School day the run state applies to; on a new day the run is Scheduled again (Maintenance carries over).
+  runDate          DateTime? @db.Date
+  delayMinutes     Int       @default(0)
+  etaText          String?
+  statusReason     String?
+  statusUpdatedAt  DateTime?
+  statusUpdatedBy  String?
+  /// Stops passed in the current run: { "<YYYY-MM-DD>:<session>": [stopId, ...] }
+  doneStops        Json      @default("{}")
+  lastLatitude     Float?
+  lastLongitude    Float?
+  lastSpeedKmph    Float?
+  lastHeading      Float?
+  lastPingAt       DateTime?
+  /// device | app | traccar
+  lastPingSource   String?
+  deviationMetres  Int?
+  deviationAlertAt DateTime?
+  updatedAt        DateTime  @updatedAt
+
+  @@index([vehicleId])
+}
+
+/// How a student uses the bus (core StudentTransport keeps the route and stop).
+model TransportStudentMode {
+  studentId String   @id @db.Uuid
+  /// both | pickup_only | drop_only
+  mode      String   @default("both")
+  updatedAt DateTime @updatedAt
+}
+
+/// A GPS position of a bus, from its mounted tracker, the attendant app or Traccar.
+model TransportBusPing {
+  id         BigInt   @id @default(autoincrement())
+  routeId    String   @db.Uuid
+  vehicleId  String?  @db.Uuid
+  deviceId   String?  @db.Uuid
+  /// device | app | traccar
+  source     String
+  latitude   Float
+  longitude  Float
+  speedKmph  Float?
+  heading    Float?
+  accuracy   Float?
+  recordedAt DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([routeId, recordedAt])
+}
+
+/// Boarding or de-boarding of one student on one run, confirmed by the attendant (device or screen).
+model TransportBoardingEvent {
+  id               String    @id @default(uuid()) @db.Uuid
+  routeId          String    @db.Uuid
+  studentId        String    @db.Uuid
+  runDate          DateTime  @db.Date
+  /// morning | afternoon
+  session          String
+  /// boarded | deboarded
+  eventType        String
+  /// Manual | App | RFID | Face | QR
+  method           String    @default("Manual")
+  stopId           String?   @db.Uuid
+  latitude         Float?
+  longitude        Float?
+  occurredAt       DateTime  @default(now())
+  recordedById     String?   @db.Uuid
+  recordedByName   String?
+  parentNotifiedAt DateTime?
+
+  @@index([routeId, runDate, session])
+  @@index([studentId, runDate])
+}
+
+/// A GPS device the school owns (tracker, ID-card tag, wearable or a phone running the tracker app).
+model TrackingDevice {
+  id              String    @id @default(uuid()) @db.Uuid
+  /// e.g. "GPS000001" — encoded in the QR label
+  deviceCode      String    @unique
+  /// gps_tracker | id_card_tag | wearable | mobile_app
+  deviceType      String
+  imei            String?   @unique
+  serialNumber    String?
+  firmwareVersion String?
+  campusId        String?   @db.Uuid
+  /// available | assigned | maintenance | inactive | lost
+  status          String    @default("available")
+  statusReason    String?
+  notes           String?
+  /// SHA-256 of the device token. The token itself is shown once and never stored.
+  tokenHash       String?   @unique
+  tokenIssuedAt   DateTime?
+  lastSeenAt      DateTime?
+  batteryPct      Float?
+  lastLatitude    Float?
+  lastLongitude   Float?
+  /// Device id on the Traccar server when positions come from the Traccar integration.
+  traccarId       Int?      @unique
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  assignments TrackingAssignment[]
+
+  @@index([status])
+  @@index([campusId])
+}
+
+/// Which student carries which device. Ended assignments are kept with their locations.
+model TrackingAssignment {
+  id               String         @id @default(uuid()) @db.Uuid
+  deviceId         String         @db.Uuid
+  device           TrackingDevice @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  studentId        String         @db.Uuid
+  /// active | inactive
+  status           String         @default("active")
+  notes            String?
+  assignedAt       DateTime       @default(now())
+  assignedById     String?        @db.Uuid
+  assignedByName   String?
+  unassignedAt     DateTime?
+  unassignedById   String?        @db.Uuid
+  unassignedByName String?
+  unassignReason   String?
+
+  @@index([studentId, status])
+  @@index([deviceId, status])
+  @@index([assignedAt])
+}
+
+/// One recorded location of a student.
+model TrackingLocation {
+  id             BigInt   @id @default(autoincrement())
+  studentId      String   @db.Uuid
+  deviceId       String?  @db.Uuid
+  assignmentId   String?  @db.Uuid
+  latitude       Float
+  longitude      Float
+  /// metres
+  accuracy       Float?
+  /// metres per second
+  speed          Float?
+  heading        Float?
+  batteryPct     Float?
+  /// at_school | in_transit | at_home | on_trip | unknown
+  locationStatus String
+  placeLabel     String?
+  campusId       String?  @db.Uuid
+  routeId        String?  @db.Uuid
+  /// device | traccar | app | manual
+  source         String   @default("device")
+  recordedAt     DateTime
+  receivedAt     DateTime @default(now())
+
+  @@index([studentId, recordedAt])
+  @@index([assignmentId])
+  @@index([deviceId, recordedAt])
+}
+
+/// Per-student tracking state: the latest location (for fast lists and maps), home point and trip window.
+model TrackingStudentState {
+  studentId      String    @id @db.Uuid
+  locationId     BigInt?
+  latitude       Float?
+  longitude      Float?
+  accuracy       Float?
+  speed          Float?
+  batteryPct     Float?
+  locationStatus String?
+  placeLabel     String?
+  deviceId       String?   @db.Uuid
+  source         String?
+  recordedAt     DateTime?
+  /// Home point for the "At home" status (falls back to the student's bus stop).
+  homeLatitude   Float?
+  homeLongitude  Float?
+  /// While set and in the future, locations away from campus read "On a school trip".
+  tripLabel      String?
+  tripUntil      DateTime?
+  updatedAt      DateTime  @updatedAt
+
+  @@index([recordedAt])
+}

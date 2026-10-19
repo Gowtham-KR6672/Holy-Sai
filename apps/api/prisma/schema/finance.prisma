@@ -1,0 +1,361 @@
+// Finance: fee heads and fee structures, the student ledger (charges), payments and receipts,
+// concessions and scholarships, expenses, reimbursements, allowances, budgets, bank/gateway
+// reconciliation and fee reminders. Core records (students, campuses, classes, employees, users,
+// academic years) are referenced by plain uuid columns and joined in code.
+
+/// Fee heads (reference catalog): Tuition, Transport, Activities, Books & Materials, Uniform, Trips.
+model FinanceFeeHead {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @unique
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  structures FinanceFeeStructure[]
+  charges    FinanceCharge[]
+}
+
+/// One fee structure line: class × head × instalment × amount × due date, for one academic year.
+model FinanceFeeStructure {
+  id             String         @id @default(uuid()) @db.Uuid
+  campusId       String         @db.Uuid
+  classId        String         @db.Uuid
+  academicYearId String?        @db.Uuid
+  feeHeadId      String         @db.Uuid
+  feeHead        FinanceFeeHead @relation(fields: [feeHeadId], references: [id])
+  /// Term 1 | Term 2 | Term 3 | Annual
+  term           String
+  amount         Decimal        @db.Decimal(12, 2)
+  dueDate        DateTime       @db.Date
+  /// Active | Draft | Archived
+  status         String         @default("Active")
+  createdById    String?        @db.Uuid
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  charges FinanceCharge[]
+
+  @@index([campusId, status])
+  @@index([classId, feeHeadId, term])
+}
+
+/// A charge on a student's ledger (raised by a fee structure or manually).
+model FinanceCharge {
+  id             String               @id @default(uuid()) @db.Uuid
+  studentId      String               @db.Uuid
+  campusId       String               @db.Uuid
+  classId        String?              @db.Uuid
+  academicYearId String?              @db.Uuid
+  structureId    String?              @db.Uuid
+  structure      FinanceFeeStructure? @relation(fields: [structureId], references: [id])
+  feeHeadId      String               @db.Uuid
+  feeHead        FinanceFeeHead       @relation(fields: [feeHeadId], references: [id])
+  description    String
+  amount         Decimal              @db.Decimal(12, 2)
+  concession     Decimal              @default(0) @db.Decimal(12, 2)
+  paid           Decimal              @default(0) @db.Decimal(12, 2)
+  /// amount − concession − paid; kept in step with every payment, refund and concession.
+  balance        Decimal              @db.Decimal(12, 2)
+  dueDate        DateTime             @db.Date
+  createdById    String?              @db.Uuid
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+
+  allocations FinancePaymentAllocation[]
+
+  @@unique([structureId, studentId])
+  @@index([studentId])
+  @@index([campusId, dueDate])
+  @@index([academicYearId])
+}
+
+/// A payment (counter collection or online). Receipts are issued on success.
+model FinancePayment {
+  id              String    @id @default(uuid()) @db.Uuid
+  studentId       String    @db.Uuid
+  campusId        String    @db.Uuid
+  academicYearId  String?   @db.Uuid
+  amount          Decimal   @db.Decimal(12, 2)
+  /// UPI | Card | Net Banking | Cash / DD
+  method          String
+  /// What was actually used: Cash, DD, Cheque, UPI, Card, Net Banking, Wallet …
+  instrument      String
+  /// Success | Initiated | Failed | Refunded
+  status          String
+  /// counter | online
+  source          String
+  /// RCT-<year>-<6 digits>, issued on success.
+  receiptNo       String?   @unique
+  /// UTR, DD or cheque number, or the gateway payment id.
+  gatewayRef      String?
+  gatewayOrderId  String?   @unique
+  failureReason   String?
+  /// Fee lines chosen by the payer for an online order; settled first on success.
+  requestedFeeIds Json?
+  collectedById   String?   @db.Uuid
+  collectedBy     String?
+  paidById        String?   @db.Uuid
+  paidBy          String?
+  paidAt          DateTime  @default(now())
+  receiptSentAt   DateTime?
+  reconciled      Boolean   @default(false)
+  reconciledAt    DateTime?
+  refundedAmount  Decimal   @default(0) @db.Decimal(12, 2)
+  refundedAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  allocations FinancePaymentAllocation[]
+  reconLines  FinanceReconLine[]
+
+  @@index([studentId])
+  @@index([campusId, paidAt])
+  @@index([status, paidAt])
+  @@index([gatewayRef])
+}
+
+/// How much of a payment settled each charge.
+model FinancePaymentAllocation {
+  id           String         @id @default(uuid()) @db.Uuid
+  paymentId    String         @db.Uuid
+  payment      FinancePayment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  chargeId     String         @db.Uuid
+  charge       FinanceCharge  @relation(fields: [chargeId], references: [id])
+  amount       Decimal        @db.Decimal(12, 2)
+  balanceAfter Decimal        @db.Decimal(12, 2)
+
+  @@index([paymentId])
+  @@index([chargeId])
+}
+
+/// Concessions and scholarship awards: Submitted → Under Review → Approved / Rejected.
+model FinanceConcession {
+  id              String              @id @default(uuid()) @db.Uuid
+  studentId       String              @db.Uuid
+  campusId        String              @db.Uuid
+  academicYearId  String?             @db.Uuid
+  /// Sibling concession | Staff ward concession | Merit scholarship | Need-based support | Sports quota
+  type            String
+  reason          String
+  /// Set when the value is a percentage of tuition.
+  percent         Decimal?            @db.Decimal(5, 2)
+  amount          Decimal             @db.Decimal(12, 2)
+  /// Value already deducted from the student's charges.
+  appliedAmount   Decimal             @default(0) @db.Decimal(12, 2)
+  /// Submitted | Under Review | Approved | Rejected
+  status          String              @default("Submitted")
+  scholarshipId   String?             @db.Uuid
+  scholarship     FinanceScholarship? @relation(fields: [scholarshipId], references: [id])
+  requestedById   String?             @db.Uuid
+  requestedBy     String?
+  reviewedById    String?             @db.Uuid
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  decidedById     String?             @db.Uuid
+  decidedBy       String?
+  decidedAt       DateTime?
+  rejectionReason String?
+  validUntil      DateTime?           @db.Date
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  @@index([studentId])
+  @@index([campusId, status])
+  @@index([type])
+}
+
+/// A scholarship round with a number of seats.
+model FinanceScholarship {
+  id             String    @id @default(uuid()) @db.Uuid
+  academicYearId String?   @db.Uuid
+  name           String
+  criteria       String?
+  amount         Decimal   @db.Decimal(12, 2)
+  seats          Int
+  /// Open | Closed
+  status         String    @default("Open")
+  createdById    String?   @db.Uuid
+  closedAt       DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  concessions FinanceConcession[]
+}
+
+/// Expense categories / budget lines (reference catalog).
+model FinanceExpenseCategory {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @unique
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+/// Expenses (EXP-nnnn): Draft → Submitted → Under Review → Approved / Rejected → Paid.
+model FinanceExpense {
+  id              String    @id @default(uuid()) @db.Uuid
+  code            String    @unique
+  campusId        String    @db.Uuid
+  academicYearId  String?   @db.Uuid
+  category        String
+  description     String
+  amount          Decimal   @db.Decimal(12, 2)
+  expenseDate     DateTime  @db.Date
+  vendorId        String?   @db.Uuid
+  vendorName      String?
+  /// Employee who raised it.
+  submittedById   String?   @db.Uuid
+  raisedBy        String?
+  /// Draft | Submitted | Under Review | Approved | Rejected | Paid
+  status          String    @default("Draft")
+  rejectionReason String?
+  submittedAt     DateTime?
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  decidedById     String?   @db.Uuid
+  decidedBy       String?
+  decidedAt       DateTime?
+  paidBy          String?
+  paidAt          DateTime?
+  createdById     String?   @db.Uuid
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([campusId, status])
+  @@index([category])
+  @@index([expenseDate])
+}
+
+/// Staff reimbursement claims (RMB-nnn). Approved claims are paid with the next payroll run.
+model FinanceReimbursement {
+  id              String    @id @default(uuid()) @db.Uuid
+  code            String    @unique
+  employeeId      String    @db.Uuid
+  campusId        String    @db.Uuid
+  claimType       String
+  description     String
+  amount          Decimal   @db.Decimal(12, 2)
+  claimDate       DateTime  @db.Date
+  /// Draft | Submitted | Under Review | Approved | Rejected | Paid
+  status          String    @default("Submitted")
+  rejectionReason String?
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  decidedById     String?   @db.Uuid
+  decidedBy       String?
+  decidedAt       DateTime?
+  /// "YYYY-MM" — the payroll month that pays this claim.
+  payrollMonth    String?
+  /// payroll | manual
+  paidVia         String?
+  payrollRef      String?
+  paidAt          DateTime?
+  createdById     String?   @db.Uuid
+  createdBy       String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([employeeId, status])
+  @@index([campusId, status])
+}
+
+/// A recurring (or one-time) allowance for one employee; proposed, then approved before payroll.
+model FinanceAllowance {
+  id             String    @id @default(uuid()) @db.Uuid
+  allowanceType  String
+  employeeId     String    @db.Uuid
+  campusId       String    @db.Uuid
+  category       String
+  department     String
+  employeeType   String
+  /// What the allowance was proposed for, e.g. "Drivers & Attendants" or "Teaching staff".
+  appliesTo      String
+  /// amount | percent
+  mode           String    @default("amount")
+  percentOfBasic Decimal?  @db.Decimal(5, 2)
+  /// Monthly amount (for a percentage, computed from basic salary when proposed).
+  amount         Decimal   @db.Decimal(12, 2)
+  /// Monthly | One-time
+  frequency      String    @default("Monthly")
+  /// First month (first day of the month).
+  effectiveMonth DateTime  @db.Date
+  /// Last month paid (first day of the month), set when stopped.
+  endMonth       DateTime? @db.Date
+  /// Submitted | Approved | Rejected | Stopped
+  status         String    @default("Submitted")
+  proposedById   String?   @db.Uuid
+  proposedBy     String?
+  decidedById    String?   @db.Uuid
+  decidedBy      String?
+  decidedAt      DateTime?
+  stoppedAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([allowanceType])
+  @@index([employeeId, status])
+  @@index([campusId, status])
+}
+
+/// Annual budget per campus and department (expense category).
+model FinanceBudget {
+  id             String   @id @default(uuid()) @db.Uuid
+  campusId       String   @db.Uuid
+  academicYearId String?  @db.Uuid
+  category       String
+  allocated      Decimal  @db.Decimal(12, 2)
+  owner          String?
+  createdById    String?  @db.Uuid
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([campusId, academicYearId])
+}
+
+/// A bank or gateway settlement statement line, matched to a receipt by reference.
+model FinanceReconLine {
+  id            String          @id @default(uuid()) @db.Uuid
+  statementDate DateTime        @db.Date
+  /// e.g. Razorpay, Bank, UPI settlement
+  channel       String
+  reference     String
+  amount        Decimal         @db.Decimal(12, 2)
+  /// Unmatched | Matched | Exception | Resolved
+  status        String          @default("Unmatched")
+  note          String?
+  paymentId     String?         @db.Uuid
+  payment       FinancePayment? @relation(fields: [paymentId], references: [id])
+  /// gateway | import
+  source        String          @default("import")
+  /// Provider entry id, so a settlement entry is imported only once.
+  externalId    String?         @unique
+  settlementId  String?
+  matchedAt     DateTime?
+  matchedBy     String?
+  resolvedAt    DateTime?
+  resolvedBy    String?
+  createdById   String?         @db.Uuid
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([status])
+  @@index([reference])
+  @@index([statementDate])
+}
+
+/// Fee reminders sent to a student's parents.
+model FinanceReminder {
+  id        String   @id @default(uuid()) @db.Uuid
+  studentId String   @db.Uuid
+  campusId  String   @db.Uuid
+  /// whatsapp_app | whatsapp | sms_app
+  channel   String
+  amount    Decimal  @db.Decimal(12, 2)
+  message   String
+  sentById  String?  @db.Uuid
+  sentBy    String?
+  createdAt DateTime @default(now())
+
+  @@index([studentId])
+  @@index([createdAt])
+}

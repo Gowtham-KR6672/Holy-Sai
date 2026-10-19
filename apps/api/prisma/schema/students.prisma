@@ -1,0 +1,105 @@
+// Students: behaviour notes, wellbeing check-ins and teacher observations (written from Student 360 and the
+// Behaviour & Wellbeing page), and the student lifecycle — discontinue / transfer / graduate / re-activate —
+// with the sign-in accounts each change suspended. The Student record itself lives in core.prisma and is
+// never deleted. Core records (Student, Section, Campus, Employee, User) are referenced by plain uuid columns.
+
+/// A behaviour note on a student. One table for Student 360 and the Behaviour & Wellbeing page.
+model StudentBehaviourNote {
+  id                   String   @id @default(uuid()) @db.Uuid
+  studentId            String   @db.Uuid
+  campusId             String   @db.Uuid
+  /// The student's section when the note was recorded (for by-grade figures).
+  sectionId            String?  @db.Uuid
+  /// Positive | Note | Concern | Incident
+  recordType           String
+  note                 String
+  recordedOn           DateTime @db.Date
+  recordedById         String?  @db.Uuid
+  recordedByEmployeeId String?  @db.Uuid
+  recordedByName       String?
+  /// student360 | wellbeing
+  source               String   @default("student360")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([studentId, recordedOn])
+  @@index([campusId, recordedOn])
+  @@index([recordType, recordedOn])
+}
+
+/// A wellbeing check-in. Confidential check-ins are visible only to holders of students.sensitive.
+model StudentWellbeingCheckin {
+  id                   String   @id @default(uuid()) @db.Uuid
+  studentId            String   @db.Uuid
+  campusId             String   @db.Uuid
+  sectionId            String?  @db.Uuid
+  /// Positive | Settled | Unsettled | Anxious | Low
+  mood                 String
+  notes                String?
+  isConfidential       Boolean  @default(false)
+  checkedOn            DateTime @db.Date
+  recordedById         String?  @db.Uuid
+  recordedByEmployeeId String?  @db.Uuid
+  recordedByName       String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([studentId, checkedOn])
+  @@index([campusId, checkedOn])
+}
+
+/// A qualitative teacher observation on the Student 360 profile.
+model StudentObservation {
+  id               String   @id @default(uuid()) @db.Uuid
+  studentId        String   @db.Uuid
+  campusId         String   @db.Uuid
+  text             String
+  observedOn       DateTime @db.Date
+  authorId         String?  @db.Uuid
+  authorEmployeeId String?  @db.Uuid
+  authorName       String
+  /// Designation (or role) of the author at the time, e.g. "Class Teacher".
+  authorRole       String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([studentId, observedOn])
+  @@index([campusId, observedOn])
+}
+
+/// One lifecycle change of a student: active ⇄ discontinued | transferred | graduated.
+model StudentStatusChange {
+  id                   String   @id @default(uuid()) @db.Uuid
+  studentId            String   @db.Uuid
+  campusId             String   @db.Uuid
+  fromStatus           String
+  toStatus             String
+  effectiveOn          DateTime @db.Date
+  reason               String?
+  /// Sign-in accounts disabled (and signed out) by this change.
+  disabledUserIds      String[] @default([])
+  /// Sign-in accounts re-enabled by this change.
+  enabledUserIds       String[] @default([])
+  /// GPS tracking status before the student left (restored on re-activation).
+  trackingStatusBefore String?
+  changedById          String?  @db.Uuid
+  changedByName        String?
+  createdAt            DateTime @default(now())
+
+  @@index([studentId, createdAt])
+  @@index([campusId, createdAt])
+}
+
+/// A sign-in account suspended because its student left, or because every child of its parent left.
+/// Re-activating a student lifts the holds of that student's own account and of its guardians' accounts.
+model StudentAccountHold {
+  userId         String   @id @db.Uuid
+  /// student | parent
+  kind           String
+  /// The student whose status change placed the hold.
+  studentId      String   @db.Uuid
+  previousStatus String
+  createdAt      DateTime @default(now())
+
+  @@index([studentId])
+}

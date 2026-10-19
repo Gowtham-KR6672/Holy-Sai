@@ -1,0 +1,306 @@
+// Foundation: campuses, academic years, users, roles and permissions, sessions, audit, settings,
+// notifications and preferences, tasks, AI providers, integrations and reference counters.
+// Field names follow the web app's API contract (recovered front-end source).
+
+model Campus {
+  id              String   @id @default(uuid()) @db.Uuid
+  /// Short code used in references and settings, e.g. "gdv".
+  code            String   @unique
+  name            String
+  shortName       String
+  /// Town or locality shown under the name, e.g. "Guduvanchery".
+  place           String
+  curriculum      String   @default("")
+  address         String?
+  establishedYear Int?
+  /// Approved staff positions for this campus.
+  staffingTarget  Int      @default(0)
+  latitude        Float?
+  longitude       Float?
+  /// Geofence radius in metres for "on campus" tracking.
+  radiusM         Int      @default(250)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  users    User[]
+  classes  SchoolClass[]
+  students Student[]
+}
+
+model AcademicYear {
+  id        String   @id @default(uuid()) @db.Uuid
+  /// Display label, e.g. "2026–27".
+  label     String   @unique
+  startsOn  DateTime @db.Date
+  endsOn    DateTime @db.Date
+  /// Exactly one year is current; past years are read-only.
+  isCurrent Boolean  @default(false)
+  /// planned | active | archived
+  status    String   @default("planned")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Role {
+  id          String   @id @default(uuid()) @db.Uuid
+  key         String   @unique
+  name        String
+  description String
+  /// school | class | family | self
+  scope       String
+  homeRoute   String
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  permissions RolePermission[]
+  users       User[]
+}
+
+model Permission {
+  key         String @id
+  /// Group heading on the Users & Roles screen, e.g. "ACADEMICS".
+  module      String
+  description String
+  sortOrder   Int    @default(0)
+
+  roles RolePermission[]
+}
+
+model RolePermission {
+  roleId        String     @db.Uuid
+  permissionKey String
+  role          Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission    Permission @relation(fields: [permissionKey], references: [key], onDelete: Cascade)
+
+  @@id([roleId, permissionKey])
+}
+
+model User {
+  id                 String    @id @default(uuid()) @db.Uuid
+  email              String    @unique
+  phone              String?   @unique
+  fullName           String
+  /// Designation shown under the name, e.g. "Principal" or "Grade 5A Class Teacher · Mathematics".
+  title              String?
+  passwordHash       String
+  /// active | suspended | invited | disabled
+  status             String    @default("active")
+  roleId             String    @db.Uuid
+  role               Role      @relation(fields: [roleId], references: [id])
+  campusId           String?   @db.Uuid
+  campus             Campus?   @relation(fields: [campusId], references: [id])
+  /// Linked records for portal accounts.
+  studentId          String?   @unique @db.Uuid
+  parentId           String?   @unique @db.Uuid
+  employeeId         String?   @unique @db.Uuid
+  locale             String    @default("en")
+  mustChangePassword Boolean   @default(false)
+  failedLogins       Int       @default(0)
+  lockedUntil        DateTime?
+  lastLoginAt        DateTime?
+  lastLoginIp        String?
+  lastLoginClient    String?
+  prevLoginAt        DateTime?
+  prevLoginIp        String?
+  prevLoginClient    String?
+  /// Expo push token for the mobile app.
+  pushToken          String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  sessions      Session[]
+  notifications Notification[]
+  preferences   NotificationPreference[]
+  tasks         Task[]
+
+  @@index([roleId])
+}
+
+/// One refresh token. Tokens rotate on every refresh; a family is one sign-in on one device.
+model Session {
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @db.Uuid
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  familyId     String    @db.Uuid
+  tokenHash    String    @unique
+  /// web | mobile
+  clientType   String
+  remember     Boolean   @default(false)
+  userAgent    String?
+  ip           String?
+  expiresAt    DateTime
+  rotatedAt    DateTime?
+  revokedAt    DateTime?
+  replacedById String?   @db.Uuid
+  createdAt    DateTime  @default(now())
+  lastActiveAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([familyId])
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  userId      String?  @db.Uuid
+  /// Name at the time of the action; null or "System" for automated actions.
+  userName    String?
+  /// Role key at the time of the action.
+  role        String?
+  /// view | create | update | delete | approve | reject | publish | export | ask | login | login_failed | logout | device_auth_failed | seed
+  action      String
+  /// Module name, e.g. "students", "finance", "auth".
+  module      String
+  entityType  String?
+  entityId    String?
+  description String
+  ip          String?
+  /// web | mobile | device | system
+  device      String?
+  userAgent   String?
+  campusId    String?  @db.Uuid
+  /// Restricted records log reads as well as writes.
+  sensitive   Boolean  @default(false)
+  metadata    Json?
+
+  @@index([createdAt])
+  @@index([module])
+  @@index([userId])
+  @@index([action])
+}
+
+model Setting {
+  key         String   @id
+  value       Json
+  description String?
+  isPublic    Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+  updatedById String?  @db.Uuid
+}
+
+model Notification {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @db.Uuid
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campusId  String?   @db.Uuid
+  /// Critical | Attention | Information | Completed
+  category  String
+  /// attendance | tracking | fees | transport | homework | events | circulars | safety | system …
+  topic     String    @default("system")
+  module    String?
+  title     String
+  body      String?
+  icon      String?
+  route     String?
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+
+  @@index([userId, createdAt])
+}
+
+model NotificationPreference {
+  userId   String  @db.Uuid
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topic    String
+  inApp    Boolean @default(true)
+  whatsapp Boolean @default(true)
+  sms      Boolean @default(false)
+  email    Boolean @default(true)
+  push     Boolean @default(true)
+
+  @@id([userId, topic])
+}
+
+model Task {
+  id          String    @id @default(uuid()) @db.Uuid
+  /// Human-readable reference, e.g. "T-551".
+  code        String    @unique
+  title       String
+  module      String
+  assigneeId  String    @db.Uuid
+  assignee    User      @relation(fields: [assigneeId], references: [id], onDelete: Cascade)
+  dueOn       DateTime? @db.Date
+  /// High | Medium | Low
+  priority    String    @default("Medium")
+  /// Pending | Under Review | Completed
+  status      String    @default("Pending")
+  route       String?
+  entityType  String?
+  entityId    String?
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@index([assigneeId, status])
+  @@index([entityType, entityId])
+}
+
+model AiProvider {
+  id              String    @id @default(uuid()) @db.Uuid
+  /// claude | gemini | openai | groq | openrouter
+  provider        String
+  label           String
+  /// Main model (text, marking).
+  model           String
+  /// Model for reading images (handwriting); defaults to the main model.
+  visionModel     String?
+  baseUrl         String?
+  /// API key, encrypted with APP_ENCRYPTION_KEY.
+  apiKeyEnc       String
+  keyPreview      String
+  isEnabled       Boolean   @default(true)
+  isDefault       Boolean   @default(false)
+  /// Features this provider serves: copilot, knowledge, paper_correction, whatsapp, report_comments, talent, analytics.
+  purposes        String[]
+  timeoutSec      Int       @default(120)
+  maxRetries      Int       @default(2)
+  lastTestedAt    DateTime?
+  lastTestOk      Boolean?
+  lastTestMessage String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Integration {
+  /// whatsapp | sms | email | payment | push | gps | gate | biometric | maps | storage
+  kind            String    @id
+  provider        String?
+  isEnabled       Boolean   @default(false)
+  /// Non-secret settings.
+  config          Json      @default("{}")
+  /// Secret settings as encrypted JSON.
+  secretsEnc      String?
+  /// not_configured | configured | ok | failed
+  status          String    @default("not_configured")
+  lastTestedAt    DateTime?
+  lastTestMessage String?
+  updatedAt       DateTime  @updatedAt
+}
+
+/// Outbound WhatsApp/SMS/email/push messages, with delivery state.
+model OutboundMessage {
+  id          String    @id @default(uuid()) @db.Uuid
+  /// whatsapp | sms | email | push
+  channel     String
+  recipient   String
+  subject     String?
+  body        String
+  /// queued | sent | delivered | failed
+  status      String    @default("queued")
+  providerId  String?
+  error       String?
+  /// Optional link to the record that caused it (e.g. a circular or an absence alert).
+  entityType  String?
+  entityId    String?
+  createdAt   DateTime  @default(now())
+  sentAt      DateTime?
+
+  @@index([status, createdAt])
+}
+
+/// Sequences for human-readable references (T-551, HS-2026-1077, RCT-2026-008454 …).
+model Counter {
+  key   String @id
+  value Int    @default(0)
+}

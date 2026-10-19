@@ -1,0 +1,272 @@
+// Workforce: shifts and rosters, staff attendance, leave, overtime, CPD, payroll runs and payslips.
+// The employee master is the core Employee table (core.prisma); rows here refer to it by id
+// (plain uuid columns, joined in code).
+
+/// A shift pattern, e.g. "Morning 07:00–15:00". Employee.shiftName holds the name of the default shift.
+model WorkforceShift {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String   @unique
+  /// "07:00"
+  startsAt      String
+  endsAt        String
+  /// Optional second half of a split shift.
+  splitStartsAt String?
+  splitEndsAt   String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  roster WorkforceRosterEntry[]
+}
+
+/// One person on one post on one day. At most one line per employee per day.
+model WorkforceRosterEntry {
+  id              String         @id @default(uuid()) @db.Uuid
+  campusId        String         @db.Uuid
+  employeeId      String         @db.Uuid
+  shiftId         String         @db.Uuid
+  shift           WorkforceShift @relation(fields: [shiftId], references: [id])
+  date            DateTime       @db.Date
+  /// Post, optionally with the duty: "Main Gate" or "Main Gate · Rear Gate".
+  post            String
+  /// Scheduled | Cover needed | Covered
+  status          String         @default("Scheduled")
+  coverEmployeeId String?        @db.Uuid
+  coverReason     String?
+  coverFlaggedAt  DateTime?
+  publishedAt     DateTime?
+  createdById     String?        @db.Uuid
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@unique([employeeId, date])
+  @@index([campusId, date])
+  @@index([coverEmployeeId, date])
+}
+
+/// Daily staff attendance. Days without a row are "Not marked".
+model WorkforceAttendance {
+  id         String   @id @default(uuid()) @db.Uuid
+  employeeId String   @db.Uuid
+  campusId   String   @db.Uuid
+  date       DateTime @db.Date
+  /// Present | Late | Half Day | Absent | On Leave
+  status     String
+  /// "08:02" (school time)
+  checkIn    String?
+  checkOut   String?
+  /// biometric | app | manual | leave
+  source     String
+  markedById String?  @db.Uuid
+  note       String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([employeeId, date])
+  @@index([campusId, date])
+  @@index([date])
+}
+
+/// Leave types with a yearly entitlement (reference catalog, seeded).
+model WorkforceLeaveType {
+  id              String   @id @default(uuid()) @db.Uuid
+  /// CL | SL | EL | CO
+  code            String   @unique
+  name            String   @unique
+  /// Days per leave year.
+  entitlementDays Float
+  isPaid          Boolean  @default(true)
+  sortOrder       Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+
+  requests WorkforceLeaveRequest[]
+}
+
+model WorkforceLeaveRequest {
+  id               String             @id @default(uuid()) @db.Uuid
+  /// e.g. "LV-882"
+  code             String             @unique
+  employeeId       String             @db.Uuid
+  campusId         String             @db.Uuid
+  leaveTypeId      String             @db.Uuid
+  leaveType        WorkforceLeaveType @relation(fields: [leaveTypeId], references: [id])
+  fromDate         DateTime           @db.Date
+  toDate           DateTime           @db.Date
+  halfDay          Boolean            @default(false)
+  /// Working days (Sundays excluded); 0.5 for a half day.
+  days             Float
+  reason           String
+  /// "Team rota", "Substitute teacher" or a colleague's name; null = not assigned / not required.
+  coverArrangement String?
+  /// Draft | Submitted | Under Review | Approved | Rejected | Cancelled
+  status           String             @default("Submitted")
+  /// self | hr
+  appliedVia       String             @default("self")
+  appliedById      String?            @db.Uuid
+  reviewedById     String?            @db.Uuid
+  reviewedAt       DateTime?
+  decidedById      String?            @db.Uuid
+  decidedByName    String?
+  decidedAt        DateTime?
+  decisionNote     String?
+  cancelledAt      DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  @@index([employeeId, status])
+  @@index([campusId, status])
+  @@index([fromDate, toDate])
+}
+
+model WorkforceOvertime {
+  id            String               @id @default(uuid()) @db.Uuid
+  employeeId    String               @db.Uuid
+  campusId      String               @db.Uuid
+  workDate      DateTime             @db.Date
+  hours         Decimal              @db.Decimal(5, 2)
+  reason        String
+  ratePerHour   Decimal              @db.Decimal(12, 2)
+  cost          Decimal              @db.Decimal(12, 2)
+  /// Submitted | Under Review | Approved | Paid | Rejected
+  status        String               @default("Submitted")
+  /// self | hr
+  source        String               @default("self")
+  submittedById String?              @db.Uuid
+  decidedById   String?              @db.Uuid
+  decidedByName String?
+  decidedAt     DateTime?
+  decisionNote  String?
+  /// The payroll run that pays this claim (set when the run is calculated).
+  payrollRunId  String?              @db.Uuid
+  payrollRun    WorkforcePayrollRun? @relation(fields: [payrollRunId], references: [id], onDelete: SetNull)
+  paidAt        DateTime?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  @@index([employeeId, workDate])
+  @@index([campusId, workDate])
+  @@index([status])
+}
+
+/// Continuing professional development: a programme planned for or completed by one employee.
+model WorkforceCpdRecord {
+  id          String    @id @default(uuid()) @db.Uuid
+  employeeId  String    @db.Uuid
+  campusId    String    @db.Uuid
+  programme   String
+  provider    String?
+  hours       Int
+  /// Planned | In Progress | Completed
+  status      String    @default("Planned")
+  completedOn DateTime? @db.Date
+  /// Counts towards mandatory training (child protection / safeguarding).
+  isMandatory Boolean   @default(false)
+  createdById String?   @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([employeeId])
+  @@index([campusId, status])
+}
+
+/// Salary advance or loan recovered through payroll in monthly instalments.
+model WorkforceLoan {
+  id                String   @id @default(uuid()) @db.Uuid
+  employeeId        String   @db.Uuid
+  purpose           String
+  principal         Decimal  @db.Decimal(12, 2)
+  monthlyInstalment Decimal  @db.Decimal(12, 2)
+  outstanding       Decimal  @db.Decimal(12, 2)
+  /// Active | Closed
+  status            String   @default("Active")
+  startedOn         DateTime @db.Date
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([employeeId, status])
+}
+
+/// A monthly payroll run for one campus: Draft → Inputs → Calculated → Under Review → Approved → Released → Paid.
+model WorkforcePayrollRun {
+  id               String    @id @default(uuid()) @db.Uuid
+  campusId         String    @db.Uuid
+  /// First day of the pay month.
+  payMonth         DateTime  @db.Date
+  status           String    @default("Draft")
+  createdById      String?   @db.Uuid
+  inputsAt         DateTime?
+  inputsById       String?   @db.Uuid
+  calculatedAt     DateTime?
+  calculatedById   String?   @db.Uuid
+  calculatedByName String?
+  submittedAt      DateTime?
+  submittedById    String?   @db.Uuid
+  approvedAt       DateTime?
+  approvedById     String?   @db.Uuid
+  approvedByName   String?
+  reviewNote       String?
+  returnedAt       DateTime?
+  releasedAt       DateTime?
+  releasedById     String?   @db.Uuid
+  paidAt           DateTime?
+  paidById         String?   @db.Uuid
+  employeeCount    Int       @default(0)
+  gross            Decimal   @default(0) @db.Decimal(14, 2)
+  deductions       Decimal   @default(0) @db.Decimal(14, 2)
+  net              Decimal   @default(0) @db.Decimal(14, 2)
+  overtime         Decimal   @default(0) @db.Decimal(14, 2)
+  allowances       Decimal   @default(0) @db.Decimal(14, 2)
+  reimbursements   Decimal   @default(0) @db.Decimal(14, 2)
+  /// Inputs as they were when the run was calculated.
+  inputsSnapshot   Json?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  payslips WorkforcePayslip[]
+  overtimeClaims WorkforceOvertime[]
+
+  @@unique([campusId, payMonth])
+  @@index([payMonth])
+}
+
+model WorkforcePayslip {
+  id                String              @id @default(uuid()) @db.Uuid
+  runId             String              @db.Uuid
+  run               WorkforcePayrollRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  employeeId        String              @db.Uuid
+  campusId          String              @db.Uuid
+  payMonth          DateTime            @db.Date
+  /// Snapshot of the employee at calculation time.
+  employeeType      String
+  category          String
+  designation       String
+  department        String
+  bankAccountMasked String?
+  workingDays       Float
+  daysWorked        Float
+  leaveDays         Float
+  lopDays           Float
+  overtimeHours     Float
+  basic             Decimal             @db.Decimal(12, 2)
+  gross             Decimal             @db.Decimal(12, 2)
+  totalDeductions   Decimal             @db.Decimal(12, 2)
+  net               Decimal             @db.Decimal(12, 2)
+  allowances        Decimal             @default(0) @db.Decimal(12, 2)
+  reimbursements    Decimal             @default(0) @db.Decimal(12, 2)
+  overtimePay       Decimal             @default(0) @db.Decimal(12, 2)
+  /// [{ label, amount }]
+  earnings          Json
+  /// [{ label, amount }]
+  deductions        Json
+  /// Loan recoveries and other references settled when the run is paid: { loans: [{ id, amount }] }
+  meta              Json?
+  /// Draft | Released
+  status            String              @default("Draft")
+  releasedAt        DateTime?
+  paymentDate       DateTime?           @db.Date
+  createdAt         DateTime            @default(now())
+
+  @@unique([runId, employeeId])
+  @@index([employeeId, payMonth])
+}

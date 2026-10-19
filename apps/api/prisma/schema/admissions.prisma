@@ -1,0 +1,300 @@
+// Admissions & CRM: leads (enquiries) with stage history, follow-ups and campus visits, applications and
+// their document checklist, parent referrals, marketing spend, alumni, vendors, partners and the CRM
+// communication timeline. Core records (Campus, Employee, Guardian, Student, User) are referenced by
+// plain uuid columns.
+
+/// One enquiry from a family. Every enquiry becomes a lead, whatever channel it arrived through.
+model AdmissionLead {
+  id                String    @id @default(uuid()) @db.Uuid
+  /// e.g. "LD-4346"
+  code              String    @unique
+  campusId          String    @db.Uuid
+  parentName        String
+  phone             String
+  /// Last 10 digits of the phone, for duplicate detection and guardian matching.
+  phoneKey          String
+  email             String?
+  studentName       String
+  studentDob        DateTime? @db.Date
+  /// e.g. "Grade 5"
+  grade             String
+  gradeLevel        Int       @default(0)
+  curriculum        String?
+  /// WhatsApp | Website | Meta Ads | Referral | Google | Walk-in | Instagram | Phone
+  source            String
+  campaign          String?
+  /// New Lead | Contacted | Qualified | Visit Scheduled | Visit Completed | Application | Assessment | Offer | Enrolled | Lost
+  stage             String    @default("New Lead")
+  /// Position of the stage for sorting (0–8; Lost = 9).
+  stageOrder        Int       @default(0)
+  /// Furthest stage index the lead has reached (funnel analytics survive a later Lost).
+  maxStageIndex     Int       @default(0)
+  stageChangedAt    DateTime  @default(now())
+  /// 0–100; 80+ is a hot lead.
+  score             Int       @default(50)
+  /// Employee id of the admissions counsellor.
+  counsellorId      String?   @db.Uuid
+  counsellorName    String?
+  assignedAt        DateTime?
+  transportRequired Boolean   @default(false)
+  notes             String?
+  lostReason        String?
+  lostAt            DateTime?
+  enrolledAt        DateTime?
+  /// Student created on enrolment.
+  studentId         String?   @db.Uuid
+  firstContactAt    DateTime?
+  /// Earliest open follow-up (kept in step with the follow-ups).
+  nextAction        String?
+  nextActionAt      DateTime?
+  /// Share of the marketing spend for its source and month.
+  acquisitionCost   Decimal   @default(0) @db.Decimal(12, 2)
+  createdById       String?   @db.Uuid
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  history        AdmissionStageHistory[]
+  followUps      AdmissionFollowUp[]
+  applications   AdmissionApplication[]
+  referrals      AdmissionReferral[]
+  communications CrmCommunication[]
+
+  @@index([campusId, stage])
+  @@index([counsellorId])
+  @@index([createdAt])
+  @@index([phoneKey])
+  @@index([source, createdAt])
+  @@index([nextActionAt])
+}
+
+/// Every stage move, with the note entered when it was made.
+model AdmissionStageHistory {
+  id            Int           @id @default(autoincrement())
+  leadId        String        @db.Uuid
+  lead          AdmissionLead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  fromStage     String?
+  toStage       String
+  note          String?
+  changedAt     DateTime      @default(now())
+  changedById   String?       @db.Uuid
+  changedByName String?
+
+  @@index([leadId, changedAt])
+  @@index([toStage, changedAt])
+}
+
+/// A follow-up task on a lead. Campus visits are follow-ups of type "Campus Visit" (the host is the assignee).
+model AdmissionFollowUp {
+  id           String        @id @default(uuid()) @db.Uuid
+  leadId       String        @db.Uuid
+  lead         AdmissionLead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  /// Call | WhatsApp | Email | SMS | Campus Visit | Meeting | Note
+  type         String
+  scheduledAt  DateTime
+  completedAt  DateTime?
+  outcome      String?
+  notes        String?
+  /// Scheduled | Completed | Missed | Cancelled
+  status       String        @default("Scheduled")
+  /// Employee id of the counsellor or visit host.
+  assignedTo   String?       @db.Uuid
+  assignedName String?
+  createdById  String?       @db.Uuid
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([leadId, status])
+  @@index([type, scheduledAt])
+  @@index([status, scheduledAt])
+  @@index([assignedTo, status])
+}
+
+model AdmissionApplication {
+  id              String        @id @default(uuid()) @db.Uuid
+  /// e.g. "APP-2026-0102"
+  applicationNo   String        @unique
+  leadId          String        @db.Uuid
+  lead            AdmissionLead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  campusId        String        @db.Uuid
+  /// Submitted | Under Review | Assessment Scheduled | Offer Made | Accepted | Enrolled | Rejected | Withdrawn
+  status          String        @default("Submitted")
+  studentName     String
+  dateOfBirth     DateTime?     @db.Date
+  /// M | F | O
+  gender          String?
+  grade           String
+  previousSchool  String?
+  assessmentAt    DateTime?
+  assessmentScore Float?
+  offerExpiresOn  DateTime?     @db.Date
+  offerMadeAt     DateTime?
+  feePaid         Boolean       @default(false)
+  studentId       String?       @db.Uuid
+  admissionNo     String?
+  decidedAt       DateTime?
+  decidedById     String?       @db.Uuid
+  decidedByName   String?
+  enrolledAt      DateTime?
+  createdById     String?       @db.Uuid
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  documents AdmissionDocument[]
+
+  @@index([campusId, status])
+  @@index([leadId])
+  @@index([createdAt])
+}
+
+/// The standard document checklist requested when an application opens.
+model AdmissionDocument {
+  id            String               @id @default(uuid()) @db.Uuid
+  applicationId String               @db.Uuid
+  application   AdmissionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  name          String
+  sortOrder     Int                  @default(0)
+  /// Pending | Submitted | Verified
+  status        String               @default("Pending")
+  receivedAt    DateTime?
+  verifiedAt    DateTime?
+  verifiedById  String?              @db.Uuid
+  updatedAt     DateTime             @updatedAt
+
+  @@index([applicationId])
+}
+
+/// A family recommended by a current parent, with the recognition owed on enrolment.
+model AdmissionReferral {
+  id                 String         @id @default(uuid()) @db.Uuid
+  /// Guardian who referred the family.
+  referrerGuardianId String         @db.Uuid
+  referrerName       String
+  referredName       String
+  leadId             String?        @db.Uuid
+  lead               AdmissionLead? @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  campusId           String?        @db.Uuid
+  /// Submitted | Contacted | Enrolled | Lost
+  status             String         @default("Submitted")
+  /// Pending | Credited | Not eligible  (recognition becomes Pending when the referred child enrols)
+  rewardStatus       String         @default("Not eligible")
+  rewardAmount       Decimal        @default(0) @db.Decimal(12, 2)
+  creditedAt         DateTime?
+  creditedById       String?        @db.Uuid
+  creditedByName     String?
+  createdById        String?        @db.Uuid
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  @@index([referrerGuardianId])
+  @@index([leadId])
+  @@index([campusId, createdAt])
+}
+
+/// Marketing spend per source and month (optionally per campus). Cost per admission = spend ÷ admissions.
+model AdmissionMarketingSpend {
+  id          String   @id @default(uuid()) @db.Uuid
+  /// Null = group-wide spend.
+  campusId    String?  @db.Uuid
+  source      String
+  /// First day of the month.
+  month       DateTime @db.Date
+  amount      Decimal  @default(0) @db.Decimal(12, 2)
+  note        String?
+  updatedById String?  @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([month, source])
+}
+
+model CrmAlumnus {
+  id             String   @id @default(uuid()) @db.Uuid
+  fullName       String
+  batchYear      Int
+  university     String?
+  career         String?
+  email          String?
+  phone          String?
+  phoneKey       String?
+  /// High | Medium | Low
+  engagement     String   @default("Low")
+  /// 1 High, 2 Medium, 3 Low (sorting).
+  engagementRank Int      @default(3)
+  /// Free text, e.g. "Career talk — Aug 2026".
+  lastEngagement String?
+  mentoring      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([batchYear])
+  @@index([engagementRank])
+  @@index([phoneKey])
+}
+
+model CrmVendor {
+  id                String    @id @default(uuid()) @db.Uuid
+  name              String
+  category          String
+  contactPerson     String?
+  phone             String?
+  email             String?
+  contractStart     DateTime? @db.Date
+  contractEnd       DateTime? @db.Date
+  contractValue     Decimal   @default(0) @db.Decimal(12, 2)
+  /// Active | Renewal due | Expired | Suspended
+  status            String    @default("Active")
+  /// When crm managers were told the contract is due for renewal.
+  renewalNotifiedAt DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([status])
+  @@index([contractEnd])
+}
+
+model CrmPartner {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  /// Curriculum authority | Institution | Partner | Community
+  partnerType String
+  sinceYear   Int?
+  /// Active | Inactive
+  status      String   @default("Active")
+  note        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+}
+
+/// One communication timeline across parents (leads and guardians), alumni, vendors and partners.
+model CrmCommunication {
+  id          String         @id @default(uuid()) @db.Uuid
+  leadId      String?        @db.Uuid
+  lead        AdmissionLead? @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  guardianId  String?        @db.Uuid
+  alumnusId   String?        @db.Uuid
+  vendorId    String?        @db.Uuid
+  partnerId   String?        @db.Uuid
+  /// Name of the family, alumnus, vendor or partner.
+  counterpart String
+  /// WhatsApp | Call | Email | SMS | Note | In-app
+  channel     String
+  /// Inbound | Outbound | Internal
+  direction   String         @default("Outbound")
+  subject     String
+  body        String?
+  /// Completed | No answer | Delivered | Sent | Internal …
+  status      String
+  recipients  Int            @default(1)
+  /// Sent by the WhatsApp AI or another automation.
+  automated   Boolean        @default(false)
+  occurredAt  DateTime       @default(now())
+  sentById    String?        @db.Uuid
+  sentByName  String?
+  createdAt   DateTime       @default(now())
+
+  @@index([leadId, occurredAt])
+  @@index([occurredAt])
+  @@index([channel, occurredAt])
+}

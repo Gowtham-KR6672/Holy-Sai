@@ -1,0 +1,54 @@
+{
+  "name": "@holysai/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Holy Sai Smart School 360 — REST API (NestJS + Prisma + PostgreSQL).",
+  "scripts": {
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "start:dev": "nest start --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "prisma:seed": "tsx prisma/seed.ts",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "schema": "prisma/schema",
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@holysai/shared": "0.1.0",
+    "@napi-rs/canvas": "^1.0.11",
+    "@nestjs/common": "^11.1.0",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^11.1.0",
+    "@nestjs/jwt": "^11.0.0",
+    "@nestjs/platform-express": "^11.1.0",
+    "@nestjs/schedule": "^6.0.0",
+    "@nestjs/throttler": "^6.4.0",
+    "@prisma/client": "6.19.3",
+    "bcryptjs": "^3.0.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "cookie-parser": "^1.4.7",
+    "helmet": "^8.1.0",
+    "nodemailer": "^7.0.6",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.4.299",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.10",
+    "@nestjs/schematics": "^11.0.5",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.15.0",
+    "@types/nodemailer": "^7.0.1",
+    "prisma": "6.19.3",
+    "tsx": "^4.20.0",
+    "typescript": "5.9.3"
+  }
+}

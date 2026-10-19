@@ -1,0 +1,237 @@
+// Safety: smart gate, pickup authorisation, visitors, incidents (safeguarding), emergency broadcasts,
+// infirmary and counselling. Core records (Student, Employee, Campus, User) are referenced by plain uuid
+// columns without Prisma relations; relations exist only between the tables in this file.
+
+/// One gate scan (card, face, QR, bus bay or manual entry by staff).
+model SafetyGateEvent {
+  id               String    @id @default(uuid()) @db.Uuid
+  campusId         String    @db.Uuid
+  studentId        String    @db.Uuid
+  /// in | out
+  direction        String
+  /// Main Gate | Rear Gate | Visitor Gate | Bus Bay (or a gate configured on the gate integration)
+  gate             String
+  /// RFID | Face | QR | Manual | Bus
+  method           String
+  occurredAt       DateTime  @default(now())
+  /// School-local calendar day of occurredAt.
+  day              DateTime  @db.Date
+  /// Set on the first arrival and the first departure of the day, when guardians were told.
+  parentNotifiedAt DateTime?
+  /// manual | reader | pickup | bus
+  source           String    @default("manual")
+  /// Reader / device identifier sent by the gate webhook.
+  deviceId         String?
+  /// User who recorded a manual scan.
+  recordedById     String?   @db.Uuid
+  createdAt        DateTime  @default(now())
+
+  @@index([campusId, day])
+  @@index([studentId, day])
+  @@index([day, occurredAt])
+}
+
+/// A person allowed to collect a child.
+model SafetyPickupAuthorisation {
+  id             String    @id @default(uuid()) @db.Uuid
+  campusId       String    @db.Uuid
+  studentId      String    @db.Uuid
+  personName     String
+  relation       String
+  phone          String?
+  /// QR | QR + Face | Face | OTP | OTP + ID
+  method         String
+  /// Pending | Verified | Revoked
+  status         String    @default("Pending")
+  /// office | parent
+  addedVia       String    @default("office")
+  /// User who added the person (office staff or the parent).
+  addedById      String?   @db.Uuid
+  /// A parent added or confirmed this person.
+  parentApproved Boolean   @default(false)
+  /// User who verified or confirmed the person.
+  approvedById   String?   @db.Uuid
+  approvedAt     DateTime?
+  /// otp | parent | office
+  verifiedVia    String?
+  verifiedAt     DateTime?
+  /// sha256 of the current one-time code (never stored in clear).
+  otpHash        String?
+  otpSentAt      DateTime?
+  otpExpiresAt   DateTime?
+  otpAttempts    Int       @default(0)
+  revokedAt      DateTime?
+  revokedById    String?   @db.Uuid
+  lastPickupAt   DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  events SafetyPickupEvent[]
+
+  @@index([studentId, status])
+  @@index([campusId, status])
+}
+
+/// A collection at the gate: released to an authorised person, or held (unauthorised attempt).
+model SafetyPickupEvent {
+  id              String                     @id @default(uuid()) @db.Uuid
+  campusId        String                     @db.Uuid
+  studentId       String                     @db.Uuid
+  authorisationId String?                    @db.Uuid
+  authorisation   SafetyPickupAuthorisation? @relation(fields: [authorisationId], references: [id], onDelete: SetNull)
+  /// collected | held
+  outcome         String
+  personName      String
+  gate            String
+  method          String?
+  notes           String?
+  incidentId      String?                    @db.Uuid
+  incident        SafetyIncident?            @relation(fields: [incidentId], references: [id], onDelete: SetNull)
+  /// A held collection is resolved when the child is later released or the incident is closed.
+  resolved        Boolean                    @default(false)
+  resolvedAt      DateTime?
+  occurredAt      DateTime                   @default(now())
+  /// School-local calendar day of occurredAt.
+  day             DateTime                   @db.Date
+  recordedById    String?                    @db.Uuid
+
+  @@index([campusId, day])
+  @@index([studentId, day])
+}
+
+model SafetyVisitor {
+  id             String    @id @default(uuid()) @db.Uuid
+  campusId       String    @db.Uuid
+  /// e.g. "V-0042"
+  badgeNo        String    @unique
+  fullName       String
+  phone          String?
+  purpose        String
+  /// Expected | Inside | Completed | Denied
+  status         String
+  /// Arrival time; the expected time while the visit is pre-approved (Expected).
+  checkedInAt    DateTime
+  checkedOutAt   DateTime?
+  /// Employee being visited.
+  hostId         String?   @db.Uuid
+  deniedAt       DateTime?
+  createdById    String?   @db.Uuid
+  checkedInById  String?   @db.Uuid
+  checkedOutById String?   @db.Uuid
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([campusId, checkedInAt])
+  @@index([status, checkedInAt])
+}
+
+/// Safeguarding concerns and every other safety incident (health, transport, facilities, security, emergency).
+model SafetyIncident {
+  id                  String    @id @default(uuid()) @db.Uuid
+  /// e.g. "INC-0042"
+  code                String    @unique
+  campusId            String    @db.Uuid
+  /// Safeguarding | Health | Transport | Facilities | Security | Emergency
+  incidentType        String
+  summary             String
+  details             String?
+  /// Critical | Attention | Information
+  severity            String
+  /// Open | Under Review | Escalated | Closed
+  status              String    @default("Open")
+  occurredOn          DateTime  @db.Date
+  /// Only holders of students.sensitive (DSL, Principal, counsellor) can open it.
+  isConfidential      Boolean   @default(false)
+  studentId           String?   @db.Uuid
+  /// Employee who owns the incident.
+  ownerId             String?   @db.Uuid
+  /// User who logged it.
+  createdById         String?   @db.Uuid
+  /// manual | pickup | emergency
+  source              String    @default("manual")
+  reviewedAt          DateTime?
+  reviewedById        String?   @db.Uuid
+  escalatedAt         DateTime?
+  principalInformedAt DateTime?
+  closedAt            DateTime?
+  closedById          String?   @db.Uuid
+  /// When the overdue DSL-review reminder was sent.
+  reviewReminderAt    DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  pickupEvents SafetyPickupEvent[]
+
+  @@index([campusId, status])
+  @@index([incidentType, status])
+  @@index([occurredOn])
+}
+
+/// An emergency (or drill) broadcast. Always sent by a person and always audited.
+model SafetyBroadcast {
+  id         String   @id @default(uuid()) @db.Uuid
+  /// Null when sent to every campus (group view).
+  campusId   String?  @db.Uuid
+  /// Emergency | Drill | Urgent operational notice | Lockdown | Evacuation | Weather | Transport
+  alertType  String
+  isDrill    Boolean  @default(false)
+  message    String
+  /// parents | teachers | staff | management
+  audiences  String[]
+  /// App + WhatsApp + SMS | App + WhatsApp | SMS only
+  channels   String
+  /// Distinct accounts the broadcast was addressed to.
+  recipients Int      @default(0)
+  /// Delivery results once sending finishes: { app, push, whatsapp, sms, failed, finishedAt }
+  delivery   Json?
+  incidentId String?  @db.Uuid
+  sentById   String?  @db.Uuid
+  sentByName String?
+  sentAt     DateTime @default(now())
+
+  @@index([campusId, sentAt])
+}
+
+model SafetyInfirmaryVisit {
+  id               String    @id @default(uuid()) @db.Uuid
+  campusId         String    @db.Uuid
+  studentId        String    @db.Uuid
+  visitedAt        DateTime
+  reason           String
+  actionTaken      String?
+  /// Under observation | Returned to class | Awaiting pickup | Sent home | Referred to hospital
+  outcome          String
+  parentInformed   Boolean   @default(false)
+  parentInformedAt DateTime?
+  attendedById     String?   @db.Uuid
+  attendedByName   String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([campusId, visitedAt])
+  @@index([studentId, visitedAt])
+}
+
+model SafetyCounsellingSession {
+  id               String    @id @default(uuid()) @db.Uuid
+  campusId         String    @db.Uuid
+  studentId        String    @db.Uuid
+  /// Employee (counsellor).
+  counsellorId     String    @db.Uuid
+  sessionOn        DateTime
+  reason           String
+  /// Scheduled | Completed | Cancelled | Referred
+  status           String    @default("Scheduled")
+  /// Confidential: only holders of students.sensitive read or write it; every read is audited.
+  notes            String?
+  notesUpdatedAt   DateTime?
+  notesUpdatedById String?   @db.Uuid
+  referredAt       DateTime?
+  createdById      String?   @db.Uuid
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([campusId, sessionOn])
+  @@index([studentId])
+  @@index([status, sessionOn])
+}

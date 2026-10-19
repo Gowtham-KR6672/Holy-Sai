@@ -1,0 +1,9909 @@
+const __vite__mapDeps = (
+  i,
+  m = __vite__mapDeps,
+  d = m.f ||
+    (m.f = [
+      "assets/CommandCenterPage-BRyYCX6n.js",
+      "assets/framework-B0H5IFsL.js",
+      "assets/rolldown-runtime-hePW80VL.js",
+      "assets/OwnerOverviewPage-D2cNqlDl.js",
+      "assets/NotificationsPage-DiRFBj53.js",
+      "assets/useListParams-4YaicqDx.js",
+      "assets/MyTasksPage-0lUyYy5U.js",
+      "assets/AccountPage-CyLpC9OW.js",
+      "assets/HelpPage-DEKlFC5O.js",
+      "assets/AdminUsersPage-Ce-2hmjC.js",
+      "assets/AdminSettingsPage-Vl0qSVqR.js",
+      "assets/StudentsPage-CdKTWrOy.js",
+      "assets/Student360Page-BD1NCvpf.js",
+      "assets/TrackingPanel-BZJCk7Nj.js",
+      "assets/leaflet-Cay_UHrZ.js",
+      "assets/leaflet-vh-t_kPv.css",
+      "assets/devices-DE2zQQJs.js",
+      "assets/MyProfilePage-B6j7xvTP.js",
+      "assets/MyIdeasPage-2bfT5v_-.js",
+      "assets/shared-B1zCYv6Q.js",
+      "assets/shared-CDP42Gh6.js",
+      "assets/StudentTrackingPage-DMkqU9iT.js",
+      "assets/DevicesPage-C_T-FdUX.js",
+      "assets/DeviceAssignmentsPage-DGYd8zIa.js",
+      "assets/Parent360Page-BbZDsxJC.js",
+      "assets/TeacherDashboardPage-OCzOKLNI.js",
+      "assets/shared-CmbmN1nn.js",
+      "assets/AttendancePage-Byg-R6ta.js",
+      "assets/AcademicPerformancePage-ClYKxo1a.js",
+      "assets/AssessmentsPage-36e2Bf9a.js",
+      "assets/CurriculumPage-SzQnRLpb.js",
+      "assets/objectiveForms-CURzabOp.js",
+      "assets/ClassesPage-DbcxhQFd.js",
+      "assets/SubjectsPage-BkNhgrC4.js",
+      "assets/TimetablePage-BuQ11taq.js",
+      "assets/LessonPlansPage-Dxy-zBpN.js",
+      "assets/HomeworkPage-yMXsCye9.js",
+      "assets/QuestionBankPage-BOWgU_D9.js",
+      "assets/ReportCardsPage-Bf1Vogwt.js",
+      "assets/ObjectivesPage-Bz8S7TcP.js",
+      "assets/AdmissionsDashboardPage-DNzEmX25.js",
+      "assets/LeadForms-CT8eQDZZ.js",
+      "assets/LeadProfile-CoXldWnT.js",
+      "assets/LeadsPage-DNSoKWKq.js",
+      "assets/EnquiriesPage-BPkxOUaf.js",
+      "assets/PipelinePage-BtbsGBFn.js",
+      "assets/ApplicationsPage-D1uylagV.js",
+      "assets/VisitsPage-C6zjT3sJ.js",
+      "assets/ConversionPage-D01klTM7.js",
+      "assets/ReferralsPage-yKEk7OfC.js",
+      "assets/AlumniPage-BBU7VDAD.js",
+      "assets/VendorsPage-Bpq86ryC.js",
+      "assets/FeeStructuresPage-zlfF1e3e.js",
+      "assets/shared-CHG4rvst.js",
+      "assets/FeesPage-C00TZxKN.js",
+      "assets/StudentAccountsPage-Crvd4Mv3.js",
+      "assets/PaymentsPage-C-o1luI6.js",
+      "assets/ReceiptsPage-D497wwbH.js",
+      "assets/ConcessionsPage-B_EGJ3-s.js",
+      "assets/ScholarshipsPage-CPyCURYv.js",
+      "assets/ExpensesPage-DgolMks1.js",
+      "assets/ReimbursementsPage-BUHXCArG.js",
+      "assets/AllowancesPage-BbNgSvr6.js",
+      "assets/BudgetsPage-DsGrL8YR.js",
+      "assets/ReconciliationPage-DKLIaAed.js",
+      "assets/FinancialReportsPage-BFLCEPb5.js",
+      "assets/WorkforcePage-D0hy564Y.js",
+      "assets/shared-kpGstD7o.js",
+      "assets/StaffListPage-COS0D5cD.js",
+      "assets/StaffAttendancePage-BYUIlbHd.js",
+      "assets/ShiftsPage-B2VheHU-.js",
+      "assets/LeavePage-cF04SnIZ.js",
+      "assets/OvertimePage-BiIa_Xqv.js",
+      "assets/WorkloadPage-C1XRU4yr.js",
+      "assets/CpdPage-CHaCkVDG.js",
+      "assets/PayrollPage-BC1NEy69.js",
+      "assets/PayslipsPage-BDnfZ_eA.js",
+      "assets/PayslipPrintPage-aO4vGnXx.js",
+      "assets/StaffSelfPage-CdjNtwow.js",
+      "assets/SmartGatePage-BRymWCd-.js",
+      "assets/shared-BQbjTRVe.js",
+      "assets/GateLogPage-CkvHmCgp.js",
+      "assets/PickupPage-Bn5NoyBN.js",
+      "assets/VisitorsPage-CunMKeCA.js",
+      "assets/BusTrackingPage-DwJGqakt.js",
+      "assets/BusMap-Dlfqj5zg.js",
+      "assets/RoutesPage-DdWUORgl.js",
+      "assets/BoardingPage-DlgzTjjS.js",
+      "assets/EmergencyPage-Cs85Lind.js",
+      "assets/SafeguardingPage-Ci3faca7.js",
+      "assets/InfirmaryPage-BBpPtLMO.js",
+      "assets/CounsellingPage-DHCdY2hU.js",
+      "assets/ParentDirectoryPage-DcPtvN_c.js",
+      "assets/shared-CuYygnor.js",
+      "assets/ParentCommunicationPage-C-A5bafi.js",
+      "assets/PtmPage-DKMgHztC.js",
+      "assets/CircularsPage-CHbPPJT9.js",
+      "assets/OpCircularsPage-DlnZfuSr.js",
+      "assets/EventsPage-0R8A3ouJ.js",
+      "assets/AcknowledgementsPage-DjFTSKJH.js",
+      "assets/AssetsPage-Bh4mW_-W.js",
+      "assets/FacilitiesPage-bcwBfyqn.js",
+      "assets/MaintenancePage-BQUtsYg1.js",
+      "assets/InventoryPage-EvthG7Hd.js",
+      "assets/DocumentsPage-BP4eDeWp.js",
+      "assets/CertificatesPage-HVMzE5rs.js",
+      "assets/CompliancePage-B9mgKwKX.js",
+      "assets/AuditPage-CPh9Qo3t.js",
+      "assets/InnovationDashboardPage-16XCGmt8.js",
+      "assets/ProjectsPage-DbzvaKNx.js",
+      "assets/IdeasPage-DS8iK6mD.js",
+      "assets/ProjectPage-DXMGhmKe.js",
+      "assets/MentorsPage-BBbnRIRu.js",
+      "assets/MilestonesPage-6OtQBCW2.js",
+      "assets/CompetitionsPage-CLKfuaMB.js",
+      "assets/AchievementsPage-DGQpL1mZ.js",
+      "assets/GroupDashboardPage-ZvwA_VnI.js",
+      "assets/shared-B34vu-7w.js",
+      "assets/CampusComparisonPage-D4kJ1lAK.js",
+      "assets/CampusesPage-A1OyArRB.js",
+      "assets/TransfersPage-CpfSwgTN.js",
+      "assets/GroupPoliciesPage-tsC8pSCB.js",
+      "assets/EarlyWarningPage-B-poJgZE.js",
+      "assets/shared-BLADXDNl.js",
+      "assets/TalentPage-BW4Exjq_.js",
+      "assets/WellbeingPage-EnKcn7TM.js",
+      "assets/PortfolioPage-BvhkOTer.js",
+      "assets/CopilotPage-C585yVpm.js",
+      "assets/KnowledgePage-Bpnsjiiw.js",
+      "assets/AnalyticsPage-BkZrozQv.js",
+      "assets/ReportsPage-BBm5MN5-.js",
+      "assets/DayInLifePage-Jbt8Grfz.js",
+      "assets/useLiveFigures-g1xIH2T_.js",
+      "assets/AutomationsPage-C_9JXsbE.js",
+      "assets/WhatsappAiPage-BUt6fXo2.js",
+      "assets/DesignSystemPage-IdDapIQI.js",
+      "assets/ReportCenterPage-vgZx_ZP_.js",
+      "assets/shared-0ZQn9C1M.js",
+      "assets/ReportViewerPage-CBb9SP3t.js",
+      "assets/ExamsPage-JE65TdHQ.js",
+      "assets/shared-BgNN9V-Y.js",
+      "assets/ExamPage-jhT-pWNA.js",
+      "assets/SheetPage-BRx9j9Mq.js",
+      "assets/AiSettingsPage-BlNpVGFy.js",
+    ]),
+) => i.map((i) => d[i]);
+import { r as e } from "./rolldown-runtime-hePW80VL.js";
+import {
+  C as t,
+  S as n,
+  _ as r,
+  a as i,
+  b as a,
+  c as o,
+  d as s,
+  f as c,
+  g as l,
+  h as u,
+  i as d,
+  l as f,
+  m as p,
+  n as m,
+  o as h,
+  p as g,
+  s as _,
+  t as v,
+  u as y,
+  x as b,
+} from "./framework-B0H5IFsL.js";
+(function () {
+  let e = document.createElement(`link`).relList;
+  if (e && e.supports && e.supports(`modulepreload`)) return;
+  for (let e of document.querySelectorAll(`link[rel="modulepreload"]`)) n(e);
+  new MutationObserver((e) => {
+    for (let t of e)
+      if (t.type === `childList`)
+        for (let e of t.addedNodes)
+          e.tagName === `LINK` && e.rel === `modulepreload` && n(e);
+  }).observe(document, { childList: !0, subtree: !0 });
+  function t(e) {
+    let t = {};
+    return (
+      e.integrity && (t.integrity = e.integrity),
+      e.referrerPolicy && (t.referrerPolicy = e.referrerPolicy),
+      (t.credentials =
+        e.crossOrigin === `use-credentials`
+          ? `include`
+          : e.crossOrigin === `anonymous`
+            ? `omit`
+            : `same-origin`),
+      t
+    );
+  }
+  function n(e) {
+    if (e.ep) return;
+    e.ep = !0;
+    let n = t(e);
+    fetch(e.href, n);
+  }
+})();
+var x = e(t(), 1),
+  S = b(),
+  C = `/api`,
+  w = class extends Error {
+    status;
+    code;
+    details;
+    constructor(e, t, n, r) {
+      (super(n),
+        (this.status = e),
+        (this.code = t),
+        (this.details = r),
+        (this.name = `ApiError`));
+    }
+    get fieldErrors() {
+      let e = {};
+      for (let t of Array.isArray(this.details) ? this.details : [])
+        t.field && !e[t.field] && (e[t.field] = t.message);
+      return e;
+    }
+  },
+  T = null,
+  E = null,
+  D = null;
+function O(e) {
+  T = e;
+}
+function k(e) {
+  E = e;
+}
+function A(e) {
+  if (!e) return ``;
+  let t = new URLSearchParams();
+  for (let [n, r] of Object.entries(e))
+    r != null && r !== `` && r !== `All` && t.set(n, String(r));
+  let n = t.toString();
+  return n ? `?${n}` : ``;
+}
+async function j(e) {
+  let t = await e.text();
+  if (!t) return null;
+  try {
+    return JSON.parse(t);
+  } catch {
+    return { success: !1, message: t.slice(0, 200), error: `INVALID_RESPONSE` };
+  }
+}
+async function M() {
+  return (
+    (D ||= (async () => {
+      try {
+        let e = await fetch(`${C}/auth/refresh`, {
+            method: `POST`,
+            credentials: `include`,
+            signal: AbortSignal.timeout(15e3),
+            headers: {
+              "Content-Type": `application/json`,
+              "X-Client-Type": `web`,
+            },
+            body: `{}`,
+          }),
+          t = await j(e);
+        return !e.ok || !t?.success ? null : ((T = t.data.accessToken), t.data);
+      } catch {
+        return null;
+      } finally {
+        setTimeout(() => (D = null), 0);
+      }
+    })()),
+    D
+  );
+}
+async function N(e, t, n = {}, r = !1) {
+  let i = { "X-Client-Type": `web` };
+  T && (i.Authorization = `Bearer ${T}`);
+  let a;
+  n.form
+    ? (a = n.form)
+    : n.body !== void 0 &&
+      ((i[`Content-Type`] = `application/json`), (a = JSON.stringify(n.body)));
+  let o;
+  try {
+    let r = AbortSignal.timeout(n.timeoutMs ?? (n.form ? 12e4 : 3e4)),
+      s = n.signal ? AbortSignal.any([n.signal, r]) : r;
+    o = await fetch(`${C}${t}${A(n.params)}`, {
+      method: e,
+      headers: i,
+      body: a,
+      credentials: `include`,
+      signal: s,
+    });
+  } catch (e) {
+    throw e.name === `TimeoutError`
+      ? new w(
+          0,
+          `TIMEOUT`,
+          `The server took too long to respond. Please try again.`,
+        )
+      : e.name === `AbortError`
+        ? e
+        : new w(
+            0,
+            `NETWORK_ERROR`,
+            `Cannot reach the server. Check your connection and try again.`,
+          );
+  }
+  if (o.status === 401 && !r && !t.startsWith(`/auth/`)) {
+    if (await M()) return N(e, t, n, !0);
+    ((T = null), E?.());
+  }
+  if (n.raw && o.ok) return { success: !0, data: o, message: `OK` };
+  let s = await j(o);
+  if (!o.ok || !s?.success)
+    throw new w(
+      o.status,
+      s?.error ?? `HTTP_` + o.status,
+      s?.message ?? `Request failed (${o.status})`,
+      s?.details,
+    );
+  return s;
+}
+var P = {
+    get: async (e, t, n) => (await N(`GET`, e, { params: t, signal: n })).data,
+    getPaged: async (e, t, n) => {
+      let r = await N(`GET`, e, { params: t, signal: n });
+      return {
+        rows: r.data,
+        meta: r.meta ?? {
+          page: 1,
+          pageSize: r.data.length,
+          total: r.data.length,
+          totalPages: 1,
+        },
+      };
+    },
+    post: async (e, t) => N(`POST`, e, { body: t ?? {} }),
+    put: async (e, t) => N(`PUT`, e, { body: t }),
+    patch: async (e, t) => N(`PATCH`, e, { body: t }),
+    delete: async (e) => N(`DELETE`, e),
+    upload: async (e, t, n) => N(`POST`, e, { form: t, timeoutMs: n }),
+    postLong: async (e, t, n = 6e5) =>
+      N(`POST`, e, { body: t ?? {}, timeoutMs: n }),
+    blob: async (e, t) =>
+      await (await N(`GET`, e, { raw: !0, signal: t })).data.blob(),
+    download: async (e, t = `download`) => {
+      let n = (await N(`GET`, e, { raw: !0 })).data,
+        r = await n.blob(),
+        i = n.headers.get(`content-disposition`) ?? ``,
+        a = /filename="([^"]+)"/.exec(i)?.[1] ?? t,
+        o = URL.createObjectURL(r),
+        s = document.createElement(`a`);
+      ((s.href = o),
+        (s.download = a),
+        s.click(),
+        setTimeout(() => URL.revokeObjectURL(o), 1e3));
+    },
+  },
+  F = o(),
+  I = (0, x.createContext)(null);
+function ee({ children: e }) {
+  let [t, n] = (0, x.useState)(null),
+    [r, i] = (0, x.useState)(`loading`),
+    a = _(),
+    o = (0, x.useCallback)(async () => {
+      let e = await P.get(`/auth/me`);
+      return (n(e), i(`authenticated`), e);
+    }, []);
+  (0, x.useEffect)(() => {
+    let e = !0;
+    return (
+      (async () => {
+        let t = await M();
+        if (e) {
+          if (t)
+            try {
+              await o();
+              return;
+            } catch {}
+          i(`anonymous`);
+        }
+      })(),
+      k(() => {
+        (O(null), n(null), i(`anonymous`), a.clear());
+      }),
+      () => {
+        e = !1;
+      }
+    );
+  }, [o, a]);
+  let s = (0, x.useCallback)(
+      async (e, t) => (
+        O(
+          (
+            await P.post(`/auth/login`, {
+              identifier: e,
+              password: t,
+              clientType: `web`,
+            })
+          ).data.accessToken,
+        ),
+        a.clear(),
+        o()
+      ),
+      [o, a],
+    ),
+    c = (0, x.useCallback)(async () => {
+      try {
+        await P.post(`/auth/logout`);
+      } finally {
+        (O(null), n(null), i(`anonymous`), a.clear());
+      }
+    }, [a]),
+    l = (0, x.useMemo)(() => new Set(t?.permissions ?? []), [t]),
+    u = (0, x.useCallback)(
+      (e) =>
+        e
+          ? Array.isArray(e)
+            ? e.length === 0 || e.some((e) => l.has(e))
+            : l.has(e)
+          : !0,
+      [l],
+    ),
+    d = (0, x.useMemo)(
+      () => ({
+        user: t,
+        status: r,
+        login: s,
+        logout: c,
+        can: u,
+        refreshUser: async () => {
+          await o();
+        },
+      }),
+      [t, r, s, c, u, o],
+    );
+  return (0, F.jsx)(I.Provider, { value: d, children: e });
+}
+function L() {
+  let e = (0, x.useContext)(I);
+  if (!e) throw Error(`useAuth must be used inside AuthProvider`);
+  return e;
+}
+var te = {};
+(function (e) {
+  var t = [
+      { id: `en`, label: `English`, short: `EN`, dict: null },
+      {
+        id: `ta`,
+        label: `தமிழ்`,
+        short: `த`,
+        dict: {
+          Overview: `கண்ணோட்டம்`,
+          "Student Management": `மாணவர் மேலாண்மை`,
+          "Admissions & CRM": `சேர்க்கை & CRM`,
+          Academics: `கல்வித்துறை`,
+          "Parent Experience": `பெற்றோர் அனுபவம்`,
+          "Safety & Transport": `பாதுகாப்பு & போக்குவரத்து`,
+          Finance: `நிதி`,
+          Workforce: `பணியாளர்`,
+          Operations: `செயல்பாடுகள்`,
+          Innovation: `புத்தாக்கம்`,
+          Intelligence: `நுண்ணறிவு`,
+          "Group Management": `குழும மேலாண்மை`,
+          Prototype: `மாதிரி`,
+          Dashboard: `டாஷ்போர்டு`,
+          "Command Center": `கட்டுப்பாட்டு மையம்`,
+          Notifications: `அறிவிப்புகள்`,
+          "My Tasks": `எனது பணிகள்`,
+          Students: `மாணவர்கள்`,
+          "Student 360": `மாணவர் 360`,
+          Attendance: `வருகை`,
+          "Academic Performance": `கல்வி செயல்திறன்`,
+          Assessments: `மதிப்பீடுகள்`,
+          "Behaviour & Wellbeing": `நடத்தை & நலன்`,
+          "Student Portfolio": `மாணவர் தொகுப்பு`,
+          "Talent Discovery": `திறன் கண்டறிதல்`,
+          "Early Warning": `முன்னெச்சரிக்கை`,
+          "Admissions Dashboard": `சேர்க்கை டாஷ்போர்டு`,
+          Leads: `வாய்ப்புகள்`,
+          Enquiries: `விசாரணைகள்`,
+          "Counselling Pipeline": `ஆலோசனை பாதை`,
+          Applications: `விண்ணப்பங்கள்`,
+          "Campus Visits": `வளாக வருகைகள்`,
+          "Conversion Analytics": `மாற்ற பகுப்பாய்வு`,
+          "Parent Referrals": `பெற்றோர் பரிந்துரைகள்`,
+          Alumni: `முன்னாள் மாணவர்`,
+          "Vendors & Partners": `விற்பனையாளர் & கூட்டாளர்`,
+          Curriculum: `பாடத்திட்டம்`,
+          Classes: `வகுப்புகள்`,
+          Subjects: `பாடங்கள்`,
+          Timetable: `கால அட்டவணை`,
+          "Lesson Plans": `பாடத் திட்டங்கள்`,
+          Homework: `வீட்டுப்பாடம்`,
+          "Question Bank": `வினா வங்கி`,
+          "Report Cards": `மதிப்பெண் அறிக்கை`,
+          "Cambridge Objectives": `கேம்பிரிட்ஜ் நோக்கங்கள்`,
+          "Parent Directory": `பெற்றோர் பட்டியல்`,
+          "Parent Communication": `பெற்றோர் தொடர்பு`,
+          PTM: `பெற்றோர்-ஆசிரியர் சந்திப்பு`,
+          Circulars: `சுற்றறிக்கைகள்`,
+          Events: `நிகழ்வுகள்`,
+          Acknowledgements: `ஒப்புகைகள்`,
+          "Smart Gate": `ஸ்மார்ட் நுழைவாயில்`,
+          "Gate Entry/Exit": `நுழைவு / வெளியேற்றம்`,
+          "Pickup Authorisation": `அழைத்துச் செல்ல அனுமதி`,
+          "Visitor Management": `பார்வையாளர் மேலாண்மை`,
+          "Bus Tracking": `பேருந்து கண்காணிப்பு`,
+          Routes: `வழித்தடங்கள்`,
+          "Boarding/De-boarding": `ஏறுதல் / இறங்குதல்`,
+          "Emergency Alerts": `அவசர எச்சரிக்கைகள்`,
+          Safeguarding: `பாதுகாப்பு நடவடிக்கை`,
+          "Health & Infirmary": `சுகாதாரம் & மருத்துவ அறை`,
+          Counselling: `ஆலோசனை`,
+          "Fee Structures": `கட்டண அமைப்பு`,
+          "Fee Collection": `கட்டண வசூல்`,
+          "Student Accounts": `மாணவர் கணக்குகள்`,
+          Payments: `கட்டணங்கள்`,
+          Receipts: `ரசீதுகள்`,
+          Concessions: `சலுகைகள்`,
+          Scholarships: `உதவித்தொகைகள்`,
+          Expenses: `செலவுகள்`,
+          Reimbursements: `திருப்பிச் செலுத்தல்`,
+          Allowances: `படிகள்`,
+          Budgets: `நிதிநிலை`,
+          Reconciliation: `ஒப்பிடல்`,
+          "Financial Reports": `நிதி அறிக்கைகள்`,
+          "Employee Directory": `ஊழியர் பட்டியல்`,
+          "Teaching Staff": `ஆசிரியர் பணியாளர்`,
+          "Non-Teaching Staff": `ஆசிரியரல்லாத பணியாளர்`,
+          "Shifts & Rosters": `பணிநேரம் & பட்டியல்`,
+          Leave: `விடுப்பு`,
+          Overtime: `கூடுதல் நேரம்`,
+          Workload: `பணிச்சுமை`,
+          CPD: `தொடர் பயிற்சி`,
+          Payroll: `ஊதியப் பட்டியல்`,
+          Payslips: `ஊதியச் சீட்டு`,
+          Assets: `சொத்துக்கள்`,
+          Facilities: `வசதிகள்`,
+          Maintenance: `பராமரிப்பு`,
+          Inventory: `சரக்கு`,
+          Documents: `ஆவணங்கள்`,
+          Certificates: `சான்றிதழ்கள்`,
+          "Compliance Calendar": `இணக்க நாட்காட்டி`,
+          "Audit Trail": `தணிக்கை பதிவு`,
+          "Innovation Lab": `புத்தாக்க ஆய்வகம்`,
+          Ideas: `யோசனைகள்`,
+          Projects: `திட்டங்கள்`,
+          Mentors: `வழிகாட்டிகள்`,
+          Milestones: `மைல்கற்கள்`,
+          Competitions: `போட்டிகள்`,
+          Achievements: `சாதனைகள்`,
+          "AI Teacher Co-Pilot": `AI ஆசிரியர் துணை`,
+          "School Knowledge AI": `பள்ளி அறிவு AI`,
+          Analytics: `பகுப்பாய்வு`,
+          Reports: `அறிக்கைகள்`,
+          Campuses: `வளாகங்கள்`,
+          "Group Dashboard": `குழும டாஷ்போர்டு`,
+          "Campus Comparison": `வளாக ஒப்பீடு`,
+          Transfers: `இடமாற்றங்கள்`,
+          "Group Policies": `குழும கொள்கைகள்`,
+          "Teacher Dashboard": `ஆசிரியர் டாஷ்போர்டு`,
+          "Parent 360": `பெற்றோர் 360`,
+          "Day in the Life": `ஒரு நாள் பயணம்`,
+          "Automation Flows": `தானியக்க ஓட்டங்கள்`,
+          "Design System": `வடிவமைப்பு அமைப்பு`,
+          "WhatsApp AI": `WhatsApp AI`,
+          "Staff Self-Service": `பணியாளர் சுய சேவை`,
+          "Search students, parents, staff, fees…": `மாணவர், பெற்றோர், பணியாளர், கட்டணம் தேடுக…`,
+          "Academic Year": `கல்வி ஆண்டு`,
+          Campus: `வளாகம்`,
+          "AI Assistant": `AI உதவியாளர்`,
+          Help: `உதவி`,
+          Language: `மொழி`,
+          Role: `பங்கு`,
+          "Sign out": `வெளியேறு`,
+          "Good Morning": `காலை வணக்கம்`,
+          "Here's your live school pulse": `உங்கள் பள்ளியின் நேரலை நிலை`,
+          "Today's Attention": `இன்றைய கவனம்`,
+          "View all": `அனைத்தையும் காண்க`,
+          "Total Students": `மொத்த மாணவர்கள்`,
+          "Present Today": `இன்று வந்தவர்`,
+          "Absent Today": `இன்று வராதவர்`,
+          "Staff Present": `பணியில் உள்ள ஊழியர்`,
+          "Total Staff": `மொத்த ஊழியர்கள்`,
+          "Teaching Staff": `ஆசிரியர் பணியாளர்கள்`,
+          "Non-Teaching Staff": `ஆசிரியரல்லாத பணியாளர்கள்`,
+          "Admissions Pipeline": `சேர்க்கை பாதை`,
+          "Fees Collected": `வசூலான கட்டணம்`,
+          "Outstanding Fees": `நிலுவை கட்டணம்`,
+          "Students Requiring Attention": `கவனம் தேவைப்படும் மாணவர்`,
+          "Mark Attendance": `வருகை பதிவு செய்`,
+          "Attendance saved": `வருகை சேமிக்கப்பட்டது`,
+          Present: `வந்தார்`,
+          Absent: `வரவில்லை`,
+          Late: `தாமதம்`,
+          Approve: `ஒப்புதல்`,
+          Reject: `நிராகரி`,
+          Review: `மறுபார்வை`,
+          Edit: `திருத்து`,
+          "Pay Now": `இப்போது செலுத்து`,
+          Receipt: `ரசீது`,
+          Home: `முகப்பு`,
+          Safety: `பாதுகாப்பு`,
+          Fees: `கட்டணம்`,
+          More: `மேலும்`,
+          "Illustrative data": `எடுத்துக்காட்டு தரவு`,
+        },
+      },
+      {
+        id: `hi`,
+        label: `हिन्दी`,
+        short: `हि`,
+        dict: {
+          Overview: `अवलोकन`,
+          "Student Management": `छात्र प्रबंधन`,
+          "Admissions & CRM": `प्रवेश और CRM`,
+          Academics: `शैक्षणिक`,
+          "Parent Experience": `अभिभावक अनुभव`,
+          "Safety & Transport": `सुरक्षा और परिवहन`,
+          Finance: `वित्त`,
+          Workforce: `कार्यबल`,
+          Operations: `संचालन`,
+          Innovation: `नवाचार`,
+          Intelligence: `बुद्धिमत्ता`,
+          "Group Management": `समूह प्रबंधन`,
+          Prototype: `प्रोटोटाइप`,
+          Dashboard: `डैशबोर्ड`,
+          "Command Center": `कमांड सेंटर`,
+          Notifications: `सूचनाएं`,
+          "My Tasks": `मेरे कार्य`,
+          Students: `छात्र`,
+          "Student 360": `छात्र 360`,
+          Attendance: `उपस्थिति`,
+          "Academic Performance": `शैक्षणिक प्रदर्शन`,
+          Assessments: `मूल्यांकन`,
+          "Behaviour & Wellbeing": `व्यवहार और कल्याण`,
+          "Student Portfolio": `छात्र पोर्टफोलियो`,
+          "Talent Discovery": `प्रतिभा खोज`,
+          "Early Warning": `प्रारंभिक चेतावनी`,
+          "Admissions Dashboard": `प्रवेश डैशबोर्ड`,
+          Leads: `संभावित प्रवेश`,
+          Enquiries: `पूछताछ`,
+          "Counselling Pipeline": `परामर्श प्रक्रिया`,
+          Applications: `आवेदन`,
+          "Campus Visits": `परिसर भ्रमण`,
+          "Conversion Analytics": `रूपांतरण विश्लेषण`,
+          "Parent Referrals": `अभिभावक संदर्भ`,
+          Alumni: `पूर्व छात्र`,
+          "Vendors & Partners": `विक्रेता और साझेदार`,
+          Curriculum: `पाठ्यक्रम`,
+          Classes: `कक्षाएं`,
+          Subjects: `विषय`,
+          Timetable: `समय सारणी`,
+          "Lesson Plans": `पाठ योजना`,
+          Homework: `गृहकार्य`,
+          "Question Bank": `प्रश्न बैंक`,
+          "Report Cards": `रिपोर्ट कार्ड`,
+          "Cambridge Objectives": `कैम्ब्रिज उद्देश्य`,
+          "Parent Directory": `अभिभावक निर्देशिका`,
+          "Parent Communication": `अभिभावक संवाद`,
+          PTM: `अभिभावक-शिक्षक बैठक`,
+          Circulars: `परिपत्र`,
+          Events: `कार्यक्रम`,
+          Acknowledgements: `पावती`,
+          "Smart Gate": `स्मार्ट गेट`,
+          "Gate Entry/Exit": `प्रवेश / निकास`,
+          "Pickup Authorisation": `पिकअप अनुमति`,
+          "Visitor Management": `आगंतुक प्रबंधन`,
+          "Bus Tracking": `बस ट्रैकिंग`,
+          Routes: `मार्ग`,
+          "Boarding/De-boarding": `चढ़ना / उतरना`,
+          "Emergency Alerts": `आपातकालीन चेतावनी`,
+          Safeguarding: `बाल सुरक्षा`,
+          "Health & Infirmary": `स्वास्थ्य और चिकित्सा कक्ष`,
+          Counselling: `परामर्श`,
+          "Fee Structures": `शुल्क संरचना`,
+          "Fee Collection": `शुल्क संग्रह`,
+          "Student Accounts": `छात्र खाते`,
+          Payments: `भुगतान`,
+          Receipts: `रसीदें`,
+          Concessions: `छूट`,
+          Scholarships: `छात्रवृत्ति`,
+          Expenses: `व्यय`,
+          Reimbursements: `प्रतिपूर्ति`,
+          Allowances: `भत्ते`,
+          Budgets: `बजट`,
+          Reconciliation: `मिलान`,
+          "Financial Reports": `वित्तीय रिपोर्ट`,
+          "Employee Directory": `कर्मचारी निर्देशिका`,
+          "Teaching Staff": `शिक्षक कर्मचारी`,
+          "Non-Teaching Staff": `गैर-शिक्षक कर्मचारी`,
+          "Shifts & Rosters": `पाली और ड्यूटी सूची`,
+          Leave: `अवकाश`,
+          Overtime: `अतिरिक्त समय`,
+          Workload: `कार्यभार`,
+          CPD: `सतत व्यावसायिक विकास`,
+          Payroll: `वेतन सूची`,
+          Payslips: `वेतन पर्ची`,
+          Assets: `संपत्ति`,
+          Facilities: `सुविधाएं`,
+          Maintenance: `रखरखाव`,
+          Inventory: `भंडार`,
+          Documents: `दस्तावेज़`,
+          Certificates: `प्रमाणपत्र`,
+          "Compliance Calendar": `अनुपालन कैलेंडर`,
+          "Audit Trail": `लेखा परीक्षा रिकॉर्ड`,
+          "Innovation Lab": `नवाचार प्रयोगशाला`,
+          Ideas: `विचार`,
+          Projects: `परियोजनाएं`,
+          Mentors: `मार्गदर्शक`,
+          Milestones: `मील के पत्थर`,
+          Competitions: `प्रतियोगिताएं`,
+          Achievements: `उपलब्धियां`,
+          "AI Teacher Co-Pilot": `AI शिक्षक सहायक`,
+          "School Knowledge AI": `स्कूल नॉलेज AI`,
+          Analytics: `विश्लेषण`,
+          Reports: `रिपोर्ट`,
+          Campuses: `परिसर`,
+          "Group Dashboard": `समूह डैशबोर्ड`,
+          "Campus Comparison": `परिसर तुलना`,
+          Transfers: `स्थानांतरण`,
+          "Group Policies": `समूह नीतियां`,
+          "Teacher Dashboard": `शिक्षक डैशबोर्ड`,
+          "Parent 360": `अभिभावक 360`,
+          "Day in the Life": `एक दिन की झलक`,
+          "Automation Flows": `स्वचालन प्रवाह`,
+          "Design System": `डिज़ाइन सिस्टम`,
+          "WhatsApp AI": `WhatsApp AI`,
+          "Staff Self-Service": `कर्मचारी स्व-सेवा`,
+          "Search students, parents, staff, fees…": `छात्र, अभिभावक, कर्मचारी, शुल्क खोजें…`,
+          "Academic Year": `शैक्षणिक वर्ष`,
+          Campus: `परिसर`,
+          "AI Assistant": `AI सहायक`,
+          Help: `सहायता`,
+          Language: `भाषा`,
+          Role: `भूमिका`,
+          "Sign out": `साइन आउट`,
+          "Good Morning": `सुप्रभात`,
+          "Here's your live school pulse": `आपके स्कूल की सजीव स्थिति`,
+          "Today's Attention": `आज का ध्यान`,
+          "View all": `सभी देखें`,
+          "Total Students": `कुल छात्र`,
+          "Present Today": `आज उपस्थित`,
+          "Absent Today": `आज अनुपस्थित`,
+          "Staff Present": `उपस्थित कर्मचारी`,
+          "Total Staff": `कुल कर्मचारी`,
+          "Teaching Staff": `शिक्षण कर्मचारी`,
+          "Non-Teaching Staff": `गैर-शिक्षण कर्मचारी`,
+          "Admissions Pipeline": `प्रवेश प्रक्रिया`,
+          "Fees Collected": `एकत्रित शुल्क`,
+          "Outstanding Fees": `बकाया शुल्क`,
+          "Students Requiring Attention": `ध्यान देने योग्य छात्र`,
+          "Mark Attendance": `उपस्थिति दर्ज करें`,
+          "Attendance saved": `उपस्थिति सहेजी गई`,
+          Present: `उपस्थित`,
+          Absent: `अनुपस्थित`,
+          Late: `विलंब`,
+          Approve: `स्वीकृत करें`,
+          Reject: `अस्वीकार करें`,
+          Review: `समीक्षा`,
+          Edit: `संपादित करें`,
+          "Pay Now": `अभी भुगतान करें`,
+          Receipt: `रसीद`,
+          Home: `होम`,
+          Safety: `सुरक्षा`,
+          Fees: `शुल्क`,
+          More: `और`,
+          "Illustrative data": `उदाहरण डेटा`,
+        },
+      },
+    ],
+    n = { lang: `en` };
+  function r() {
+    return (
+      t.filter(function (e) {
+        return e.id === n.lang;
+      })[0] || t[0]
+    );
+  }
+  ((e.i18n = {
+    langs: t,
+    get lang() {
+      return n.lang;
+    },
+    set: function (e) {
+      t.some(function (t) {
+        return t.id === e;
+      }) && (n.lang = e);
+    },
+    toggle: function () {
+      return ((n.lang = t[(t.indexOf(r()) + 1) % t.length].id), n.lang);
+    },
+    t: function (e) {
+      var t = r().dict;
+      return t && t[e] ? t[e] : e;
+    },
+    label: function () {
+      return r().label;
+    },
+    short: function () {
+      return r().short;
+    },
+    labelOf: function (e) {
+      var n = t.filter(function (t) {
+        return t.id === e;
+      })[0];
+      return n ? n.label : e;
+    },
+  }),
+    (e.t = e.i18n.t));
+})(te);
+var R = te.i18n;
+te.t;
+var ne = (0, x.createContext)(null);
+function re() {
+  try {
+    let e = localStorage.getItem(`hs.lang`);
+    e && R.set(e);
+  } catch {}
+  return R.lang;
+}
+function ie({ children: e }) {
+  let [t, n] = (0, x.useState)(re),
+    r = (0, x.useCallback)((e) => {
+      (R.set(e), n(R.lang), (document.documentElement.lang = e));
+      try {
+        localStorage.setItem(`hs.lang`, e);
+      } catch {}
+    }, []),
+    i = (0, x.useMemo)(
+      () => ({
+        lang: t,
+        langs: R.langs.map((e) => ({
+          id: e.id,
+          label: e.label,
+          short: e.short,
+        })),
+        setLang: r,
+        t: (e) => (t ? R.t(e) : e),
+        label: R.label(),
+        short: R.short(),
+      }),
+      [t, r],
+    );
+  return (0, F.jsx)(ne.Provider, { value: i, children: e });
+}
+function z() {
+  let e = (0, x.useContext)(ne);
+  if (!e) throw Error(`useI18n must be used inside I18nProvider`);
+  return e;
+}
+var ae = [`super_admin`, `school_admin`, `principal`],
+  B = [`students.read`, `students.read_assigned`],
+  oe = [`tracking.read_all`, `tracking.read_assigned`],
+  se = [`tracking.read_all`, `tracking.manage`],
+  ce = [
+    {
+      group: `Overview`,
+      hue: `brand`,
+      icon: `grid`,
+      items: [
+        {
+          label: `Dashboard`,
+          icon: `home`,
+          to: `/command-center`,
+          dynamicHome: !0,
+        },
+        {
+          label: `Owner Overview`,
+          icon: `shield`,
+          to: `/overview`,
+          perm: [`audit.read`],
+          roles: [`super_admin`, `school_admin`],
+        },
+        {
+          label: `Command Center`,
+          icon: `pulse`,
+          to: `/command-center`,
+          perm: [`dashboard.group`],
+        },
+        {
+          label: `Teacher Dashboard`,
+          icon: `bookOpen`,
+          to: `/teacher`,
+          perm: [`attendance.mark`],
+          hideRoles: ae,
+        },
+        {
+          label: `Parent 360`,
+          icon: `heart`,
+          to: `/parent-360`,
+          perm: [`parent_portal.use`],
+          hideRoles: ae,
+        },
+        {
+          label: `My Profile`,
+          icon: `user`,
+          to: `/my-profile`,
+          perm: [`student_portal.use`],
+          hideRoles: ae,
+        },
+        {
+          label: `Staff Self-Service`,
+          icon: `idCard`,
+          to: `/staff-self`,
+          perm: [`selfservice.use`],
+          hideRoles: ae,
+        },
+        {
+          label: `Notifications`,
+          icon: `bell`,
+          to: `/notifications`,
+          badge: `alerts`,
+          tone: `alert`,
+        },
+        {
+          label: `My Tasks`,
+          icon: `checkSquare`,
+          to: `/my-tasks`,
+          badge: `tasks`,
+        },
+      ],
+    },
+    {
+      section: `Student Management`,
+      group: `Student Management`,
+      hue: `brand`,
+      label: `Students`,
+      quick: [{ to: `/student-360` }, { to: `/attendance` }],
+      icon: `users`,
+      items: [
+        { label: `Students`, icon: `users`, to: `/students`, perm: B },
+        { label: `Student 360`, icon: `user`, to: `/student-360`, perm: B },
+        {
+          label: `Student Tracking`,
+          icon: `mapPin`,
+          to: `/student-tracking`,
+          perm: oe,
+        },
+        {
+          label: `Attendance`,
+          icon: `checkSquare`,
+          to: `/attendance`,
+          perm: [`attendance.read`],
+        },
+        {
+          label: `Academic Performance`,
+          icon: `trending`,
+          to: `/academic-performance`,
+          perm: B,
+        },
+        {
+          label: `Assessments`,
+          icon: `clipboard`,
+          to: `/assessments`,
+          perm: [`academics.read`],
+        },
+        {
+          label: `Behaviour & Wellbeing`,
+          icon: `heart`,
+          to: `/wellbeing`,
+          perm: B,
+        },
+        {
+          label: `Student Portfolio`,
+          icon: `folder`,
+          to: `/portfolio`,
+          perm: B,
+        },
+        {
+          label: `Talent Discovery`,
+          icon: `sparkle`,
+          to: `/talent`,
+          perm: [...B, `ai.use`],
+        },
+        {
+          label: `Early Warning`,
+          icon: `alert`,
+          to: `/early-warning`,
+          perm: [`earlywarning.read`],
+          tone: `alert`,
+        },
+      ],
+    },
+    {
+      section: `Admissions`,
+      group: `Admissions & CRM`,
+      hue: `blue`,
+      label: `Enquiries & Admissions`,
+      quick: [
+        { to: `/pipeline`, label: `Counselling` },
+        { to: `/applications` },
+      ],
+      icon: `target`,
+      items: [
+        {
+          label: `Admissions Dashboard`,
+          icon: `target`,
+          to: `/admissions`,
+          perm: [`admissions.read`],
+        },
+        {
+          label: `Leads`,
+          icon: `list`,
+          to: `/leads`,
+          perm: [`admissions.read`],
+        },
+        {
+          label: `Enquiries`,
+          icon: `message`,
+          to: `/enquiries`,
+          perm: [`admissions.read`],
+        },
+        {
+          label: `Counselling Pipeline`,
+          icon: `layers`,
+          to: `/pipeline`,
+          perm: [`admissions.read`],
+        },
+        {
+          label: `Applications`,
+          icon: `fileText`,
+          to: `/applications`,
+          perm: [`admissions.read`],
+        },
+        {
+          label: `Campus Visits`,
+          icon: `mapPin`,
+          to: `/visits`,
+          perm: [`admissions.read`],
+        },
+        {
+          label: `Conversion Analytics`,
+          icon: `percent`,
+          to: `/conversion`,
+          perm: [`admissions.read`],
+        },
+        {
+          label: `Parent Referrals`,
+          icon: `link`,
+          to: `/referrals`,
+          perm: [`admissions.read`],
+        },
+        {
+          label: `Alumni`,
+          icon: `graduation`,
+          to: `/alumni`,
+          perm: [`crm.read`],
+        },
+        {
+          label: `Vendors & Partners`,
+          icon: `briefcase`,
+          to: `/vendors`,
+          perm: [`crm.read`],
+        },
+      ],
+    },
+    {
+      section: `Student Management`,
+      group: `Academics`,
+      hue: `plum`,
+      quick: [{ to: `/report-cards` }],
+      icon: `book`,
+      items: [
+        {
+          label: `Curriculum`,
+          icon: `bookOpen`,
+          to: `/curriculum`,
+          perm: [`academics.read`],
+        },
+        {
+          label: `Classes`,
+          icon: `grid`,
+          to: `/classes`,
+          perm: [`academics.read`],
+        },
+        {
+          label: `Subjects`,
+          icon: `book`,
+          to: `/subjects`,
+          perm: [`academics.read`],
+        },
+        {
+          label: `Timetable`,
+          icon: `calendar`,
+          to: `/timetable`,
+          perm: [`academics.read`],
+        },
+        {
+          label: `Lesson Plans`,
+          icon: `clipboard`,
+          to: `/lesson-plans`,
+          perm: [`academics.read`],
+        },
+        {
+          label: `Homework`,
+          icon: `edit`,
+          to: `/homework`,
+          perm: [`academics.read`],
+        },
+        {
+          label: `Question Bank`,
+          icon: `helpCircle`,
+          to: `/question-bank`,
+          perm: [`academics.read`],
+        },
+        {
+          label: `Assessments`,
+          icon: `checkSquare`,
+          to: `/assessments`,
+          perm: [`academics.read`],
+        },
+        {
+          label: `Paper Correction`,
+          icon: `scan`,
+          to: `/paper-correction`,
+          perm: [`assessments.manage`],
+        },
+        {
+          label: `Report Cards`,
+          icon: `fileText`,
+          to: `/report-cards`,
+          perm: [`academics.read`],
+        },
+        {
+          label: `Cambridge Objectives`,
+          icon: `target`,
+          to: `/objectives`,
+          perm: [`academics.read`],
+        },
+      ],
+    },
+    {
+      section: `Student Management`,
+      group: `Parent Experience`,
+      hue: `rose`,
+      label: `Parent Experience`,
+      icon: `heart`,
+      items: [
+        {
+          label: `Parent Directory`,
+          icon: `users`,
+          to: `/parent-directory`,
+          perm: [`parents.read`],
+        },
+        {
+          label: `Parent Communication`,
+          icon: `message`,
+          to: `/parent-communication`,
+          perm: [`communication.read`],
+        },
+        {
+          label: `PTM`,
+          icon: `calendar`,
+          to: `/ptm`,
+          perm: [`communication.read`],
+        },
+        {
+          label: `Circulars`,
+          icon: `megaphone`,
+          to: `/circulars`,
+          perm: [`communication.read`],
+        },
+        {
+          label: `Events`,
+          icon: `star`,
+          to: `/events`,
+          perm: [`communication.read`],
+        },
+        {
+          label: `Acknowledgements`,
+          icon: `checkSquare`,
+          to: `/acknowledgements`,
+          perm: [`communication.read`],
+        },
+      ],
+    },
+    {
+      section: `Transport & Safety`,
+      group: `Safety & Transport`,
+      hue: `terracotta`,
+      label: `GPS & Safety`,
+      quick: [
+        { to: `/student-tracking`, label: `GPS Tracking` },
+        { to: `/bus-tracking`, label: `Transport` },
+      ],
+      icon: `mapPin`,
+      items: [
+        {
+          label: `Smart Gate`,
+          icon: `door`,
+          to: `/smart-gate`,
+          perm: [`safety.read`],
+        },
+        {
+          label: `Gate Entry/Exit`,
+          icon: `scan`,
+          to: `/gate-log`,
+          perm: [`safety.read`],
+        },
+        {
+          label: `Pickup Authorisation`,
+          icon: `key`,
+          to: `/pickup`,
+          perm: [`safety.read`],
+        },
+        {
+          label: `Visitor Management`,
+          icon: `idCard`,
+          to: `/visitors`,
+          perm: [`safety.read`],
+        },
+        {
+          label: `Student Tracking`,
+          icon: `mapPin`,
+          to: `/student-tracking`,
+          perm: oe,
+        },
+        {
+          label: `GPS Devices`,
+          icon: `navigation`,
+          to: `/gps-devices`,
+          perm: se,
+        },
+        {
+          label: `Device Assignments`,
+          icon: `link`,
+          to: `/device-assignments`,
+          perm: se,
+        },
+        {
+          label: `Bus Tracking`,
+          icon: `bus`,
+          to: `/bus-tracking`,
+          perm: [`transport.read`],
+        },
+        {
+          label: `Routes`,
+          icon: `route`,
+          to: `/routes`,
+          perm: [`transport.read`],
+        },
+        {
+          label: `Boarding/De-boarding`,
+          icon: `navigation`,
+          to: `/boarding`,
+          perm: [`transport.read`],
+        },
+        {
+          label: `Emergency Alerts`,
+          icon: `megaphone`,
+          to: `/emergency`,
+          perm: [`safety.read`],
+        },
+        {
+          label: `Safeguarding`,
+          icon: `shieldCheck`,
+          to: `/safeguarding`,
+          perm: [`safety.read`],
+        },
+        {
+          label: `Health & Infirmary`,
+          icon: `stethoscope`,
+          to: `/infirmary`,
+          perm: [`safety.read`],
+        },
+        {
+          label: `Counselling`,
+          icon: `heart`,
+          to: `/counselling`,
+          perm: [`safety.read`],
+        },
+      ],
+    },
+    {
+      section: `Finance`,
+      group: `Finance`,
+      hue: `sage`,
+      label: `Fee Management`,
+      quick: [
+        { to: `/payments` },
+        { to: `/expenses` },
+        { to: `/financial-reports`, label: `Reports` },
+      ],
+      icon: `wallet`,
+      items: [
+        {
+          label: `Fee Structures`,
+          icon: `layers`,
+          to: `/fee-structures`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Fee Collection`,
+          icon: `wallet`,
+          to: `/fees`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Student Accounts`,
+          icon: `user`,
+          to: `/student-accounts`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Payments`,
+          icon: `creditCard`,
+          to: `/payments`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Receipts`,
+          icon: `receipt`,
+          to: `/receipts`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Concessions`,
+          icon: `percent`,
+          to: `/concessions`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Scholarships`,
+          icon: `award`,
+          to: `/scholarships`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Expenses`,
+          icon: `fileText`,
+          to: `/expenses`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Reimbursements`,
+          icon: `refresh`,
+          to: `/reimbursements`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Allowances`,
+          icon: `plus`,
+          to: `/allowances`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Budgets`,
+          icon: `pieChart`,
+          to: `/budgets`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Reconciliation`,
+          icon: `check`,
+          to: `/reconciliation`,
+          perm: [`finance.read`],
+        },
+        {
+          label: `Financial Reports`,
+          icon: `barChart`,
+          to: `/financial-reports`,
+          perm: [`finance.read`],
+        },
+      ],
+    },
+    {
+      section: `HR & Workforce`,
+      group: `Workforce`,
+      hue: `amber`,
+      label: `Staff`,
+      quick: [
+        { to: `/staff-attendance`, label: `Attendance` },
+        { to: `/leave` },
+        { to: `/payroll` },
+      ],
+      icon: `users`,
+      items: [
+        {
+          label: `Employee Directory`,
+          icon: `users`,
+          to: `/workforce`,
+          perm: [`hr.read`],
+        },
+        {
+          label: `Teaching Staff`,
+          icon: `graduation`,
+          to: `/teaching-staff`,
+          perm: [`hr.read`],
+        },
+        {
+          label: `Non-Teaching Staff`,
+          icon: `tool`,
+          to: `/non-teaching-staff`,
+          perm: [`hr.read`],
+        },
+        {
+          label: `Attendance`,
+          icon: `checkSquare`,
+          to: `/staff-attendance`,
+          perm: [`hr.read`],
+        },
+        {
+          label: `Shifts & Rosters`,
+          icon: `clock`,
+          to: `/shifts`,
+          perm: [`hr.read`],
+        },
+        { label: `Leave`, icon: `calendar`, to: `/leave`, perm: [`hr.read`] },
+        {
+          label: `Overtime`,
+          icon: `clock`,
+          to: `/overtime`,
+          perm: [`hr.read`],
+        },
+        {
+          label: `Allowances`,
+          icon: `plus`,
+          to: `/staff-allowances`,
+          perm: [`hr.read`, `finance.read`],
+        },
+        {
+          label: `Workload`,
+          icon: `barChart`,
+          to: `/workload`,
+          perm: [`hr.read`],
+        },
+        { label: `CPD`, icon: `award`, to: `/cpd`, perm: [`hr.read`] },
+        {
+          label: `Payroll`,
+          icon: `wallet`,
+          to: `/payroll`,
+          perm: [`payroll.read`],
+          tone: `amber`,
+        },
+        {
+          label: `Payslips`,
+          icon: `receipt`,
+          to: `/payslips`,
+          perm: [`payroll.read`],
+        },
+      ],
+    },
+    {
+      section: `Operations`,
+      group: `Operations`,
+      hue: `steel`,
+      label: `Facilities & Assets`,
+      icon: `box`,
+      items: [
+        {
+          label: `Assets`,
+          icon: `box`,
+          to: `/assets`,
+          perm: [`operations.read`],
+        },
+        {
+          label: `Facilities`,
+          icon: `building`,
+          to: `/facilities`,
+          perm: [`operations.read`],
+        },
+        {
+          label: `Maintenance`,
+          icon: `wrench`,
+          to: `/maintenance`,
+          perm: [`operations.read`],
+        },
+        {
+          label: `Inventory`,
+          icon: `layers`,
+          to: `/inventory`,
+          perm: [`operations.read`],
+        },
+        {
+          label: `Documents`,
+          icon: `folder`,
+          to: `/documents`,
+          perm: [`documents.read`],
+        },
+        {
+          label: `Certificates`,
+          icon: `award`,
+          to: `/certificates`,
+          perm: [`documents.read`],
+        },
+        {
+          label: `Circulars`,
+          icon: `megaphone`,
+          to: `/op-circulars`,
+          perm: [`operations.read`],
+        },
+        {
+          label: `Compliance Calendar`,
+          icon: `shield`,
+          to: `/compliance`,
+          perm: [`operations.read`],
+          tone: `alert`,
+        },
+        {
+          label: `Audit Trail`,
+          icon: `list`,
+          to: `/audit`,
+          perm: [`audit.read`],
+        },
+      ],
+    },
+    {
+      section: `Insights & Innovation`,
+      group: `Innovation`,
+      hue: `amber`,
+      icon: `rocket`,
+      items: [
+        {
+          label: `My Ideas`,
+          icon: `lightbulb`,
+          to: `/my-ideas`,
+          perm: [`student_portal.use`],
+        },
+        {
+          label: `Innovation Lab`,
+          icon: `rocket`,
+          to: `/innovation`,
+          perm: [`innovation.read`],
+        },
+        {
+          label: `Ideas`,
+          icon: `lightbulb`,
+          to: `/ideas`,
+          perm: [`innovation.read`],
+        },
+        {
+          label: `Projects`,
+          icon: `puzzle`,
+          to: `/projects`,
+          perm: [`innovation.read`],
+        },
+        {
+          label: `Mentors`,
+          icon: `users`,
+          to: `/mentors`,
+          perm: [`innovation.read`],
+        },
+        {
+          label: `Milestones`,
+          icon: `flag`,
+          to: `/milestones`,
+          perm: [`innovation.read`],
+        },
+        {
+          label: `Competitions`,
+          icon: `award`,
+          to: `/competitions`,
+          perm: [`innovation.read`],
+        },
+        {
+          label: `Achievements`,
+          icon: `star`,
+          to: `/achievements`,
+          perm: [`innovation.read`],
+        },
+      ],
+    },
+    {
+      section: `Insights & Innovation`,
+      group: `Intelligence`,
+      hue: `teal`,
+      icon: `brain`,
+      items: [
+        {
+          label: `AI Teacher Co-Pilot`,
+          icon: `sparkle`,
+          to: `/copilot`,
+          perm: [`ai.use`],
+        },
+        {
+          label: `School Knowledge AI`,
+          icon: `brain`,
+          to: `/knowledge-ai`,
+          perm: [`ai.use`],
+        },
+        {
+          label: `Talent Discovery`,
+          icon: `star`,
+          to: `/talent`,
+          perm: [...B, `ai.use`],
+        },
+        {
+          label: `Early Warning`,
+          icon: `alert`,
+          to: `/early-warning`,
+          perm: [`earlywarning.read`],
+        },
+        {
+          label: `Analytics`,
+          icon: `chart`,
+          to: `/analytics`,
+          perm: [`reports.read`],
+        },
+        {
+          label: `Reports`,
+          icon: `fileText`,
+          to: `/reports`,
+          perm: [`reports.read`],
+        },
+      ],
+    },
+    {
+      section: `Administration`,
+      group: `Group Management`,
+      hue: `indigo`,
+      icon: `building`,
+      items: [
+        {
+          label: `Campuses`,
+          icon: `building`,
+          to: `/campuses`,
+          perm: [`group.read`],
+        },
+        {
+          label: `Group Dashboard`,
+          icon: `globe`,
+          to: `/group-dashboard`,
+          perm: [`dashboard.group`],
+        },
+        {
+          label: `Campus Comparison`,
+          icon: `barChart`,
+          to: `/campus-comparison`,
+          perm: [`group.read`],
+        },
+        {
+          label: `Transfers`,
+          icon: `refresh`,
+          to: `/transfers`,
+          perm: [`group.read`],
+        },
+        {
+          label: `Group Policies`,
+          icon: `shield`,
+          to: `/group-policies`,
+          perm: [`group.read`],
+        },
+      ],
+    },
+    {
+      section: `Administration`,
+      group: `Administration`,
+      hue: `steel`,
+      label: `Users & Settings`,
+      icon: `settings`,
+      items: [
+        {
+          label: `Report Centre`,
+          icon: `barChart`,
+          to: `/admin/reports`,
+          perm: [`users.manage`],
+        },
+        {
+          label: `Users & Roles`,
+          icon: `users`,
+          to: `/admin/users`,
+          perm: [`users.manage`],
+        },
+        {
+          label: `System Settings`,
+          icon: `settings`,
+          to: `/admin/settings`,
+          perm: [`settings.manage`],
+        },
+      ],
+    },
+    {
+      section: `Administration`,
+      group: `Prototype`,
+      hue: `steel`,
+      icon: `play`,
+      items: [
+        {
+          label: `Day in the Life`,
+          icon: `clock`,
+          to: `/day-in-life`,
+          perm: [`prototype.view`],
+        },
+        {
+          label: `Automation Flows`,
+          icon: `zap`,
+          to: `/automations`,
+          perm: [`prototype.view`],
+        },
+        {
+          label: `WhatsApp AI`,
+          icon: `message`,
+          to: `/whatsapp-ai`,
+          perm: [`prototype.view`],
+        },
+        {
+          label: `Design System`,
+          icon: `layers`,
+          to: `/design-system`,
+          perm: [`prototype.view`],
+        },
+      ],
+    },
+  ],
+  le = {
+    principal: [
+      { label: `Pulse`, icon: `pulse`, to: `/command-center` },
+      { label: `Students`, icon: `users`, to: `/students` },
+      { label: `Alerts`, icon: `bell`, to: `/notifications` },
+      { label: `Tracking`, icon: `mapPin`, to: `/student-tracking` },
+      { label: `More`, icon: `menu`, drawer: !0 },
+    ],
+    teacher: [
+      { label: `Home`, icon: `home`, to: `/teacher` },
+      { label: `Attendance`, icon: `checkSquare`, to: `/attendance` },
+      { label: `Co-Pilot`, icon: `sparkle`, to: `/copilot` },
+      { label: `Students`, icon: `users`, to: `/students` },
+      { label: `More`, icon: `menu`, drawer: !0 },
+    ],
+    parent: [
+      { label: `Home`, icon: `home`, to: `/parent-360` },
+      { label: `Track`, icon: `mapPin`, to: `/parent-360?tab=track` },
+      { label: `Academics`, icon: `bookOpen`, to: `/parent-360?tab=academics` },
+      { label: `Fees`, icon: `wallet`, to: `/parent-360?tab=fees` },
+      { label: `More`, icon: `menu`, drawer: !0 },
+    ],
+    office: [
+      { label: `Admissions`, icon: `target`, to: `/admissions` },
+      { label: `Fees`, icon: `wallet`, to: `/fees` },
+      { label: `Students`, icon: `users`, to: `/students` },
+      { label: `Tasks`, icon: `checkSquare`, to: `/my-tasks` },
+      { label: `More`, icon: `menu`, drawer: !0 },
+    ],
+    staff: [
+      { label: `Home`, icon: `home`, to: `/staff-self` },
+      { label: `Transport`, icon: `bus`, to: `/bus-tracking` },
+      { label: `Gate`, icon: `scan`, to: `/gate-log` },
+      { label: `Alerts`, icon: `bell`, to: `/notifications` },
+      { label: `More`, icon: `menu`, drawer: !0 },
+    ],
+    student: [
+      { label: `Me`, icon: `user`, to: `/my-profile` },
+      { label: `Alerts`, icon: `bell`, to: `/notifications` },
+      { label: `Tasks`, icon: `checkSquare`, to: `/my-tasks` },
+      { label: `More`, icon: `menu`, drawer: !0 },
+    ],
+  };
+function ue(e, t) {
+  return (
+    le[e] ?? [
+      { label: `Home`, icon: `home`, to: t },
+      { label: `Alerts`, icon: `bell`, to: `/notifications` },
+      { label: `Tasks`, icon: `checkSquare`, to: `/my-tasks` },
+      { label: `More`, icon: `menu`, drawer: !0 },
+    ]
+  );
+}
+var de = ce.flatMap((e) =>
+  e.items
+    .filter((e) => !e.dynamicHome)
+    .map((t) => ({
+      group: e.label ?? e.group,
+      label: t.label,
+      to: t.to.split(`?`)[0],
+      icon: t.icon,
+      hue: e.hue ?? `brand`,
+    })),
+);
+function fe(e) {
+  let t = de.find((t) => t.to === e);
+  if (t) return { ...t, nested: !1 };
+  let n;
+  for (let t of de)
+    e.startsWith(t.to + `/`) && (!n || t.to.length > n.to.length) && (n = t);
+  return n ? { ...n, nested: !0 } : null;
+}
+var pe = {};
+((function (e) {
+  var t = {
+    grid: `<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>`,
+    pulse: `<path d="M3 12h4l3 8 4-16 3 8h4"/>`,
+    bell: `<path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>`,
+    check: `<path d="M20 6 9 17l-5-5"/>`,
+    checkSquare: `<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>`,
+    users: `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
+    user: `<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>`,
+    userCheck: `<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m16 11 2 2 4-4"/>`,
+    idCard: `<rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8.5" cy="11" r="2.5"/><path d="M4.5 17.5c.8-1.6 2.3-2.5 4-2.5s2.9.9 3.7 2.5"/><path d="M15 9h5M15 13h5"/>`,
+    calendar: `<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>`,
+    clock: `<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`,
+    chart: `<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 15l3.5-4 3 2.5L20 7"/>`,
+    barChart: `<path d="M12 20V10M18 20V4M6 20v-4"/>`,
+    trending: `<path d="m23 6-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/>`,
+    target: `<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>`,
+    book: `<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>`,
+    bookOpen: `<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>`,
+    graduation: `<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/>`,
+    clipboard: `<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>`,
+    edit: `<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/>`,
+    file: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>`,
+    fileText: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>`,
+    folder: `<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>`,
+    award: `<circle cx="12" cy="8" r="6"/><path d="m8.2 13.4-1.4 7.2 5.2-2.6 5.2 2.6-1.4-7.2"/>`,
+    star: `<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/>`,
+    heart: `<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21.2l7.7-7.8 1.1-1a5.5 5.5 0 0 0 0-7.8z"/>`,
+    shield: `<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>`,
+    shieldCheck: `<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>`,
+    alert: `<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>`,
+    alertCircle: `<circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/>`,
+    info: `<circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/>`,
+    helpCircle: `<circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/>`,
+    bus: `<path d="M4 17V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v11"/><path d="M4 11h16"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/><path d="M4 17h2M18 17h2M8 4v3M16 4v3"/>`,
+    mapPin: `<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>`,
+    route: `<circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h5a4 4 0 0 0 0-8h-4a4 4 0 0 1 0-8h5"/>`,
+    navigation: `<path d="m3 11 19-9-9 19-2-8-8-2z"/>`,
+    door: `<path d="M3 21h18"/><path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17"/><circle cx="14.5" cy="12" r="1"/>`,
+    scan: `<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M3 12h18"/>`,
+    camera: `<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>`,
+    wallet: `<path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>`,
+    rupee: `<path d="M6 3h12M6 8h12M16.5 3c0 5-3.5 5-7 5h-.5l8 13"/>`,
+    receipt: `<path d="M4 2v20l2.5-1.5L9 22l2.5-1.5L14 22l2.5-1.5L19 22V2l-2.5 1.5L14 2l-2.5 1.5L9 2 6.5 3.5z"/><path d="M8 8h8M8 12h8M8 16h5"/>`,
+    creditCard: `<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>`,
+    briefcase: `<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>`,
+    building: `<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01"/>`,
+    box: `<path d="m21 8-9-5-9 5v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/>`,
+    tool: `<path d="M14.7 6.3a4 4 0 0 0 5 5L21 21a2 2 0 0 1-3 0l-6.5-6.5a4 4 0 0 0-5-5L3 4a2 2 0 0 1 3-3z"/>`,
+    wrench: `<path d="M14.7 6.3a4 4 0 1 0 4.6 4.6l-2.8 2.8-4.6-4.6z"/><path d="m12 9-8 8a2.1 2.1 0 0 0 3 3l8-8"/>`,
+    lightbulb: `<path d="M9 18h6M10 22h4"/><path d="M12 2a6 6 0 0 0-3.5 10.9c.6.5 1 1.3 1 2.1h5c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 2z"/>`,
+    rocket: `<path d="M5 13c-1.5 1.5-2 5-2 5s3.5-.5 5-2c.9-.9.9-2.2 0-3s-2.2-.9-3 0z"/><path d="M15 9a9 9 0 0 0 6-7 9 9 0 0 0-7 6L9 13l2 2z"/><path d="m9 13-3-1 3.5-3.5"/><path d="m11 15 1 3 3.5-3.5"/>`,
+    sparkle: `<path d="M12 2.5 14 9l6.5 2-6.5 2-2 6.5-2-6.5L3.5 11 10 9z"/><path d="M19 3v3M17.5 4.5h3"/>`,
+    brain: `<path d="M9.5 3a3 3 0 0 0-3 3 3 3 0 0 0-2 5.2A3 3 0 0 0 6 17a3 3 0 0 0 3.5 3V3z"/><path d="M14.5 3a3 3 0 0 1 3 3 3 3 0 0 1 2 5.2A3 3 0 0 1 18 17a3 3 0 0 1-3.5 3V3z"/>`,
+    message: `<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 0 1 8.5-8.4A8.4 8.4 0 0 1 21 11.5z"/>`,
+    send: `<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>`,
+    mail: `<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/>`,
+    phone: `<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.4 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>`,
+    megaphone: `<path d="m3 11 15-7v16L3 13z"/><path d="M3 11H2a1 1 0 0 0-1 1v0a1 1 0 0 0 1 1h1"/><path d="M7 14v5a2 2 0 0 0 4 0v-3.5"/>`,
+    search: `<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>`,
+    filter: `<path d="M3 4h18l-7 8v7l-4 2v-9z"/>`,
+    download: `<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/>`,
+    upload: `<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5M12 3v12"/>`,
+    plus: `<path d="M12 5v14M5 12h14"/>`,
+    minus: `<path d="M5 12h14"/>`,
+    x: `<path d="M18 6 6 18M6 6l12 12"/>`,
+    chevronDown: `<path d="m6 9 6 6 6-6"/>`,
+    chevronRight: `<path d="m9 18 6-6-6-6"/>`,
+    chevronLeft: `<path d="m15 18-6-6 6-6"/>`,
+    chevronsLeft: `<path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/>`,
+    trophy: `<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>`,
+    chevronUp: `<path d="m18 15-6-6-6 6"/>`,
+    arrowRight: `<path d="M5 12h14M13 6l6 6-6 6"/>`,
+    arrowLeft: `<path d="M19 12H5M11 18l-6-6 6-6"/>`,
+    arrowUp: `<path d="M12 19V5M6 11l6-6 6 6"/>`,
+    arrowDown: `<path d="M12 5v14M18 13l-6 6-6-6"/>`,
+    external: `<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/>`,
+    more: `<circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/>`,
+    menu: `<path d="M3 6h18M3 12h18M3 18h18"/>`,
+    settings: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>`,
+    globe: `<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/>`,
+    lock: `<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`,
+    logout: `<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/>`,
+    refresh: `<path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>`,
+    eye: `<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>`,
+    play: `<path d="m6 3 14 9-14 9z"/>`,
+    pause: `<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>`,
+    home: `<path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>`,
+    layers: `<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>`,
+    list: `<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>`,
+    flag: `<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/>`,
+    thermometer: `<path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/>`,
+    activity: `<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>`,
+    zap: `<path d="M13 2 3 14h8l-1 8 10-12h-8z"/>`,
+    link: `<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>`,
+    key: `<circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.5 12.5 9-9M17 6l2.5 2.5M14 9l2.5 2.5"/>`,
+    hash: `<path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/>`,
+    percent: `<path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>`,
+    pieChart: `<path d="M21.2 15.9A10 10 0 1 1 8.1 2.8"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>`,
+    sun: `<circle cx="12" cy="12" r="4.5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>`,
+    moon: `<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>`,
+    save: `<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/>`,
+    trash: `<path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>`,
+    copy: `<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>`,
+    printer: `<path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/>`,
+    qr: `<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/>`,
+    stethoscope: `<path d="M6 2v6a4 4 0 0 0 8 0V2"/><path d="M6 2H4M14 2h2M10 12v3a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="11" r="2"/>`,
+    truck: `<path d="M2 17V6a1 1 0 0 1 1-1h11v12"/><path d="M14 9h4l3 3v5h-7"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="17.5" cy="17.5" r="2"/>`,
+    compass: `<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5.5-5.5 2 2-5.5z"/>`,
+    puzzle: `<path d="M9 3a2 2 0 0 1 4 0v1h3a1 1 0 0 1 1 1v3h1a2 2 0 0 1 0 4h-1v3a1 1 0 0 1-1 1h-3v-1a2 2 0 0 0-4 0v1H6a1 1 0 0 1-1-1v-3H4a2 2 0 0 1 0-4h1V5a1 1 0 0 1 1-1h3z"/>`,
+    lotus: `<path d="M12 3c1 3.5 3 5.5 5 7.5-2 0-3.6-.5-5-2-1.4 1.5-3 2-5 2 2-2 4-4 5-7.5z"/><path d="M12 9c2 2.6 4.5 4.3 7 5-2.2.8-4.5.3-6.2-1-1.1-.9-1.6-2.1-.8-4z"/><path d="M12 9c-2 2.6-4.5 4.3-7 5 2.2.8 4.5.3 6.2-1 1.1-.9 1.6-2.1.8-4z"/><path d="M12 15c3.5 1.5 6.5 1.2 9.5-.5-2.2 2.2-5 3.2-8.5 2.5-1-.2-1-.2-1-2z"/><path d="M12 15c-3.5 1.5-6.5 1.2-9.5-.5 2.2 2.2 5 3.2 8.5 2.5 1-.2 1-.2 1-2z"/><path d="M6 21c4 1.5 8 1.5 12 0-3 1.2-9 1.2-12 0z"/>`,
+  };
+  ((e.icon = function (e, n, r) {
+    var i = t[e] || t.circleFallback || `<circle cx="12" cy="12" r="9"/>`,
+      a = n || 18;
+    return (
+      `<svg class="` +
+      (r || ``) +
+      `" width="` +
+      a +
+      `" height="` +
+      a +
+      `" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">` +
+      i +
+      `</svg>`
+    );
+  }),
+    (e.lotus = function (e, t) {
+      var n = e || 36;
+      t ||= {};
+      var r = `lotus-grad-` + Math.floor(Math.random() * 1e4);
+      return (
+        `<svg width="` +
+        n +
+        `" height="` +
+        n +
+        `" viewBox="0 0 100 85" fill="none" role="img" aria-label="Holy Sai Lotus" class="` +
+        (t.cls || ``) +
+        `"><defs><linearGradient id="` +
+        r +
+        `-m" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#E60055"/><stop offset="50%" stop-color="#B30042"/><stop offset="100%" stop-color="#7A0029"/></linearGradient><linearGradient id="` +
+        r +
+        `-g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFF0BE"/><stop offset="100%" stop-color="#FEDB6E"/></linearGradient></defs><path d="M50 4 C53 18, 59 28, 67 38 C57 37, 50 31, 50 25 C50 31, 43 37, 33 38 C41 28, 47 18, 50 4 Z" fill="url(#` +
+        r +
+        `-m)" stroke="url(#` +
+        r +
+        `-g)" stroke-width="1.2"/><path d="M50 22 C58 32, 69 40, 80 43 C70 47, 59 44, 52 38 C50 35, 49 28, 50 22 Z" fill="url(#` +
+        r +
+        `-m)" stroke="url(#` +
+        r +
+        `-g)" stroke-width="1"/><path d="M50 22 C42 32, 31 40, 20 43 C30 47, 41 44, 48 38 C50 35, 51 28, 50 22 Z" fill="url(#` +
+        r +
+        `-m)" stroke="url(#` +
+        r +
+        `-g)" stroke-width="1"/><path d="M50 36 C64 43, 78 45, 93 41 C82 51, 68 53, 53 48 C50 45, 49 40, 50 36 Z" fill="url(#` +
+        r +
+        `-m)" stroke="url(#` +
+        r +
+        `-g)" stroke-width="1"/><path d="M50 36 C36 43, 22 45, 7 41 C18 51, 32 53, 47 48 C50 45, 51 40, 50 36 Z" fill="url(#` +
+        r +
+        `-m)" stroke="url(#` +
+        r +
+        `-g)" stroke-width="1"/><path d="M50 48 C68 54, 82 54, 96 48 C83 60, 66 62, 50 58 C34 62, 17 60, 4 48 C18 54, 32 54, 50 48 Z" fill="url(#` +
+        r +
+        `-m)" stroke="url(#` +
+        r +
+        `-g)" stroke-width="1"/><path d="M30 68 C38 65, 44 71, 52 68 C60 65, 66 70, 72 67" stroke="url(#` +
+        r +
+        `-g)" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M22 76 C34 72, 42 80, 54 76 C66 72, 74 78, 82 74" stroke="url(#` +
+        r +
+        `-g)" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>`
+      );
+    }),
+    (e.brandDivider = function (t) {
+      return (
+        `<div class="row center g-3" style="width:` +
+        (t || `100%`) +
+        `;margin:10px auto"><span style="flex:1;height:1px;background:linear-gradient(90deg, transparent, #FEDB6E)"></span>` +
+        e.lotus(18) +
+        `<span style="flex:1;height:1px;background:linear-gradient(270deg, transparent, #FEDB6E)"></span></div>`
+      );
+    }),
+    (e.iconNames = Object.keys(t)),
+    (e.iconPaths = t));
+})(pe),
+  pe.icon,
+  pe.lotus);
+var me = pe.brandDivider,
+  he = pe.iconNames,
+  ge = pe.iconPaths,
+  V = {
+    n(e) {
+      return e == null || e === `` ? `` : Number(e).toLocaleString(`en-IN`);
+    },
+    compact(e) {
+      let t = Math.abs(e);
+      return t >= 1e7
+        ? (e / 1e7).toFixed(t % 1e7 == 0 ? 0 : 1) + `Cr`
+        : t >= 1e5
+          ? (e / 1e5).toFixed(t % 1e5 == 0 ? 0 : 1) + `L`
+          : t >= 1e3
+            ? (e / 1e3).toFixed(t % 1e3 == 0 ? 0 : 1) + `k`
+            : String(Math.round(e * 10) / 10);
+    },
+    money(e, t = {}) {
+      if (e == null || e === ``) return `—`;
+      let n = Number(e);
+      return t.compact
+        ? `₹` + V.compact(n)
+        : `₹` + n.toLocaleString(`en-IN`, { maximumFractionDigits: 2 });
+    },
+    pct(e, t) {
+      return e == null
+        ? `—`
+        : (t == null ? Math.round(e) : Number(e).toFixed(t)) + `%`;
+    },
+    initials(e) {
+      return String(e || ``)
+        .replace(/^(Dr|Mr|Ms|Mrs|Nurse)\.?\s+/i, ``)
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((e) => e[0])
+        .join(``)
+        .toUpperCase();
+    },
+    date(e) {
+      if (!e) return `—`;
+      let t =
+        typeof e == `string` && /^\d{4}-\d{2}-\d{2}$/.test(e)
+          ? new Date(e + `T00:00:00`)
+          : new Date(e);
+      return Number.isNaN(t.getTime())
+        ? `—`
+        : t.toLocaleDateString(`en-GB`, {
+            day: `2-digit`,
+            month: `short`,
+            year: `numeric`,
+          });
+    },
+    dateShort(e) {
+      if (!e) return `—`;
+      let t =
+        typeof e == `string` && /^\d{4}-\d{2}-\d{2}$/.test(e)
+          ? new Date(e + `T00:00:00`)
+          : new Date(e);
+      return Number.isNaN(t.getTime())
+        ? `—`
+        : t.toLocaleDateString(`en-GB`, { day: `2-digit`, month: `short` });
+    },
+    time(e) {
+      if (!e) return `—`;
+      let t = new Date(e);
+      return Number.isNaN(t.getTime())
+        ? String(e).slice(0, 5)
+        : t.toLocaleTimeString(`en-IN`, {
+            hour: `2-digit`,
+            minute: `2-digit`,
+            hour12: !0,
+            timeZone: `Asia/Kolkata`,
+          });
+    },
+    dateTime(e) {
+      return e
+        ? new Date(e).toLocaleString(`en-IN`, {
+            day: `2-digit`,
+            month: `short`,
+            hour: `2-digit`,
+            minute: `2-digit`,
+            hour12: !0,
+            timeZone: `Asia/Kolkata`,
+          })
+        : `—`;
+    },
+    relative(e) {
+      if (!e) return `—`;
+      let t = new Date(e),
+        n = (Date.now() - t.getTime()) / 1e3;
+      if (n < 0) return V.dateTime(t);
+      if (n < 60) return `Just now`;
+      if (n < 3600) return `${Math.floor(n / 60)} min ago`;
+      let r = ve(),
+        i = _e(t);
+      if (i === r) return V.time(t);
+      let a = new Date();
+      return (
+        a.setDate(a.getDate() - 1),
+        i === _e(a) ? `Yesterday` : V.dateShort(t)
+      );
+    },
+    duration(e) {
+      return e < 60
+        ? `${Math.round(e)} min`
+        : `${Math.floor(e / 60)} h ${Math.round(e % 60)} min`;
+    },
+    coord(e) {
+      return e == null ? `—` : Number(e).toFixed(4);
+    },
+  };
+function _e(e) {
+  return new Intl.DateTimeFormat(`en-CA`, { timeZone: `Asia/Kolkata` }).format(
+    e,
+  );
+}
+function ve() {
+  return _e(new Date());
+}
+function H(...e) {
+  return e.filter(Boolean).join(` `);
+}
+var ye = { fmt: V };
+(function (e) {
+  var t = [
+      `var(--viz-1)`,
+      `var(--viz-2)`,
+      `var(--viz-3)`,
+      `var(--viz-4)`,
+      `var(--viz-5)`,
+      `var(--viz-6)`,
+      `var(--viz-7)`,
+      `var(--viz-8)`,
+    ],
+    n = `var(--viz-grid)`,
+    r = `var(--text-muted)`;
+  function i(e) {
+    return String(e)
+      .replace(/&/g, `&amp;`)
+      .replace(/</g, `&lt;`)
+      .replace(/>/g, `&gt;`);
+  }
+  function a(e) {
+    if (e <= 0) return 10;
+    var t = 10 ** Math.floor(Math.log10(e)),
+      n = e / t;
+    return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * t;
+  }
+  function o(e, t, n, r) {
+    var a = r
+      ? `width:100%;max-width:` +
+        e +
+        `px;height:auto;display:block;margin:0 auto`
+      : `width:100%;height:auto;display:block`;
+    return (
+      `<svg viewBox="0 0 ` +
+      e +
+      ` ` +
+      t +
+      `" style="` +
+      a +
+      `" role="img" aria-label="` +
+      i(n || `chart`) +
+      `" font-family="Inter, system-ui, sans-serif">`
+    );
+  }
+  function s(e, t, n) {
+    var r = e
+      .map(function (e, t) {
+        return (t ? `L` : `M`) + e[0].toFixed(1) + ` ` + e[1].toFixed(1);
+      })
+      .join(` `);
+    return (
+      t &&
+        (r +=
+          ` L` +
+          e[e.length - 1][0].toFixed(1) +
+          ` ` +
+          n +
+          ` L` +
+          e[0][0].toFixed(1) +
+          ` ` +
+          n +
+          ` Z`),
+      r
+    );
+  }
+  ((e.charts = {}),
+    (e.charts.line = function (c) {
+      var l = 680,
+        u = c.height || 230,
+        d = { t: 16, r: 16, b: 28, l: 42 },
+        f = l - d.l - d.r,
+        p = u - d.t - d.b,
+        m = [];
+      c.series.forEach(function (e) {
+        m = m.concat(e.values);
+      });
+      for (
+        var h = c.yMax == null ? a(Math.max.apply(null, m) * 1.08) : c.yMax,
+          g = c.yMin == null ? 0 : c.yMin,
+          _ = c.labels.length,
+          v = function (e) {
+            return d.l + (_ === 1 ? f / 2 : (e / (_ - 1)) * f);
+          },
+          y = function (e) {
+            return d.t + p - ((e - g) / (h - g)) * p;
+          },
+          b = o(l, u, c.label || `Line chart`),
+          x = 0;
+        x <= 4;
+        x++
+      ) {
+        var S = d.t + (x / 4) * p,
+          C = h - (x / 4) * (h - g);
+        ((b +=
+          `<line x1="` +
+          d.l +
+          `" y1="` +
+          S +
+          `" x2="` +
+          (l - d.r) +
+          `" y2="` +
+          S +
+          `" stroke="` +
+          n +
+          `" stroke-width="1"/>`),
+          (b +=
+            `<text x="` +
+            (d.l - 8) +
+            `" y="` +
+            (S + 4) +
+            `" text-anchor="end" font-size="10" fill="` +
+            r +
+            `">` +
+            e.fmt.compact(C) +
+            (c.unit || ``) +
+            `</text>`));
+      }
+      return (
+        c.labels.forEach(function (e, t) {
+          (_ > 12 && t % 2) ||
+            (b +=
+              `<text x="` +
+              v(t) +
+              `" y="` +
+              (u - 8) +
+              `" text-anchor="middle" font-size="10" fill="` +
+              r +
+              `">` +
+              i(e) +
+              `</text>`);
+        }),
+        c.series.forEach(function (e, n) {
+          var r = e.color || t[n % t.length],
+            a = e.values.map(function (e, t) {
+              return [v(t), y(e)];
+            });
+          (e.fill !== !1 &&
+            n === 0 &&
+            c.area !== !1 &&
+            (b +=
+              `<path d="` +
+              s(a, !0, d.t + p) +
+              `" fill="` +
+              r +
+              `" opacity=".08"/>`),
+            (b +=
+              `<path d="` +
+              s(a) +
+              `" fill="none" stroke="` +
+              r +
+              `" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"` +
+              (e.dashed ? ` stroke-dasharray="5 4"` : ``) +
+              `/>`),
+            c.showDots !== !1 &&
+              a.forEach(function (t, n) {
+                b +=
+                  `<circle cx="` +
+                  t[0].toFixed(1) +
+                  `" cy="` +
+                  t[1].toFixed(1) +
+                  `" r="3" style="fill:var(--surface)" stroke="` +
+                  r +
+                  `" stroke-width="2"><title>` +
+                  i(
+                    e.name +
+                      ` — ` +
+                      c.labels[n] +
+                      `: ` +
+                      e.values[n] +
+                      (c.unit || ``),
+                  ) +
+                  `</title></circle>`;
+              }));
+        }),
+        b + `</svg>`
+      );
+    }),
+    (e.charts.bar = function (s) {
+      var c = 680,
+        l = s.height || 230,
+        u = { t: 16, r: 14, b: 30, l: 42 },
+        d = c - u.l - u.r,
+        f = l - u.t - u.b,
+        p = [];
+      s.series.forEach(function (e) {
+        p = p.concat(e.values);
+      });
+      for (
+        var m = s.yMax == null ? a(Math.max.apply(null, p) * 1.1) : s.yMax,
+          h = s.labels.length,
+          g = s.series.length,
+          _ = d / h,
+          v = Math.min(s.maxBar || 34, (_ * 0.68) / g),
+          y = function (e) {
+            return u.t + f - (e / m) * f;
+          },
+          b = o(c, l, s.label || `Bar chart`),
+          x = 0;
+        x <= 4;
+        x++
+      ) {
+        var S = u.t + (x / 4) * f;
+        ((b +=
+          `<line x1="` +
+          u.l +
+          `" y1="` +
+          S +
+          `" x2="` +
+          (c - u.r) +
+          `" y2="` +
+          S +
+          `" stroke="` +
+          n +
+          `"/>`),
+          (b +=
+            `<text x="` +
+            (u.l - 8) +
+            `" y="` +
+            (S + 4) +
+            `" text-anchor="end" font-size="10" fill="` +
+            r +
+            `">` +
+            e.fmt.compact(m - (x / 4) * m) +
+            `</text>`));
+      }
+      return (
+        s.labels.forEach(function (e, n) {
+          var a = u.l + _ * n + _ / 2;
+          ((b +=
+            `<text x="` +
+            a +
+            `" y="` +
+            (l - 9) +
+            `" text-anchor="middle" font-size="10" fill="` +
+            r +
+            `">` +
+            i(e) +
+            `</text>`),
+            s.series.forEach(function (r, o) {
+              var s = r.values[n],
+                c = r.colors ? r.colors[n] : r.color || t[o % t.length],
+                l = a - (v * g) / 2 + o * v,
+                d = Math.max(2, f - (y(s) - u.t));
+              b +=
+                `<rect x="` +
+                (l + 1).toFixed(1) +
+                `" y="` +
+                y(s).toFixed(1) +
+                `" width="` +
+                (v - 2).toFixed(1) +
+                `" height="` +
+                d.toFixed(1) +
+                `" rx="3" fill="` +
+                c +
+                `"><title>` +
+                i(r.name + ` — ` + e + `: ` + s) +
+                `</title></rect>`;
+            }));
+        }),
+        s.target != null &&
+          (b +=
+            `<line x1="` +
+            u.l +
+            `" y1="` +
+            y(s.target) +
+            `" x2="` +
+            (c - u.r) +
+            `" y2="` +
+            y(s.target) +
+            `" stroke="var(--critical)" stroke-width="1.4" stroke-dasharray="5 4"/><text x="` +
+            (c - u.r) +
+            `" y="` +
+            (y(s.target) - 5) +
+            `" text-anchor="end" font-size="10" fill="var(--critical)">` +
+            i(s.targetLabel || `Target`) +
+            `</text>`),
+        b + `</svg>`
+      );
+    }),
+    (e.charts.hbar = function (e) {
+      var n = e.rows,
+        r = e.rowH || 30,
+        a = Math.min(e.labelW || 150, 180),
+        o =
+          Math.max.apply(
+            null,
+            n.map(function (e) {
+              return e.value;
+            }),
+          ) || 1,
+        s = Math.max(6, Math.min(14, r - 16)),
+        c =
+          `<div class="hbar" role="img" aria-label="` +
+          i(e.label || `Horizontal bar chart`) +
+          `" style="--hbar-label:` +
+          a +
+          `px;--hbar-row:` +
+          r +
+          `px;--hbar-bar:` +
+          s +
+          `px">`;
+      return (
+        n.forEach(function (e, n) {
+          var r = Math.max(e.value > 0 ? 1.5 : 0, (e.value / o) * 100),
+            a = e.display == null ? e.value : e.display;
+          c +=
+            `<div class="hbar__row" title="` +
+            i(e.label + `: ` + a) +
+            `"><span class="hbar__label">` +
+            i(e.label) +
+            `</span><span class="hbar__track"><span class="hbar__fill" style="width:` +
+            r.toFixed(1) +
+            `%;background:` +
+            (e.color || t[n % t.length]) +
+            `"></span></span><span class="hbar__val">` +
+            i(a) +
+            `</span></div>`;
+        }),
+        c + `</div>`
+      );
+    }),
+    (e.charts.stacked = function (s) {
+      for (
+        var c = 680,
+          l = s.height || 230,
+          u = { t: 16, r: 14, b: 30, l: 42 },
+          d = c - u.l - u.r,
+          f = l - u.t - u.b,
+          p = s.labels.length,
+          m = s.labels.map(function (e, t) {
+            return s.series.reduce(function (e, n) {
+              return e + n.values[t];
+            }, 0);
+          }),
+          h = s.yMax == null ? a(Math.max.apply(null, m) * 1.08) : s.yMax,
+          g = d / p,
+          _ = Math.min(s.maxBar || 40, g * 0.62),
+          v = o(c, l, s.label || `Stacked bar chart`),
+          y = 0;
+        y <= 4;
+        y++
+      ) {
+        var b = u.t + (y / 4) * f;
+        ((v +=
+          `<line x1="` +
+          u.l +
+          `" y1="` +
+          b +
+          `" x2="` +
+          (c - u.r) +
+          `" y2="` +
+          b +
+          `" stroke="` +
+          n +
+          `"/>`),
+          (v +=
+            `<text x="` +
+            (u.l - 8) +
+            `" y="` +
+            (b + 4) +
+            `" text-anchor="end" font-size="10" fill="` +
+            r +
+            `">` +
+            e.fmt.compact(h - (y / 4) * h) +
+            `</text>`));
+      }
+      return (
+        s.labels.forEach(function (e, n) {
+          var a = u.l + g * n + g / 2,
+            o = 0;
+          ((v +=
+            `<text x="` +
+            a +
+            `" y="` +
+            (l - 9) +
+            `" text-anchor="middle" font-size="10" fill="` +
+            r +
+            `">` +
+            i(e) +
+            `</text>`),
+            s.series.forEach(function (r, s) {
+              var c = r.values[n],
+                l = (c / h) * f,
+                d = u.t + f - o - l;
+              ((o += l),
+                (v +=
+                  `<rect x="` +
+                  (a - _ / 2) +
+                  `" y="` +
+                  d.toFixed(1) +
+                  `" width="` +
+                  _ +
+                  `" height="` +
+                  Math.max(1, l).toFixed(1) +
+                  `" fill="` +
+                  (r.color || t[s % t.length]) +
+                  `"><title>` +
+                  i(r.name + ` — ` + e + `: ` + c) +
+                  `</title></rect>`));
+            }));
+        }),
+        v + `</svg>`
+      );
+    }),
+    (e.charts.donut = function (e) {
+      var n = e.size || 180,
+        a = n / 2,
+        s = e.thickness || 26,
+        c = a - s / 2,
+        l =
+          e.data.reduce(function (e, t) {
+            return e + t.value;
+          }, 0) || 1,
+        u = o(n, n, e.label || `Donut chart`, !0),
+        d = -Math.PI / 2;
+      return (
+        e.data.forEach(function (e, n) {
+          var r = e.value / l,
+            o = d + r * Math.PI * 2,
+            f = +(r > 0.5),
+            p = a + c * Math.cos(d),
+            m = a + c * Math.sin(d),
+            h = a + c * Math.cos(o),
+            g = a + c * Math.sin(o);
+          ((u +=
+            r >= 0.9999
+              ? `<circle cx="` +
+                a +
+                `" cy="` +
+                a +
+                `" r="` +
+                c +
+                `" fill="none" stroke="` +
+                (e.color || t[n]) +
+                `" stroke-width="` +
+                s +
+                `"/>`
+              : `<path d="M` +
+                p.toFixed(2) +
+                ` ` +
+                m.toFixed(2) +
+                ` A` +
+                c +
+                ` ` +
+                c +
+                ` 0 ` +
+                f +
+                ` 1 ` +
+                h.toFixed(2) +
+                ` ` +
+                g.toFixed(2) +
+                `" fill="none" stroke="` +
+                (e.color || t[n % t.length]) +
+                `" stroke-width="` +
+                s +
+                `"><title>` +
+                i(
+                  e.label + `: ` + e.value + ` (` + Math.round(r * 100) + `%)`,
+                ) +
+                `</title></path>`),
+            (d = o));
+        }),
+        e.center &&
+          ((u +=
+            `<text x="` +
+            a +
+            `" y="` +
+            (a - 2) +
+            `" text-anchor="middle" font-size="` +
+            (e.centerSize || 22) +
+            `" font-weight="600" fill="var(--text-strong)">` +
+            i(e.center) +
+            `</text>`),
+          e.centerSub &&
+            (u +=
+              `<text x="` +
+              a +
+              `" y="` +
+              (a + 15) +
+              `" text-anchor="middle" font-size="10" fill="` +
+              r +
+              `">` +
+              i(e.centerSub) +
+              `</text>`)),
+        u + `</svg>`
+      );
+    }),
+    (e.charts.gauge = function (e) {
+      var t = 200,
+        n = 116,
+        a = 78,
+        s = t / 2,
+        c = 98,
+        l = 16,
+        u = Math.max(0, Math.min(100, e.percent));
+      function d(e) {
+        var t = Math.PI + (e / 100) * Math.PI;
+        return [s + a * Math.cos(t), c + a * Math.sin(t)];
+      }
+      var f = d(0),
+        p = d(100),
+        m = d(u),
+        h = o(t, n, e.label || `Gauge`, !0);
+      return (
+        (h +=
+          `<path d="M` +
+          f[0] +
+          ` ` +
+          f[1] +
+          ` A` +
+          a +
+          ` ` +
+          a +
+          ` 0 0 1 ` +
+          p[0] +
+          ` ` +
+          p[1] +
+          `" fill="none" stroke="var(--bg-sunken)" stroke-width="` +
+          l +
+          `" stroke-linecap="round"/>`),
+        (h +=
+          `<path d="M` +
+          f[0] +
+          ` ` +
+          f[1] +
+          ` A` +
+          a +
+          ` ` +
+          a +
+          ` 0 ` +
+          +(u > 50) +
+          ` 1 ` +
+          m[0].toFixed(2) +
+          ` ` +
+          m[1].toFixed(2) +
+          `" fill="none" stroke="` +
+          (e.color || `var(--teal)`) +
+          `" stroke-width="` +
+          l +
+          `" stroke-linecap="round"/>`),
+        (h +=
+          `<text x="` +
+          s +
+          `" y="` +
+          (c - 12) +
+          `" text-anchor="middle" font-size="26" font-weight="600" fill="var(--text-strong)">` +
+          i(e.value || u + `%`) +
+          `</text>`),
+        e.sub &&
+          (h +=
+            `<text x="` +
+            s +
+            `" y="` +
+            (c + 8) +
+            `" text-anchor="middle" font-size="10" fill="` +
+            r +
+            `">` +
+            i(e.sub) +
+            `</text>`),
+        h + `</svg>`
+      );
+    }),
+    (e.charts.spark = function (e, t) {
+      t ||= {};
+      var n = t.width || 74,
+        r = t.height || 26,
+        i = 2,
+        a = Math.max.apply(null, e),
+        o = Math.min.apply(null, e),
+        c = a - o || 1,
+        l = e.map(function (t, a) {
+          return [
+            i + (a / (e.length - 1)) * (n - i * 2),
+            r - i - ((t - o) / c) * (r - i * 2),
+          ];
+        }),
+        u = t.color || `var(--teal)`,
+        d =
+          `<svg width="` +
+          n +
+          `" height="` +
+          r +
+          `" viewBox="0 0 ` +
+          n +
+          ` ` +
+          r +
+          `" aria-hidden="true">`;
+      return (
+        t.fill !== !1 &&
+          (d +=
+            `<path d="` + s(l, !0, r) + `" fill="` + u + `" opacity=".12"/>`),
+        (d +=
+          `<path d="` +
+          s(l) +
+          `" fill="none" stroke="` +
+          u +
+          `" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`),
+        (d +=
+          `<circle cx="` +
+          l[l.length - 1][0].toFixed(1) +
+          `" cy="` +
+          l[l.length - 1][1].toFixed(1) +
+          `" r="2.2" fill="` +
+          u +
+          `"/>`),
+        d + `</svg>`
+      );
+    }),
+    (e.charts.ring = function (e, t) {
+      t ||= {};
+      var n = t.size || 52,
+        r = t.stroke || 5,
+        i = (n - r) / 2,
+        a = 2 * Math.PI * i,
+        o = t.color || `var(--teal)`;
+      return (
+        `<svg width="` +
+        n +
+        `" height="` +
+        n +
+        `" viewBox="0 0 ` +
+        n +
+        ` ` +
+        n +
+        `" aria-label="` +
+        e +
+        ` percent"><circle cx="` +
+        n / 2 +
+        `" cy="` +
+        n / 2 +
+        `" r="` +
+        i +
+        `" fill="none" stroke="var(--bg-sunken)" stroke-width="` +
+        r +
+        `"/><circle cx="` +
+        n / 2 +
+        `" cy="` +
+        n / 2 +
+        `" r="` +
+        i +
+        `" fill="none" stroke="` +
+        o +
+        `" stroke-width="` +
+        r +
+        `" stroke-linecap="round" stroke-dasharray="` +
+        a.toFixed(1) +
+        `" stroke-dashoffset="` +
+        (a * (1 - e / 100)).toFixed(1) +
+        `" transform="rotate(-90 ` +
+        n / 2 +
+        ` ` +
+        n / 2 +
+        `)"/>` +
+        (t.label === !1
+          ? ``
+          : `<text x="50%" y="50%" text-anchor="middle" dy="3.5" font-size="` +
+            (t.fontSize || 12) +
+            `" font-weight="600" fill="var(--text-strong)">` +
+            (t.text || e + `%`) +
+            `</text>`) +
+        `</svg>`
+      );
+    }),
+    (e.charts.radar = function (e) {
+      var a = e.size || 240,
+        s = a / 2,
+        c = s - 34,
+        l = e.axes.length,
+        u = o(a, a, e.label || `Radar chart`, !0);
+      function d(e, t) {
+        var n = -Math.PI / 2 + (e / l) * Math.PI * 2;
+        return [
+          s + (t / 100) * c * Math.cos(n),
+          s + (t / 100) * c * Math.sin(n),
+        ];
+      }
+      return (
+        [25, 50, 75, 100].forEach(function (t) {
+          var r = e.axes.map(function (e, n) {
+            return d(n, t);
+          });
+          u +=
+            `<polygon points="` +
+            r
+              .map(function (e) {
+                return e[0].toFixed(1) + `,` + e[1].toFixed(1);
+              })
+              .join(` `) +
+            `" fill="none" stroke="` +
+            n +
+            `"/>`;
+        }),
+        e.axes.forEach(function (e, t) {
+          var a = d(t, 100);
+          u +=
+            `<line x1="` +
+            s +
+            `" y1="` +
+            s +
+            `" x2="` +
+            a[0].toFixed(1) +
+            `" y2="` +
+            a[1].toFixed(1) +
+            `" stroke="` +
+            n +
+            `"/>`;
+          var o = d(t, 122);
+          u +=
+            `<text x="` +
+            o[0].toFixed(1) +
+            `" y="` +
+            o[1].toFixed(1) +
+            `" text-anchor="middle" dy="3" font-size="10" fill="` +
+            r +
+            `">` +
+            i(e) +
+            `</text>`;
+        }),
+        (e.series || []).forEach(function (n, r) {
+          var a = n.color || t[r % t.length],
+            o = n.values.map(function (e, t) {
+              return d(t, e);
+            });
+          ((u +=
+            `<polygon points="` +
+            o
+              .map(function (e) {
+                return e[0].toFixed(1) + `,` + e[1].toFixed(1);
+              })
+              .join(` `) +
+            `" fill="` +
+            a +
+            `" fill-opacity=".14" stroke="` +
+            a +
+            `" stroke-width="2" stroke-linejoin="round"/>`),
+            o.forEach(function (t, r) {
+              u +=
+                `<circle cx="` +
+                t[0].toFixed(1) +
+                `" cy="` +
+                t[1].toFixed(1) +
+                `" r="2.8" fill="` +
+                a +
+                `"><title>` +
+                i(e.axes[r] + `: ` + n.values[r]) +
+                `</title></circle>`;
+            }));
+        }),
+        u + `</svg>`
+      );
+    }),
+    (e.charts.legend = function (e) {
+      return (
+        `<div class="legend">` +
+        e
+          .map(function (e, n) {
+            return (
+              `<span class="legend__item"><span class="legend__swatch" style="background:` +
+              (e.color || t[n % t.length]) +
+              `"></span>` +
+              i(e.label) +
+              `</span>`
+            );
+          })
+          .join(``) +
+        `</div>`
+      );
+    }),
+    (e.charts.SERIES = t));
+})(ye);
+var U = ye.charts,
+  be = (e, t) =>
+    `M100 112 C ${100 - t} ${112 - e * 0.45}, ${100 - t * 0.55} ${112 - e * 0.85}, 100 ${112 - e} C ${100 + t * 0.55} ${112 - e * 0.85}, ${100 + t} ${112 - e * 0.45}, 100 112 Z`,
+  xe = [
+    [-80, 74, 26],
+    [80, 74, 26],
+    [-56, 84, 20],
+    [56, 84, 20],
+    [-29, 92, 19],
+    [29, 92, 19],
+    [0, 102, 19],
+  ];
+function Se({ className: e, waves: t = !0, title: n }) {
+  let r = (0, x.useId)().replace(/:/g, ``);
+  return (0, F.jsxs)(`svg`, {
+    className: e,
+    viewBox: `0 0 200 150`,
+    role: n ? `img` : void 0,
+    "aria-hidden": !n || void 0,
+    "aria-label": n,
+    children: [
+      (0, F.jsxs)(`defs`, {
+        children: [
+          (0, F.jsxs)(`linearGradient`, {
+            id: `lp${r}`,
+            x1: `0`,
+            y1: `0`,
+            x2: `1`,
+            y2: `1`,
+            children: [
+              (0, F.jsx)(`stop`, { offset: `0`, stopColor: `#F2558A` }),
+              (0, F.jsx)(`stop`, { offset: `.45`, stopColor: `#D11A5B` }),
+              (0, F.jsx)(`stop`, { offset: `1`, stopColor: `#8E0634` }),
+            ],
+          }),
+          (0, F.jsxs)(`linearGradient`, {
+            id: `lg${r}`,
+            x1: `0`,
+            y1: `0`,
+            x2: `0`,
+            y2: `1`,
+            children: [
+              (0, F.jsx)(`stop`, { offset: `0`, stopColor: `#FFE08A` }),
+              (0, F.jsx)(`stop`, { offset: `1`, stopColor: `#D99A1E` }),
+            ],
+          }),
+          (0, F.jsxs)(`linearGradient`, {
+            id: `lw${r}`,
+            x1: `0`,
+            y1: `0`,
+            x2: `1`,
+            y2: `0`,
+            children: [
+              (0, F.jsx)(`stop`, {
+                offset: `0`,
+                stopColor: `#C2124F`,
+                stopOpacity: `0`,
+              }),
+              (0, F.jsx)(`stop`, { offset: `.5`, stopColor: `#C2124F` }),
+              (0, F.jsx)(`stop`, {
+                offset: `1`,
+                stopColor: `#C2124F`,
+                stopOpacity: `.2`,
+              }),
+            ],
+          }),
+        ],
+      }),
+      xe.map(([e, t, n]) =>
+        (0, F.jsxs)(
+          `g`,
+          {
+            transform: `rotate(${e} 100 112)`,
+            children: [
+              (0, F.jsx)(`path`, {
+                d: be(t, n),
+                fill: `url(#lp${r})`,
+                stroke: `url(#lg${r})`,
+                strokeWidth: `1.8`,
+                strokeLinejoin: `round`,
+              }),
+              (0, F.jsx)(`path`, {
+                d: `M100 ${112 - t * 0.12} Q ${100 - n * 0.12} ${112 - t * 0.55}, 100 ${112 - t * 0.93}`,
+                fill: `none`,
+                stroke: `#FFFFFF`,
+                strokeOpacity: `.28`,
+                strokeWidth: `1.4`,
+                strokeLinecap: `round`,
+              }),
+            ],
+          },
+          e + `:` + t,
+        ),
+      ),
+      t &&
+        (0, F.jsxs)(`g`, {
+          fill: `none`,
+          stroke: `url(#lw${r})`,
+          strokeLinecap: `round`,
+          children: [
+            (0, F.jsx)(`path`, {
+              d: `M72 122 C 88 114, 104 116, 116 124`,
+              strokeWidth: `3.2`,
+            }),
+            (0, F.jsx)(`path`, {
+              d: `M84 131 C 102 122, 122 124, 138 134`,
+              strokeWidth: `3.6`,
+            }),
+            (0, F.jsx)(`path`, {
+              d: `M60 138 C 80 128, 104 130, 120 141`,
+              strokeWidth: `3.2`,
+            }),
+          ],
+        }),
+    ],
+  });
+}
+function Ce({ className: e, waves: t }) {
+  return (0, F.jsx)(`span`, {
+    className: e,
+    "aria-hidden": `true`,
+    children: (0, F.jsx)(Se, { waves: t }),
+  });
+}
+function we({ className: e }) {
+  return (0, F.jsxs)(`span`, {
+    className: `lotusdivider${e ? ` ${e}` : ``}`,
+    "aria-hidden": `true`,
+    children: [
+      (0, F.jsx)(`i`, {}),
+      (0, F.jsx)(Se, { waves: !1 }),
+      (0, F.jsx)(`i`, {}),
+    ],
+  });
+}
+var Te = [
+  ``,
+  `avatar--blue`,
+  `avatar--plum`,
+  `avatar--sage`,
+  `avatar--amber-soft`,
+  `avatar--slate`,
+];
+function Ee(e) {
+  let t = String(e || ``),
+    n = 0;
+  for (let e = 0; e < t.length; e++) n = (n * 31 + t.charCodeAt(e)) % 997;
+  return Te[n % Te.length];
+}
+function De(e) {
+  return (
+    {
+      "At Risk": `critical`,
+      "Developing Risk": `warning`,
+      "On Track": `success`,
+      Watch: `caution`,
+    }[e ?? ``] ?? `neutral`
+  );
+}
+var Oe = {
+  Approved: `success`,
+  Paid: `success`,
+  Present: `success`,
+  present: `success`,
+  Completed: `success`,
+  Enrolled: `success`,
+  Closed: `success`,
+  Active: `success`,
+  active: `success`,
+  Verified: `success`,
+  Released: `success`,
+  Cleared: `success`,
+  "On Track": `success`,
+  Resolved: `success`,
+  Onboard: `success`,
+  Success: `success`,
+  Issued: `success`,
+  Matched: `success`,
+  "At campus": `success`,
+  Published: `success`,
+  Booked: `success`,
+  Attended: `success`,
+  Accepted: `success`,
+  "Tracking Active": `success`,
+  Delivered: `success`,
+  Available: `success`,
+  Inside: `info`,
+  Pending: `warning`,
+  "Under Review": `warning`,
+  Submitted: `warning`,
+  Partial: `warning`,
+  Late: `warning`,
+  late: `warning`,
+  "In Progress": `warning`,
+  Draft: `neutral`,
+  Scheduled: `info`,
+  "Follow-up": `warning`,
+  "Due Soon": `warning`,
+  Delayed: `warning`,
+  "Renewal due": `warning`,
+  "Maintenance due": `warning`,
+  Unmatched: `warning`,
+  "Tracking Paused": `warning`,
+  paused: `warning`,
+  "Awaiting pickup": `warning`,
+  "Cover needed": `warning`,
+  "In maintenance": `warning`,
+  Maintenance: `warning`,
+  "Under review": `warning`,
+  Rejected: `critical`,
+  Overdue: `critical`,
+  Absent: `critical`,
+  absent: `critical`,
+  "At Risk": `critical`,
+  Breach: `critical`,
+  Expired: `critical`,
+  Escalated: `critical`,
+  Failed: `critical`,
+  Exception: `critical`,
+  Offline: `critical`,
+  offline: `critical`,
+  Lost: `critical`,
+  Denied: `critical`,
+  Critical: `critical`,
+  "No answer": `warning`,
+  Leave: `info`,
+  leave: `info`,
+  "On Leave": `info`,
+  New: `info`,
+  "New Lead": `info`,
+  Open: `info`,
+  Contacted: `info`,
+  Qualified: `info`,
+  "En route": `info`,
+  "In transit": `info`,
+  Expected: `info`,
+  Opened: `info`,
+  "Visit Scheduled": `info`,
+  "Tracking Disabled": `neutral`,
+  disabled: `neutral`,
+  "No Location Yet": `neutral`,
+  unmarked: `neutral`,
+  Waived: `neutral`,
+  Retired: `neutral`,
+  Cancelled: `neutral`,
+  Withdrawn: `neutral`,
+  Internal: `neutral`,
+};
+function ke(e) {
+  return Oe[e ?? ``] ?? `neutral`;
+}
+var Ae = [
+  `var(--viz-1)`,
+  `var(--viz-2)`,
+  `var(--viz-3)`,
+  `var(--viz-4)`,
+  `var(--viz-5)`,
+  `var(--viz-6)`,
+  `var(--viz-7)`,
+  `var(--viz-8)`,
+];
+function je(e) {
+  return e ? e.charAt(0).toUpperCase() + e.slice(1) : ``;
+}
+function W({ name: e, size: t = 18, className: n, style: r }) {
+  return (0, F.jsx)(`svg`, {
+    className: n,
+    style: r,
+    width: t,
+    height: t,
+    viewBox: `0 0 24 24`,
+    fill: `none`,
+    stroke: `currentColor`,
+    strokeWidth: 1.7,
+    strokeLinecap: `round`,
+    strokeLinejoin: `round`,
+    "aria-hidden": `true`,
+    dangerouslySetInnerHTML: {
+      __html: ge[e] ?? `<circle cx="12" cy="12" r="9"/>`,
+    },
+  });
+}
+function Me({ html: e, className: t, style: n }) {
+  return (0, F.jsx)(`span`, {
+    className: t,
+    style: n ?? { display: `contents` },
+    dangerouslySetInnerHTML: { __html: e },
+  });
+}
+function Ne({ size: e = 36 }) {
+  return (0, F.jsx)(`img`, {
+    src: `/logo-mark.webp`,
+    alt: `Holy Sai International School`,
+    width: e,
+    height: e,
+    className: `brandmark`,
+    style: { width: e, height: e, objectFit: `contain`, flex: `none` },
+  });
+}
+function Pe() {
+  return (0, F.jsx)(Me, { html: me() });
+}
+function Fe({ svg: e, className: t }) {
+  return (0, F.jsx)(`div`, {
+    className: t,
+    dangerouslySetInnerHTML: { __html: e },
+  });
+}
+function Ie({ items: e }) {
+  return (0, F.jsx)(Fe, { svg: U.legend(e) });
+}
+function G({
+  children: e,
+  tone: t = `neutral`,
+  dot: n,
+  icon: r,
+  lg: i,
+  title: a,
+}) {
+  return (0, F.jsxs)(`span`, {
+    className: H(`badge`, `badge--${t}`, i && `badge--lg`),
+    title: a,
+    children: [
+      n && (0, F.jsx)(`span`, { className: `dot dot--${t}` }),
+      r && (0, F.jsx)(W, { name: r, size: 12 }),
+      e,
+    ],
+  });
+}
+function Le({ value: e, dot: t, lg: n, label: r }) {
+  return e
+    ? (0, F.jsx)(G, { tone: ke(e), dot: t, lg: n, children: r ?? e })
+    : (0, F.jsx)(`span`, { className: `t-faint`, children: `—` });
+}
+function Re({ value: e }) {
+  return e
+    ? (0, F.jsx)(G, { tone: De(e), dot: !0, children: e })
+    : (0, F.jsx)(`span`, { className: `t-faint`, children: `—` });
+}
+function K({ name: e, size: t, tone: n, src: r }) {
+  let i = H(`avatar`, t && `avatar--${t}`, n ?? Ee(e));
+  return r
+    ? (0, F.jsx)(`img`, {
+        className: i,
+        src: r,
+        alt: ``,
+        style: { objectFit: `cover` },
+      })
+    : (0, F.jsx)(`span`, {
+        className: i,
+        "aria-hidden": `true`,
+        children: V.initials(e),
+      });
+}
+function ze({ name: e, meta: t, size: n = `sm`, tone: r, to: i, onClick: a }) {
+  let o = (0, F.jsxs)(F.Fragment, {
+    children: [
+      (0, F.jsx)(K, { name: e, size: n, tone: r }),
+      (0, F.jsxs)(`span`, {
+        className: `col`,
+        style: { minWidth: 0 },
+        children: [
+          (0, F.jsx)(`span`, { className: `person__name t-clip`, children: e }),
+          t
+            ? (0, F.jsx)(`span`, {
+                className: `person__meta t-clip`,
+                children: t,
+              })
+            : null,
+        ],
+      }),
+    ],
+  });
+  return i
+    ? (0, F.jsx)(y, {
+        className: `person person--link`,
+        to: i,
+        onClick: (e) => e.stopPropagation(),
+        children: o,
+      })
+    : a
+      ? (0, F.jsx)(`button`, {
+          type: `button`,
+          className: `person person--link`,
+          onClick: (e) => {
+            (e.stopPropagation(), a());
+          },
+          children: o,
+        })
+      : (0, F.jsx)(`span`, { className: `person`, children: o });
+}
+function Be({ id: e, name: t, meta: n }) {
+  return (0, F.jsx)(ze, { name: t, meta: n, to: `/student-360/${e}` });
+}
+var q = (0, x.forwardRef)(function (
+  {
+    variant: e = `ghost`,
+    size: t,
+    icon: n,
+    iconRight: i,
+    block: a,
+    to: o,
+    loading: s,
+    children: c,
+    className: l,
+    onClick: u,
+    disabled: d,
+    type: f = `button`,
+    ...p
+  },
+  m,
+) {
+  let h = r();
+  return (0, F.jsxs)(`button`, {
+    ref: m,
+    type: f,
+    className: H(
+      `btn`,
+      `btn--${e}`,
+      t && `btn--${t}`,
+      a && `btn--block`,
+      n && !c && `btn--icon`,
+      l,
+    ),
+    disabled: d || s,
+    "aria-busy": s || void 0,
+    onClick: (e) => {
+      (u?.(e), o && !e.defaultPrevented && h(o));
+    },
+    ...p,
+    children: [
+      s
+        ? (0, F.jsx)(He, { size: t === `sm` ? 13 : 15 })
+        : n
+          ? (0, F.jsx)(W, { name: n, size: t === `sm` ? 14 : 16 })
+          : null,
+      c,
+      i && (0, F.jsx)(W, { name: i, size: 15 }),
+    ],
+  });
+});
+function Ve({
+  icon: e,
+  label: t,
+  onClick: n,
+  to: i,
+  count: a,
+  className: o,
+  size: s = 18,
+  title: c,
+  ...l
+}) {
+  let u = r();
+  return (0, F.jsxs)(`button`, {
+    type: `button`,
+    className: H(`iconbtn`, o),
+    "aria-label": t,
+    title: c ?? t,
+    onClick: () => {
+      (n?.(), i && u(i));
+    },
+    ...l,
+    children: [
+      (0, F.jsx)(W, { name: e, size: s }),
+      a ? (0, F.jsx)(`span`, { className: `iconbtn__dot`, children: a }) : null,
+    ],
+  });
+}
+function He({ size: e = 16 }) {
+  return (0, F.jsxs)(`svg`, {
+    width: e,
+    height: e,
+    viewBox: `0 0 24 24`,
+    "aria-hidden": `true`,
+    style: { animation: `hs-spin .8s linear infinite` },
+    children: [
+      (0, F.jsx)(`circle`, {
+        cx: `12`,
+        cy: `12`,
+        r: `9`,
+        fill: `none`,
+        stroke: `currentColor`,
+        strokeWidth: `2.5`,
+        strokeOpacity: `.25`,
+      }),
+      (0, F.jsx)(`path`, {
+        d: `M21 12a9 9 0 0 0-9-9`,
+        fill: `none`,
+        stroke: `currentColor`,
+        strokeWidth: `2.5`,
+        strokeLinecap: `round`,
+      }),
+    ],
+  });
+}
+function J({
+  title: e,
+  sub: t,
+  actions: n,
+  children: r,
+  foot: i,
+  className: a,
+  flush: o,
+  tight: s,
+  id: c,
+  icon: l,
+}) {
+  return (0, F.jsxs)(`section`, {
+    className: H(`card`, a),
+    id: c,
+    children: [
+      (e || n) &&
+        (0, F.jsxs)(`div`, {
+          className: `card__head`,
+          children: [
+            l &&
+              (0, F.jsx)(`span`, {
+                className: `card__ico`,
+                children: (0, F.jsx)(W, { name: l, size: 20 }),
+              }),
+            (0, F.jsxs)(`div`, {
+              className: `grow`,
+              style: { minWidth: 0 },
+              children: [
+                e &&
+                  (0, F.jsx)(`div`, { className: `card__title`, children: e }),
+                t && (0, F.jsx)(`div`, { className: `card__sub`, children: t }),
+              ],
+            }),
+            n && (0, F.jsx)(`div`, { className: `row g-2 none`, children: n }),
+          ],
+        }),
+      (0, F.jsx)(`div`, {
+        className: o ? void 0 : H(`card__body`, s && `card__body--tight`),
+        children: r,
+      }),
+      i && (0, F.jsx)(`div`, { className: `card__foot`, children: i }),
+    ],
+  });
+}
+function Ue({ to: e, children: t = `View all` }) {
+  return (0, F.jsx)(y, { className: `cardlink`, to: e, children: t });
+}
+function We({
+  label: e,
+  value: t,
+  unit: n,
+  delta: i,
+  deltaUnit: a = `%`,
+  inverse: o,
+  foot: s,
+  spark: c,
+  sparkColor: l,
+  tone: u,
+  to: d,
+  onClick: f,
+  loading: p,
+  icon: m,
+  size: h,
+}) {
+  let g = r(),
+    _ = !!(d || f),
+    v = (i ?? 0) >= 0,
+    y = (0, F.jsxs)(F.Fragment, {
+      children: [
+        m &&
+          h !== `compact` &&
+          (0, F.jsx)(`span`, {
+            className: `kpi__tile`,
+            children: (0, F.jsx)(W, { name: m, size: 20 }),
+          }),
+        (0, F.jsxs)(`div`, {
+          className: `kpi__top`,
+          children: [
+            (0, F.jsx)(`div`, { className: `kpi__label`, children: e }),
+            m && h === `compact`
+              ? (0, F.jsx)(`span`, {
+                  className: `kpi__ico`,
+                  children: (0, F.jsx)(W, { name: m, size: 14 }),
+                })
+              : _
+                ? (0, F.jsx)(W, {
+                    name: `arrowRight`,
+                    size: 14,
+                    className: `kpi__go`,
+                  })
+                : null,
+          ],
+        }),
+        (0, F.jsxs)(`div`, {
+          className: `kpi__value`,
+          children: [
+            p
+              ? (0, F.jsx)(`span`, {
+                  className: `skeleton`,
+                  style: { display: `inline-block`, width: 72, height: 26 },
+                })
+              : t,
+            n && (0, F.jsxs)(`small`, { children: [` `, n] }),
+          ],
+        }),
+        (s || i != null) &&
+          (0, F.jsxs)(`div`, {
+            className: `kpi__foot`,
+            children: [
+              i != null &&
+                (0, F.jsxs)(`span`, {
+                  className: `kpi__delta kpi__delta--${(o ? !v : v) ? `up` : `down`}`,
+                  children: [
+                    (0, F.jsx)(W, {
+                      name: v ? `arrowUp` : `arrowDown`,
+                      size: 12,
+                    }),
+                    Math.abs(i),
+                    a,
+                  ],
+                }),
+              s && (0, F.jsx)(`span`, { children: s }),
+            ],
+          }),
+        c &&
+          c.length > 1 &&
+          (0, F.jsx)(`span`, {
+            className: `kpi__spark`,
+            children: (0, F.jsx)(Me, {
+              html: U.spark(c, { color: l ?? `var(--teal)` }),
+            }),
+          }),
+      ],
+    }),
+    b = H(`kpi`, u && `kpi--${u}`, h && `kpi--${h}`, _ && `kpi--link`);
+  return _
+    ? (0, F.jsx)(`button`, {
+        type: `button`,
+        className: b,
+        style: { textAlign: `left`, width: `100%` },
+        onClick: () => (f ? f() : g(d)),
+        children: y,
+      })
+    : (0, F.jsx)(`div`, {
+        className: b,
+        style: { textAlign: `left`, width: `100%` },
+        children: y,
+      });
+}
+function Ge({ label: e, value: t, right: n, tone: r, hint: i, lg: a }) {
+  return (0, F.jsxs)(`div`, {
+    className: `meter`,
+    children: [
+      (0, F.jsxs)(`div`, {
+        className: `meter__top`,
+        children: [
+          (0, F.jsx)(`span`, { className: `t-muted t-clip`, children: e }),
+          (0, F.jsx)(`span`, {
+            className: `t-bold t-num none`,
+            children: n ?? `${Math.round(t)}%`,
+          }),
+        ],
+      }),
+      (0, F.jsx)(`div`, {
+        className: H(`bar`, a && `bar--lg`),
+        children: (0, F.jsx)(`div`, {
+          className: H(`bar__fill`, r && `bar__fill--${r}`),
+          style: { width: `${Math.max(0, Math.min(100, t))}%` },
+        }),
+      }),
+      i && (0, F.jsx)(`div`, { className: `t-micro t-muted`, children: i }),
+    ],
+  });
+}
+function Ke({ items: e }) {
+  return (0, F.jsx)(`dl`, {
+    className: `dl`,
+    children: e.map(([e, t], n) =>
+      (0, F.jsxs)(
+        `div`,
+        {
+          style: { display: `contents` },
+          children: [
+            (0, F.jsx)(`dt`, { children: e }),
+            (0, F.jsx)(`dd`, { children: t ?? `—` }),
+          ],
+        },
+        n,
+      ),
+    ),
+  });
+}
+function Y({ title: e, sub: t, icon: n = `search`, action: r }) {
+  return (0, F.jsxs)(`div`, {
+    className: `empty`,
+    children: [
+      (0, F.jsxs)(`div`, {
+        className: `empty__art`,
+        children: [
+          (0, F.jsx)(Se, {}),
+          (0, F.jsx)(`span`, {
+            className: `empty__badge`,
+            children: (0, F.jsx)(W, { name: n, size: 13 }),
+          }),
+        ],
+      }),
+      (0, F.jsx)(`div`, { className: `h3`, children: e }),
+      t && (0, F.jsx)(`p`, { className: `t-sm t-muted mt-2`, children: t }),
+      r && (0, F.jsx)(`div`, { className: `row center mt-4`, children: r }),
+    ],
+  });
+}
+function qe({ children: e, tone: t, icon: n = `info` }) {
+  return (0, F.jsxs)(`div`, {
+    className: H(`banner`, t && `banner--${t}`),
+    role: t === `critical` ? `alert` : void 0,
+    children: [
+      (0, F.jsx)(W, { name: n, size: 17 }),
+      (0, F.jsx)(`div`, { className: `grow`, children: e }),
+    ],
+  });
+}
+function Je({ children: e }) {
+  return (0, F.jsxs)(`div`, {
+    className: `ai-advisory`,
+    children: [
+      (0, F.jsx)(W, { name: `info`, size: 13 }),
+      (0, F.jsx)(`span`, {
+        children:
+          e ??
+          (0, F.jsxs)(F.Fragment, {
+            children: [
+              (0, F.jsx)(`strong`, { children: `Advisory only.` }),
+              ` AI output is a suggestion. An authorised teacher or manager must review and approve before anything is published or acted on.`,
+            ],
+          }),
+      }),
+    ],
+  });
+}
+function Ye({ title: e, sub: t, right: n }) {
+  return (0, F.jsxs)(`div`, {
+    className: `section-head`,
+    children: [
+      (0, F.jsxs)(`div`, {
+        className: `grow`,
+        children: [
+          (0, F.jsx)(`div`, { className: `section-head__title`, children: e }),
+          t &&
+            (0, F.jsx)(`div`, { className: `section-head__sub`, children: t }),
+        ],
+      }),
+      n && (0, F.jsx)(`div`, { className: `row g-2 none`, children: n }),
+    ],
+  });
+}
+function Xe(e) {
+  let { pathname: t } = l(),
+    { t: n } = z(),
+    r = fe(t);
+  if (!r || (r.group === `Overview` && !r.nested)) return;
+  let i = [{ label: n(r.group) }];
+  return (
+    r.nested
+      ? (i.push({ label: n(r.label), to: r.to }),
+        typeof e == `string` && i.push({ label: e }))
+      : i.push({ label: n(r.label) }),
+    i
+  );
+}
+function Ze({ title: e, sub: t, crumbs: n, actions: r }) {
+  let i = Xe(e),
+    a = n === !1 ? void 0 : (n ?? i),
+    o = fe(l().pathname);
+  return (0, F.jsxs)(`div`, {
+    className: `pagehead`,
+    children: [
+      o &&
+        (0, F.jsx)(`span`, {
+          className: `pagehead__ico`,
+          "data-hue": o.hue,
+          "aria-hidden": `true`,
+          children: (0, F.jsx)(W, { name: o.icon, size: 20 }),
+        }),
+      (0, F.jsxs)(`div`, {
+        className: `grow`,
+        style: { minWidth: 0 },
+        children: [
+          a &&
+            (0, F.jsx)(`nav`, {
+              className: `breadcrumb`,
+              "aria-label": `Breadcrumb`,
+              children: a.map((e, t) =>
+                (0, F.jsxs)(
+                  `span`,
+                  {
+                    className: `row g-1`,
+                    style: { display: `inline-flex` },
+                    children: [
+                      t > 0 &&
+                        (0, F.jsx)(W, { name: `chevronRight`, size: 12 }),
+                      e.to
+                        ? (0, F.jsx)(y, { to: e.to, children: e.label })
+                        : (0, F.jsx)(`span`, {
+                            "aria-current":
+                              t === a.length - 1 ? `page` : void 0,
+                            children: e.label,
+                          }),
+                    ],
+                  },
+                  t,
+                ),
+              ),
+            }),
+          (0, F.jsx)(`h1`, { className: `pagehead__title`, children: e }),
+          (0, F.jsx)(we, { className: `pagehead__divider` }),
+          t && (0, F.jsx)(`p`, { className: `pagehead__sub`, children: t }),
+        ],
+      }),
+      r && (0, F.jsx)(`div`, { className: `pagehead__actions`, children: r }),
+    ],
+  });
+}
+function Qe({ children: e, className: t }) {
+  return (0, F.jsx)(`div`, { className: H(`page`, t), children: e });
+}
+function $e({ cols: e, children: t, className: n, style: r }) {
+  return (0, F.jsx)(`div`, {
+    className: H(`grid`, e, n),
+    style: r,
+    children: t,
+  });
+}
+function et({ children: e = `Sample data` }) {
+  return (0, F.jsxs)(`span`, {
+    className: `illustrative`,
+    children: [(0, F.jsx)(W, { name: `info`, size: 12 }), e],
+  });
+}
+function tt({ items: e }) {
+  return (0, F.jsx)(`div`, {
+    className: `statstrip`,
+    children: e.map((e) =>
+      (0, F.jsxs)(
+        `div`,
+        {
+          className: `statstrip__item`,
+          children: [
+            (0, F.jsx)(`div`, {
+              className: `statstrip__label`,
+              children: e.label,
+            }),
+            (0, F.jsx)(`div`, {
+              className: `statstrip__value`,
+              children: e.value,
+            }),
+          ],
+        },
+        e.label,
+      ),
+    ),
+  });
+}
+function nt({ items: e, active: t, onChange: n, pills: r }) {
+  return (0, F.jsx)(`div`, {
+    className: H(`tabs`, r && `tabs--pills`),
+    role: `tablist`,
+    children: e.map((e) =>
+      (0, F.jsxs)(
+        `button`,
+        {
+          type: `button`,
+          className: `tabs__item`,
+          role: `tab`,
+          "aria-selected": e.id === t,
+          onClick: () => n(e.id),
+          children: [
+            e.label,
+            e.count != null &&
+              (0, F.jsx)(`span`, {
+                className: `tag tabs__count`,
+                children: e.count,
+              }),
+          ],
+        },
+        e.id,
+      ),
+    ),
+  });
+}
+function rt({ items: e, active: t, onChange: n }) {
+  return (0, F.jsx)(`div`, {
+    className: `segment`,
+    role: `group`,
+    children: e.map((e) =>
+      (0, F.jsx)(
+        `button`,
+        {
+          type: `button`,
+          "aria-pressed": e.id === t,
+          onClick: () => n(e.id),
+          children: e.label,
+        },
+        e.id,
+      ),
+    ),
+  });
+}
+function it({ items: e, active: t, onChange: n }) {
+  return (0, F.jsx)(`div`, {
+    className: `row g-2 wrap`,
+    children: e.map((e) =>
+      (0, F.jsxs)(
+        `button`,
+        {
+          type: `button`,
+          className: `chip`,
+          "aria-pressed": e.id === t,
+          onClick: () => n(e.id),
+          children: [
+            e.tone && (0, F.jsx)(`span`, { className: `dot dot--${e.tone}` }),
+            e.label,
+            e.count != null &&
+              (0, F.jsxs)(`span`, {
+                className: `t-bold`,
+                children: [` `, e.count],
+              }),
+          ],
+        },
+        e.id,
+      ),
+    ),
+  });
+}
+function at({ checked: e, onChange: t, label: n, disabled: r }) {
+  return (0, F.jsxs)(`label`, {
+    className: `row g-2`,
+    style: { cursor: r ? `not-allowed` : `pointer` },
+    children: [
+      (0, F.jsxs)(`span`, {
+        className: `switch`,
+        children: [
+          (0, F.jsx)(`input`, {
+            type: `checkbox`,
+            checked: e,
+            disabled: r,
+            onChange: (e) => t(e.target.checked),
+            "aria-label": n,
+          }),
+          (0, F.jsx)(`span`, { className: `switch__track` }),
+        ],
+      }),
+      (0, F.jsx)(`span`, { className: `t-sm`, children: n }),
+    ],
+  });
+}
+function ot({
+  label: e,
+  hint: t,
+  error: n,
+  required: r,
+  className: i,
+  style: a,
+  children: o,
+  htmlFor: s,
+}) {
+  return (0, F.jsxs)(`div`, {
+    className: H(`field`, i),
+    style: a,
+    children: [
+      e &&
+        (0, F.jsxs)(`label`, {
+          className: `label`,
+          htmlFor: s,
+          children: [
+            e,
+            r && (0, F.jsx)(`span`, { className: `req`, children: ` *` }),
+          ],
+        }),
+      o,
+      n
+        ? (0, F.jsxs)(`span`, {
+            className: `hint hint--error`,
+            role: `alert`,
+            children: [(0, F.jsx)(W, { name: `alertCircle`, size: 13 }), n],
+          })
+        : t
+          ? (0, F.jsx)(`span`, { className: `hint`, children: t })
+          : null,
+    ],
+  });
+}
+function st({
+  label: e,
+  hint: t,
+  error: n,
+  required: r,
+  className: i,
+  style: a,
+  value: o,
+  onChange: s,
+  type: c = `text`,
+  ...l
+}) {
+  let u = (0, x.useId)();
+  return (0, F.jsx)(ot, {
+    label: e,
+    hint: t,
+    error: n,
+    required: r,
+    className: i,
+    style: a,
+    htmlFor: u,
+    children: (0, F.jsx)(`input`, {
+      id: u,
+      className: `input`,
+      type: c,
+      value: o ?? ``,
+      required: r,
+      "aria-invalid": !!n || void 0,
+      onChange: (e) => s(e.target.value),
+      ...l,
+    }),
+  });
+}
+function ct({
+  label: e,
+  hint: t,
+  error: n,
+  required: r,
+  className: i,
+  style: a,
+  value: o,
+  onChange: s,
+  rows: c = 4,
+  ...l
+}) {
+  let u = (0, x.useId)();
+  return (0, F.jsx)(ot, {
+    label: e,
+    hint: t,
+    error: n,
+    required: r,
+    className: i,
+    style: a,
+    htmlFor: u,
+    children: (0, F.jsx)(`textarea`, {
+      id: u,
+      className: `textarea`,
+      rows: c,
+      value: o ?? ``,
+      required: r,
+      "aria-invalid": !!n || void 0,
+      style: { height: `auto`, padding: `8px 12px` },
+      onChange: (e) => s(e.target.value),
+      ...l,
+    }),
+  });
+}
+function lt({
+  label: e,
+  hint: t,
+  error: n,
+  required: r,
+  className: i,
+  style: a,
+  value: o,
+  onChange: s,
+  options: c,
+  placeholder: l,
+  disabled: u,
+}) {
+  let d = (0, x.useId)();
+  return (0, F.jsx)(ot, {
+    label: e,
+    hint: t,
+    error: n,
+    required: r,
+    className: i,
+    style: a,
+    htmlFor: d,
+    children: (0, F.jsxs)(`select`, {
+      id: d,
+      className: `select`,
+      value: o ?? ``,
+      required: r,
+      disabled: u,
+      "aria-invalid": !!n || void 0,
+      onChange: (e) => s(e.target.value),
+      children: [
+        l !== void 0 && (0, F.jsx)(`option`, { value: ``, children: l }),
+        c.map((e) => {
+          let t = typeof e == `string` ? { value: e, label: e } : e;
+          return (0, F.jsx)(
+            `option`,
+            { value: t.value, children: t.label },
+            t.value,
+          );
+        }),
+      ],
+    }),
+  });
+}
+function ut({
+  value: e,
+  onChange: t,
+  options: n,
+  label: r,
+  allLabel: i = `All`,
+  style: a,
+}) {
+  return (0, F.jsxs)(`select`, {
+    className: `select`,
+    "aria-label": r,
+    value: e,
+    onChange: (e) => t(e.target.value),
+    style: { width: `auto`, minWidth: 130, ...a },
+    children: [
+      i !== null &&
+        (0, F.jsxs)(`option`, { value: ``, children: [r, `: `, i] }),
+      n.map((e) => {
+        let t = typeof e == `string` ? { value: e, label: e } : e;
+        return (0, F.jsx)(
+          `option`,
+          { value: t.value, children: t.label },
+          t.value,
+        );
+      }),
+    ],
+  });
+}
+function dt({ checked: e, onChange: t, label: n, disabled: r }) {
+  return (0, F.jsxs)(`label`, {
+    className: `check`,
+    children: [
+      (0, F.jsx)(`input`, {
+        type: `checkbox`,
+        checked: e,
+        disabled: r,
+        onChange: (e) => t(e.target.checked),
+      }),
+      n,
+    ],
+  });
+}
+function ft({
+  value: e,
+  onSearch: t,
+  placeholder: n = `Search…`,
+  maxWidth: r = 320,
+  delay: i = 250,
+}) {
+  let [a, o] = (0, x.useState)(e);
+  return (
+    (0, x.useEffect)(() => o(e), [e]),
+    (0, x.useEffect)(() => {
+      if (a === e) return;
+      let n = setTimeout(() => t(a.trim()), i);
+      return () => clearTimeout(n);
+    }, [a]),
+    (0, F.jsxs)(`div`, {
+      className: `input-icon grow`,
+      style: { maxWidth: r },
+      children: [
+        (0, F.jsx)(W, { name: `search`, size: 15 }),
+        (0, F.jsx)(`input`, {
+          className: `input`,
+          type: `search`,
+          placeholder: n,
+          "aria-label": n,
+          value: a,
+          onChange: (e) => o(e.target.value),
+        }),
+      ],
+    })
+  );
+}
+function pt({ items: e }) {
+  return (0, F.jsx)(`div`, {
+    className: `timeline`,
+    children: e.map((e, t) =>
+      (0, F.jsxs)(
+        `div`,
+        {
+          className: `timeline__item`,
+          children: [
+            (0, F.jsx)(`span`, {
+              className: H(
+                `timeline__dot`,
+                e.tone && e.tone !== `neutral` && `timeline__dot--${e.tone}`,
+              ),
+            }),
+            (0, F.jsx)(`div`, {
+              className: `timeline__time`,
+              children: e.time,
+            }),
+            (0, F.jsx)(`div`, {
+              className: `timeline__title`,
+              children: e.title,
+            }),
+            e.body &&
+              (0, F.jsx)(`div`, {
+                className: `timeline__body`,
+                children: e.body,
+              }),
+          ],
+        },
+        t,
+      ),
+    ),
+  });
+}
+function mt({ items: e }) {
+  return (0, F.jsx)(`div`, {
+    children: e.map((e, t) =>
+      (0, F.jsxs)(
+        `div`,
+        {
+          className: `feed__item`,
+          children: [
+            (0, F.jsx)(`span`, { className: `feed__time`, children: e.time }),
+            (0, F.jsx)(`span`, {
+              className: `none`,
+              style: { paddingTop: 1 },
+              children: (0, F.jsx)(W, {
+                name: e.icon ?? `activity`,
+                size: 15,
+                className: `t-muted`,
+              }),
+            }),
+            (0, F.jsxs)(`div`, {
+              className: `grow`,
+              children: [
+                (0, F.jsx)(`div`, { className: `t-sm`, children: e.text }),
+                e.meta &&
+                  (0, F.jsx)(`div`, {
+                    className: `t-micro t-muted`,
+                    children: e.meta,
+                  }),
+              ],
+            }),
+            e.badge &&
+              (0, F.jsx)(`span`, { className: `none`, children: e.badge }),
+          ],
+        },
+        t,
+      ),
+    ),
+  });
+}
+function ht({
+  tone: e,
+  icon: t = `alertCircle`,
+  title: n,
+  meta: i,
+  to: a,
+  onClick: o,
+  right: s,
+}) {
+  let c = r();
+  return (0, F.jsxs)(`button`, {
+    type: `button`,
+    className: `alert-item alert-item--${e}`,
+    onClick: () => (o ? o() : a && c(a)),
+    children: [
+      (0, F.jsx)(`span`, {
+        className: `alert-item__ico alert-item__ico--${e}`,
+        children: (0, F.jsx)(W, { name: t, size: 16 }),
+      }),
+      (0, F.jsxs)(`span`, {
+        className: `grow`,
+        style: { minWidth: 0 },
+        children: [
+          (0, F.jsx)(`span`, {
+            className: `alert-item__title`,
+            style: { display: `block` },
+            children: n,
+          }),
+          i &&
+            (0, F.jsx)(`span`, {
+              className: `alert-item__meta`,
+              style: { display: `block` },
+              children: i,
+            }),
+        ],
+      }),
+      s
+        ? (0, F.jsx)(`span`, { className: `none row g-2`, children: s })
+        : (0, F.jsx)(W, {
+            name: `chevronRight`,
+            size: 15,
+            className: `t-faint`,
+          }),
+    ],
+  });
+}
+function gt({ steps: e }) {
+  return (0, F.jsx)(`div`, {
+    className: `flow`,
+    children: e.map((e, t) =>
+      (0, F.jsxs)(
+        `div`,
+        {
+          className: H(`flow__step`, e.state && `flow__step--${e.state}`),
+          children: [
+            (0, F.jsx)(`span`, { className: `flow__label`, children: e.label }),
+            e.meta &&
+              (0, F.jsx)(`span`, { className: `flow__meta`, children: e.meta }),
+          ],
+        },
+        t,
+      ),
+    ),
+  });
+}
+function _t({ steps: e, active: t }) {
+  return (0, F.jsx)(`div`, {
+    className: `stepper`,
+    children: e.map((e, n) => {
+      let r = n < t ? `done` : n === t ? `active` : ``;
+      return (0, F.jsxs)(
+        `span`,
+        {
+          style: { display: `contents` },
+          children: [
+            n > 0 && (0, F.jsx)(`span`, { className: `stepper__line` }),
+            (0, F.jsxs)(`span`, {
+              className: H(`stepper__node`, r && `stepper__node--${r}`),
+              children: [
+                (0, F.jsx)(`span`, {
+                  className: `stepper__num`,
+                  children:
+                    n < t ? (0, F.jsx)(W, { name: `check`, size: 12 }) : n + 1,
+                }),
+                e,
+              ],
+            }),
+          ],
+        },
+        e,
+      );
+    }),
+  });
+}
+function vt({ rows: e, onSelect: t }) {
+  let n = e[0]?.value || 1,
+    r = [
+      `var(--viz-1)`,
+      `var(--viz-2)`,
+      `var(--viz-3)`,
+      `var(--viz-4)`,
+      `var(--viz-5)`,
+      `var(--viz-6)`,
+      `var(--viz-7)`,
+      `var(--viz-8)`,
+    ];
+  return (0, F.jsx)(`div`, {
+    className: `funnel`,
+    children: e.map((i, a) => {
+      let o =
+        a && e[a - 1].value
+          ? Math.round((i.value / e[a - 1].value) * 100)
+          : 100;
+      return (0, F.jsxs)(
+        `button`,
+        {
+          type: `button`,
+          className: `funnel__row`,
+          onClick: () => t?.(i.label),
+          children: [
+            (0, F.jsx)(`span`, {
+              className: `funnel__label`,
+              children: i.label,
+            }),
+            (0, F.jsx)(`span`, {
+              className: `funnel__track`,
+              children: (0, F.jsx)(`span`, {
+                className: `funnel__bar`,
+                style: {
+                  width: `${Math.max(10, (i.value / n) * 100)}%`,
+                  background: i.color ?? r[a % 8],
+                },
+                children: (0, F.jsx)(`span`, {
+                  className: `funnel__val`,
+                  children: V.n(i.value),
+                }),
+              }),
+            }),
+            (0, F.jsx)(`span`, {
+              className: `funnel__conv`,
+              children: a ? `${o}%` : `\xA0`,
+            }),
+          ],
+        },
+        i.label,
+      );
+    }),
+  });
+}
+function yt({ pct: e, size: t = 52, color: n, text: r }) {
+  return (0, F.jsx)(Me, {
+    html: U.ring(Math.round(e), { size: t, color: n, text: r }),
+  });
+}
+function bt({
+  columns: e,
+  rows: t,
+  rowKey: n,
+  loading: r,
+  sort: i,
+  onSort: a,
+  onRowClick: o,
+  selectable: s,
+  selected: c,
+  onSelect: l,
+  emptyText: u = `No records match the current filters.`,
+  compact: d,
+  stack: f = !0,
+  rowClassName: p,
+}) {
+  let m = t ?? [],
+    h = s && m.length > 0 && m.every((e) => c?.has(n(e))),
+    g = () => {
+      if (!l) return;
+      let e = new Set(c);
+      (h ? m.forEach((t) => e.delete(n(t))) : m.forEach((t) => e.add(n(t))),
+        l(e));
+    },
+    _ = (e) => {
+      if (!l) return;
+      let t = new Set(c);
+      (t.has(e) ? t.delete(e) : t.add(e), l(t));
+    };
+  return (0, F.jsxs)(`div`, {
+    className: `table-wrap`,
+    children: [
+      (0, F.jsxs)(`table`, {
+        className: H(`table`, d && `table--compact`, f && `table--stack`),
+        "aria-busy": r || void 0,
+        children: [
+          (0, F.jsx)(`thead`, {
+            children: (0, F.jsxs)(`tr`, {
+              children: [
+                s &&
+                  (0, F.jsx)(`th`, {
+                    style: { width: 38 },
+                    children: (0, F.jsx)(`input`, {
+                      type: `checkbox`,
+                      "aria-label": `Select all`,
+                      checked: !!h,
+                      onChange: g,
+                    }),
+                  }),
+                e.map((e) => {
+                  let t = !!a && e.sortable !== !1,
+                    n = i?.key === e.key;
+                  return (0, F.jsxs)(
+                    `th`,
+                    {
+                      className: H(e.className, t && `sortable`),
+                      style: e.width ? { width: e.width } : void 0,
+                      "aria-sort": n
+                        ? i.dir === `asc`
+                          ? `ascending`
+                          : `descending`
+                        : void 0,
+                      onClick: t
+                        ? () =>
+                            a({
+                              key: e.key,
+                              dir: n && i.dir === `asc` ? `desc` : `asc`,
+                            })
+                        : void 0,
+                      tabIndex: t ? 0 : void 0,
+                      onKeyDown: t
+                        ? (t) => {
+                            t.key === `Enter` &&
+                              a({
+                                key: e.key,
+                                dir: n && i.dir === `asc` ? `desc` : `asc`,
+                              });
+                          }
+                        : void 0,
+                      children: [
+                        e.label,
+                        t &&
+                          (0, F.jsx)(`span`, {
+                            className: `sort-ind`,
+                            children: (0, F.jsx)(W, {
+                              name:
+                                n && i.dir === `asc`
+                                  ? `chevronUp`
+                                  : `chevronDown`,
+                              size: 11,
+                            }),
+                          }),
+                      ],
+                    },
+                    e.key,
+                  );
+                }),
+              ],
+            }),
+          }),
+          (0, F.jsx)(`tbody`, {
+            children:
+              r && !m.length
+                ? Array.from({ length: 6 }).map((t, n) =>
+                    (0, F.jsxs)(
+                      `tr`,
+                      {
+                        children: [
+                          s && (0, F.jsx)(`td`, {}),
+                          e.map((e) =>
+                            (0, F.jsx)(
+                              `td`,
+                              {
+                                "data-label": e.label,
+                                children: (0, F.jsx)(`span`, {
+                                  className: `skeleton`,
+                                  style: {
+                                    display: `block`,
+                                    height: 14,
+                                    width: `${50 + ((n * 7 + e.key.length * 5) % 45)}%`,
+                                  },
+                                }),
+                              },
+                              e.key,
+                            ),
+                          ),
+                        ],
+                      },
+                      `sk${n}`,
+                    ),
+                  )
+                : m.map((t, i) => {
+                    let a = n(t),
+                      l = !!c?.has(a);
+                    return (0, F.jsxs)(
+                      `tr`,
+                      {
+                        className: H(
+                          o && `row--link`,
+                          l && `is-selected`,
+                          p?.(t),
+                        ),
+                        onClick: o ? () => o(t) : void 0,
+                        style: r ? { opacity: 0.6 } : void 0,
+                        children: [
+                          s &&
+                            (0, F.jsx)(`td`, {
+                              onClick: (e) => e.stopPropagation(),
+                              children: (0, F.jsx)(`input`, {
+                                type: `checkbox`,
+                                "aria-label": `Select row`,
+                                checked: l,
+                                onChange: () => _(a),
+                              }),
+                            }),
+                          e.map((e) =>
+                            (0, F.jsx)(
+                              `td`,
+                              {
+                                className: e.className,
+                                "data-label": e.label,
+                                children: e.render
+                                  ? e.render(t, i)
+                                  : String(t[e.key] ?? `—`),
+                              },
+                              e.key,
+                            ),
+                          ),
+                        ],
+                      },
+                      a,
+                    );
+                  }),
+          }),
+        ],
+      }),
+      !r &&
+        !m.length &&
+        (0, F.jsxs)(`div`, {
+          className: `table__empty`,
+          children: [
+            (0, F.jsxs)(`span`, {
+              className: `empty__art empty__art--sm`,
+              children: [
+                (0, F.jsx)(Se, {}),
+                (0, F.jsx)(`span`, {
+                  className: `empty__badge`,
+                  children: (0, F.jsx)(W, { name: `search`, size: 12 }),
+                }),
+              ],
+            }),
+            u,
+          ],
+        }),
+    ],
+  });
+}
+function xt({ meta: e, onPage: t, onPageSize: n }) {
+  if (!e || e.total === 0) return null;
+  let r = (e.page - 1) * e.pageSize + 1,
+    i = Math.min(e.total, e.page * e.pageSize);
+  return (0, F.jsxs)(`nav`, {
+    className: `pager`,
+    "aria-label": `Pagination`,
+    children: [
+      (0, F.jsxs)(`span`, {
+        className: `t-xs t-muted`,
+        children: [
+          `Showing `,
+          (0, F.jsxs)(`strong`, {
+            className: `t-num t-strong`,
+            children: [V.n(r), `–`, V.n(i)],
+          }),
+          ` of `,
+          (0, F.jsx)(`strong`, {
+            className: `t-num t-strong`,
+            children: V.n(e.total),
+          }),
+        ],
+      }),
+      (0, F.jsxs)(`div`, {
+        className: `pager__nav`,
+        children: [
+          n &&
+            (0, F.jsx)(`select`, {
+              className: `select`,
+              "aria-label": `Rows per page`,
+              value: e.pageSize,
+              onChange: (e) => n(Number(e.target.value)),
+              children: [10, 25, 50, 100].map((e) =>
+                (0, F.jsxs)(
+                  `option`,
+                  { value: e, children: [e, ` / page`] },
+                  e,
+                ),
+              ),
+            }),
+          (0, F.jsx)(q, {
+            size: `sm`,
+            icon: `chevronLeft`,
+            disabled: e.page <= 1,
+            onClick: () => t(e.page - 1),
+            "aria-label": `Previous page`,
+            title: `Previous page`,
+          }),
+          (0, F.jsxs)(`span`, {
+            className: `t-xs t-num t-muted`,
+            "aria-live": `polite`,
+            children: [
+              `Page `,
+              (0, F.jsx)(`strong`, { className: `t-strong`, children: e.page }),
+              ` of `,
+              e.totalPages,
+            ],
+          }),
+          (0, F.jsx)(q, {
+            size: `sm`,
+            icon: `chevronRight`,
+            disabled: e.page >= e.totalPages,
+            onClick: () => t(e.page + 1),
+            "aria-label": `Next page`,
+            title: `Next page`,
+          }),
+        ],
+      }),
+    ],
+  });
+}
+function St({ children: e }) {
+  return (0, F.jsx)(`div`, { className: `toolbar`, children: e });
+}
+function Ct({ count: e, children: t, onClear: n }) {
+  return e
+    ? (0, F.jsxs)(`div`, {
+        className: `bulkbar`,
+        children: [
+          (0, F.jsxs)(`strong`, { children: [e, ` selected`] }),
+          (0, F.jsx)(`div`, { className: `row g-2`, children: t }),
+          (0, F.jsx)(`span`, { className: `spacer` }),
+          (0, F.jsx)(q, {
+            size: `sm`,
+            variant: `quiet`,
+            onClick: n,
+            children: `Clear`,
+          }),
+        ],
+      })
+    : null;
+}
+var wt = e(n(), 1);
+function Tt({
+  open: e,
+  onClose: t,
+  title: n,
+  sub: r,
+  children: i,
+  foot: a,
+  size: o,
+  busy: s,
+}) {
+  let c = (0, x.useRef)(null);
+  return (
+    (0, x.useEffect)(() => {
+      if (!e) return;
+      let n = document.activeElement;
+      document.body.style.overflow = `hidden`;
+      let r = (e) => {
+        if ((e.key === `Escape` && !s && t(), e.key === `Tab` && c.current)) {
+          let t = c.current.querySelectorAll(
+            `button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])`,
+          );
+          if (!t.length) return;
+          let n = t[0],
+            r = t[t.length - 1];
+          e.shiftKey && document.activeElement === n
+            ? (e.preventDefault(), r.focus())
+            : !e.shiftKey &&
+              document.activeElement === r &&
+              (e.preventDefault(), n.focus());
+        }
+      };
+      return (
+        document.addEventListener(`keydown`, r),
+        setTimeout(() => {
+          (
+            c.current?.querySelector(`[autofocus], input, select, textarea`) ??
+            c.current
+          )?.focus();
+        }, 0),
+        () => {
+          ((document.body.style.overflow = ``),
+            document.removeEventListener(`keydown`, r),
+            n?.focus?.());
+        }
+      );
+    }, [e, t, s]),
+    e
+      ? (0, wt.createPortal)(
+          (0, F.jsx)(`div`, {
+            className: `modal-backdrop`,
+            onMouseDown: (e) => {
+              e.target === e.currentTarget && !s && t();
+            },
+            children: (0, F.jsxs)(`div`, {
+              ref: c,
+              className: H(`modal`, o && `modal--${o}`),
+              role: `dialog`,
+              "aria-modal": `true`,
+              "aria-label": typeof n == `string` ? n : `Dialog`,
+              tabIndex: -1,
+              children: [
+                (0, F.jsxs)(`div`, {
+                  className: `modal__head`,
+                  children: [
+                    (0, F.jsxs)(`div`, {
+                      className: `grow`,
+                      children: [
+                        (0, F.jsx)(`div`, {
+                          className: `modal__title`,
+                          children: n,
+                        }),
+                        r &&
+                          (0, F.jsx)(`div`, {
+                            className: `card__sub`,
+                            children: r,
+                          }),
+                      ],
+                    }),
+                    (0, F.jsx)(`button`, {
+                      type: `button`,
+                      className: `iconbtn`,
+                      "aria-label": `Close dialog`,
+                      onClick: t,
+                      disabled: s,
+                      children: (0, F.jsx)(W, { name: `x`, size: 18 }),
+                    }),
+                  ],
+                }),
+                (0, F.jsx)(`div`, { className: `modal__body`, children: i }),
+                a &&
+                  (0, F.jsx)(`div`, { className: `modal__foot`, children: a }),
+              ],
+            }),
+          }),
+          document.body,
+        )
+      : null
+  );
+}
+var Et = (0, x.createContext)(async () => !1);
+function Dt({ children: e }) {
+  let [t, n] = (0, x.useState)(null),
+    r = (0, x.useCallback)(
+      (e) => new Promise((t) => n({ ...e, resolve: t })),
+      [],
+    ),
+    i = (e) => {
+      (t?.resolve(e), n(null));
+    };
+  return (0, F.jsxs)(Et.Provider, {
+    value: r,
+    children: [
+      e,
+      (0, F.jsx)(Tt, {
+        open: !!t,
+        onClose: () => i(!1),
+        title: t?.title ?? ``,
+        foot: (0, F.jsxs)(F.Fragment, {
+          children: [
+            (0, F.jsx)(q, {
+              onClick: () => i(!1),
+              children: t?.cancelLabel ?? `Cancel`,
+            }),
+            (0, F.jsx)(q, {
+              variant: t?.danger ? `danger` : `primary`,
+              icon: t?.icon,
+              onClick: () => i(!0),
+              autoFocus: !0,
+              children: t?.confirmLabel ?? `Confirm`,
+            }),
+          ],
+        }),
+        children:
+          typeof t?.body == `string`
+            ? (0, F.jsx)(`p`, { className: `t-sm`, children: t.body })
+            : t?.body,
+      }),
+    ],
+  });
+}
+function Ot() {
+  return (0, x.useContext)(Et);
+}
+var kt = (0, x.createContext)(() => void 0);
+function At({ children: e }) {
+  let [t, n] = (0, x.useState)([]),
+    r = (0, x.useRef)(0),
+    i = (0, x.useCallback)((e, t = `success`, i) => {
+      let a = ++r.current;
+      (n((n) => [...n.slice(-3), { id: a, msg: e, tone: t, icon: i }]),
+        setTimeout(
+          () =>
+            n((e) => e.map((e) => (e.id === a ? { ...e, leaving: !0 } : e))),
+          3600,
+        ),
+        setTimeout(() => n((e) => e.filter((e) => e.id !== a)), 3950));
+    }, []);
+  return (0, F.jsxs)(kt.Provider, {
+    value: i,
+    children: [
+      e,
+      (0, wt.createPortal)(
+        (0, F.jsx)(`div`, {
+          className: `toast-root`,
+          "aria-live": `polite`,
+          children: t.map((e) =>
+            (0, F.jsxs)(
+              `div`,
+              {
+                className: H(`toast`, e.tone !== `info` && `toast--${e.tone}`),
+                role: `status`,
+                style: e.leaving
+                  ? {
+                      opacity: 0,
+                      transform: `translateY(6px)`,
+                      transition: `opacity .3s, transform .3s`,
+                    }
+                  : void 0,
+                children: [
+                  (0, F.jsx)(W, {
+                    name:
+                      e.icon ??
+                      (e.tone === `success`
+                        ? `check`
+                        : e.tone === `critical`
+                          ? `alert`
+                          : `info`),
+                    size: 17,
+                  }),
+                  (0, F.jsx)(`span`, { children: e.msg }),
+                ],
+              },
+              e.id,
+            ),
+          ),
+        }),
+        document.body,
+      ),
+    ],
+  });
+}
+function jt() {
+  return (0, x.useContext)(kt);
+}
+function Mt({
+  anchor: e,
+  open: t,
+  onClose: n,
+  children: r,
+  label: i,
+  align: a = `right`,
+}) {
+  let o = (0, x.useRef)(null),
+    [s, c] = (0, x.useState)(null);
+  return (
+    (0, x.useLayoutEffect)(() => {
+      if (!t || !e || !o.current) return;
+      let n = e.getBoundingClientRect(),
+        r = o.current,
+        i = r.offsetWidth,
+        s = r.offsetHeight,
+        l = a === `left` ? n.left : n.right - i;
+      l = Math.max(12, Math.min(l, window.innerWidth - i - 12));
+      let u = n.bottom + 8;
+      if (u + s > window.innerHeight - 12) {
+        let e = n.top - 8 - s;
+        u = e >= 12 ? e : Math.max(12, window.innerHeight - s - 12);
+      }
+      (c({ left: Math.round(l), top: Math.round(u) }),
+        r.querySelector(`button:not([disabled]), a`)?.focus());
+    }, [t, e, a]),
+    (0, x.useEffect)(() => {
+      if (!t) return;
+      let e = (e) => e.key === `Escape` && n();
+      return (
+        document.addEventListener(`keydown`, e),
+        () => document.removeEventListener(`keydown`, e)
+      );
+    }, [t, n]),
+    t
+      ? (0, wt.createPortal)(
+          (0, F.jsxs)(F.Fragment, {
+            children: [
+              (0, F.jsx)(`div`, {
+                className: `dropdown-backdrop`,
+                onMouseDown: n,
+              }),
+              (0, F.jsx)(`div`, {
+                ref: o,
+                className: `menu menu--panel`,
+                role: `menu`,
+                "aria-label": i,
+                style: { left: s?.left ?? -9999, top: s?.top ?? -9999 },
+                onClick: (e) => {
+                  e.target.closest(`[data-close]`) && n();
+                },
+                children: r,
+              }),
+            ],
+          }),
+          document.body,
+        )
+      : null
+  );
+}
+function Nt({ height: e = 16, width: t = `100%`, style: n }) {
+  return (0, F.jsx)(`span`, {
+    className: `skeleton`,
+    style: { display: `block`, height: e, width: t, ...n },
+  });
+}
+function Pt({ kpis: e = 4 }) {
+  return (0, F.jsxs)(`div`, {
+    className: `col g-4`,
+    "aria-busy": `true`,
+    "aria-label": `Loading`,
+    children: [
+      (0, F.jsx)(Nt, { height: 28, width: 280 }),
+      (0, F.jsx)(Nt, { height: 14, width: 420 }),
+      (0, F.jsx)(`div`, {
+        className: `grid g-4col mt-4`,
+        children: Array.from({ length: e }).map((e, t) =>
+          (0, F.jsx)(Nt, { height: 96, style: { borderRadius: 14 } }, t),
+        ),
+      }),
+      (0, F.jsxs)(`div`, {
+        className: `grid g-main mt-4`,
+        children: [
+          (0, F.jsx)(Nt, { height: 280, style: { borderRadius: 14 } }),
+          (0, F.jsx)(Nt, { height: 280, style: { borderRadius: 14 } }),
+        ],
+      }),
+    ],
+  });
+}
+function Ft(e) {
+  return e instanceof w || e instanceof Error
+    ? e.message
+    : `Something went wrong.`;
+}
+function It({ error: e, onRetry: t, title: n = `We could not load this` }) {
+  let r = e instanceof w && e.status === 404,
+    i = e instanceof w && e.status === 403;
+  return (0, F.jsx)(J, {
+    children: (0, F.jsx)(Y, {
+      icon: r ? `search` : i ? `lock` : `alert`,
+      title: r ? `Not found` : i ? `Not available for your role` : n,
+      sub: Ft(e),
+      action:
+        t && !r && !i
+          ? (0, F.jsx)(q, {
+              icon: `refresh`,
+              onClick: t,
+              children: `Try again`,
+            })
+          : void 0,
+    }),
+  });
+}
+function Lt({ error: e }) {
+  return e
+    ? (0, F.jsxs)(`div`, {
+        className: `banner banner--critical`,
+        role: `alert`,
+        children: [
+          (0, F.jsx)(W, { name: `alert`, size: 17 }),
+          (0, F.jsx)(`div`, { className: `grow`, children: Ft(e) }),
+        ],
+      })
+    : null;
+}
+var Rt = `/images/campus-hero.webp`,
+  zt = `/images/campus-banner.webp?v=4`,
+  Bt = 1800,
+  Vt = 464,
+  Ht = () =>
+    new Intl.DateTimeFormat(`en-IN`, {
+      weekday: `long`,
+      day: `numeric`,
+      month: `long`,
+      year: `numeric`,
+      timeZone: `Asia/Kolkata`,
+    }).format(new Date());
+function Ut() {
+  let e = Number(
+    new Intl.DateTimeFormat(`en-GB`, {
+      hour: `numeric`,
+      hour12: !1,
+      timeZone: `Asia/Kolkata`,
+    }).format(new Date()),
+  );
+  return e < 12 ? `Good Morning` : e < 17 ? `Good Afternoon` : `Good Evening`;
+}
+function Wt({
+  title: e,
+  sub: t,
+  actions: n,
+  children: r,
+  date: i = !0,
+  bleed: a = !0,
+  wave: o = !0,
+  quote: s = !0,
+}) {
+  return (0, F.jsxs)(`section`, {
+    className: a ? `campusbanner campusbanner--bleed` : `campusbanner`,
+    "aria-label": `Welcome`,
+    children: [
+      (0, F.jsx)(`figure`, {
+        className: `campusbanner__photo`,
+        children: (0, F.jsx)(`img`, {
+          src: zt,
+          alt: `Holy Sai International School campus`,
+          width: Bt,
+          height: Vt,
+        }),
+      }),
+      (0, F.jsx)(Ce, { className: `campusbanner__lotus` }),
+      (0, F.jsxs)(`div`, {
+        className: `campusbanner__body`,
+        children: [
+          (0, F.jsxs)(`div`, {
+            className: `campusbanner__text`,
+            children: [
+              (0, F.jsxs)(`h1`, {
+                className: `campusbanner__title`,
+                children: [
+                  e,
+                  o &&
+                    (0, F.jsx)(`span`, {
+                      className: `campusbanner__wave`,
+                      "aria-hidden": `true`,
+                      children: `👋`,
+                    }),
+                ],
+              }),
+              t &&
+                (0, F.jsx)(`p`, {
+                  className: `campusbanner__sub`,
+                  children: t,
+                }),
+              i &&
+                (0, F.jsxs)(`span`, {
+                  className: `campusbanner__date`,
+                  children: [
+                    (0, F.jsx)(W, { name: `calendar`, size: 15 }),
+                    Ht(),
+                  ],
+                }),
+              r,
+              n &&
+                (0, F.jsx)(`div`, {
+                  className: `campusbanner__actions`,
+                  children: n,
+                }),
+            ],
+          }),
+          s &&
+            (0, F.jsxs)(`p`, {
+              className: `campusbanner__quote`,
+              children: [
+                `“Nurturing young minds`,
+                (0, F.jsx)(`br`, {}),
+                `for a brighter tomorrow”`,
+                (0, F.jsx)(we, {}),
+              ],
+            }),
+        ],
+      }),
+    ],
+  });
+}
+function Gt(e, t, n = {}) {
+  return m({
+    queryKey: [e, t ?? {}],
+    queryFn: ({ signal: n }) => P.get(e, t, n),
+    enabled: !!e && n.enabled !== !1,
+    refetchInterval: n.refetchInterval,
+    staleTime: n.staleTime,
+  });
+}
+function Kt(e, t, n = {}) {
+  return m({
+    queryKey: [e, t ?? {}],
+    queryFn: ({ signal: n }) => P.getPaged(e, t, n),
+    enabled: !!e && n.enabled !== !1,
+    placeholderData: i,
+    refetchInterval: n.refetchInterval,
+  });
+}
+function qt(e, t, n = {}) {
+  let r = _(),
+    i = jt();
+  return v({
+    mutationFn: (r) => {
+      let i = typeof t == `function` ? t(r) : t,
+        a = n.body ? n.body(r) : r;
+      return e === `delete` ? P.delete(i) : P[e](i, a);
+    },
+    onSuccess: async (e, t) => {
+      if (
+        (await Promise.all(
+          (n.invalidate ?? []).map((e) =>
+            r.invalidateQueries({
+              predicate: (t) => {
+                let n = t.queryKey[0];
+                return typeof e == `string`
+                  ? typeof n == `string` && n.startsWith(e)
+                  : JSON.stringify(t.queryKey.slice(0, e.length)) ===
+                      JSON.stringify(e);
+              },
+            }),
+          ),
+        ),
+        n.success !== !1)
+      ) {
+        let r =
+          typeof n.success == `function`
+            ? n.success(e, t)
+            : (n.success ?? e.message);
+        r && i(r, `success`);
+      }
+      n.onSuccess?.(e, t);
+    },
+    onError: (e) => {
+      n.error !== !1 && i(n.error ?? Ft(e), `critical`);
+    },
+  });
+}
+function Jt() {
+  let e = _();
+  return (...t) =>
+    e.invalidateQueries({
+      predicate: (e) =>
+        typeof e.queryKey[0] == `string` &&
+        t.some((t) => e.queryKey[0].startsWith(t)),
+    });
+}
+function Yt() {
+  let e = Gt(`/lookups`, void 0, { staleTime: 6e5 }),
+    t = (0, x.useMemo)(() => {
+      let t = e.data;
+      return {
+        classOptions: (e) =>
+          (t?.classes ?? [])
+            .filter((t) => !e || t.campusId === e)
+            .map((e) => ({ value: e.id, label: e.name })),
+        sectionOptions: (e) =>
+          (t?.classes ?? [])
+            .find((t) => t.id === e)
+            ?.sections.map((e) => ({ value: e.id, label: e.name })) ?? [],
+        gradeNames: Array.from(
+          new Set((t?.classes ?? []).map((e) => e.name)),
+        ).sort(
+          (e, t) => Number(e.replace(/\D/g, ``)) - Number(t.replace(/\D/g, ``)),
+        ),
+      };
+    }, [e.data]);
+  return { ...e, lookups: e.data, ...t };
+}
+var Xt = (0, x.createContext)(null),
+  Zt = `hs.context`;
+function Qt() {
+  try {
+    return JSON.parse(localStorage.getItem(Zt) ?? `{}`);
+  } catch {
+    return {};
+  }
+}
+function $t({ children: e }) {
+  let { user: t, can: n } = L(),
+    { lookups: r } = Yt(),
+    [i, a] = (0, x.useState)(Qt);
+  (0, x.useEffect)(() => {
+    try {
+      localStorage.setItem(Zt, JSON.stringify(i));
+    } catch {}
+  }, [i]);
+  let o = (0, x.useMemo)(() => {
+    let e = r?.campuses ?? [],
+      o = n([`dashboard.group`, `students.read`]) && !t?.parentId,
+      s = o ? (i.campusId ?? t?.campusId ?? void 0) : (t?.campusId ?? void 0),
+      c = o && i.scope === `group` && n(`dashboard.group`) ? `group` : `campus`,
+      l = r?.academicYears.find((e) => e.isCurrent),
+      u = r?.academicYears.find((e) => e.id === i.yearId) ?? l;
+    return {
+      campusId: s,
+      campus: e.find((e) => e.id === s),
+      scope: c,
+      yearId: u?.id,
+      yearLabel: u?.label ?? t?.academic_year,
+      isCurrentYear: !u || u.isCurrent,
+      setCampus: (e) => a((t) => ({ ...t, campusId: e, scope: `campus` })),
+      setGroup: () => a((e) => ({ ...e, scope: `group` })),
+      setYear: (e) => a((t) => ({ ...t, yearId: e })),
+      campusParam: c === `group` ? {} : { campusId: s },
+    };
+  }, [r, i, t, n]);
+  return (0, F.jsx)(Xt.Provider, { value: o, children: e });
+}
+function en() {
+  let e = (0, x.useContext)(Xt);
+  if (!e) throw Error(`useSchool must be used inside SchoolContextProvider`);
+  return e;
+}
+function tn(e) {
+  if (e.length < 3)
+    return e
+      .map((e, t) => `${t ? `L` : `M`}${e[0].toFixed(1)} ${e[1].toFixed(1)}`)
+      .join(` `);
+  let t = `M${e[0][0].toFixed(1)} ${e[0][1].toFixed(1)}`;
+  for (let n = 0; n < e.length - 1; n++) {
+    let r = e[n - 1] ?? e[n],
+      i = e[n],
+      a = e[n + 1],
+      o = e[n + 2] ?? a,
+      s = [i[0] + (a[0] - r[0]) / 6, i[1] + (a[1] - r[1]) / 6],
+      c = [a[0] - (o[0] - i[0]) / 6, a[1] - (o[1] - i[1]) / 6];
+    t += ` C${s[0].toFixed(1)} ${s[1].toFixed(1)}, ${c[0].toFixed(1)} ${c[1].toFixed(1)}, ${a[0].toFixed(1)} ${a[1].toFixed(1)}`;
+  }
+  return t;
+}
+function nn({ values: e, color: t, className: n }) {
+  let r = (0, x.useId)().replace(/:/g, ``);
+  if (e.length < 2) return null;
+  let i = Math.max(...e),
+    a = Math.min(...e),
+    o = i - a || 1,
+    s = e.map((t, n) => [
+      5 + (n / (e.length - 1)) * 130,
+      7 + (1 - (t - a) / o) * 44,
+    ]),
+    c = tn(s),
+    l = s[s.length - 1];
+  return (0, F.jsxs)(`svg`, {
+    className: n,
+    viewBox: `0 0 140 56`,
+    "aria-hidden": `true`,
+    children: [
+      (0, F.jsx)(`defs`, {
+        children: (0, F.jsxs)(`linearGradient`, {
+          id: `sp${r}`,
+          x1: `0`,
+          y1: `0`,
+          x2: `0`,
+          y2: `1`,
+          children: [
+            (0, F.jsx)(`stop`, {
+              offset: `0`,
+              stopColor: t,
+              stopOpacity: `.22`,
+            }),
+            (0, F.jsx)(`stop`, { offset: `1`, stopColor: t, stopOpacity: `0` }),
+          ],
+        }),
+      }),
+      (0, F.jsx)(`line`, {
+        x1: 5,
+        x2: 135,
+        y1: 55,
+        y2: 55,
+        stroke: `var(--border)`,
+        strokeDasharray: `2 3`,
+      }),
+      (0, F.jsx)(`path`, {
+        d: `${c} L${l[0].toFixed(1)} 56 L${s[0][0].toFixed(1)} 56 Z`,
+        fill: `url(#sp${r})`,
+      }),
+      (0, F.jsx)(`path`, {
+        d: c,
+        fill: `none`,
+        stroke: t,
+        strokeWidth: `2`,
+        strokeLinejoin: `round`,
+        strokeLinecap: `round`,
+      }),
+      (0, F.jsx)(`circle`, {
+        cx: l[0],
+        cy: l[1],
+        r: `5.5`,
+        fill: t,
+        opacity: `.18`,
+      }),
+      (0, F.jsx)(`circle`, {
+        cx: l[0],
+        cy: l[1],
+        r: `3`,
+        fill: `var(--surface)`,
+        stroke: t,
+        strokeWidth: `2`,
+      }),
+    ],
+  });
+}
+var rn = {
+  rose: `#D32F2F`,
+  blue: `#6D4AB8`,
+  green: `#12867F`,
+  amber: `#D4A017`,
+};
+function an({ values: e, labels: t, color: n, className: r }) {
+  if (!e.length) return null;
+  let i = Math.max(...e),
+    a = Math.min(...e) * 0.85,
+    o = (140 - 6 * (e.length - 1)) / e.length;
+  return (0, F.jsx)(`svg`, {
+    className: r,
+    viewBox: `0 0 140 56`,
+    "aria-hidden": `true`,
+    children: e.map((r, s) => {
+      let c = Math.max(4, ((r - a) / (i - a || 1)) * 38 + 6),
+        l = s === e.length - 1;
+      return (0, F.jsxs)(
+        `g`,
+        {
+          children: [
+            (0, F.jsx)(`rect`, {
+              x: s * (o + 6),
+              y: 44 - c,
+              width: o,
+              height: c,
+              rx: `3`,
+              fill: n,
+              opacity: l ? 1 : 0.28,
+            }),
+            t?.[s] &&
+              (s === 0 || l) &&
+              (0, F.jsx)(`text`, {
+                x: s * (o + 6) + o / 2,
+                y: 55,
+                textAnchor: `middle`,
+                fontSize: `8.5`,
+                fill: `var(--text-muted)`,
+                children: t[s],
+              }),
+          ],
+        },
+        s,
+      );
+    }),
+  });
+}
+function on({ pct: e, color: t, className: n }) {
+  let r = 2 * Math.PI * 22,
+    i = Math.max(0, Math.min(100, e));
+  return (0, F.jsxs)(`svg`, {
+    className: n,
+    viewBox: `0 0 56 56`,
+    "aria-hidden": `true`,
+    children: [
+      (0, F.jsx)(`circle`, {
+        cx: `28`,
+        cy: `28`,
+        r: 22,
+        fill: `none`,
+        stroke: t,
+        strokeOpacity: `.14`,
+        strokeWidth: `6`,
+      }),
+      (0, F.jsx)(`circle`, {
+        cx: `28`,
+        cy: `28`,
+        r: 22,
+        fill: `none`,
+        stroke: t,
+        strokeWidth: `6`,
+        strokeLinecap: `round`,
+        strokeDasharray: `${(i / 100) * r} ${r}`,
+        transform: `rotate(-90 28 28)`,
+      }),
+      (0, F.jsxs)(`text`, {
+        x: `28`,
+        y: `31.5`,
+        textAnchor: `middle`,
+        fontSize: `10`,
+        fontWeight: `700`,
+        fill: `var(--text-strong)`,
+        children: [Math.round(i), `%`],
+      }),
+    ],
+  });
+}
+function sn({ pct: e, steps: t, color: n, className: r }) {
+  let i = Math.max(0, Math.min(100, e));
+  return (0, F.jsxs)(`span`, {
+    className: `miniprogress${r ? ` ${r}` : ``}`,
+    "aria-hidden": `true`,
+    style: { "--mp": n },
+    children: [
+      (0, F.jsx)(`span`, {
+        className: `miniprogress__bar`,
+        children: Array.from({ length: 10 }, (e, t) => {
+          let n = Math.max(0, Math.min(1, (i - t * 10) / 10));
+          return (0, F.jsx)(
+            `i`,
+            { children: (0, F.jsx)(`b`, { style: { width: `${n * 100}%` } }) },
+            t,
+          );
+        }),
+      }),
+      t &&
+        t.length > 1 &&
+        (0, F.jsx)(`span`, {
+          className: `miniprogress__steps`,
+          children: t.map((e, t) =>
+            (0, F.jsx)(
+              `em`,
+              { style: { left: `${Math.max(0, Math.min(100, e))}%` } },
+              t,
+            ),
+          ),
+        }),
+      (0, F.jsxs)(`span`, {
+        className: `miniprogress__scale`,
+        children: [
+          (0, F.jsx)(`span`, { children: `0%` }),
+          (0, F.jsx)(`span`, { children: `Target 100%` }),
+        ],
+      }),
+    ],
+  });
+}
+function cn({
+  icon: e,
+  tone: t,
+  label: n,
+  value: r,
+  delta: i,
+  deltaUnit: a = `%`,
+  compare: o,
+  spark: s,
+  sparkLabels: c,
+  pct: l,
+  viz: u = `line`,
+  to: d,
+}) {
+  let f = (i ?? 0) >= 0,
+    p = (0, F.jsxs)(F.Fragment, {
+      children: [
+        (0, F.jsx)(`span`, {
+          className: `metric__tile`,
+          children: (0, F.jsx)(W, { name: e, size: 18 }),
+        }),
+        (0, F.jsxs)(`div`, {
+          className: `metric__body`,
+          children: [
+            (0, F.jsx)(`div`, { className: `metric__label`, children: n }),
+            (0, F.jsx)(`div`, { className: `metric__value`, children: r }),
+            i != null &&
+              (0, F.jsxs)(`div`, {
+                className: `metric__delta${f ? `` : ` metric__delta--down`}`,
+                children: [
+                  (0, F.jsx)(W, {
+                    name: f ? `arrowUp` : `arrowDown`,
+                    size: 12,
+                  }),
+                  (0, F.jsxs)(`span`, {
+                    children: [
+                      (0, F.jsxs)(`span`, {
+                        className: `sr-only`,
+                        children: [f ? `up` : `down`, ` `],
+                      }),
+                      Math.abs(i),
+                      a,
+                    ],
+                  }),
+                ],
+              }),
+            o && (0, F.jsx)(`span`, { className: `metric__cmp`, children: o }),
+          ],
+        }),
+        u === `line` &&
+          s &&
+          s.length > 1 &&
+          (0, F.jsx)(nn, {
+            className: `metric__spark`,
+            values: s,
+            color: rn[t],
+          }),
+        u === `bars` &&
+          s &&
+          s.length > 1 &&
+          (0, F.jsx)(an, {
+            className: `metric__spark`,
+            values: s,
+            labels: c,
+            color: rn[t],
+          }),
+        u === `ring` &&
+          l != null &&
+          (0, F.jsx)(on, { className: `metric__ring`, pct: l, color: rn[t] }),
+        u === `progress` &&
+          l != null &&
+          (0, F.jsx)(sn, {
+            className: `metric__progress`,
+            pct: l,
+            steps: s,
+            color: rn[t],
+          }),
+      ],
+    });
+  return d
+    ? (0, F.jsx)(y, {
+        className: `metric`,
+        "data-tone": t,
+        "data-viz": u,
+        to: d,
+        children: p,
+      })
+    : (0, F.jsx)(`div`, {
+        className: `metric`,
+        "data-tone": t,
+        "data-viz": u,
+        children: p,
+      });
+}
+function ln({
+  labels: e,
+  tips: t,
+  series: n,
+  yMin: r,
+  yMax: i = 100,
+  unit: a = `%`,
+  height: o = 200,
+  label: s,
+}) {
+  let c = (0, x.useId)().replace(/:/g, ``),
+    l = e.length,
+    [u, d] = (0, x.useState)(null),
+    f = n.flatMap((e) => e.values.filter((e) => e != null)),
+    p =
+      [2.5, 5, 7.5, 10, 12.5, 15, 20, 25].find(
+        (e) => i - 4 * e <= Math.min(...f) - 3,
+      ) ?? 25,
+    m = r ?? Math.max(0, i - 4 * p),
+    h = o,
+    g = { t: 14, r: 14, b: 26, l: 44 },
+    _ = 680 - g.l - g.r,
+    v = h - g.t - g.b,
+    y = (e) => g.l + (l === 1 ? _ / 2 : (e / (l - 1)) * _),
+    b = (e) => g.t + v - ((e - m) / (i - m)) * v,
+    S = [0, 1, 2, 3, 4].map((e) => i - (e / 4) * (i - m)),
+    C = l > 8 ? Math.ceil(l / 8) : 1,
+    w = u ?? l - 1,
+    T = n[0],
+    E = T?.values[w],
+    D = (0, x.useMemo)(
+      () =>
+        n.map((e) => {
+          let t = e.values
+            .map((e, t) => (e == null ? null : [y(t), b(e)]))
+            .filter(Boolean);
+          return {
+            s: e,
+            pts: t,
+            d: t
+              .map(
+                (e, t) =>
+                  `${t ? `L` : `M`}${e[0].toFixed(1)} ${e[1].toFixed(1)}`,
+              )
+              .join(` `),
+          };
+        }),
+      [n, l, m, i, h],
+    ),
+    O = (e) => `${Number.isInteger(e) ? e : e.toFixed(1)}${a}`,
+    k = `${s}. ${n
+      .map(
+        (t) =>
+          `${t.name}: ${t.values
+            .map((t, n) => (t == null ? null : `${e[n]} ${t}${a}`))
+            .filter(Boolean)
+            .join(`, `)}`,
+      )
+      .join(`. `)}`;
+  return (0, F.jsxs)(`div`, {
+    className: `linechart`,
+    onMouseLeave: () => d(null),
+    children: [
+      (0, F.jsxs)(`svg`, {
+        viewBox: `0 0 680 ${h}`,
+        role: `img`,
+        "aria-label": k,
+        onMouseMove: (e) => {
+          let t = e.currentTarget.getBoundingClientRect(),
+            n = ((e.clientX - t.left) / t.width) * 680;
+          d(
+            Math.max(0, Math.min(l - 1, Math.round(((n - g.l) / _) * (l - 1)))),
+          );
+        },
+        children: [
+          (0, F.jsx)(`defs`, {
+            children: (0, F.jsxs)(`linearGradient`, {
+              id: `lc${c}`,
+              x1: `0`,
+              y1: `0`,
+              x2: `0`,
+              y2: `1`,
+              children: [
+                (0, F.jsx)(`stop`, {
+                  offset: `0`,
+                  stopColor: T?.color,
+                  stopOpacity: `.08`,
+                }),
+                (0, F.jsx)(`stop`, {
+                  offset: `1`,
+                  stopColor: T?.color,
+                  stopOpacity: `0`,
+                }),
+              ],
+            }),
+          }),
+          S.map((e) =>
+            (0, F.jsxs)(
+              `g`,
+              {
+                children: [
+                  (0, F.jsx)(`line`, {
+                    x1: g.l,
+                    x2: 680 - g.r,
+                    y1: b(e),
+                    y2: b(e),
+                    stroke: `var(--viz-grid)`,
+                    strokeDasharray: `3 4`,
+                  }),
+                  (0, F.jsx)(`text`, {
+                    x: g.l - 10,
+                    y: b(e) + 3.5,
+                    textAnchor: `end`,
+                    fontSize: `10`,
+                    fill: `var(--text-muted)`,
+                    children: O(e),
+                  }),
+                ],
+              },
+              e,
+            ),
+          ),
+          e.map(
+            (e, t) =>
+              (t % C === 0 || t === l - 1) &&
+              (0, F.jsx)(
+                `text`,
+                {
+                  x: y(t),
+                  y: h - 6,
+                  textAnchor: `middle`,
+                  fontSize: `10`,
+                  fill: `var(--text-muted)`,
+                  children: e,
+                },
+                t,
+              ),
+          ),
+          D[0] &&
+            D[0].pts.length > 1 &&
+            T.area !== !1 &&
+            (0, F.jsx)(`path`, {
+              d: `${D[0].d} L${D[0].pts[D[0].pts.length - 1][0]} ${g.t + v} L${D[0].pts[0][0]} ${g.t + v} Z`,
+              fill: `url(#lc${c})`,
+            }),
+          D.slice()
+            .reverse()
+            .map(({ s: e, d: t, pts: n }) =>
+              (0, F.jsx)(
+                `g`,
+                {
+                  children: (0, F.jsx)(`path`, {
+                    d: t,
+                    fill: `none`,
+                    stroke: e.color,
+                    strokeWidth: e === T ? 1.6 : 1.2,
+                    strokeLinejoin: `round`,
+                    strokeLinecap: `round`,
+                  }),
+                },
+                e.name,
+              ),
+            ),
+          E != null &&
+            (0, F.jsx)(`line`, {
+              x1: y(w),
+              x2: y(w),
+              y1: g.t,
+              y2: g.t + v,
+              stroke: `var(--border)`,
+            }),
+          E != null &&
+            (0, F.jsx)(`circle`, {
+              cx: y(w),
+              cy: b(E),
+              r: `4`,
+              fill: T.color,
+              stroke: `var(--surface)`,
+              strokeWidth: `2`,
+            }),
+        ],
+      }),
+      E != null &&
+        (0, F.jsxs)(`div`, {
+          className: `linechart__tip${y(w) > 584.8 ? ` linechart__tip--end` : y(w) < 95.2 ? ` linechart__tip--start` : ``}`,
+          style: {
+            left: `${(y(w) / 680) * 100}%`,
+            top: `${(b(E) / h) * 100}%`,
+          },
+          "aria-hidden": `true`,
+          children: [
+            (0, F.jsx)(`small`, { children: t?.[w] ?? e[w] }),
+            (0, F.jsxs)(`strong`, { children: [E, a] }),
+          ],
+        }),
+    ],
+  });
+}
+function un({ bands: e, center: t, centerSub: n, label: r }) {
+  let i = e.reduce((e, t) => e + t.value, 0) || 1,
+    a = 2 * Math.PI * 72,
+    o = 0;
+  return (0, F.jsxs)(`div`, {
+    className: `donut`,
+    children: [
+      (0, F.jsx)(`svg`, {
+        viewBox: `0 0 160 160`,
+        role: `img`,
+        "aria-label": `${r}: ${e.map((e) => `${e.label} ${Math.round((e.value / i) * 100)}%`).join(`, `)}`,
+        children: (0, F.jsx)(`g`, {
+          transform: `rotate(-90 80 80)`,
+          children: e.map((t) => {
+            let n = (t.value / i) * a,
+              r = e.filter((e) => e.value > 0).length > 1 ? 2 : 0,
+              s = (0, F.jsx)(
+                `circle`,
+                {
+                  cx: `80`,
+                  cy: `80`,
+                  r: 72,
+                  fill: `none`,
+                  stroke: t.color,
+                  strokeWidth: 12,
+                  strokeDasharray: `${Math.max(0, n - r)} ${a}`,
+                  strokeDashoffset: -o,
+                },
+                t.label,
+              );
+            return ((o += n), s);
+          }),
+        }),
+      }),
+      (0, F.jsxs)(`div`, {
+        className: `donut__center`,
+        "aria-hidden": `true`,
+        children: [
+          (0, F.jsx)(`strong`, { children: t }),
+          n && (0, F.jsx)(`span`, { children: n }),
+        ],
+      }),
+    ],
+  });
+}
+function dn({
+  quote: e = `Education builds character, shapes the future.`,
+  by: t = `Holy Sai International`,
+}) {
+  return (0, F.jsxs)(`figure`, {
+    className: `quotecard`,
+    children: [
+      (0, F.jsx)(`blockquote`, { className: `quotecard__text`, children: e }),
+      (0, F.jsx)(`figcaption`, { className: `quotecard__by`, children: t }),
+      (0, F.jsx)(Ce, { className: `quotecard__lotus` }),
+    ],
+  });
+}
+function fn({ rail: e, children: t }) {
+  return e
+    ? (0, F.jsxs)(`div`, {
+        className: `dash`,
+        children: [
+          (0, F.jsx)(`div`, { className: `dash__main`, children: t }),
+          (0, F.jsx)(`aside`, {
+            className: `dash__rail`,
+            "aria-label": `Shortcuts and updates`,
+            children: e,
+          }),
+        ],
+      })
+    : (0, F.jsx)(F.Fragment, { children: t });
+}
+var pn = [`brand`, `blue`, `plum`, `sage`, `amber`, `steel`, `teal`];
+function mn({ items: e, title: t = `Quick Actions` }) {
+  let n = e.filter((e) => e.show !== !1);
+  return n.length
+    ? (0, F.jsx)(J, {
+        icon: `zap`,
+        title: t,
+        children: (0, F.jsx)(`div`, {
+          className: `qa`,
+          children: n.map((e, t) => {
+            let n = e.tone === `critical` ? `critical` : ``,
+              r = pn[t % pn.length];
+            return (0, F.jsxs)(
+              y,
+              {
+                className: `qa__item`,
+                to: e.to,
+                children: [
+                  (0, F.jsx)(`span`, {
+                    className: `qa__ico${n ? ` qa__ico--${n}` : ``}`,
+                    "data-hue": n ? void 0 : r,
+                    children: (0, F.jsx)(W, { name: e.icon, size: 17 }),
+                  }),
+                  e.label,
+                  (0, F.jsx)(W, { name: `chevronRight`, size: 15 }),
+                ],
+              },
+              e.label + e.to,
+            );
+          }),
+        }),
+      })
+    : null;
+}
+function hn({ actions: e, events: t = !0, quote: n = !0, children: r }) {
+  return (0, F.jsxs)(F.Fragment, {
+    children: [
+      (0, F.jsx)(mn, { items: e }),
+      r,
+      n && (0, F.jsx)(dn, {}),
+      (0, F.jsx)(vn, {}),
+      t && (0, F.jsx)(bn, {}),
+    ],
+  });
+}
+var gn = (e) =>
+    e
+      ? e.replace(/[_-]+/g, ` `).replace(/^./, (e) => e.toUpperCase())
+      : `General`,
+  _n = {
+    critical: `critical`,
+    warning: `warning`,
+    caution: `warning`,
+    success: `success`,
+    info: `info`,
+    neutral: `violet`,
+  };
+function vn() {
+  let e = r(),
+    t = Kt(`/notifications`, { pageSize: 5 });
+  return (0, F.jsx)(J, {
+    icon: `bell`,
+    title: `Recent Notifications`,
+    actions: (0, F.jsx)(Ue, { to: `/notifications`, children: `View All` }),
+    children: t.isLoading
+      ? (0, F.jsx)(`div`, {
+          className: `col g-3`,
+          children: [0, 1, 2].map((e) =>
+            (0, F.jsx)(
+              `span`,
+              { className: `skeleton`, style: { height: 34 } },
+              e,
+            ),
+          ),
+        })
+      : t.data?.rows.length
+        ? (0, F.jsx)(`div`, {
+            children: t.data.rows.map((t) =>
+              (0, F.jsxs)(
+                `button`,
+                {
+                  type: `button`,
+                  className: `nlist__item`,
+                  onClick: () => e(t.route ?? `/notifications`),
+                  children: [
+                    (0, F.jsx)(`span`, {
+                      className: `nlist__dot nlist__dot--${_n[t.tone] ?? `info`}`,
+                    }),
+                    (0, F.jsxs)(`span`, {
+                      className: `grow`,
+                      style: { minWidth: 0 },
+                      children: [
+                        (0, F.jsx)(`span`, {
+                          className: `nlist__title${t.readAt ? `` : ` nlist__title--unread`}`,
+                          children: t.title,
+                        }),
+                        (0, F.jsxs)(`span`, {
+                          className: `nlist__meta`,
+                          children: [
+                            gn(t.topic),
+                            ` · `,
+                            V.relative(t.createdAt),
+                          ],
+                        }),
+                      ],
+                    }),
+                    (0, F.jsx)(W, { name: `chevronRight`, size: 14 }),
+                  ],
+                },
+                t.id,
+              ),
+            ),
+          })
+        : (0, F.jsx)(Y, {
+            icon: `bell`,
+            title: `You're all caught up`,
+            sub: `New notifications appear here.`,
+          }),
+  });
+}
+var yn = {
+  Academic: `academic`,
+  PTM: `academic`,
+  Sports: `sports`,
+  School: `event`,
+  Cultural: `event`,
+  Holiday: `finance`,
+};
+function bn({ limit: e = 4 }) {
+  let { can: t } = L(),
+    { campusParam: n } = en(),
+    r = t(`communication.read`),
+    i = !r && t(`parent_portal.use`),
+    a = Kt(r ? `/events` : null, { when: `upcoming`, pageSize: e, ...n }),
+    o = Gt(i ? `/family/events` : null);
+  if (!r && !i) return null;
+  let s = ve(),
+    c = r
+      ? (a.data?.rows ?? [])
+      : (o.data ?? [])
+          .filter((e) => (e.endsOn ?? e.startsOn).slice(0, 10) >= s)
+          .slice(0, e),
+    l = r ? a.isLoading : o.isLoading;
+  return (0, F.jsx)(J, {
+    icon: `calendar`,
+    title: `Upcoming Events`,
+    actions: r
+      ? (0, F.jsx)(Ue, { to: `/events`, children: `View All` })
+      : void 0,
+    children: l
+      ? (0, F.jsx)(`div`, {
+          className: `col g-3`,
+          children: [0, 1, 2].map((e) =>
+            (0, F.jsx)(
+              `span`,
+              { className: `skeleton`, style: { height: 44 } },
+              e,
+            ),
+          ),
+        })
+      : c.length
+        ? (0, F.jsx)(`div`, {
+            children: c.map((e) => {
+              let t = new Date(e.startsOn);
+              return (0, F.jsxs)(
+                `div`,
+                {
+                  className: `evrow`,
+                  children: [
+                    (0, F.jsxs)(`span`, {
+                      className: `evdate`,
+                      children: [
+                        (0, F.jsx)(`strong`, { children: t.getDate() }),
+                        (0, F.jsx)(`span`, {
+                          children: t.toLocaleString(`en-IN`, {
+                            month: `short`,
+                          }),
+                        }),
+                      ],
+                    }),
+                    (0, F.jsxs)(`div`, {
+                      className: `grow`,
+                      style: { minWidth: 0 },
+                      children: [
+                        (0, F.jsx)(`div`, {
+                          className: `evrow__title t-clip`,
+                          children: e.title,
+                        }),
+                        (0, F.jsxs)(`div`, {
+                          className: `evrow__meta t-clip`,
+                          children: [
+                            e.startsAt ? `${e.startsAt.slice(0, 5)} · ` : ``,
+                            e.venue ?? e.audience,
+                          ],
+                        }),
+                      ],
+                    }),
+                    (0, F.jsx)(`span`, {
+                      className: `evtag evtag--${yn[e.eventType] ?? `other`}`,
+                      children: e.eventType,
+                    }),
+                  ],
+                },
+                e.id,
+              );
+            }),
+          })
+        : (0, F.jsx)(Y, {
+            icon: `calendar`,
+            title: `No upcoming events`,
+            sub: `Published events from the school calendar appear here.`,
+          }),
+  });
+}
+function xn({
+  title: e = `Attendance Overview`,
+  icon: t = `calendar`,
+  points: n,
+  series: r = `Students`,
+  unit: i = `%`,
+  color: a = `var(--brand)`,
+  actions: o,
+  empty: s,
+  children: c,
+}) {
+  return (0, F.jsx)(J, {
+    icon: t,
+    title: e,
+    actions: o,
+    children:
+      c ??
+      (n.length > 1
+        ? (0, F.jsxs)(F.Fragment, {
+            children: [
+              (0, F.jsx)(ln, {
+                labels: n.map((e) => e.label),
+                series: [{ name: r, values: n.map((e) => e.value), color: a }],
+                unit: i,
+                yMax:
+                  i === `%` ? 100 : Math.max(...n.map((e) => e.value)) * 1.1,
+                label: `${e}, ${r}`,
+              }),
+              (0, F.jsx)(`div`, {
+                className: `vizlegend`,
+                children: (0, F.jsxs)(`span`, {
+                  children: [(0, F.jsx)(`i`, { style: { background: a } }), r],
+                }),
+              }),
+            ],
+          })
+        : (0, F.jsx)(Y, {
+            icon: `chart`,
+            title: s?.title ?? `No data yet`,
+            sub: s?.sub ?? `Figures appear once records are entered.`,
+          })),
+  });
+}
+function Sn({
+  title: e = `Academic Performance`,
+  icon: t = `graduation`,
+  link: n,
+  center: i,
+  centerSub: a,
+  bands: o,
+  empty: s,
+}) {
+  let c = r(),
+    l = o.reduce((e, t) => e + t.value, 0),
+    u = (e) => (l ? Math.round((e / l) * 100) : 0);
+  return (0, F.jsx)(J, {
+    icon: t,
+    title: e,
+    className: `donutcard`,
+    actions: n
+      ? (0, F.jsx)(Ue, { to: n.to, children: n.label ?? `View Details` })
+      : void 0,
+    children: l
+      ? (0, F.jsxs)(`div`, {
+          className: `donutwrap`,
+          children: [
+            (0, F.jsx)(un, {
+              bands: o,
+              center: i ?? `${u(o[0].value)}%`,
+              centerSub: a ?? o[0].label,
+              label: e,
+            }),
+            (0, F.jsx)(`div`, {
+              className: `dlegend`,
+              children: o.map((e) => {
+                let t = (0, F.jsxs)(F.Fragment, {
+                  children: [
+                    (0, F.jsx)(`span`, {
+                      className: `dot`,
+                      style: { background: e.color },
+                    }),
+                    (0, F.jsx)(`span`, { children: e.label }),
+                    (0, F.jsxs)(`strong`, { children: [u(e.value), `%`] }),
+                  ],
+                });
+                return e.to
+                  ? (0, F.jsx)(
+                      `button`,
+                      {
+                        type: `button`,
+                        className: `dlegend__row`,
+                        onClick: () => c(e.to),
+                        children: t,
+                      },
+                      e.label,
+                    )
+                  : (0, F.jsx)(
+                      `div`,
+                      { className: `dlegend__row`, children: t },
+                      e.label,
+                    );
+              }),
+            }),
+          ],
+        })
+      : (0, F.jsx)(Y, {
+          icon: `trending`,
+          title: s?.title ?? `No results yet`,
+          sub: s?.sub,
+        }),
+  });
+}
+function Cn({
+  title: e = `Top Performers`,
+  icon: t = `trophy`,
+  link: n,
+  nameLabel: i,
+  middle: a = `Class`,
+  valueLabel: o = `Percentage`,
+  rows: s,
+  loading: c,
+  empty: l,
+  fill: u,
+  minRows: d = 5,
+}) {
+  let f = r(),
+    p = (0, x.useRef)(null),
+    [m, h] = (0, x.useState)(d),
+    [g, _] = (0, x.useState)(void 0);
+  (0, x.useLayoutEffect)(() => {
+    if (!u || !p.current) return;
+    let e = p.current,
+      t = () => {
+        let t = e.querySelector(`thead`)?.getBoundingClientRect().height ?? 36,
+          n = Math.max(d, Math.floor((e.clientHeight - t) / 41));
+        (h(n),
+          _(
+            Math.min(
+              57.4,
+              Math.max(41, (e.clientHeight - t) / Math.min(n, s.length || n)),
+            ),
+          ));
+      };
+    t();
+    let n = new ResizeObserver(t);
+    return (
+      n.observe(e),
+      window.addEventListener(`resize`, t),
+      () => {
+        (n.disconnect(), window.removeEventListener(`resize`, t));
+      }
+    );
+  }, [u, d, s.length, c]);
+  let v = u ? s.slice(0, m) : s;
+  return (0, F.jsx)(J, {
+    icon: t,
+    title: e,
+    flush: !0,
+    actions: n
+      ? (0, F.jsx)(Ue, { to: n.to, children: n.label ?? `View All` })
+      : void 0,
+    children: c
+      ? (0, F.jsx)(`div`, {
+          className: `card__body col g-3`,
+          children: [0, 1, 2].map((e) =>
+            (0, F.jsx)(
+              `span`,
+              { className: `skeleton`, style: { height: 30 } },
+              e,
+            ),
+          ),
+        })
+      : s.length
+        ? (0, F.jsx)(`div`, {
+            className: u ? `rankfill` : `table-wrap`,
+            ref: p,
+            children: (0, F.jsx)(`div`, {
+              className: u ? `rankfill__inner table-wrap` : void 0,
+              style: u ? void 0 : { display: `contents` },
+              children: (0, F.jsxs)(`table`, {
+                className: `table table--compact ranktable`,
+                children: [
+                  (0, F.jsx)(`thead`, {
+                    children: (0, F.jsxs)(`tr`, {
+                      children: [
+                        (0, F.jsx)(`th`, {
+                          style: { width: 80 },
+                          children: `#`,
+                        }),
+                        (0, F.jsx)(`th`, {
+                          children:
+                            i ??
+                            (e.includes(`Subject`) ? `Subject` : `Student`),
+                        }),
+                        (0, F.jsx)(`th`, { children: a }),
+                        (0, F.jsx)(`th`, { className: `num`, children: o }),
+                      ],
+                    }),
+                  }),
+                  (0, F.jsx)(`tbody`, {
+                    children: v.map((e, t) =>
+                      (0, F.jsxs)(
+                        `tr`,
+                        {
+                          className: e.to ? `row--link` : void 0,
+                          onClick: e.to ? () => f(e.to) : void 0,
+                          style: u && g ? { height: g } : void 0,
+                          children: [
+                            (0, F.jsx)(`td`, {
+                              children: (0, F.jsxs)(`span`, {
+                                className: `row g-4`,
+                                children: [
+                                  (0, F.jsx)(`span`, {
+                                    className: `medal medal--${t < 3 ? t + 1 : `n`}`,
+                                    "aria-hidden": `true`,
+                                    children: t + 1,
+                                  }),
+                                  (0, F.jsx)(`span`, {
+                                    className: `t-muted`,
+                                    children: t + 1,
+                                  }),
+                                ],
+                              }),
+                            }),
+                            (0, F.jsx)(`td`, {
+                              children: (0, F.jsxs)(`span`, {
+                                className: `person`,
+                                children: [
+                                  (0, F.jsx)(K, {
+                                    name: e.name,
+                                    src: e.photo,
+                                    size: `sm`,
+                                  }),
+                                  (0, F.jsx)(`span`, {
+                                    className: `person__name t-clip`,
+                                    children: e.name,
+                                  }),
+                                ],
+                              }),
+                            }),
+                            (0, F.jsx)(`td`, {
+                              className: `t-nowrap`,
+                              style: { color: `var(--brand)` },
+                              children: e.meta,
+                            }),
+                            (0, F.jsx)(`td`, {
+                              className: `num`,
+                              children: e.value,
+                            }),
+                          ],
+                        },
+                        e.key,
+                      ),
+                    ),
+                  }),
+                ],
+              }),
+            }),
+          })
+        : (0, F.jsx)(Y, {
+            icon: t,
+            title: l?.title ?? `Nothing to rank yet`,
+            sub: l?.sub,
+          }),
+  });
+}
+function wn(e = 5) {
+  let { campusParam: t } = en(),
+    n = Kt(`/students`, { sort: `average`, dir: `desc`, pageSize: e, ...t });
+  return {
+    rows: (n.data?.rows ?? [])
+      .filter((e) => e.average != null)
+      .map((e) => ({
+        key: e.id,
+        name: e.fullName,
+        photo: e.photoUrl,
+        meta: `${e.grade ?? ``}${e.section ? ` - ${e.section}` : ``}`,
+        value: `${e.average}%`,
+        to: `/student-360/${e.id}`,
+      })),
+    loading: n.isLoading,
+  };
+}
+var Tn = (e, t = !1) => {
+    let n = new Date(`${e}T00:00:00`);
+    return t
+      ? n
+          .toLocaleDateString(`en-GB`, {
+            weekday: `short`,
+            day: `2-digit`,
+            month: `short`,
+          })
+          .replace(`,`, ``)
+      : n.toLocaleDateString(`en-US`, { month: `short`, day: `2-digit` });
+  },
+  En = (e, t) => (t ? Math.round(((e - t) / t) * 1e3) / 10 : null),
+  Dn = (e) => (e.length ? e.reduce((e, t) => e + t, 0) / e.length : null);
+function On({ events: e = !0, metrics: t = !1 }) {
+  let { can: n } = L(),
+    r = en(),
+    i = n(`dashboard.view`) && n(`students.read`),
+    [a, o] = (0, x.useState)(`trend`),
+    s = Gt(i ? `/dashboard/command-center` : null, {
+      scope: r.scope,
+      campusId: r.campusId,
+    }),
+    c = wn(15);
+  if (!i) return null;
+  if (s.isLoading)
+    return (0, F.jsxs)(F.Fragment, {
+      children: [
+        t &&
+          (0, F.jsx)(`div`, {
+            className: `grid g-4col`,
+            children: [0, 1, 2, 3].map((e) =>
+              (0, F.jsx)(
+                `span`,
+                {
+                  className: `skeleton`,
+                  style: { height: 133, borderRadius: 10 },
+                },
+                e,
+              ),
+            ),
+          }),
+        (0, F.jsx)(`div`, {
+          className: `grid dash__pair`,
+          children: [0, 1].map((e) =>
+            (0, F.jsx)(
+              `span`,
+              {
+                className: `skeleton`,
+                style: { height: 300, borderRadius: 10 },
+              },
+              e,
+            ),
+          ),
+        }),
+      ],
+    });
+  if (!s.data) return null;
+  let l = s.data,
+    u = l.attendance,
+    d = l.students,
+    f = l.history,
+    p = u.trend.map((e) => e.value),
+    m = p[p.length - 1],
+    h = u.todayPct ?? m ?? null,
+    g = Dn(p.slice(-5)),
+    _ = Dn(p.slice(-10, -5)),
+    v = g != null && _ != null ? Math.round((g - _) * 10) / 10 : null,
+    y = (e) =>
+      e && e.length > 3 ? En(e[e.length - 1], e[e.length - 4]) : null,
+    b =
+      f && f.months.length > 3 ? `vs ${f.months[f.months.length - 4]}` : void 0,
+    S = l.finance,
+    C = S?.monthly ?? [],
+    w =
+      C.length > 1
+        ? Math.round((C[C.length - 1].pct - C[C.length - 2].pct) * 10) / 10
+        : null,
+    T = null;
+  if (a === `trend` && u.trend.length > 1) {
+    let e = [{ name: `Students`, values: p, color: `var(--brand)` }];
+    (u.staffTrend?.some((e) => e != null) &&
+      e.push({
+        name: `Staff`,
+        values: u.staffTrend,
+        color: `#B4ACD3`,
+        area: !1,
+      }),
+      (T = (0, F.jsxs)(F.Fragment, {
+        children: [
+          (0, F.jsx)(ln, {
+            labels: u.trend.map((e) => Tn(e.day)),
+            tips: u.trend.map((e) => Tn(e.day, !0)),
+            series: e,
+            height: 158,
+            label: `Attendance over recent school days`,
+          }),
+          (0, F.jsx)(`div`, {
+            className: `vizlegend`,
+            children: e.map((e) =>
+              (0, F.jsxs)(
+                `span`,
+                {
+                  children: [
+                    (0, F.jsx)(`i`, { style: { background: e.color } }),
+                    e.name,
+                  ],
+                },
+                e.name,
+              ),
+            ),
+          }),
+        ],
+      })));
+  } else
+    a === `grade` && u.byGrade.length
+      ? (T = (0, F.jsx)(Fe, {
+          svg: U.bar({
+            labels: u.byGrade.map((e) => e.grade.replace(`Grade `, `G`)),
+            series: [
+              {
+                name: `Present %`,
+                values: u.byGrade.map((e) => e.present),
+                colors: u.byGrade.map((e) =>
+                  e.present < 85
+                    ? `var(--critical)`
+                    : e.present < 93
+                      ? `var(--viz-3)`
+                      : `var(--brand)`,
+                ),
+              },
+            ],
+            yMax: 100,
+            target: 93,
+            targetLabel: `Target 93%`,
+            height: 210,
+            label: `Attendance by grade, last 7 days`,
+          }),
+        }))
+      : a === `late` && u.lateByTime.length
+        ? (T = (0, F.jsx)(Fe, {
+            svg: U.bar({
+              labels: u.lateByTime.map((e) => e.label),
+              series: [
+                {
+                  name: `Late arrivals`,
+                  values: u.lateByTime.map((e) => e.value),
+                  color: `var(--viz-3)`,
+                },
+              ],
+              height: 210,
+              label: `Late arrival times, last 30 days`,
+            }),
+          }))
+        : a === `pattern` &&
+          u.weekdayAbsences.length &&
+          (T = (0, F.jsx)(Fe, {
+            svg: U.hbar({
+              rows: u.weekdayAbsences.map((e) => ({
+                label: e.day.trim(),
+                value: e.absences,
+                display: `${e.absences} absences`,
+              })),
+              labelW: 120,
+              rowH: 34,
+              label: `Absences by weekday, last 60 days`,
+            }),
+          }));
+  let E = l.academic.byGrade,
+    D = E.length
+      ? Math.round(E.reduce((e, t) => e + t.average, 0) / E.length)
+      : null,
+    O =
+      u.trend.length > 1
+        ? `${new Date(`${u.trend[0].day}T00:00:00`).toLocaleDateString(`en-GB`, { day: `numeric`, month: `short`, year: `numeric` })} – ${new Date(`${u.trend[u.trend.length - 1].day}T00:00:00`).toLocaleDateString(`en-GB`, { day: `numeric`, month: `short`, year: `numeric` })}`
+        : null;
+  return (0, F.jsxs)(F.Fragment, {
+    children: [
+      t &&
+        (0, F.jsxs)(`div`, {
+          className: `grid g-4col`,
+          children: [
+            (0, F.jsx)(cn, {
+              icon: `users`,
+              tone: `rose`,
+              label: `Total Students`,
+              value: V.n(d.total),
+              to: `/students`,
+              delta: y(f?.students),
+              compare: b,
+              spark: f?.students,
+            }),
+            (0, F.jsx)(cn, {
+              icon: `user`,
+              tone: `blue`,
+              label: `Total Staff`,
+              value: V.n(l.staff.total),
+              to: n(`hr.read`) ? `/workforce` : void 0,
+              delta: y(f?.staff),
+              compare: b,
+              spark: f?.staff?.slice(-6),
+              sparkLabels: f?.months.slice(-6),
+              viz: `bars`,
+            }),
+            (0, F.jsx)(cn, {
+              icon: `calendar`,
+              tone: `green`,
+              label: `Attendance Rate`,
+              value: h == null ? `—` : `${h}%`,
+              to: `/attendance`,
+              delta: v,
+              deltaUnit: ` pts`,
+              compare: `vs last week`,
+              pct: h,
+              viz: `ring`,
+            }),
+            S
+              ? (0, F.jsx)(cn, {
+                  icon: `rupee`,
+                  tone: `amber`,
+                  label: `Fee Collection`,
+                  value: `${Math.round(S.collectionPct)}%`,
+                  to: `/fees`,
+                  delta: w,
+                  deltaUnit: ` pts`,
+                  compare: `vs last month`,
+                  pct: S.collectionPct,
+                  spark: C.map((e) => e.pct),
+                  viz: `progress`,
+                })
+              : (0, F.jsx)(cn, {
+                  icon: `trending`,
+                  tone: `amber`,
+                  label: `Students On Track`,
+                  value: d.total
+                    ? `${Math.round((d.onTrack / d.total) * 100)}%`
+                    : `—`,
+                  compare: `${V.n(d.onTrack)} of ${V.n(d.total)} students`,
+                  to: `/students?risk=On+Track`,
+                }),
+          ],
+        }),
+      (0, F.jsxs)(`div`, {
+        className: `grid dash__pair`,
+        children: [
+          (0, F.jsx)(xn, {
+            points: [],
+            actions: (0, F.jsxs)(F.Fragment, {
+              children: [
+                a === `trend` &&
+                  O &&
+                  (0, F.jsxs)(`span`, {
+                    className: `rangepill`,
+                    children: [
+                      (0, F.jsx)(W, { name: `calendar`, size: 13 }),
+                      O,
+                    ],
+                  }),
+                (0, F.jsxs)(`select`, {
+                  className: `select select--sm`,
+                  "aria-label": `Attendance view`,
+                  value: a,
+                  onChange: (e) => o(e.target.value),
+                  children: [
+                    (0, F.jsxs)(`option`, {
+                      value: `trend`,
+                      children: [`Last `, u.trend.length, ` school days`],
+                    }),
+                    (0, F.jsx)(`option`, {
+                      value: `grade`,
+                      children: `By class (7 days)`,
+                    }),
+                    (0, F.jsx)(`option`, {
+                      value: `late`,
+                      children: `Late arrivals (30 days)`,
+                    }),
+                    (0, F.jsx)(`option`, {
+                      value: `pattern`,
+                      children: `Absences by weekday`,
+                    }),
+                  ],
+                }),
+              ],
+            }),
+            children:
+              T ??
+              (0, F.jsx)(Y, {
+                icon: `chart`,
+                title: `No attendance data yet`,
+                sub: `Figures appear once attendance is marked.`,
+              }),
+          }),
+          (0, F.jsx)(Sn, {
+            link: { to: `/academic-performance` },
+            center: D == null ? void 0 : `${D}%`,
+            centerSub: D == null ? void 0 : `Overall Performance`,
+            bands: [
+              {
+                label: `On Track`,
+                value: d.onTrack,
+                color: `#1F9D6B`,
+                to: `/students?risk=On+Track`,
+              },
+              {
+                label: `Developing Risk`,
+                value: d.developing,
+                color: `#F2B32E`,
+                to: `/students?risk=Developing+Risk`,
+              },
+              {
+                label: `At Risk`,
+                value: d.atRisk,
+                color: `#E8435F`,
+                to: `/students?risk=At+Risk`,
+              },
+            ],
+          }),
+        ],
+      }),
+      (0, F.jsxs)(`div`, {
+        className: e && n(`communication.read`) ? `grid dash__events` : `grid`,
+        children: [
+          e && (0, F.jsx)(bn, {}),
+          (0, F.jsx)(Cn, {
+            link: { to: `/academic-performance` },
+            rows: c.rows,
+            loading: c.loading,
+            fill: !0,
+            empty: {
+              title: `No results recorded yet`,
+              sub: `Students appear here once assessment marks are entered.`,
+            },
+          }),
+        ],
+      }),
+    ],
+  });
+}
+var kn = `hs.theme`,
+  An = new Set();
+function jn() {
+  try {
+    let e = localStorage.getItem(kn);
+    return e === `light` || e === `dark` ? e : null;
+  } catch {
+    return null;
+  }
+}
+function Mn(e) {
+  (document.documentElement.setAttribute(`data-theme`, e),
+    An.forEach((e) => e()));
+}
+function Nn() {
+  try {
+    jn() === `dark` && localStorage.removeItem(kn);
+  } catch {}
+  Mn(`light`);
+}
+function X(e) {
+  let t = null,
+    n = () => (t ??= e());
+  return Object.assign((0, x.lazy)(n), { preload: n });
+}
+var Pn = X(() =>
+    a(
+      () => import(`./CommandCenterPage-BRyYCX6n.js`),
+      __vite__mapDeps([0, 1, 2]),
+    ),
+  ),
+  Fn = X(() =>
+    a(
+      () => import(`./OwnerOverviewPage-D2cNqlDl.js`),
+      __vite__mapDeps([3, 1, 2]),
+    ),
+  ),
+  In = X(() =>
+    a(
+      () => import(`./NotificationsPage-DiRFBj53.js`),
+      __vite__mapDeps([4, 1, 2, 5]),
+    ),
+  ),
+  Ln = X(() =>
+    a(() => import(`./MyTasksPage-0lUyYy5U.js`), __vite__mapDeps([6, 2, 1, 5])),
+  ),
+  Rn = X(() =>
+    a(() => import(`./AccountPage-CyLpC9OW.js`), __vite__mapDeps([7, 2, 1])),
+  ),
+  zn = X(() =>
+    a(() => import(`./HelpPage-DEKlFC5O.js`), __vite__mapDeps([8, 1, 2])),
+  ),
+  Bn = X(() =>
+    a(
+      () => import(`./AdminUsersPage-Ce-2hmjC.js`),
+      __vite__mapDeps([9, 2, 1, 5]),
+    ),
+  ),
+  Vn = X(() =>
+    a(
+      () => import(`./AdminSettingsPage-Vl0qSVqR.js`),
+      __vite__mapDeps([10, 2, 1]),
+    ),
+  ),
+  Hn = [
+    {
+      path: `/command-center`,
+      perm: [`students.read`],
+      element: (0, F.jsx)(Pn, {}),
+    },
+    {
+      path: `/overview`,
+      perm: [`finance.read`, `audit.read`],
+      element: (0, F.jsx)(Fn, {}),
+    },
+    { path: `/notifications`, element: (0, F.jsx)(In, {}) },
+    { path: `/my-tasks`, element: (0, F.jsx)(Ln, {}) },
+    { path: `/account`, element: (0, F.jsx)(Rn, {}) },
+    { path: `/help`, element: (0, F.jsx)(zn, {}) },
+    {
+      path: `/admin/users`,
+      perm: [`users.manage`],
+      element: (0, F.jsx)(Bn, {}),
+    },
+    {
+      path: `/admin/settings`,
+      perm: [`settings.manage`],
+      element: (0, F.jsx)(Vn, {}),
+    },
+  ],
+  Un = X(() =>
+    a(
+      () => import(`./StudentsPage-CdKTWrOy.js`).then((e) => e.t),
+      __vite__mapDeps([11, 2, 1, 5]),
+    ),
+  ),
+  Wn = X(() =>
+    a(
+      () => import(`./Student360Page-BD1NCvpf.js`),
+      __vite__mapDeps([12, 2, 1, 13, 14, 15, 16, 11, 5]),
+    ),
+  ),
+  Gn = X(() =>
+    a(
+      () => import(`./MyProfilePage-B6j7xvTP.js`),
+      __vite__mapDeps([17, 1, 2, 12, 13, 14, 15, 16, 11, 5]),
+    ),
+  ),
+  Kn = X(() =>
+    a(
+      () => import(`./MyIdeasPage-2bfT5v_-.js`),
+      __vite__mapDeps([18, 2, 1, 19, 20]),
+    ),
+  ),
+  qn = [`students.read`, `students.read_assigned`],
+  Jn = [
+    { path: `/students`, perm: qn, element: (0, F.jsx)(Un, {}) },
+    { path: `/student-360`, perm: qn, element: (0, F.jsx)(Wn, {}) },
+    { path: `/student-360/:id`, perm: qn, element: (0, F.jsx)(Wn, {}) },
+    {
+      path: `/my-profile`,
+      perm: [`student_portal.use`],
+      element: (0, F.jsx)(Gn, {}),
+    },
+    {
+      path: `/my-ideas`,
+      perm: [`student_portal.use`],
+      element: (0, F.jsx)(Kn, {}),
+    },
+  ],
+  Yn = X(() =>
+    a(
+      () => import(`./StudentTrackingPage-DMkqU9iT.js`),
+      __vite__mapDeps([21, 2, 1, 5, 13, 14, 15, 16]),
+    ),
+  ),
+  Xn = X(() =>
+    a(
+      () => import(`./DevicesPage-C_T-FdUX.js`),
+      __vite__mapDeps([22, 2, 1, 5, 16]),
+    ),
+  ),
+  Zn = X(() =>
+    a(
+      () => import(`./DeviceAssignmentsPage-DGYd8zIa.js`),
+      __vite__mapDeps([23, 2, 1, 5, 16]),
+    ),
+  ),
+  Qn = [`tracking.read_all`, `tracking.read_assigned`],
+  $n = [`tracking.read_all`, `tracking.manage`],
+  er = [
+    { path: `/student-tracking`, perm: Qn, element: (0, F.jsx)(Yn, {}) },
+    { path: `/student-tracking/:id`, perm: Qn, element: (0, F.jsx)(Yn, {}) },
+    { path: `/gps-devices`, perm: $n, element: (0, F.jsx)(Xn, {}) },
+    { path: `/device-assignments`, perm: $n, element: (0, F.jsx)(Zn, {}) },
+  ],
+  tr = X(() =>
+    a(
+      () => import(`./Parent360Page-BbZDsxJC.js`),
+      __vite__mapDeps([24, 2, 1, 13, 14, 15, 16]),
+    ),
+  ),
+  nr = X(() =>
+    a(
+      () =>
+        import(`./Parent360Page-BbZDsxJC.js`).then((e) => ({
+          default: e.TrackChildPage,
+        })),
+      __vite__mapDeps([24, 2, 1, 13, 14, 15, 16]),
+    ),
+  ),
+  rr = [
+    {
+      path: `/parent-360`,
+      perm: [`parent_portal.use`],
+      element: (0, F.jsx)(tr, {}),
+    },
+    {
+      path: `/parent-360/track/:studentId`,
+      perm: [`tracking.read_own_children`],
+      element: (0, F.jsx)(nr, {}),
+    },
+  ],
+  ir = X(() =>
+    a(
+      () => import(`./TeacherDashboardPage-OCzOKLNI.js`),
+      __vite__mapDeps([25, 1, 2, 26]),
+    ),
+  ),
+  ar = X(() =>
+    a(
+      () => import(`./AttendancePage-Byg-R6ta.js`),
+      __vite__mapDeps([27, 2, 1, 26]),
+    ),
+  ),
+  or = X(() =>
+    a(
+      () => import(`./AcademicPerformancePage-ClYKxo1a.js`),
+      __vite__mapDeps([28, 2, 1, 5, 26]),
+    ),
+  ),
+  sr = X(() =>
+    a(
+      () => import(`./AssessmentsPage-36e2Bf9a.js`),
+      __vite__mapDeps([29, 2, 1, 5, 26]),
+    ),
+  ),
+  cr = X(() =>
+    a(
+      () => import(`./CurriculumPage-SzQnRLpb.js`),
+      __vite__mapDeps([30, 2, 1, 26, 31]),
+    ),
+  ),
+  lr = X(() =>
+    a(
+      () => import(`./ClassesPage-DbcxhQFd.js`),
+      __vite__mapDeps([32, 2, 1, 5, 26]),
+    ),
+  ),
+  ur = X(() =>
+    a(
+      () => import(`./SubjectsPage-BkNhgrC4.js`),
+      __vite__mapDeps([33, 2, 1, 5]),
+    ),
+  ),
+  dr = X(() =>
+    a(
+      () => import(`./TimetablePage-BuQ11taq.js`),
+      __vite__mapDeps([34, 2, 1, 26]),
+    ),
+  ),
+  fr = X(() =>
+    a(
+      () => import(`./LessonPlansPage-Dxy-zBpN.js`),
+      __vite__mapDeps([35, 2, 1, 5, 26]),
+    ),
+  ),
+  pr = X(() =>
+    a(
+      () => import(`./HomeworkPage-yMXsCye9.js`),
+      __vite__mapDeps([36, 2, 1, 5, 26]),
+    ),
+  ),
+  mr = X(() =>
+    a(
+      () => import(`./QuestionBankPage-BOWgU_D9.js`),
+      __vite__mapDeps([37, 2, 1, 26]),
+    ),
+  ),
+  hr = X(() =>
+    a(
+      () => import(`./ReportCardsPage-Bf1Vogwt.js`),
+      __vite__mapDeps([38, 2, 1, 26]),
+    ),
+  ),
+  gr = X(() =>
+    a(
+      () => import(`./ObjectivesPage-Bz8S7TcP.js`),
+      __vite__mapDeps([39, 2, 1, 5, 31, 26]),
+    ),
+  ),
+  _r = [
+    {
+      path: `/teacher`,
+      perm: [`attendance.mark`],
+      element: (0, F.jsx)(ir, {}),
+    },
+    {
+      path: `/attendance`,
+      perm: [`attendance.read`],
+      element: (0, F.jsx)(ar, {}),
+    },
+    {
+      path: `/academic-performance`,
+      perm: [`students.read`, `students.read_assigned`],
+      element: (0, F.jsx)(or, {}),
+    },
+    {
+      path: `/assessments`,
+      perm: [`academics.read`],
+      element: (0, F.jsx)(sr, {}),
+    },
+    {
+      path: `/curriculum`,
+      perm: [`academics.read`],
+      element: (0, F.jsx)(cr, {}),
+    },
+    { path: `/classes`, perm: [`academics.read`], element: (0, F.jsx)(lr, {}) },
+    {
+      path: `/subjects`,
+      perm: [`academics.read`],
+      element: (0, F.jsx)(ur, {}),
+    },
+    {
+      path: `/timetable`,
+      perm: [`academics.read`],
+      element: (0, F.jsx)(dr, {}),
+    },
+    {
+      path: `/lesson-plans`,
+      perm: [`academics.read`],
+      element: (0, F.jsx)(fr, {}),
+    },
+    {
+      path: `/homework`,
+      perm: [`academics.read`],
+      element: (0, F.jsx)(pr, {}),
+    },
+    {
+      path: `/question-bank`,
+      perm: [`academics.read`],
+      element: (0, F.jsx)(mr, {}),
+    },
+    {
+      path: `/report-cards`,
+      perm: [`academics.read`],
+      element: (0, F.jsx)(hr, {}),
+    },
+    {
+      path: `/objectives`,
+      perm: [`academics.read`],
+      element: (0, F.jsx)(gr, {}),
+    },
+  ],
+  vr = X(() =>
+    a(
+      () => import(`./AdmissionsDashboardPage-DNzEmX25.js`),
+      __vite__mapDeps([40, 2, 1, 41, 42]),
+    ),
+  ),
+  yr = X(() =>
+    a(
+      () => import(`./LeadsPage-DNSoKWKq.js`),
+      __vite__mapDeps([43, 2, 1, 5, 41, 42]),
+    ),
+  ),
+  br = X(() =>
+    a(
+      () => import(`./EnquiriesPage-BPkxOUaf.js`),
+      __vite__mapDeps([44, 1, 2, 5, 41, 42]),
+    ),
+  ),
+  xr = X(() =>
+    a(
+      () => import(`./PipelinePage-BtbsGBFn.js`),
+      __vite__mapDeps([45, 2, 1, 41, 42]),
+    ),
+  ),
+  Sr = X(() =>
+    a(
+      () => import(`./ApplicationsPage-D1uylagV.js`),
+      __vite__mapDeps([46, 1, 2, 5, 41, 42]),
+    ),
+  ),
+  Cr = X(() =>
+    a(
+      () => import(`./VisitsPage-C6zjT3sJ.js`),
+      __vite__mapDeps([47, 2, 1, 5, 41, 42]),
+    ),
+  ),
+  wr = X(() =>
+    a(
+      () => import(`./ConversionPage-D01klTM7.js`),
+      __vite__mapDeps([48, 1, 2]),
+    ),
+  ),
+  Tr = X(() =>
+    a(
+      () => import(`./ReferralsPage-yKEk7OfC.js`),
+      __vite__mapDeps([49, 2, 1, 5, 41, 42]),
+    ),
+  ),
+  Er = X(() =>
+    a(
+      () => import(`./AlumniPage-BBU7VDAD.js`),
+      __vite__mapDeps([50, 2, 1, 5, 41]),
+    ),
+  ),
+  Dr = X(() =>
+    a(
+      () => import(`./VendorsPage-Bpq86ryC.js`),
+      __vite__mapDeps([51, 2, 1, 5, 41]),
+    ),
+  ),
+  Z = [`admissions.read`],
+  Or = [`crm.read`],
+  kr = [
+    { path: `/admissions`, perm: Z, element: (0, F.jsx)(vr, {}) },
+    { path: `/leads`, perm: Z, element: (0, F.jsx)(yr, {}) },
+    { path: `/enquiries`, perm: Z, element: (0, F.jsx)(br, {}) },
+    { path: `/pipeline`, perm: Z, element: (0, F.jsx)(xr, {}) },
+    { path: `/applications`, perm: Z, element: (0, F.jsx)(Sr, {}) },
+    { path: `/visits`, perm: Z, element: (0, F.jsx)(Cr, {}) },
+    { path: `/conversion`, perm: Z, element: (0, F.jsx)(wr, {}) },
+    { path: `/referrals`, perm: Z, element: (0, F.jsx)(Tr, {}) },
+    { path: `/alumni`, perm: Or, element: (0, F.jsx)(Er, {}) },
+    { path: `/vendors`, perm: Or, element: (0, F.jsx)(Dr, {}) },
+  ],
+  Ar = X(() =>
+    a(
+      () => import(`./FeeStructuresPage-zlfF1e3e.js`),
+      __vite__mapDeps([52, 2, 1, 5, 53]),
+    ),
+  ),
+  jr = X(() =>
+    a(() => import(`./FeesPage-C00TZxKN.js`), __vite__mapDeps([54, 2, 1, 53])),
+  ),
+  Mr = X(() =>
+    a(
+      () => import(`./StudentAccountsPage-Crvd4Mv3.js`),
+      __vite__mapDeps([55, 2, 1, 5, 53]),
+    ),
+  ),
+  Nr = X(() =>
+    a(
+      () => import(`./PaymentsPage-C-o1luI6.js`),
+      __vite__mapDeps([56, 2, 1, 5, 53]),
+    ),
+  ),
+  Pr = X(() =>
+    a(
+      () => import(`./ReceiptsPage-D497wwbH.js`),
+      __vite__mapDeps([57, 2, 1, 5, 53]),
+    ),
+  ),
+  Fr = X(() =>
+    a(
+      () => import(`./ConcessionsPage-B_EGJ3-s.js`),
+      __vite__mapDeps([58, 2, 1, 5, 53]),
+    ),
+  ),
+  Ir = X(() =>
+    a(
+      () => import(`./ScholarshipsPage-CPyCURYv.js`),
+      __vite__mapDeps([59, 2, 1, 5, 53, 58]),
+    ),
+  ),
+  Lr = X(() =>
+    a(
+      () => import(`./ExpensesPage-DgolMks1.js`),
+      __vite__mapDeps([60, 2, 1, 5, 53]),
+    ),
+  ),
+  Rr = X(() =>
+    a(
+      () => import(`./ReimbursementsPage-BUHXCArG.js`),
+      __vite__mapDeps([61, 2, 1, 5, 53]),
+    ),
+  ),
+  zr = X(() =>
+    a(
+      () => import(`./AllowancesPage-BbNgSvr6.js`),
+      __vite__mapDeps([62, 2, 1, 53]),
+    ),
+  ),
+  Br = X(() =>
+    a(
+      () => import(`./BudgetsPage-DsGrL8YR.js`),
+      __vite__mapDeps([63, 2, 1, 53]),
+    ),
+  ),
+  Vr = X(() =>
+    a(
+      () => import(`./ReconciliationPage-DKLIaAed.js`),
+      __vite__mapDeps([64, 2, 1, 5, 53]),
+    ),
+  ),
+  Hr = X(() =>
+    a(
+      () => import(`./FinancialReportsPage-BFLCEPb5.js`),
+      __vite__mapDeps([65, 2, 1, 53]),
+    ),
+  ),
+  Q = [`finance.read`],
+  Ur = [
+    { path: `/fee-structures`, perm: Q, element: (0, F.jsx)(Ar, {}) },
+    { path: `/fees`, perm: Q, element: (0, F.jsx)(jr, {}) },
+    { path: `/student-accounts`, perm: Q, element: (0, F.jsx)(Mr, {}) },
+    { path: `/payments`, perm: Q, element: (0, F.jsx)(Nr, {}) },
+    { path: `/receipts`, perm: Q, element: (0, F.jsx)(Pr, {}) },
+    { path: `/concessions`, perm: Q, element: (0, F.jsx)(Fr, {}) },
+    { path: `/scholarships`, perm: Q, element: (0, F.jsx)(Ir, {}) },
+    { path: `/expenses`, perm: Q, element: (0, F.jsx)(Lr, {}) },
+    { path: `/reimbursements`, perm: Q, element: (0, F.jsx)(Rr, {}) },
+    {
+      path: `/allowances`,
+      perm: Q,
+      element: (0, F.jsx)(zr, {
+        sub: `Recurring allowances that feed the payroll run each month.`,
+      }),
+    },
+    {
+      path: `/staff-allowances`,
+      perm: [`hr.read`, `finance.read`],
+      element: (0, F.jsx)(zr, {
+        sub: `Recurring allowances by employee category, applied automatically in payroll.`,
+      }),
+    },
+    { path: `/budgets`, perm: Q, element: (0, F.jsx)(Br, {}) },
+    { path: `/reconciliation`, perm: Q, element: (0, F.jsx)(Vr, {}) },
+    { path: `/financial-reports`, perm: Q, element: (0, F.jsx)(Hr, {}) },
+  ],
+  Wr = X(() =>
+    a(
+      () => import(`./WorkforcePage-D0hy564Y.js`),
+      __vite__mapDeps([66, 2, 1, 5, 53, 67]),
+    ),
+  ),
+  Gr = X(() =>
+    a(
+      () => import(`./StaffListPage-COS0D5cD.js`),
+      __vite__mapDeps([68, 1, 2, 5, 53, 67]),
+    ),
+  ),
+  Kr = X(() =>
+    a(
+      () => import(`./StaffAttendancePage-BYUIlbHd.js`),
+      __vite__mapDeps([69, 2, 1, 5, 53, 67]),
+    ),
+  ),
+  qr = X(() =>
+    a(
+      () => import(`./ShiftsPage-B2VheHU-.js`),
+      __vite__mapDeps([70, 2, 1, 67, 53]),
+    ),
+  ),
+  Jr = X(() =>
+    a(
+      () => import(`./LeavePage-cF04SnIZ.js`),
+      __vite__mapDeps([71, 2, 1, 5, 67, 53]),
+    ),
+  ),
+  Yr = X(() =>
+    a(
+      () => import(`./OvertimePage-BiIa_Xqv.js`),
+      __vite__mapDeps([72, 2, 1, 5, 53, 67]),
+    ),
+  ),
+  Xr = X(() =>
+    a(
+      () => import(`./WorkloadPage-C1XRU4yr.js`),
+      __vite__mapDeps([73, 1, 2, 67, 53]),
+    ),
+  ),
+  Zr = X(() =>
+    a(
+      () => import(`./CpdPage-CHaCkVDG.js`),
+      __vite__mapDeps([74, 2, 1, 5, 53, 67]),
+    ),
+  ),
+  Qr = X(() =>
+    a(
+      () => import(`./PayrollPage-BC1NEy69.js`),
+      __vite__mapDeps([75, 2, 1, 53, 67]),
+    ),
+  ),
+  $r = X(() =>
+    a(
+      () => import(`./PayslipsPage-BDnfZ_eA.js`),
+      __vite__mapDeps([76, 2, 1, 5, 53, 67]),
+    ),
+  ),
+  ei = X(() =>
+    a(
+      () => import(`./PayslipPrintPage-aO4vGnXx.js`),
+      __vite__mapDeps([77, 1, 2, 67, 53]),
+    ),
+  ),
+  ti = X(() =>
+    a(
+      () => import(`./StaffSelfPage-CdjNtwow.js`),
+      __vite__mapDeps([78, 2, 1, 67, 53]),
+    ),
+  ),
+  ni = [
+    { path: `/workforce`, perm: [`hr.read`], element: (0, F.jsx)(Wr, {}) },
+    {
+      path: `/teaching-staff`,
+      perm: [`hr.read`],
+      element: (0, F.jsx)(Gr, { type: `teaching` }, `teaching`),
+    },
+    {
+      path: `/non-teaching-staff`,
+      perm: [`hr.read`],
+      element: (0, F.jsx)(Gr, { type: `non_teaching` }, `non_teaching`),
+    },
+    {
+      path: `/staff-attendance`,
+      perm: [`hr.read`],
+      element: (0, F.jsx)(Kr, {}),
+    },
+    { path: `/shifts`, perm: [`hr.read`], element: (0, F.jsx)(qr, {}) },
+    { path: `/leave`, perm: [`hr.read`], element: (0, F.jsx)(Jr, {}) },
+    { path: `/overtime`, perm: [`hr.read`], element: (0, F.jsx)(Yr, {}) },
+    { path: `/workload`, perm: [`hr.read`], element: (0, F.jsx)(Xr, {}) },
+    { path: `/cpd`, perm: [`hr.read`], element: (0, F.jsx)(Zr, {}) },
+    { path: `/payroll`, perm: [`payroll.read`], element: (0, F.jsx)(Qr, {}) },
+    { path: `/payslips`, perm: [`payroll.read`], element: (0, F.jsx)($r, {}) },
+    {
+      path: `/payslips/:id`,
+      perm: [`payroll.read`],
+      element: (0, F.jsx)(ei, {}),
+    },
+    {
+      path: `/staff-self`,
+      perm: [`selfservice.use`],
+      element: (0, F.jsx)(ti, {}),
+    },
+    {
+      path: `/staff-self/payslips/:id`,
+      perm: [`selfservice.use`],
+      element: (0, F.jsx)(ei, { self: !0 }),
+    },
+  ],
+  ri = X(() =>
+    a(
+      () => import(`./SmartGatePage-BRymWCd-.js`),
+      __vite__mapDeps([79, 2, 1, 80]),
+    ),
+  ),
+  ii = X(() =>
+    a(
+      () => import(`./GateLogPage-CkvHmCgp.js`),
+      __vite__mapDeps([81, 2, 1, 5, 80]),
+    ),
+  ),
+  ai = X(() =>
+    a(
+      () => import(`./PickupPage-Bn5NoyBN.js`),
+      __vite__mapDeps([82, 2, 1, 5, 80]),
+    ),
+  ),
+  oi = X(() =>
+    a(
+      () => import(`./VisitorsPage-CunMKeCA.js`),
+      __vite__mapDeps([83, 2, 1, 5, 80]),
+    ),
+  ),
+  si = X(() =>
+    a(
+      () => import(`./BusTrackingPage-DwJGqakt.js`),
+      __vite__mapDeps([84, 2, 1, 16, 80, 85, 14, 15]),
+    ),
+  ),
+  ci = X(() =>
+    a(
+      () => import(`./RoutesPage-DdWUORgl.js`),
+      __vite__mapDeps([86, 2, 1, 80, 85, 14, 15]),
+    ),
+  ),
+  li = X(() =>
+    a(
+      () => import(`./BoardingPage-DlgzTjjS.js`),
+      __vite__mapDeps([87, 1, 2, 80]),
+    ),
+  ),
+  ui = X(() =>
+    a(
+      () => import(`./EmergencyPage-Cs85Lind.js`),
+      __vite__mapDeps([88, 2, 1, 80]),
+    ),
+  ),
+  di = X(() =>
+    a(
+      () => import(`./SafeguardingPage-Ci3faca7.js`),
+      __vite__mapDeps([89, 2, 1, 5, 80]),
+    ),
+  ),
+  fi = X(() =>
+    a(
+      () => import(`./InfirmaryPage-BBpPtLMO.js`),
+      __vite__mapDeps([90, 2, 1, 5, 80]),
+    ),
+  ),
+  pi = X(() =>
+    a(
+      () => import(`./CounsellingPage-DHCdY2hU.js`),
+      __vite__mapDeps([91, 2, 1, 5, 80]),
+    ),
+  ),
+  mi = [
+    { path: `/smart-gate`, perm: [`safety.read`], element: (0, F.jsx)(ri, {}) },
+    { path: `/gate-log`, perm: [`safety.read`], element: (0, F.jsx)(ii, {}) },
+    { path: `/pickup`, perm: [`safety.read`], element: (0, F.jsx)(ai, {}) },
+    { path: `/visitors`, perm: [`safety.read`], element: (0, F.jsx)(oi, {}) },
+    {
+      path: `/bus-tracking`,
+      perm: [`transport.read`],
+      element: (0, F.jsx)(si, {}),
+    },
+    { path: `/routes`, perm: [`transport.read`], element: (0, F.jsx)(ci, {}) },
+    {
+      path: `/boarding`,
+      perm: [`transport.read`],
+      element: (0, F.jsx)(li, {}),
+    },
+    { path: `/emergency`, perm: [`safety.read`], element: (0, F.jsx)(ui, {}) },
+    {
+      path: `/safeguarding`,
+      perm: [`safety.read`],
+      element: (0, F.jsx)(di, {}),
+    },
+    { path: `/infirmary`, perm: [`safety.read`], element: (0, F.jsx)(fi, {}) },
+    {
+      path: `/counselling`,
+      perm: [`safety.read`],
+      element: (0, F.jsx)(pi, {}),
+    },
+  ],
+  hi = X(() =>
+    a(
+      () => import(`./ParentDirectoryPage-DcPtvN_c.js`),
+      __vite__mapDeps([92, 2, 1, 5, 93]),
+    ),
+  ),
+  gi = X(() =>
+    a(
+      () => import(`./ParentCommunicationPage-C-A5bafi.js`),
+      __vite__mapDeps([94, 2, 1, 5, 93]),
+    ),
+  ),
+  _i = X(() =>
+    a(
+      () => import(`./PtmPage-DKMgHztC.js`),
+      __vite__mapDeps([95, 2, 1, 5, 93]),
+    ),
+  ),
+  vi = X(() =>
+    a(
+      () => import(`./CircularsPage-CHbPPJT9.js`),
+      __vite__mapDeps([96, 2, 1, 5, 93]),
+    ),
+  ),
+  yi = X(() =>
+    a(
+      () => import(`./OpCircularsPage-DlnZfuSr.js`),
+      __vite__mapDeps([97, 1, 2, 96, 5, 93]),
+    ),
+  ),
+  bi = X(() =>
+    a(
+      () => import(`./EventsPage-0R8A3ouJ.js`),
+      __vite__mapDeps([98, 2, 1, 5, 93]),
+    ),
+  ),
+  xi = X(() =>
+    a(
+      () => import(`./AcknowledgementsPage-DjFTSKJH.js`),
+      __vite__mapDeps([99, 2, 1, 5, 93]),
+    ),
+  ),
+  Si = [
+    {
+      path: `/parent-directory`,
+      perm: [`parents.read`],
+      element: (0, F.jsx)(hi, {}),
+    },
+    {
+      path: `/parent-communication`,
+      perm: [`communication.read`],
+      element: (0, F.jsx)(gi, {}),
+    },
+    { path: `/ptm`, perm: [`communication.read`], element: (0, F.jsx)(_i, {}) },
+    {
+      path: `/circulars`,
+      perm: [`communication.read`],
+      element: (0, F.jsx)(vi, {}),
+    },
+    {
+      path: `/op-circulars`,
+      perm: [`operations.read`],
+      element: (0, F.jsx)(yi, {}),
+    },
+    {
+      path: `/events`,
+      perm: [`communication.read`],
+      element: (0, F.jsx)(bi, {}),
+    },
+    {
+      path: `/acknowledgements`,
+      perm: [`communication.read`],
+      element: (0, F.jsx)(xi, {}),
+    },
+  ],
+  Ci = X(() =>
+    a(
+      () => import(`./AssetsPage-Bh4mW_-W.js`),
+      __vite__mapDeps([100, 2, 1, 5, 19]),
+    ),
+  ),
+  wi = X(() =>
+    a(
+      () => import(`./FacilitiesPage-bcwBfyqn.js`),
+      __vite__mapDeps([101, 2, 1, 19]),
+    ),
+  ),
+  Ti = X(() =>
+    a(
+      () => import(`./MaintenancePage-BQUtsYg1.js`),
+      __vite__mapDeps([102, 2, 1, 5, 19]),
+    ),
+  ),
+  Ei = X(() =>
+    a(
+      () => import(`./InventoryPage-EvthG7Hd.js`),
+      __vite__mapDeps([103, 2, 1, 5, 19]),
+    ),
+  ),
+  Di = X(() =>
+    a(
+      () => import(`./DocumentsPage-BP4eDeWp.js`),
+      __vite__mapDeps([104, 2, 1, 5, 19]),
+    ),
+  ),
+  Oi = X(() =>
+    a(
+      () => import(`./CertificatesPage-HVMzE5rs.js`),
+      __vite__mapDeps([105, 2, 1, 5, 19]),
+    ),
+  ),
+  ki = X(() =>
+    a(
+      () => import(`./CompliancePage-B9mgKwKX.js`),
+      __vite__mapDeps([106, 2, 1, 5, 19]),
+    ),
+  ),
+  Ai = X(() =>
+    a(
+      () => import(`./AuditPage-CPh9Qo3t.js`),
+      __vite__mapDeps([107, 2, 1, 5, 19]),
+    ),
+  ),
+  ji = [
+    { path: `/assets`, perm: [`operations.read`], element: (0, F.jsx)(Ci, {}) },
+    {
+      path: `/facilities`,
+      perm: [`operations.read`],
+      element: (0, F.jsx)(wi, {}),
+    },
+    {
+      path: `/maintenance`,
+      perm: [`operations.read`],
+      element: (0, F.jsx)(Ti, {}),
+    },
+    {
+      path: `/inventory`,
+      perm: [`operations.read`],
+      element: (0, F.jsx)(Ei, {}),
+    },
+    {
+      path: `/documents`,
+      perm: [`documents.read`],
+      element: (0, F.jsx)(Di, {}),
+    },
+    {
+      path: `/certificates`,
+      perm: [`documents.read`],
+      element: (0, F.jsx)(Oi, {}),
+    },
+    {
+      path: `/compliance`,
+      perm: [`operations.read`],
+      element: (0, F.jsx)(ki, {}),
+    },
+    { path: `/audit`, perm: [`audit.read`], element: (0, F.jsx)(Ai, {}) },
+  ],
+  Mi = X(() =>
+    a(
+      () => import(`./InnovationDashboardPage-16XCGmt8.js`),
+      __vite__mapDeps([108, 2, 1, 20, 19, 109, 5]),
+    ),
+  ),
+  Ni = X(() =>
+    a(
+      () => import(`./IdeasPage-DS8iK6mD.js`),
+      __vite__mapDeps([110, 2, 1, 5, 19, 20]),
+    ),
+  ),
+  Pi = X(() =>
+    a(
+      () => import(`./ProjectsPage-DbzvaKNx.js`),
+      __vite__mapDeps([109, 2, 1, 5, 19, 20]),
+    ),
+  ),
+  Fi = X(() =>
+    a(
+      () => import(`./ProjectPage-DXMGhmKe.js`),
+      __vite__mapDeps([111, 2, 1, 19, 20]),
+    ),
+  ),
+  Ii = X(() =>
+    a(
+      () => import(`./MentorsPage-BBbnRIRu.js`),
+      __vite__mapDeps([112, 2, 1, 20, 19]),
+    ),
+  ),
+  Li = X(() =>
+    a(
+      () => import(`./MilestonesPage-6OtQBCW2.js`),
+      __vite__mapDeps([113, 1, 2, 5, 19]),
+    ),
+  ),
+  Ri = X(() =>
+    a(
+      () => import(`./CompetitionsPage-CLKfuaMB.js`),
+      __vite__mapDeps([114, 2, 1, 5, 19]),
+    ),
+  ),
+  zi = X(() =>
+    a(
+      () => import(`./AchievementsPage-DGQpL1mZ.js`),
+      __vite__mapDeps([115, 1, 2, 5]),
+    ),
+  ),
+  $ = [`innovation.read`],
+  Bi = [
+    { path: `/innovation`, perm: $, element: (0, F.jsx)(Mi, {}) },
+    { path: `/ideas`, perm: $, element: (0, F.jsx)(Ni, {}) },
+    { path: `/projects`, perm: $, element: (0, F.jsx)(Pi, {}) },
+    { path: `/projects/:id`, perm: $, element: (0, F.jsx)(Fi, {}) },
+    { path: `/mentors`, perm: $, element: (0, F.jsx)(Ii, {}) },
+    { path: `/milestones`, perm: $, element: (0, F.jsx)(Li, {}) },
+    { path: `/competitions`, perm: $, element: (0, F.jsx)(Ri, {}) },
+    { path: `/achievements`, perm: $, element: (0, F.jsx)(zi, {}) },
+  ],
+  Vi = X(() =>
+    a(
+      () => import(`./GroupDashboardPage-ZvwA_VnI.js`),
+      __vite__mapDeps([116, 2, 1, 117]),
+    ),
+  ),
+  Hi = X(() =>
+    a(
+      () => import(`./CampusComparisonPage-D4kJ1lAK.js`),
+      __vite__mapDeps([118, 1, 2, 117]),
+    ),
+  ),
+  Ui = X(() =>
+    a(
+      () => import(`./CampusesPage-A1OyArRB.js`),
+      __vite__mapDeps([119, 2, 1, 19]),
+    ),
+  ),
+  Wi = X(() =>
+    a(
+      () => import(`./TransfersPage-CpfSwgTN.js`),
+      __vite__mapDeps([120, 2, 1, 5, 19]),
+    ),
+  ),
+  Gi = X(() =>
+    a(
+      () => import(`./GroupPoliciesPage-tsC8pSCB.js`),
+      __vite__mapDeps([121, 2, 1, 5, 19]),
+    ),
+  ),
+  Ki = [
+    {
+      path: `/group-dashboard`,
+      perm: [`dashboard.group`],
+      element: (0, F.jsx)(Vi, {}),
+    },
+    {
+      path: `/campus-comparison`,
+      perm: [`group.read`],
+      element: (0, F.jsx)(Hi, {}),
+    },
+    { path: `/campuses`, perm: [`group.read`], element: (0, F.jsx)(Ui, {}) },
+    { path: `/transfers`, perm: [`group.read`], element: (0, F.jsx)(Wi, {}) },
+    {
+      path: `/group-policies`,
+      perm: [`group.read`],
+      element: (0, F.jsx)(Gi, {}),
+    },
+  ],
+  qi = X(() =>
+    a(
+      () => import(`./EarlyWarningPage-B-poJgZE.js`),
+      __vite__mapDeps([122, 2, 1, 5, 123]),
+    ),
+  ),
+  Ji = X(() =>
+    a(
+      () => import(`./TalentPage-BW4Exjq_.js`),
+      __vite__mapDeps([124, 2, 1, 123]),
+    ),
+  ),
+  Yi = X(() =>
+    a(
+      () => import(`./WellbeingPage-EnKcn7TM.js`),
+      __vite__mapDeps([125, 2, 1, 5, 123]),
+    ),
+  ),
+  Xi = X(() =>
+    a(
+      () => import(`./PortfolioPage-BvhkOTer.js`),
+      __vite__mapDeps([126, 1, 2, 123]),
+    ),
+  ),
+  Zi = X(() =>
+    a(
+      () => import(`./CopilotPage-C585yVpm.js`),
+      __vite__mapDeps([127, 2, 1, 123]),
+    ),
+  ),
+  Qi = X(() =>
+    a(
+      () => import(`./KnowledgePage-Bpnsjiiw.js`),
+      __vite__mapDeps([128, 2, 1, 123]),
+    ),
+  ),
+  $i = X(() =>
+    a(
+      () => import(`./AnalyticsPage-BkZrozQv.js`),
+      __vite__mapDeps([129, 1, 2, 123]),
+    ),
+  ),
+  ea = X(() =>
+    a(
+      () => import(`./ReportsPage-BBm5MN5-.js`),
+      __vite__mapDeps([130, 2, 1, 123]),
+    ),
+  ),
+  ta = X(() =>
+    a(
+      () => import(`./DayInLifePage-Jbt8Grfz.js`),
+      __vite__mapDeps([131, 2, 1, 123, 132]),
+    ),
+  ),
+  na = X(() =>
+    a(
+      () => import(`./AutomationsPage-C_9JXsbE.js`),
+      __vite__mapDeps([133, 1, 2, 132]),
+    ),
+  ),
+  ra = X(() =>
+    a(
+      () => import(`./WhatsappAiPage-BUt6fXo2.js`),
+      __vite__mapDeps([134, 2, 1, 123, 132]),
+    ),
+  ),
+  ia = X(() =>
+    a(
+      () => import(`./DesignSystemPage-IdDapIQI.js`),
+      __vite__mapDeps([135, 2, 1]),
+    ),
+  ),
+  aa = [`students.read`, `students.read_assigned`],
+  oa = [
+    {
+      path: `/early-warning`,
+      perm: [`earlywarning.read`],
+      element: (0, F.jsx)(qi, {}),
+    },
+    {
+      path: `/talent`,
+      perm: [`students.read`, `students.read_assigned`, `ai.use`],
+      element: (0, F.jsx)(Ji, {}),
+    },
+    { path: `/wellbeing`, perm: aa, element: (0, F.jsx)(Yi, {}) },
+    { path: `/portfolio`, perm: aa, element: (0, F.jsx)(Xi, {}) },
+    { path: `/copilot`, perm: [`ai.use`], element: (0, F.jsx)(Zi, {}) },
+    { path: `/knowledge-ai`, perm: [`ai.use`], element: (0, F.jsx)(Qi, {}) },
+    { path: `/analytics`, perm: [`reports.read`], element: (0, F.jsx)($i, {}) },
+    { path: `/reports`, perm: [`reports.read`], element: (0, F.jsx)(ea, {}) },
+    {
+      path: `/day-in-life`,
+      perm: [`prototype.view`],
+      element: (0, F.jsx)(ta, {}),
+    },
+    {
+      path: `/automations`,
+      perm: [`prototype.view`],
+      element: (0, F.jsx)(na, {}),
+    },
+    {
+      path: `/whatsapp-ai`,
+      perm: [`prototype.view`],
+      element: (0, F.jsx)(ra, {}),
+    },
+    {
+      path: `/design-system`,
+      perm: [`prototype.view`],
+      element: (0, F.jsx)(ia, {}),
+    },
+  ],
+  sa = X(() =>
+    a(
+      () => import(`./ReportCenterPage-vgZx_ZP_.js`),
+      __vite__mapDeps([136, 2, 1, 137]),
+    ),
+  ),
+  ca = X(() =>
+    a(
+      () => import(`./ReportViewerPage-CBb9SP3t.js`),
+      __vite__mapDeps([138, 2, 1, 5, 123, 137]),
+    ),
+  ),
+  la = [
+    {
+      path: `/admin/reports`,
+      perm: [`users.manage`],
+      element: (0, F.jsx)(sa, {}),
+    },
+    {
+      path: `/admin/reports/:key`,
+      perm: [`users.manage`],
+      element: (0, F.jsx)(ca, {}),
+    },
+  ],
+  ua = (0, x.lazy)(() =>
+    a(
+      () => import(`./ExamsPage-JE65TdHQ.js`),
+      __vite__mapDeps([139, 2, 1, 140]),
+    ),
+  ),
+  da = (0, x.lazy)(() =>
+    a(
+      () => import(`./ExamPage-jhT-pWNA.js`),
+      __vite__mapDeps([141, 2, 1, 140, 139]),
+    ),
+  ),
+  fa = (0, x.lazy)(() =>
+    a(
+      () => import(`./SheetPage-BRx9j9Mq.js`),
+      __vite__mapDeps([142, 2, 1, 140]),
+    ),
+  ),
+  pa = (0, x.lazy)(() =>
+    a(
+      () => import(`./AiSettingsPage-BlNpVGFy.js`),
+      __vite__mapDeps([143, 2, 1, 140]),
+    ),
+  ),
+  ma = [
+    {
+      path: `/paper-correction`,
+      perm: [`assessments.manage`],
+      element: (0, F.jsx)(ua, {}),
+    },
+    {
+      path: `/paper-correction/exams/:id`,
+      perm: [`assessments.manage`],
+      element: (0, F.jsx)(da, {}),
+    },
+    {
+      path: `/paper-correction/sheets/:id`,
+      perm: [`assessments.manage`],
+      element: (0, F.jsx)(fa, {}),
+    },
+    {
+      path: `/paper-correction/settings`,
+      perm: [`settings.manage`],
+      element: (0, F.jsx)(pa, {}),
+    },
+  ],
+  ha = [
+    ...Hn,
+    ...Jn,
+    ...er,
+    ...rr,
+    ..._r,
+    ...kr,
+    ...Ur,
+    ...ni,
+    ...mi,
+    ...Si,
+    ...ji,
+    ...Bi,
+    ...Ki,
+    ...oa,
+    ...la,
+    ...ma,
+  ];
+function ga(e) {
+  let t = e.split(`?`)[0];
+  (
+    ha.find((e) => e.path === t) ??
+    ha.find(
+      (e) =>
+        e.path.includes(`/:`) &&
+        t.startsWith(e.path.slice(0, e.path.indexOf(`/:`) + 1)),
+    )
+  )?.element?.type
+    ?.preload?.()
+    .catch(() => void 0);
+}
+function _a(e) {
+  return e.split(`?`)[0];
+}
+var va = [
+  `Student Management`,
+  `Admissions`,
+  `Finance`,
+  `HR & Workforce`,
+  `Transport & Safety`,
+  `Operations`,
+  `Insights & Innovation`,
+  `Administration`,
+];
+function ya(e, t) {
+  if (t) return -1;
+  let n = va.indexOf(e);
+  return n < 0 ? va.length : n;
+}
+function ba() {
+  let { user: e, can: t } = L();
+  return (0, x.useMemo)(() => {
+    if (!e) return [];
+    let n = e.role.homeRoute;
+    return ce
+      .map((r) => {
+        let i = r.items.filter(
+          (n) =>
+            t(n.perm ?? null) &&
+            (!n.roles || n.roles.includes(e.role.key)) &&
+            !n.hideRoles?.includes(e.role.key),
+        );
+        r.group === `Overview` &&
+          (i = i.filter((e) => e.dynamicHome || _a(e.to) !== n));
+        let a = new Set();
+        i = i.filter((e) => !a.has(e.to) && (a.add(e.to), !0));
+        let o = (r.quick ?? []).flatMap((e) => {
+          let t = i.find((t) => _a(t.to) === e.to);
+          return t ? [{ ...t, label: e.label ?? t.label }] : [];
+        });
+        return {
+          group: r.group,
+          label: r.label ?? r.group,
+          hue: r.hue ?? `brand`,
+          icon: r.icon,
+          section: r.section ?? ``,
+          items: i,
+          quick: o,
+          pinned: r.group === `Overview`,
+        };
+      })
+      .filter((e) => e.items.length)
+      .map((e, t) => ({ g: e, i: t }))
+      .sort(
+        (e, t) =>
+          ya(e.g.section, e.g.pinned) - ya(t.g.section, t.g.pinned) ||
+          e.i - t.i,
+      )
+      .map(({ g: e }) => e);
+  }, [e, t]);
+}
+function xa() {
+  let [e, t] = (0, x.useState)(() => localStorage.getItem(`hs.rail`) === `1`),
+    [n, r] = (0, x.useState)(!1),
+    [i, a] = (0, x.useState)(!1),
+    o = l(),
+    s = (0, x.useRef)(null);
+  (0, x.useEffect)(() => {
+    (r(!1),
+      a(!1),
+      window.scrollTo({ top: 0 }),
+      s.current?.focus({ preventScroll: !0 }));
+  }, [o.pathname]);
+  let { t: c } = z();
+  ((0, x.useEffect)(() => {
+    let e = fe(o.pathname),
+      t = e
+        ? c(e.label)
+        : { "/account": `My account`, "/help": `Help` }[o.pathname];
+    document.title = t
+      ? `${t} · Holy Sai Smart School 360`
+      : `Holy Sai Smart School 360`;
+  }, [o.pathname, c]),
+    (0, x.useEffect)(() => {
+      try {
+        localStorage.setItem(`hs.rail`, e ? `1` : `0`);
+      } catch {}
+    }, [e]));
+  let u = Gt(`/notifications/counts`, void 0, { refetchInterval: 6e4 });
+  return (0, F.jsxs)(`div`, {
+    className: `app`,
+    "data-rail": String(e),
+    "data-drawer": String(n),
+    "data-search": String(i),
+    children: [
+      (0, F.jsx)(`a`, {
+        href: `#main`,
+        className: `skiplink`,
+        children: `Skip to main content`,
+      }),
+      (0, F.jsx)(`button`, {
+        className: `sidebar__scrim`,
+        "aria-label": `Close navigation`,
+        tabIndex: -1,
+        onClick: () => r(!1),
+      }),
+      (0, F.jsx)(`aside`, {
+        className: `sidebar`,
+        id: `sidebar`,
+        "aria-label": `Main menu`,
+        children: (0, F.jsx)(Sa, {
+          rail: e,
+          onToggleRail: () => t((e) => !e),
+          onExpand: () => t(!1),
+          counts: u.data,
+        }),
+      }),
+      (0, F.jsxs)(`div`, {
+        className: `main`,
+        children: [
+          (0, F.jsx)(`header`, {
+            className: `topbar`,
+            id: `topbar`,
+            children: (0, F.jsx)(wa, {
+              onMenu: () => r((e) => !e),
+              mobileSearch: i,
+              onToggleSearch: () => a((e) => !e),
+              alertCount: u.data?.alerts ?? 0,
+            }),
+          }),
+          (0, F.jsx)(`main`, {
+            className: `view`,
+            id: `main`,
+            ref: s,
+            tabIndex: -1,
+            children: (0, F.jsx)(g, {}),
+          }),
+        ],
+      }),
+      (0, F.jsx)(Ea, { onDrawer: () => r((e) => !e) }),
+    ],
+  });
+}
+function Sa({ rail: e, onToggleRail: t, onExpand: n, counts: i }) {
+  let a = ba(),
+    { user: o, logout: s, can: c } = L(),
+    { t: u } = z(),
+    d = l(),
+    f = Ot(),
+    p = jt(),
+    m = r(),
+    [h, g] = (0, x.useState)(``),
+    [_, v] = (0, x.useState)(void 0),
+    [b, S] = (0, x.useState)(null),
+    C = (0, x.useRef)(null),
+    w = d.pathname,
+    T = (e) => _a(e.dynamicHome ? o.role.homeRoute : e.to),
+    E = (e) => {
+      let t = T(e);
+      return w === t || w.startsWith(t + `/`);
+    },
+    D = (0, x.useMemo)(() => {
+      for (let e of a)
+        if (e.items.some(E)) return e.pinned ? `__pinned__` : e.group;
+      return null;
+    }, [a, w]),
+    O = (0, x.useMemo)(() => a.some((e) => e.quick.some(E)), [a, w]);
+  (0, x.useEffect)(() => {
+    v(D === `__pinned__` || O ? null : D);
+  }, [D, O]);
+  let k = (0, x.useRef)(!0);
+  ((0, x.useEffect)(() => {
+    k.current = !0;
+  }, [w]),
+    (0, x.useEffect)(() => {
+      if (!k.current) return;
+      let e = C.current?.querySelector(`.navitem[aria-current="page"]`),
+        t = C.current;
+      if (e && t && e.offsetParent) {
+        k.current = !1;
+        let n = e.offsetTop - t.offsetTop;
+        (n < t.scrollTop ||
+          n + e.offsetHeight > t.scrollTop + t.clientHeight) &&
+          (t.scrollTop = Math.max(0, n - t.clientHeight / 3));
+      }
+    }, [w, _]));
+  let A = (0, x.useRef)(null);
+  (0, x.useLayoutEffect)(() => {
+    let e = A.current,
+      t = C.current;
+    if (((A.current = null), !e || !t)) return;
+    let n = t.querySelector(`.navhead[data-group="${CSS.escape(e.group)}"]`);
+    n && (t.scrollTop += n.getBoundingClientRect().top - e.top);
+  }, [_]);
+  let j = h.trim().toLowerCase(),
+    M = 0,
+    N = (e) =>
+      e.badge === `alerts`
+        ? i?.alerts
+        : e.badge === `tasks`
+          ? i?.openTasks
+          : void 0,
+    P = (e, t) => {
+      let n = e.dynamicHome ? o.role.homeRoute : e.to,
+        r = u(e.label),
+        i = j ? r.toLowerCase().indexOf(j) : -1,
+        a = N(e);
+      return (0, F.jsxs)(
+        y,
+        {
+          className: `navitem`,
+          to: n,
+          "aria-current": t && E(e) ? `page` : void 0,
+          title: r,
+          onClick: () => g(``),
+          onMouseEnter: () => ga(n),
+          onFocus: () => ga(n),
+          children: [
+            (0, F.jsx)(`span`, {
+              className: `navitem__ico`,
+              children: (0, F.jsx)(W, { name: e.icon, size: 17 }),
+            }),
+            (0, F.jsx)(`span`, {
+              className: `navitem__label`,
+              children:
+                i > -1
+                  ? (0, F.jsxs)(F.Fragment, {
+                      children: [
+                        r.slice(0, i),
+                        (0, F.jsx)(`mark`, {
+                          className: `navmark`,
+                          children: r.slice(i, i + j.length),
+                        }),
+                        r.slice(i + j.length),
+                      ],
+                    })
+                  : r,
+            }),
+            a
+              ? (0, F.jsx)(`span`, {
+                  className: `navitem__count${e.tone ? ` navitem__count--${e.tone}` : ``}`,
+                  children: a,
+                })
+              : null,
+          ],
+        },
+        e.label + e.to,
+      );
+    },
+    I = async () => {
+      (S(null),
+        (await f({
+          title: `${u(`Sign out`)}?`,
+          body: (0, F.jsxs)(`div`, {
+            className: `row-top g-4`,
+            children: [
+              (0, F.jsx)(`span`, {
+                className: `none`,
+                children: (0, F.jsx)(K, {
+                  name: o.fullName,
+                  size: `lg`,
+                  tone: `avatar--amber`,
+                }),
+              }),
+              (0, F.jsxs)(`div`, {
+                className: `grow`,
+                children: [
+                  (0, F.jsxs)(`p`, {
+                    className: `t-sm`,
+                    children: [
+                      `You are signed in as `,
+                      (0, F.jsx)(`strong`, { children: o.fullName }),
+                      `, `,
+                      o.title,
+                      `.`,
+                    ],
+                  }),
+                  (0, F.jsx)(`p`, {
+                    className: `t-sm t-muted mt-2`,
+                    children: `Signing out ends this session on this device and returns you to the sign-in screen.`,
+                  }),
+                ],
+              }),
+            ],
+          }),
+          confirmLabel: u(`Sign out`),
+          danger: !0,
+          icon: `logout`,
+        })) &&
+          (await s(),
+          p(`${u(`Sign out`)} — session ended`, `success`, `logout`),
+          m(`/login`, { replace: !0 })));
+    };
+  return (0, F.jsxs)(F.Fragment, {
+    children: [
+      (0, F.jsxs)(`div`, {
+        className: `sidebar__brand`,
+        children: [
+          (0, F.jsxs)(y, {
+            to: o.role.homeRoute,
+            className: `sidebar__logo`,
+            "aria-label": `Holy Sai Smart School 360 — home`,
+            children: [
+              (0, F.jsx)(`span`, {
+                className: `sidebar__mark`,
+                children: (0, F.jsx)(Ne, { size: 32 }),
+              }),
+              (0, F.jsxs)(`span`, {
+                className: `col grow`,
+                style: { minWidth: 0 },
+                children: [
+                  (0, F.jsx)(`span`, {
+                    className: `sidebar__name`,
+                    children: `Holy Sai`,
+                  }),
+                  (0, F.jsx)(`span`, {
+                    className: `sidebar__tag`,
+                    children: `Smart School 360`,
+                  }),
+                ],
+              }),
+            ],
+          }),
+          (0, F.jsx)(`button`, {
+            className: `iconbtn none sidebar__railbtn`,
+            onClick: t,
+            "aria-label": e ? `Expand navigation` : `Collapse navigation`,
+            title: e ? `Expand navigation` : `Collapse navigation`,
+            children: (0, F.jsx)(W, { name: `chevronsLeft`, size: 15 }),
+          }),
+        ],
+      }),
+      (0, F.jsx)(Ce, { className: `sidebar__lotus` }),
+      (0, F.jsxs)(`nav`, {
+        className: `sidebar__scroll`,
+        "aria-label": `Main navigation`,
+        ref: C,
+        children: [
+          a.map((t) => {
+            let r = t.items;
+            if (j) {
+              if (
+                (u(t.label).toLowerCase().includes(j) ||
+                  (r = r.filter((e) => u(e.label).toLowerCase().includes(j))),
+                !r.length)
+              )
+                return null;
+              M += r.length;
+            }
+            let i = t.pinned ? D === `__pinned__` : D === t.group && !O,
+              o = (0, F.jsx)(`div`, {
+                className: `navgroup__items`,
+                children: r.map((e) => P(e, i)),
+              });
+            if (t.pinned)
+              return (0, F.jsx)(
+                `div`,
+                {
+                  className: `navgroup navgroup--pinned`,
+                  "data-open": `true`,
+                  "data-hue": `brand`,
+                  children: o,
+                },
+                t.group,
+              );
+            let s = j ? !0 : _ === t.group,
+              c = a.indexOf(t),
+              l = !!t.section && a[c - 1]?.section !== t.section;
+            return (0, F.jsxs)(
+              `div`,
+              {
+                className: `navgroup`,
+                "data-open": String(s),
+                "data-current": i ? `true` : void 0,
+                "data-hue": t.hue,
+                children: [
+                  l &&
+                    !j &&
+                    (0, F.jsx)(`div`, {
+                      className: `navsection`,
+                      "aria-hidden": `true`,
+                      children: u(t.section),
+                    }),
+                  (0, F.jsxs)(`button`, {
+                    className: `navhead`,
+                    "data-group": t.group,
+                    "aria-expanded": s,
+                    title: u(t.label),
+                    onClick: (r) => {
+                      ((k.current = !1),
+                        (A.current = {
+                          group: t.group,
+                          top: r.currentTarget.getBoundingClientRect().top,
+                        }),
+                        e
+                          ? (n(), v(t.group))
+                          : v(_ === t.group ? null : t.group));
+                    },
+                    children: [
+                      (0, F.jsx)(`span`, {
+                        className: `navhead__ico`,
+                        children: (0, F.jsx)(W, { name: t.icon, size: 17 }),
+                      }),
+                      (0, F.jsx)(`span`, {
+                        className: `navhead__label`,
+                        children: u(t.label),
+                      }),
+                      i &&
+                        !s &&
+                        (0, F.jsx)(`span`, {
+                          className: `navhead__dot`,
+                          "aria-label": `Current section`,
+                        }),
+                      (0, F.jsx)(`span`, {
+                        className: `navhead__chev`,
+                        children: (0, F.jsx)(W, {
+                          name: `chevronDown`,
+                          size: 14,
+                        }),
+                      }),
+                    ],
+                  }),
+                  o,
+                  !j &&
+                    t.quick.length > 0 &&
+                    (0, F.jsx)(`div`, {
+                      className: `navquick`,
+                      children: t.quick.map((e) => P(e, !0)),
+                    }),
+                ],
+              },
+              t.group,
+            );
+          }),
+          j &&
+            !M &&
+            (0, F.jsxs)(`div`, {
+              className: `navempty`,
+              children: [
+                (0, F.jsx)(W, { name: `search`, size: 18 }),
+                (0, F.jsxs)(`div`, { children: [`No page matches “`, h, `”`] }),
+                (0, F.jsx)(`button`, {
+                  className: `navempty__btn`,
+                  onClick: () => g(``),
+                  children: `Clear search`,
+                }),
+              ],
+            }),
+        ],
+      }),
+      (0, F.jsx)(`div`, {
+        className: `sidebar__foot`,
+        children: (0, F.jsxs)(`div`, {
+          className: `sidebar__footrow`,
+          children: [
+            (0, F.jsxs)(y, {
+              className: `navitem grow`,
+              to: c(`settings.manage`)
+                ? `/admin/settings`
+                : `/account?tab=security`,
+              "aria-current":
+                w === `/admin/settings` || w === `/account` ? `page` : void 0,
+              title: u(`Settings`),
+              children: [
+                (0, F.jsx)(`span`, {
+                  className: `navitem__ico`,
+                  children: (0, F.jsx)(W, { name: `settings`, size: 18 }),
+                }),
+                (0, F.jsx)(`span`, {
+                  className: `navitem__label`,
+                  children: u(`Settings`),
+                }),
+              ],
+            }),
+            (0, F.jsx)(`button`, {
+              className: `iconbtn iconbtn--onnavy none sidebar__logout`,
+              "aria-label": u(`Sign out`),
+              title: u(`Sign out`),
+              onClick: I,
+              children: (0, F.jsx)(W, { name: `logout`, size: 14 }),
+            }),
+          ],
+        }),
+      }),
+      (0, F.jsx)(Ca, { anchor: b, onClose: () => S(null), onSignOut: I }),
+    ],
+  });
+}
+function Ca({ anchor: e, onClose: t, onSignOut: n, onLanguage: i }) {
+  let { user: a, can: o } = L(),
+    { t: s, short: c } = z(),
+    l = r();
+  if (!a) return null;
+  let u = (e) => {
+    (t(), l(e));
+  };
+  return (0, F.jsxs)(Mt, {
+    anchor: e,
+    open: !!e,
+    onClose: t,
+    label: `Profile menu`,
+    children: [
+      (0, F.jsxs)(`div`, {
+        className: `menu__head`,
+        children: [
+          (0, F.jsx)(K, {
+            name: a.fullName,
+            size: `lg`,
+            tone: `avatar--amber`,
+          }),
+          (0, F.jsxs)(`div`, {
+            className: `grow`,
+            style: { minWidth: 0 },
+            children: [
+              (0, F.jsx)(`div`, {
+                className: `t-sm t-bold t-clip`,
+                children: a.fullName,
+              }),
+              (0, F.jsx)(`div`, {
+                className: `menu__meta t-clip`,
+                children: a.title,
+              }),
+              (0, F.jsx)(`div`, {
+                className: `menu__meta t-clip`,
+                children: a.email,
+              }),
+              (0, F.jsx)(`div`, {
+                className: `mt-2`,
+                children: (0, F.jsx)(G, {
+                  tone: `info`,
+                  children: a.role.name,
+                }),
+              }),
+            ],
+          }),
+        ],
+      }),
+      (0, F.jsxs)(`div`, {
+        className: `menu__body`,
+        children: [
+          (0, F.jsxs)(`button`, {
+            className: `menu__item`,
+            role: `menuitem`,
+            onClick: () => u(`/account`),
+            children: [
+              (0, F.jsx)(W, { name: `user`, size: 16 }),
+              (0, F.jsx)(`span`, { className: `grow`, children: `My profile` }),
+            ],
+          }),
+          (0, F.jsxs)(`button`, {
+            className: `menu__item`,
+            role: `menuitem`,
+            onClick: () => u(`/account?tab=security`),
+            children: [
+              (0, F.jsx)(W, { name: `settings`, size: 16 }),
+              (0, F.jsx)(`span`, {
+                className: `grow`,
+                children: `Account settings`,
+              }),
+            ],
+          }),
+          (0, F.jsxs)(`button`, {
+            className: `menu__item`,
+            role: `menuitem`,
+            onClick: () => u(`/account?tab=notifications`),
+            children: [
+              (0, F.jsx)(W, { name: `bell`, size: 16 }),
+              (0, F.jsx)(`span`, {
+                className: `grow`,
+                children: `Notification preferences`,
+              }),
+            ],
+          }),
+          (0, F.jsxs)(`button`, {
+            className: `menu__item`,
+            role: `menuitem`,
+            onClick: () => u(`/account?tab=sessions`),
+            children: [
+              (0, F.jsx)(W, { name: `shield`, size: 16 }),
+              (0, F.jsx)(`span`, {
+                className: `grow`,
+                children: `Privacy and access`,
+              }),
+            ],
+          }),
+          o(`ai.use`) &&
+            (0, F.jsxs)(`button`, {
+              className: `menu__item`,
+              role: `menuitem`,
+              onClick: () => u(`/copilot`),
+              children: [
+                (0, F.jsx)(W, { name: `sparkle`, size: 16 }),
+                (0, F.jsx)(`span`, {
+                  className: `grow`,
+                  children: s(`AI Assistant`),
+                }),
+              ],
+            }),
+          i &&
+            (0, F.jsxs)(`button`, {
+              className: `menu__item`,
+              role: `menuitem`,
+              onClick: i,
+              children: [
+                (0, F.jsx)(W, { name: `globe`, size: 16 }),
+                (0, F.jsx)(`span`, {
+                  className: `grow`,
+                  children: s(`Language`),
+                }),
+                (0, F.jsx)(`span`, { className: `menu__right`, children: c }),
+              ],
+            }),
+          (0, F.jsxs)(`button`, {
+            className: `menu__item`,
+            role: `menuitem`,
+            onClick: () => u(`/help`),
+            children: [
+              (0, F.jsx)(W, { name: `helpCircle`, size: 16 }),
+              (0, F.jsx)(`span`, { className: `grow`, children: s(`Help`) }),
+            ],
+          }),
+        ],
+      }),
+      (0, F.jsx)(`div`, { className: `menu__sep` }),
+      (0, F.jsxs)(`button`, {
+        className: `menu__item menu__item--danger`,
+        role: `menuitem`,
+        onClick: n,
+        children: [
+          (0, F.jsx)(W, { name: `logout`, size: 16 }),
+          (0, F.jsx)(`span`, { className: `grow`, children: s(`Sign out`) }),
+        ],
+      }),
+    ],
+  });
+}
+function wa({ onMenu: e, mobileSearch: t, onToggleSearch: n, alertCount: i }) {
+  let { user: a, can: o } = L(),
+    { t: s, langs: c, lang: l, setLang: u, short: d, label: f } = z(),
+    p = en(),
+    m = jt(),
+    [h, g] = (0, x.useState)(!1),
+    [_, v] = (0, x.useState)(!1),
+    [y, b] = (0, x.useState)(null),
+    [S, C] = (0, x.useState)(null),
+    { lookups: w } = Yt(),
+    T = r(),
+    { logout: E } = L(),
+    D = Ot(),
+    O = o(`dashboard.group`) || (o(`students.read`) && !a?.parentId);
+  return (0, F.jsxs)(F.Fragment, {
+    children: [
+      (0, F.jsx)(`button`, {
+        className: `iconbtn iconbtn--onnavy menubtn hidden`,
+        onClick: e,
+        "aria-label": `Open navigation`,
+        children: (0, F.jsx)(W, { name: `menu`, size: 20 }),
+      }),
+      (0, F.jsxs)(`span`, {
+        className: `topbar__brandSm hidden row g-2`,
+        children: [
+          (0, F.jsx)(Ne, { size: 28 }),
+          (0, F.jsx)(`span`, {
+            className: `topbar__brandname`,
+            children: `Holy Sai`,
+          }),
+        ],
+      }),
+      (0, F.jsx)(Ta, {}),
+      (0, F.jsx)(`div`, { className: `spacer` }),
+      (0, F.jsx)(`button`, {
+        className: `iconbtn iconbtn--onnavy searchbtn hidden`,
+        onClick: n,
+        "aria-label": t ? `Close search` : `Search`,
+        children: (0, F.jsx)(W, { name: t ? `x` : `search`, size: 19 }),
+      }),
+      (0, F.jsxs)(`div`, {
+        className: `topbar__ctx`,
+        children: [
+          (0, F.jsxs)(`button`, {
+            className: `ctxselect`,
+            onClick: () => v(!0),
+            title: `${s(`Academic Year`)}: ${p.yearLabel ?? `—`}`,
+            children: [
+              (0, F.jsx)(W, { name: `calendar`, size: 15 }),
+              (0, F.jsxs)(`span`, {
+                className: `col`,
+                children: [
+                  (0, F.jsx)(`span`, {
+                    className: `ctxselect__label`,
+                    children: s(`Academic Year`),
+                  }),
+                  (0, F.jsx)(`span`, {
+                    className: `ctxselect__value`,
+                    children: p.yearLabel ?? `—`,
+                  }),
+                ],
+              }),
+              (0, F.jsx)(W, { name: `chevronDown`, size: 13 }),
+            ],
+          }),
+          O &&
+            (0, F.jsxs)(`button`, {
+              className: `ctxselect`,
+              onClick: () => g(!0),
+              title: `${s(`Campus`)}: ${p.scope === `group` ? `All campuses` : (p.campus?.name ?? `—`)}`,
+              children: [
+                (0, F.jsx)(W, { name: `mapPin`, size: 15 }),
+                (0, F.jsxs)(`span`, {
+                  className: `col`,
+                  style: { minWidth: 0 },
+                  children: [
+                    (0, F.jsx)(`span`, {
+                      className: `ctxselect__label`,
+                      children: s(`Campus`),
+                    }),
+                    (0, F.jsx)(`span`, {
+                      className: `ctxselect__value`,
+                      children:
+                        p.scope === `group`
+                          ? `All campuses`
+                          : (p.campus?.name ?? `—`),
+                    }),
+                  ],
+                }),
+                (0, F.jsx)(W, { name: `chevronDown`, size: 13 }),
+              ],
+            }),
+        ],
+      }),
+      (0, F.jsx)(`div`, {
+        className: `topbar__tools`,
+        children: (0, F.jsxs)(`button`, {
+          className: `iconbtn iconbtn--onnavy`,
+          title: s(`Notifications`),
+          "aria-label": `${s(`Notifications`)}${i ? ` (${i} need attention)` : ``}`,
+          onClick: () => T(`/notifications`),
+          children: [
+            (0, F.jsx)(W, { name: `bell`, size: 18 }),
+            i
+              ? (0, F.jsx)(`span`, {
+                  className: `iconbtn__dot`,
+                  children: i > 99 ? `99+` : i,
+                })
+              : null,
+          ],
+        }),
+      }),
+      (0, F.jsx)(`span`, {
+        className: `topbar__sep topbar__hideSm`,
+        "aria-hidden": `true`,
+      }),
+      (0, F.jsxs)(`button`, {
+        className: `topbar__user`,
+        "aria-haspopup": `menu`,
+        title: `${a.fullName} — ${a.role.name}`,
+        onClick: (e) => C(e.currentTarget),
+        children: [
+          (0, F.jsx)(K, {
+            name: a.fullName,
+            size: `sm`,
+            tone: `avatar--amber`,
+          }),
+          (0, F.jsxs)(`span`, {
+            className: `col topbar__usertext`,
+            style: { minWidth: 0 },
+            children: [
+              (0, F.jsx)(`span`, {
+                className: `topbar__username`,
+                children: a.fullName,
+              }),
+              (0, F.jsx)(`span`, {
+                className: `topbar__userrole`,
+                children: a.title?.split(`·`)[0].trim() || a.role.name,
+              }),
+            ],
+          }),
+          (0, F.jsx)(W, { name: `chevronDown`, size: 14 }),
+        ],
+      }),
+      (0, F.jsxs)(Mt, {
+        anchor: y,
+        open: !!y,
+        onClose: () => b(null),
+        label: `Language`,
+        children: [
+          (0, F.jsx)(`div`, {
+            className: `menu__label`,
+            children: s(`Language`),
+          }),
+          c.map((e) =>
+            (0, F.jsxs)(
+              `button`,
+              {
+                className: `menu__item`,
+                role: `menuitemradio`,
+                "aria-checked": e.id === l,
+                onClick: () => {
+                  (u(e.id), b(null), m(`${e.label}`, `success`, `globe`));
+                },
+                children: [
+                  (0, F.jsx)(`span`, {
+                    className: `menu__code`,
+                    children: e.short,
+                  }),
+                  (0, F.jsx)(`span`, { className: `grow`, children: e.label }),
+                  e.id === l && (0, F.jsx)(W, { name: `check`, size: 15 }),
+                ],
+              },
+              e.id,
+            ),
+          ),
+        ],
+      }),
+      (0, F.jsx)(Ca, {
+        anchor: S,
+        onClose: () => C(null),
+        onSignOut: async () => {
+          (C(null),
+            (await D({
+              title: `${s(`Sign out`)}?`,
+              body: `Signing out ends this session on this device.`,
+              confirmLabel: s(`Sign out`),
+              danger: !0,
+              icon: `logout`,
+            })) && (await E(), T(`/login`, { replace: !0 })));
+        },
+        onLanguage: () => {
+          let e = S;
+          (C(null), b(e));
+        },
+      }),
+      (0, F.jsx)(Tt, {
+        open: h,
+        onClose: () => g(!1),
+        title: `Campus & scope`,
+        sub: `Every figure in the application follows this selection.`,
+        foot: (0, F.jsx)(q, { onClick: () => g(!1), children: `Close` }),
+        children: (0, F.jsxs)(`div`, {
+          className: `col g-3`,
+          children: [
+            o(`dashboard.group`) &&
+              (0, F.jsxs)(F.Fragment, {
+                children: [
+                  (0, F.jsxs)(`button`, {
+                    className: `optioncard`,
+                    "aria-pressed": p.scope === `group`,
+                    onClick: () => {
+                      (p.setGroup(),
+                        g(!1),
+                        m(`Group view — all campuses`, `success`, `globe`));
+                    },
+                    children: [
+                      (0, F.jsx)(`span`, {
+                        className: `avatar avatar--teal`,
+                        children: (0, F.jsx)(W, { name: `globe`, size: 18 }),
+                      }),
+                      (0, F.jsxs)(`span`, {
+                        className: `col grow`,
+                        children: [
+                          (0, F.jsx)(`span`, {
+                            className: `t-sm t-bold`,
+                            children: `Group view — all campuses`,
+                          }),
+                          (0, F.jsxs)(`span`, {
+                            className: `t-xs t-muted`,
+                            children: [
+                              `Consolidated figures across `,
+                              w?.campuses.length ?? 0,
+                              ` campuses`,
+                            ],
+                          }),
+                        ],
+                      }),
+                      p.scope === `group`
+                        ? (0, F.jsx)(G, { tone: `success`, children: `Active` })
+                        : (0, F.jsx)(W, { name: `chevronRight`, size: 16 }),
+                    ],
+                  }),
+                  (0, F.jsx)(`div`, { className: `divider` }),
+                ],
+              }),
+            (w?.campuses ?? []).map((e) => {
+              let t = p.scope === `campus` && e.id === p.campusId;
+              return (0, F.jsxs)(
+                `button`,
+                {
+                  className: `optioncard`,
+                  "aria-pressed": t,
+                  onClick: () => {
+                    (p.setCampus(e.id),
+                      g(!1),
+                      m(`Campus: ${e.name}`, `success`, `building`));
+                  },
+                  children: [
+                    (0, F.jsx)(`span`, {
+                      className: `avatar ${t ? `avatar--amber` : ``}`,
+                      children: (0, F.jsx)(W, { name: `building`, size: 18 }),
+                    }),
+                    (0, F.jsxs)(`span`, {
+                      className: `col grow`,
+                      children: [
+                        (0, F.jsx)(`span`, {
+                          className: `t-sm t-bold`,
+                          children: e.name,
+                        }),
+                        (0, F.jsxs)(`span`, {
+                          className: `t-xs t-muted`,
+                          children: [e.place, ` · `, e.curriculum],
+                        }),
+                      ],
+                    }),
+                    t
+                      ? (0, F.jsx)(G, { tone: `success`, children: `Active` })
+                      : (0, F.jsx)(W, { name: `chevronRight`, size: 16 }),
+                  ],
+                },
+                e.id,
+              );
+            }),
+          ],
+        }),
+      }),
+      (0, F.jsx)(Tt, {
+        open: _,
+        onClose: () => v(!1),
+        title: `Academic year`,
+        foot: (0, F.jsx)(q, { onClick: () => v(!1), children: `Close` }),
+        children: (0, F.jsx)(`div`, {
+          className: `col g-2`,
+          children: (w?.academicYears ?? []).map((e) =>
+            (0, F.jsxs)(
+              `button`,
+              {
+                className: `optioncard`,
+                "aria-pressed": e.id === p.yearId,
+                onClick: () => {
+                  (p.setYear(e.id),
+                    v(!1),
+                    m(`Academic year ${e.label}`, `success`, `calendar`));
+                },
+                children: [
+                  (0, F.jsx)(`span`, {
+                    className: `avatar`,
+                    children: (0, F.jsx)(W, { name: `calendar`, size: 17 }),
+                  }),
+                  (0, F.jsxs)(`span`, {
+                    className: `col grow`,
+                    children: [
+                      (0, F.jsx)(`span`, {
+                        className: `t-sm t-bold`,
+                        children: e.label,
+                      }),
+                      (0, F.jsxs)(`span`, {
+                        className: `t-xs t-muted`,
+                        children: [
+                          e.isCurrent
+                            ? `Current year — live data`
+                            : `Archived year — read only`,
+                          ` · `,
+                          V.date(e.startsOn),
+                          ` – `,
+                          V.date(e.endsOn),
+                        ],
+                      }),
+                    ],
+                  }),
+                  e.id === p.yearId &&
+                    (0, F.jsx)(G, { tone: `success`, children: `Active` }),
+                ],
+              },
+              e.id,
+            ),
+          ),
+        }),
+      }),
+    ],
+  });
+}
+function Ta() {
+  let { t: e } = z(),
+    t = ba(),
+    n = r(),
+    [i, a] = (0, x.useState)(``),
+    [o, s] = (0, x.useState)(``),
+    [c, l] = (0, x.useState)(!1),
+    [u, d] = (0, x.useState)(0),
+    f = (0, x.useRef)(null),
+    p = (0, x.useRef)(null);
+  ((0, x.useEffect)(() => {
+    let e = setTimeout(() => s(i.trim()), 200);
+    return () => clearTimeout(e);
+  }, [i]),
+    (0, x.useEffect)(() => {
+      let e = (e) => {
+          (e.ctrlKey || e.metaKey) &&
+            e.key.toLowerCase() === `k` &&
+            (e.preventDefault(), p.current?.focus(), p.current?.select());
+        },
+        t = (e) => {
+          f.current?.contains(e.target) || l(!1);
+        };
+      return (
+        document.addEventListener(`keydown`, e),
+        document.addEventListener(`mousedown`, t),
+        () => {
+          (document.removeEventListener(`keydown`, e),
+            document.removeEventListener(`mousedown`, t));
+        }
+      );
+    }, []));
+  let m = Gt(o ? `/search` : null, { q: o }),
+    h = (0, x.useMemo)(() => {
+      let n = [],
+        r = new Set();
+      for (let i of t)
+        for (let t of i.items) {
+          if (r.has(t.to)) continue;
+          let a = e(t.label);
+          (o
+            ? `${a} ${e(i.label)} ${e(i.group)}`
+                .toLowerCase()
+                .includes(o.toLowerCase())
+            : i.pinned) &&
+            (r.add(t.to),
+            n.push({
+              group: o ? `Pages` : `Suggested`,
+              label: a,
+              meta: e(i.label),
+              icon: t.icon,
+              route: t.to,
+            }));
+        }
+      return [...(m.data ?? []), ...n.slice(0, o ? 8 : 6)];
+    }, [m.data, t, o, e]),
+    g = (e) => {
+      (l(!1), a(``), n(e.route));
+    },
+    _ = {};
+  h.forEach((e) => (_[e.group] ??= []).push(e));
+  let v = -1;
+  return (0, F.jsxs)(`div`, {
+    className: `globalsearch`,
+    ref: f,
+    children: [
+      (0, F.jsx)(`span`, {
+        className: `globalsearch__ico`,
+        children: (0, F.jsx)(W, { name: `search`, size: 16 }),
+      }),
+      (0, F.jsx)(`input`, {
+        ref: p,
+        className: `globalsearch__input`,
+        type: `search`,
+        role: `combobox`,
+        "aria-expanded": c,
+        "aria-controls": `global-search-results`,
+        "aria-label": `Global search`,
+        placeholder: e(`Search students, staff, modules…`),
+        value: i,
+        onFocus: () => l(!0),
+        onChange: (e) => {
+          (a(e.target.value), l(!0), d(0));
+        },
+        onKeyDown: (e) => {
+          (e.key === `Escape` && (l(!1), a(``)),
+            e.key === `ArrowDown` &&
+              (e.preventDefault(), d((e) => Math.min(h.length - 1, e + 1))),
+            e.key === `ArrowUp` &&
+              (e.preventDefault(), d((e) => Math.max(0, e - 1))),
+            e.key === `Enter` && h[u] && g(h[u]));
+        },
+      }),
+      (0, F.jsx)(`span`, {
+        className: `globalsearch__kbd`,
+        children: `Ctrl K`,
+      }),
+      c &&
+        (0, F.jsxs)(`div`, {
+          className: `searchpanel`,
+          role: `listbox`,
+          id: `global-search-results`,
+          children: [
+            o &&
+              m.isLoading &&
+              (0, F.jsx)(`div`, {
+                className: `searchpanel__group`,
+                children: `Searching…`,
+              }),
+            !h.length && o && !m.isLoading
+              ? (0, F.jsx)(Y, {
+                  title: `No matches for “${o}”`,
+                  sub: `Try a student name, an admission number, an employee ID, a lead reference or a module name.`,
+                })
+              : Object.entries(_).map(([e, t]) =>
+                  (0, F.jsxs)(
+                    `div`,
+                    {
+                      children: [
+                        (0, F.jsx)(`div`, {
+                          className: `searchpanel__group`,
+                          children: e,
+                        }),
+                        t.map((t) => {
+                          v++;
+                          let n = v;
+                          return (0, F.jsxs)(
+                            `button`,
+                            {
+                              className: `searchpanel__item`,
+                              role: `option`,
+                              "aria-selected": n === u,
+                              onMouseEnter: () => d(n),
+                              onClick: () => g(t),
+                              children: [
+                                (0, F.jsx)(`span`, {
+                                  className: `none t-muted`,
+                                  children: (0, F.jsx)(W, {
+                                    name: t.icon,
+                                    size: 16,
+                                  }),
+                                }),
+                                (0, F.jsxs)(`span`, {
+                                  className: `col grow`,
+                                  style: { minWidth: 0 },
+                                  children: [
+                                    (0, F.jsx)(`span`, {
+                                      className: `t-sm t-bold t-clip`,
+                                      children: t.label,
+                                    }),
+                                    (0, F.jsx)(`span`, {
+                                      className: `t-micro t-muted t-clip`,
+                                      children: t.meta,
+                                    }),
+                                  ],
+                                }),
+                                (0, F.jsx)(W, { name: `arrowRight`, size: 14 }),
+                              ],
+                            },
+                            e + t.route + t.label,
+                          );
+                        }),
+                      ],
+                    },
+                    e,
+                  ),
+                ),
+            h.length > 0 &&
+              (0, F.jsxs)(`div`, {
+                className: `searchpanel__foot`,
+                "aria-hidden": `true`,
+                children: [
+                  (0, F.jsxs)(`span`, {
+                    children: [
+                      (0, F.jsx)(`kbd`, { children: `↑` }),
+                      (0, F.jsx)(`kbd`, { children: `↓` }),
+                      `to move`,
+                    ],
+                  }),
+                  (0, F.jsxs)(`span`, {
+                    children: [
+                      (0, F.jsx)(`kbd`, { children: `Enter` }),
+                      `to open`,
+                    ],
+                  }),
+                  (0, F.jsxs)(`span`, {
+                    children: [
+                      (0, F.jsx)(`kbd`, { children: `Esc` }),
+                      `to close`,
+                    ],
+                  }),
+                ],
+              }),
+          ],
+        }),
+    ],
+  });
+}
+function Ea({ onDrawer: e }) {
+  let { user: t } = L(),
+    { t: n } = z(),
+    r = l();
+  if (!t) return null;
+  let i = ue(t.role.key, t.role.homeRoute);
+  return (0, F.jsx)(`nav`, {
+    className: `mobilenav`,
+    id: `mobilenav`,
+    "aria-label": `Primary`,
+    children: i.map((t) =>
+      t.drawer
+        ? (0, F.jsxs)(
+            `button`,
+            {
+              className: `mobilenav__item`,
+              onClick: e,
+              children: [
+                (0, F.jsx)(W, { name: t.icon, size: 20 }),
+                (0, F.jsx)(`span`, { children: n(t.label) }),
+              ],
+            },
+            t.label,
+          )
+        : (0, F.jsxs)(
+            s,
+            {
+              className: `mobilenav__item`,
+              to: t.to,
+              "aria-current":
+                r.pathname + r.search === t.to ||
+                (!t.to.includes(`?`) &&
+                  r.pathname === t.to &&
+                  !r.search.includes(`tab=`))
+                  ? `page`
+                  : void 0,
+              children: [
+                (0, F.jsx)(W, { name: t.icon, size: 20 }),
+                (0, F.jsx)(`span`, { children: n(t.label) }),
+              ],
+            },
+            t.label,
+          ),
+    ),
+  });
+}
+function Da({ perm: e, children: t }) {
+  let { can: n } = L();
+  return n(e ?? null)
+    ? (0, F.jsx)(F.Fragment, { children: t })
+    : (0, F.jsx)(Oa, {});
+}
+function Oa() {
+  let { user: e } = L();
+  return (0, F.jsxs)(`div`, {
+    className: `page`,
+    children: [
+      (0, F.jsx)(`div`, {
+        className: `pagehead`,
+        children: (0, F.jsxs)(`div`, {
+          className: `grow`,
+          children: [
+            (0, F.jsx)(`h1`, {
+              className: `pagehead__title`,
+              children: `Not available for this role`,
+            }),
+            (0, F.jsxs)(`p`, {
+              className: `pagehead__sub`,
+              children: [
+                `Signed in as `,
+                e?.role.name,
+                `. This module is outside that role's access.`,
+              ],
+            }),
+          ],
+        }),
+      }),
+      (0, F.jsx)(`section`, {
+        className: `card`,
+        children: (0, F.jsxs)(`div`, {
+          className: `card__body`,
+          children: [
+            (0, F.jsxs)(`div`, {
+              className: `banner banner--warning`,
+              children: [
+                (0, F.jsx)(W, { name: `lock`, size: 17 }),
+                (0, F.jsxs)(`div`, {
+                  className: `grow`,
+                  children: [
+                    (0, F.jsx)(`strong`, { children: `Role-based access.` }),
+                    ` The interface and the API adapt to the signed-in role. `,
+                    e?.role.name,
+                    ` sees: `,
+                    e ? ka(e.role.key) : ``,
+                    `.`,
+                  ],
+                }),
+              ],
+            }),
+            (0, F.jsx)(`div`, {
+              className: `row g-3 mt-4 wrap`,
+              children: (0, F.jsx)(q, {
+                variant: `primary`,
+                to: e?.role.homeRoute ?? `/`,
+                children: `Open my dashboard`,
+              }),
+            }),
+          ],
+        }),
+      }),
+    ],
+  });
+}
+function ka(e) {
+  return (
+    {
+      principal: `full analytics, command centre, approvals and group dashboard`,
+      teacher: `attendance, classes, Student 360, academics and the AI Co-Pilot for assigned classes`,
+      parent: `their own children only — tracking, safety, academics, fees and communication`,
+      office: `admissions, fees, documents, HR records and front-office safety`,
+      staff: `their own attendance, shifts, leave and payslips, plus transport and gate duties`,
+      hr: `employee records, attendance, leave, CPD and payroll preparation`,
+      finance: `fees, payments, concessions, expenses and reconciliation`,
+      management: `dashboards, reports and authorised student information`,
+      student: `their own profile`,
+    }[e] ?? `the modules assigned to the role`
+  );
+}
+var Aa = `<svg width="58" height="58" viewBox="0 0 64 64" role="img" aria-label="AI campus assistant">
+<ellipse cx="32" cy="59" rx="16" ry="3.4" fill="#0D2B45" opacity=".16"/>
+<rect x="19" y="33" width="26" height="22" rx="9" fill="#F2F6FA" stroke="#C5D6E4" stroke-width="1.5"/>
+<rect x="27" y="41" width="10" height="9" rx="3" fill="#E1ECF4"/>
+<rect x="11" y="36" width="8" height="15" rx="4" fill="#E7EFF6" stroke="#C5D6E4" stroke-width="1.2"/>
+<rect x="45" y="36" width="8" height="15" rx="4" fill="#E7EFF6" stroke="#C5D6E4" stroke-width="1.2"/>
+<rect x="15" y="12" width="34" height="24" rx="11" fill="#FBFDFF" stroke="#C5D6E4" stroke-width="1.6"/>
+<rect x="19" y="17" width="26" height="14" rx="7" fill="#0D2B45"/>
+<circle cx="27" cy="24" r="3.4" fill="#4FD1E8"/><circle cx="37" cy="24" r="3.4" fill="#4FD1E8"/>
+<circle cx="28.2" cy="22.8" r="1.1" fill="#fff"/><circle cx="38.2" cy="22.8" r="1.1" fill="#fff"/>
+<rect x="30.4" y="5" width="3.2" height="7" rx="1.6" fill="#B87008"/><circle cx="32" cy="4" r="3" fill="#E8B765"/>
+<circle cx="32" cy="46" r="2.2" fill="#4FD1E8" opacity=".8"/></svg>`,
+  ja = [
+    { role: `principal`, label: `Management`, icon: `user` },
+    { role: `teacher`, label: `Teacher`, icon: `users` },
+    { role: `parent`, label: `Parent`, icon: `heart` },
+    { role: `office`, label: `Office`, icon: `building` },
+    { role: `staff`, label: `Staff`, icon: `idCard` },
+  ];
+function Ma() {
+  let { login: e } = L(),
+    { t, langs: n, lang: i, setLang: a } = z(),
+    o = r(),
+    s = l(),
+    c = jt(),
+    [u, d] = (0, x.useState)(``),
+    [f, p] = (0, x.useState)(``),
+    [h, g] = (0, x.useState)(!1),
+    [_, v] = (0, x.useState)(null),
+    [y, b] = (0, x.useState)(!1),
+    [S, C] = (0, x.useState)(null),
+    [T, E] = (0, x.useState)(null),
+    [D, O] = (0, x.useState)(!1),
+    k = m({
+      queryKey: [`public-config`],
+      queryFn: () => P.get(`/public/config`),
+      staleTime: 3e5,
+    }),
+    A = k.data?.demoAccounts ?? [],
+    j = A.find((e) => e.role === _) ?? null;
+  (0, x.useEffect)(() => {
+    document.title = `Sign in — Holy Sai Smart School 360`;
+  }, []);
+  let M = (e, t) => {
+      let n = t ? A.find((e) => e.email === t) : A.find((t) => t.role === e);
+      (v(e), n && d(n.email), C(null), O(!1));
+    },
+    N = async (t) => {
+      if ((t.preventDefault(), !u.trim() || !f)) {
+        C(`Enter your email or mobile number and your password.`);
+        return;
+      }
+      (b(!0), C(null));
+      try {
+        let t = await e(u.trim(), f);
+        c(`Welcome, ${t.fullName}`, `success`, `check`);
+        let n = s.state?.from;
+        o(n && n !== `/login` ? n : t.role.homeRoute, { replace: !0 });
+      } catch (e) {
+        C(e instanceof w ? e.message : `Sign-in failed. Please try again.`);
+      } finally {
+        b(!1);
+      }
+    },
+    I = k.data?.stats;
+  return (0, F.jsxs)(`section`, {
+    className: `home`,
+    "aria-label": `Holy Sai Smart School 360 — welcome and sign in`,
+    children: [
+      (0, F.jsx)(`div`, {
+        className: `home__photo`,
+        style: { backgroundImage: `url(${Rt})` },
+        "aria-hidden": `true`,
+      }),
+      (0, F.jsxs)(`header`, {
+        className: `home__nav`,
+        children: [
+          (0, F.jsxs)(`div`, {
+            className: `home__brand`,
+            children: [
+              (0, F.jsx)(Ne, { size: 46 }),
+              (0, F.jsxs)(`span`, {
+                className: `col`,
+                children: [
+                  (0, F.jsx)(`span`, {
+                    className: `home__brandname`,
+                    children: `Holy Sai`,
+                  }),
+                  (0, F.jsx)(`span`, {
+                    className: `home__brandtag`,
+                    children: `International School`,
+                  }),
+                ],
+              }),
+            ],
+          }),
+          (0, F.jsx)(`nav`, {
+            className: `home__links`,
+            children: [`Learn`, `Grow`, `Belong`, `Lead`].map((e, t) =>
+              (0, F.jsxs)(
+                `span`,
+                {
+                  style: { display: `contents` },
+                  children: [
+                    t > 0 &&
+                      (0, F.jsx)(`span`, {
+                        className: `navlink__sep`,
+                        children: `|`,
+                      }),
+                    (0, F.jsx)(`button`, {
+                      className: `navlink`,
+                      onClick: () =>
+                        E(
+                          `${e} — the public website section lives on the school website.`,
+                        ),
+                      children: e,
+                    }),
+                  ],
+                },
+                e,
+              ),
+            ),
+          }),
+          (0, F.jsx)(`div`, { className: `spacer` }),
+          (0, F.jsx)(`div`, {
+            className: `langpill`,
+            children: n.map((e) =>
+              (0, F.jsx)(
+                `button`,
+                {
+                  "aria-pressed": i === e.id,
+                  onClick: () => a(e.id),
+                  children: e.label,
+                },
+                e.id,
+              ),
+            ),
+          }),
+        ],
+      }),
+      (0, F.jsxs)(`p`, {
+        className: `script script--tr`,
+        children: [`A Brighter Tomorrow`, (0, F.jsx)(`br`, {}), `Begins Here`],
+      }),
+      (0, F.jsxs)(`p`, {
+        className: `script script--br`,
+        children: [
+          `Growing Minds.`,
+          (0, F.jsx)(`br`, {}),
+          `Inspiring Futures.`,
+        ],
+      }),
+      (0, F.jsxs)(`div`, {
+        className: `home__body`,
+        children: [
+          (0, F.jsxs)(`div`, {
+            className: `home__left`,
+            children: [
+              (0, F.jsx)(`div`, {
+                className: `shot`,
+                children: (0, F.jsx)(`img`, {
+                  src: `/homescreen.webp`,
+                  width: 1448,
+                  height: 1086,
+                  fetchPriority: `high`,
+                  decoding: `async`,
+                  alt: `Holy Sai International campus: students walking to the entrance, with Student Success, Connected Parents, Safer Campus and Smarter Operations highlighted.`,
+                }),
+              }),
+              (0, F.jsxs)(`div`, {
+                className: `herofallback`,
+                children: [
+                  (0, F.jsx)(`p`, {
+                    className: `hero__eyebrow`,
+                    children: `A Brighter Tomorrow Begins Here`,
+                  }),
+                  (0, F.jsxs)(`h1`, {
+                    className: `hero__title`,
+                    children: [
+                      `Holy Sai International.`,
+                      (0, F.jsx)(`em`, {
+                        children: `Growing Minds. Inspiring Futures.`,
+                      }),
+                    ],
+                  }),
+                  (0, F.jsx)(`p`, {
+                    className: `hero__lede`,
+                    children: `Admissions, academics, parents, safety, finance, workforce and intelligence — connected around every student.`,
+                  }),
+                  (0, F.jsx)(`div`, {
+                    className: `statsbar`,
+                    children: [
+                      [`users`, I ? `${V.n(I.students)}` : `—`, `Students`],
+                      [`graduation`, I ? `${V.n(I.staff)}` : `—`, `Staff`],
+                      [`building`, I ? String(I.campuses) : `—`, `Campuses`],
+                      [`globe`, `Cambridge`, `Primary to A Level`],
+                    ].map(([e, t, n]) =>
+                      (0, F.jsxs)(
+                        `span`,
+                        {
+                          className: `stat`,
+                          children: [
+                            (0, F.jsx)(`span`, {
+                              className: `stat__ico`,
+                              children: (0, F.jsx)(W, { name: e, size: 20 }),
+                            }),
+                            (0, F.jsxs)(`span`, {
+                              className: `col`,
+                              children: [
+                                (0, F.jsx)(`span`, {
+                                  className: `stat__value`,
+                                  children: t,
+                                }),
+                                (0, F.jsx)(`span`, {
+                                  className: `stat__label`,
+                                  children: n,
+                                }),
+                              ],
+                            }),
+                          ],
+                        },
+                        n,
+                      ),
+                    ),
+                  }),
+                ],
+              }),
+              (0, F.jsxs)(`div`, {
+                className: `row wrap g-3 mt-4`,
+                style: { padding: `0 var(--s-2)` },
+                children: [
+                  (0, F.jsx)(`span`, {
+                    className: `t-micro t-bold`,
+                    style: {
+                      color: `var(--gold)`,
+                      textTransform: `uppercase`,
+                      letterSpacing: `.14em`,
+                    },
+                    children: `Brand Values:`,
+                  }),
+                  [
+                    [`book`, `Educational`],
+                    [`lotus`, `Elegant`],
+                    [`sparkle`, `Inspiring`],
+                    [`trending`, `Modern`],
+                    [`shieldCheck`, `Trustworthy`],
+                  ].map(([e, t]) =>
+                    (0, F.jsxs)(
+                      `span`,
+                      {
+                        className: `badge`,
+                        style: {
+                          background: `rgba(255,255,255,.1)`,
+                          borderColor: `rgba(254,219,110,.3)`,
+                          color: `#FFF`,
+                        },
+                        children: [(0, F.jsx)(W, { name: e, size: 13 }), t],
+                      },
+                      t,
+                    ),
+                  ),
+                  (0, F.jsx)(`span`, {
+                    className: `script-font`,
+                    style: {
+                      color: `var(--gold)`,
+                      fontSize: 18,
+                      marginLeft: `auto`,
+                    },
+                    children: `Learning Beyond Limits`,
+                  }),
+                ],
+              }),
+            ],
+          }),
+          (0, F.jsxs)(`div`, {
+            className: `home__right`,
+            children: [
+              (0, F.jsxs)(`form`, {
+                className: `logincard`,
+                onSubmit: N,
+                noValidate: !0,
+                children: [
+                  (0, F.jsxs)(`div`, {
+                    className: `row between`,
+                    children: [
+                      (0, F.jsxs)(`div`, {
+                        children: [
+                          (0, F.jsx)(`p`, {
+                            className: `logincard__welcome`,
+                            children: `Welcome to`,
+                          }),
+                          (0, F.jsx)(`h2`, {
+                            className: `logincard__title`,
+                            children: `Holy Sai International`,
+                          }),
+                          (0, F.jsx)(`p`, {
+                            className: `logincard__sub`,
+                            children: `Smart School 360 · Connected Digital Campus`,
+                          }),
+                        ],
+                      }),
+                      (0, F.jsx)(Ne, { size: 42 }),
+                    ],
+                  }),
+                  (0, F.jsx)(Pe, {}),
+                  (0, F.jsxs)(`button`, {
+                    type: `button`,
+                    className: `ctxrow`,
+                    onClick: () =>
+                      E(
+                        `Campus and academic year are chosen after sign-in, from the header.`,
+                      ),
+                    children: [
+                      (0, F.jsx)(W, { name: `building`, size: 17 }),
+                      (0, F.jsxs)(`span`, {
+                        className: `ctxrow__text grow`,
+                        children: [
+                          `Academic Year `,
+                          k.data?.academicYear ?? `—`,
+                          ` \xA0|\xA0 `,
+                          (0, F.jsx)(`b`, {
+                            children: `Holy Sai International`,
+                          }),
+                        ],
+                      }),
+                      (0, F.jsx)(W, { name: `chevronDown`, size: 15 }),
+                    ],
+                  }),
+                  (0, F.jsxs)(`div`, {
+                    className: `col g-3 mt-4`,
+                    children: [
+                      (0, F.jsxs)(`div`, {
+                        className: `ifield`,
+                        children: [
+                          (0, F.jsx)(`span`, {
+                            className: `ifield__ico`,
+                            children: (0, F.jsx)(W, { name: `mail`, size: 17 }),
+                          }),
+                          (0, F.jsx)(`input`, {
+                            className: `input`,
+                            type: `text`,
+                            name: `username`,
+                            autoComplete: `username`,
+                            "aria-label": `Email or mobile number`,
+                            placeholder: `Email or mobile number`,
+                            value: u,
+                            onChange: (e) => d(e.target.value),
+                            required: !0,
+                          }),
+                        ],
+                      }),
+                      (0, F.jsxs)(`div`, {
+                        className: `ifield`,
+                        children: [
+                          (0, F.jsx)(`span`, {
+                            className: `ifield__ico`,
+                            children: (0, F.jsx)(W, { name: `lock`, size: 17 }),
+                          }),
+                          (0, F.jsx)(`input`, {
+                            className: `input`,
+                            type: h ? `text` : `password`,
+                            name: `password`,
+                            autoComplete: `current-password`,
+                            "aria-label": `Password`,
+                            placeholder: `Password`,
+                            value: f,
+                            onChange: (e) => p(e.target.value),
+                            required: !0,
+                          }),
+                          (0, F.jsx)(`button`, {
+                            type: `button`,
+                            className: `iconbtn ifield__eye`,
+                            "aria-label": h ? `Hide password` : `Show password`,
+                            onClick: () => g((e) => !e),
+                            children: (0, F.jsx)(W, { name: `eye`, size: 17 }),
+                          }),
+                        ],
+                      }),
+                      (0, F.jsxs)(`div`, {
+                        className: `row between wrap g-2`,
+                        children: [
+                          (0, F.jsxs)(`label`, {
+                            className: `check`,
+                            children: [
+                              (0, F.jsx)(`input`, {
+                                type: `checkbox`,
+                                defaultChecked: !0,
+                              }),
+                              ` Remember me on this device`,
+                            ],
+                          }),
+                          (0, F.jsx)(`button`, {
+                            type: `button`,
+                            className: `t-sm`,
+                            style: { color: `var(--magenta)` },
+                            onClick: () =>
+                              E(
+                                `Password reset: contact the school office, who can verify your identity and issue a reset. Self-service reset activates once an email/SMS provider is configured.`,
+                              ),
+                            children: `Forgot password?`,
+                          }),
+                        ],
+                      }),
+                      S &&
+                        (0, F.jsxs)(`div`, {
+                          className: `banner banner--critical login-error`,
+                          role: `alert`,
+                          children: [
+                            (0, F.jsx)(W, { name: `alert`, size: 17 }),
+                            (0, F.jsx)(`div`, {
+                              className: `grow`,
+                              children: S,
+                            }),
+                          ],
+                        }),
+                      (0, F.jsx)(q, {
+                        type: `submit`,
+                        variant: `primary`,
+                        block: !0,
+                        iconRight: `arrowRight`,
+                        loading: y,
+                        className: `logincard__btn`,
+                        children: `Sign in to Campus`,
+                      }),
+                    ],
+                  }),
+                  A.length > 0 &&
+                    (0, F.jsxs)(F.Fragment, {
+                      children: [
+                        (0, F.jsx)(`div`, {
+                          className: `orline mt-5`,
+                          children: `Or continue as`,
+                        }),
+                        (0, F.jsx)(`div`, {
+                          className: `roletiles mt-3`,
+                          children: ja
+                            .filter((e) => A.some((t) => t.role === e.role))
+                            .map((e) => {
+                              let t = A.find((t) => t.role === e.role);
+                              return (0, F.jsxs)(
+                                `button`,
+                                {
+                                  type: `button`,
+                                  className: `roletile`,
+                                  "data-role": e.role,
+                                  "aria-pressed": _ === e.role,
+                                  title: `${t.fullName} · ${t.title}`,
+                                  onClick: () => M(e.role),
+                                  children: [
+                                    (0, F.jsx)(`span`, {
+                                      className: `roletile__ico`,
+                                      children: (0, F.jsx)(W, {
+                                        name: e.icon,
+                                        size: 16,
+                                      }),
+                                    }),
+                                    (0, F.jsx)(`span`, {
+                                      className: `roletile__label`,
+                                      children: e.label,
+                                    }),
+                                  ],
+                                },
+                                e.role,
+                              );
+                            }),
+                        }),
+                        (0, F.jsxs)(`p`, {
+                          className: `t-micro t-muted t-center mt-3`,
+                          children: [
+                            j
+                              ? (0, F.jsxs)(F.Fragment, {
+                                  children: [
+                                    `Signing in as `,
+                                    (0, F.jsx)(`strong`, {
+                                      children: j.fullName,
+                                    }),
+                                    ` · `,
+                                    j.title,
+                                  ],
+                                })
+                              : (0, F.jsx)(F.Fragment, {
+                                  children: `Choose a demo account, then enter the demo password.`,
+                                }),
+                            ` · `,
+                            (0, F.jsx)(`button`, {
+                              type: `button`,
+                              className: `t-micro`,
+                              style: {
+                                color: `var(--magenta)`,
+                                fontWeight: 600,
+                              },
+                              onClick: () => O(!0),
+                              children: `More accounts`,
+                            }),
+                          ],
+                        }),
+                        (0, F.jsxs)(`p`, {
+                          className: `demo-hint`,
+                          children: [
+                            `Development build: demo accounts use the password set in `,
+                            (0, F.jsx)(`code`, {
+                              children: `SEED_DEMO_PASSWORD`,
+                            }),
+                            `.`,
+                          ],
+                        }),
+                      ],
+                    }),
+                ],
+              }),
+              (0, F.jsxs)(`div`, {
+                className: `aicard`,
+                children: [
+                  (0, F.jsx)(Me, { html: Aa }),
+                  (0, F.jsxs)(`div`, {
+                    className: `grow`,
+                    children: [
+                      (0, F.jsx)(`div`, {
+                        className: `aicard__title`,
+                        children: `Need help entering the campus?`,
+                      }),
+                      (0, F.jsx)(`div`, {
+                        className: `aicard__text`,
+                        children: `Ask our AI Campus Assistant`,
+                      }),
+                      (0, F.jsxs)(`div`, {
+                        className: `aicard__actions`,
+                        children: [
+                          (0, F.jsx)(q, {
+                            variant: `primary`,
+                            size: `sm`,
+                            icon: `sparkle`,
+                            onClick: () =>
+                              E(
+                                `The AI Campus Assistant answers from approved school documents once you sign in.`,
+                              ),
+                            children: `Ask AI`,
+                          }),
+                          (0, F.jsx)(q, {
+                            size: `sm`,
+                            icon: `phone`,
+                            onClick: () =>
+                              E(
+                                `Holy Sai International School front office — available Monday to Saturday, 8:00 am to 5:00 pm.`,
+                              ),
+                            children: `Contact School`,
+                          }),
+                          (0, F.jsx)(q, {
+                            size: `sm`,
+                            icon: `helpCircle`,
+                            onClick: () =>
+                              E(
+                                `Sign in with the email or mobile number registered with the school. Parents see only their own children; staff see the modules their role allows.`,
+                              ),
+                            children: t(`Help`),
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              (0, F.jsx)(`div`, {
+                className: `row center`,
+                children: (0, F.jsxs)(`span`, {
+                  className: `illustrative`,
+                  style: {
+                    background: `rgba(255,255,255,.14)`,
+                    color: `#FCE4EC`,
+                  },
+                  children: [
+                    (0, F.jsx)(W, { name: `lotus`, size: 14 }),
+                    `Holy Sai International School · Growing Minds. Inspiring Futures.`,
+                  ],
+                }),
+              }),
+            ],
+          }),
+        ],
+      }),
+      (0, F.jsx)(Tt, {
+        open: !!T,
+        onClose: () => E(null),
+        title: `Holy Sai Smart School 360`,
+        foot: (0, F.jsx)(q, {
+          variant: `primary`,
+          onClick: () => E(null),
+          children: `Understood`,
+        }),
+        children: (0, F.jsx)(`p`, { className: `t-sm`, children: T }),
+      }),
+      (0, F.jsx)(Tt, {
+        open: D,
+        onClose: () => O(!1),
+        title: `Demo accounts`,
+        sub: `Sample accounts for every role. Development builds only.`,
+        size: `wide`,
+        foot: (0, F.jsx)(q, { onClick: () => O(!1), children: `Close` }),
+        children: (0, F.jsx)(`div`, {
+          className: `col g-2`,
+          children: A.map((e) =>
+            (0, F.jsxs)(
+              `button`,
+              {
+                className: `optioncard`,
+                onClick: () => M(e.role, e.email),
+                children: [
+                  (0, F.jsx)(`span`, {
+                    className: `avatar`,
+                    children: V.initials(e.fullName),
+                  }),
+                  (0, F.jsxs)(`span`, {
+                    className: `col grow`,
+                    style: { minWidth: 0 },
+                    children: [
+                      (0, F.jsxs)(`span`, {
+                        className: `t-sm t-bold`,
+                        children: [
+                          e.fullName,
+                          ` `,
+                          (0, F.jsx)(`span`, {
+                            className: `badge badge--info`,
+                            style: { marginLeft: 6 },
+                            children: e.roleName,
+                          }),
+                        ],
+                      }),
+                      (0, F.jsxs)(`span`, {
+                        className: `t-xs t-muted t-clip`,
+                        children: [e.title, ` · `, e.email],
+                      }),
+                    ],
+                  }),
+                  (0, F.jsx)(W, { name: `chevronRight`, size: 16 }),
+                ],
+              },
+              e.email,
+            ),
+          ),
+        }),
+      }),
+    ],
+  });
+}
+function Na() {
+  let { user: e } = L(),
+    t = r();
+  return (0, F.jsxs)(Qe, {
+    children: [
+      (0, F.jsx)(Ze, {
+        title: `Screen not found`,
+        sub: `This address is not part of Holy Sai Smart School 360.`,
+        crumbs: !1,
+      }),
+      (0, F.jsx)(J, {
+        children: (0, F.jsx)(Y, {
+          icon: `compass`,
+          title: `We couldn't find that page`,
+          sub: `The link may be out of date, or the page may not be part of your role. Use the menu, search with Ctrl K, or return to your dashboard.`,
+          action: (0, F.jsxs)(`div`, {
+            className: `row g-2 wrap center`,
+            children: [
+              (0, F.jsx)(q, {
+                icon: `arrowLeft`,
+                onClick: () => t(-1),
+                children: `Go back`,
+              }),
+              (0, F.jsx)(q, {
+                variant: `primary`,
+                icon: `home`,
+                to: e?.role.homeRoute ?? `/`,
+                children: `Go to dashboard`,
+              }),
+            ],
+          }),
+        }),
+      }),
+    ],
+  });
+}
+var Pa = null;
+function Fa() {
+  return (0, F.jsx)(`div`, {
+    style: {
+      minHeight: `100vh`,
+      display: `grid`,
+      placeItems: `center`,
+      background: `var(--bg)`,
+    },
+    "aria-busy": `true`,
+    children: (0, F.jsxs)(`div`, {
+      className: `col center g-3`,
+      children: [
+        (0, F.jsx)(Se, { className: `splash__lotus` }),
+        (0, F.jsx)(`span`, {
+          className: `t-sm t-muted`,
+          children: `Opening Holy Sai Smart School 360…`,
+        }),
+      ],
+    }),
+  });
+}
+function Ia({ children: e }) {
+  let { status: t } = L(),
+    n = l();
+  return t === `loading`
+    ? (0, F.jsx)(Fa, {})
+    : t === `anonymous`
+      ? (0, F.jsx)(c, {
+          to: `/login`,
+          replace: !0,
+          state: { from: n.pathname + n.search },
+        })
+      : (0, F.jsx)(F.Fragment, { children: e });
+}
+function La() {
+  let { user: e } = L();
+  return (0, F.jsx)(c, { to: e?.role.homeRoute ?? `/login`, replace: !0 });
+}
+function Ra() {
+  let { status: e } = L();
+  return (0, F.jsxs)(u, {
+    children: [
+      Pa,
+      (0, F.jsx)(p, {
+        path: `/login`,
+        element:
+          e === `loading`
+            ? (0, F.jsx)(Fa, {})
+            : e === `authenticated`
+              ? (0, F.jsx)(La, {})
+              : (0, F.jsx)(Ma, {}),
+      }),
+      (0, F.jsxs)(p, {
+        element: (0, F.jsx)(Ia, {
+          children: (0, F.jsx)($t, { children: (0, F.jsx)(xa, {}) }),
+        }),
+        children: [
+          (0, F.jsx)(p, { index: !0, element: (0, F.jsx)(La, {}) }),
+          ha.map((e) =>
+            (0, F.jsx)(
+              p,
+              {
+                path: e.path,
+                element: (0, F.jsx)(Da, {
+                  perm: e.perm,
+                  children: (0, F.jsx)(x.Suspense, {
+                    fallback: (0, F.jsx)(`div`, {
+                      className: `page`,
+                      children: (0, F.jsx)(Pt, {}),
+                    }),
+                    children: e.element,
+                  }),
+                }),
+              },
+              e.path,
+            ),
+          ),
+          (0, F.jsx)(p, { path: `*`, element: (0, F.jsx)(Na, {}) }),
+        ],
+      }),
+    ],
+  });
+}
+Nn();
+var za = new d({
+  defaultOptions: {
+    queries: {
+      staleTime: 3e4,
+      refetchOnWindowFocus: !1,
+      retry: (e, t) =>
+        !(t instanceof w && t.status >= 400 && t.status < 500) && e < 2,
+    },
+  },
+});
+(0, S.createRoot)(document.getElementById(`root`)).render(
+  (0, F.jsx)(x.StrictMode, {
+    children: (0, F.jsx)(h, {
+      client: za,
+      children: (0, F.jsx)(f, {
+        children: (0, F.jsx)(ie, {
+          children: (0, F.jsx)(At, {
+            children: (0, F.jsx)(Dt, {
+              children: (0, F.jsx)(ee, { children: (0, F.jsx)(Ra, {}) }),
+            }),
+          }),
+        }),
+      }),
+    }),
+  }),
+);
+export {
+  We as $,
+  xt as A,
+  he as At,
+  Fe as B,
+  Nt as C,
+  Ae as Ct,
+  jt as D,
+  H as Dt,
+  Ot as E,
+  U as Et,
+  G as F,
+  w as Ft,
+  mt as G,
+  it as H,
+  qe as I,
+  P as It,
+  vt as J,
+  ut as K,
+  q as L,
+  A as Lt,
+  Je as M,
+  z as Mt,
+  ht as N,
+  L as Nt,
+  Ct as O,
+  V as Ot,
+  K as P,
+  C as Pt,
+  et as Q,
+  J as R,
+  Pt as S,
+  pt as St,
+  Tt as T,
+  ke as Tt,
+  Ke as U,
+  dt as V,
+  Y as W,
+  W as X,
+  $e as Y,
+  Ve as Z,
+  Kt as _,
+  Me as _t,
+  wn as a,
+  ze as at,
+  It as b,
+  ct as bt,
+  mn as c,
+  ft as ct,
+  dn as d,
+  lt as dt,
+  Ie as et,
+  en as f,
+  He as ft,
+  Jt as g,
+  Be as gt,
+  Gt as h,
+  _t as ht,
+  xn as i,
+  Ze as it,
+  St as j,
+  ge as jt,
+  bt as k,
+  ve as kt,
+  vn as l,
+  Ye as lt,
+  qt as m,
+  Le as mt,
+  Cn as n,
+  Ge as nt,
+  fn as o,
+  yt as ot,
+  Yt as p,
+  tt as pt,
+  gt as q,
+  On as r,
+  Qe as rt,
+  hn as s,
+  Re as st,
+  Sn as t,
+  Ne as tt,
+  bn as u,
+  rt as ut,
+  Wt as v,
+  at as vt,
+  Ft as w,
+  je as wt,
+  Lt as x,
+  st as xt,
+  Ut as y,
+  nt as yt,
+  Ue as z,
+};
+//# sourceMappingURL=index-CBJm74g1.js.map

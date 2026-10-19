@@ -1,0 +1,86 @@
+/* Rebuild change (requested): the sign-in page fits the screen and the page itself never scrolls.
+   Loaded after holysai.css. */
+.home {
+  height: 100dvh;
+  min-height: 0;
+}
+.home__body {
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+.home__left,
+.home__right {
+  min-height: 0;
+}
+
+/* Laptop and desktop: the campus picture scales to the height that is left, keeping its proportions. */
+@media (width>=1025px) {
+  .home__left {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+  .home__shotwrap {
+    container-type: size;
+    min-height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .shot {
+    width: min(100cqw, calc(100cqh * 1448 / 1086));
+    flex: none;
+  }
+  .home__left > .row {
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+}
+
+/* Short laptop screens: drop the decorative extras before anything is cut off. */
+@media (height<=760px) and (width>=1025px) {
+  .home__right > .row.center {
+    display: none;
+  }
+}
+@media (height<=660px) and (width>=1025px) {
+  .home__left > .row {
+    display: none;
+  }
+  .aicard {
+    display: none;
+  }
+}
+
+/* Tablets and phones: show only the sign-in side; the hero text and brand values are decorative. */
+@media (width<=1024px) {
+  .herofallback,
+  .home__left > .row {
+    display: none;
+  }
+  .home__left {
+    display: none;
+  }
+  .home__right {
+    justify-self: center;
+  }
+}
+@media (width<=767px) {
+  .home__right > .row.center {
+    display: none;
+  }
+  .aicard {
+    text-align: left;
+    flex-direction: row;
+  }
+}
+
+/* Last resort for very small windows (e.g. a phone held sideways): the sign-in column scrolls on its own,
+   so the Sign in button is always reachable, while the page stays fixed. */
+.home__right {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.home__right::-webkit-scrollbar {
+  display: none;
+}

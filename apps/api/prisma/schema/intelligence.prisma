@@ -1,0 +1,325 @@
+// Intelligence: Early Warning (signals, interventions and per-student indicators), Talent Discovery
+// (strengths derived from real results and achievements, with teacher decisions), the AI Teacher
+// Co-Pilot (drafts and their approval), School Knowledge AI (approved sources, indexed text,
+// questions and feedback) and the WhatsApp AI assistant (conversations and messages).
+// Core records (Student, Section, Employee, Guardian, Campus, User) and other modules' records
+// (OpsDocument, CommCircular, AdmissionLead, LessonPlan …) are referenced by plain uuid columns.
+
+/// An Early Warning signal raised by a deterministic rule, reviewed by a teacher and, when accepted,
+/// followed through as an intervention.
+/// Stages: 0 Signal · 1 Teacher Review · 2 Intervention · 3 Action · 4 Follow-up · 5 Closed.
+model EarlyWarningSignal {
+  id              String    @id @default(uuid()) @db.Uuid
+  /// e.g. "EW-118"
+  code            String    @unique
+  studentId       String    @db.Uuid
+  campusId        String    @db.Uuid
+  sectionId       String?   @db.Uuid
+  /// attendance | academic | participation | behaviour | wellbeing | fees
+  signalType      String
+  /// Rule that raised it: A attendance · B academic · C participation · D behaviour · E fees · F wellbeing · P absence pattern
+  rule            String
+  /// Plain description of what the rule found.
+  signal          String
+  /// Figures behind the rule when it was raised.
+  evidence        Json      @default("{}")
+  stage           Int       @default(0)
+  /// accepted | dismissed — null until a teacher decides.
+  decision        String?
+  raisedOn        DateTime  @db.Date
+  /// Null when raised by the scheduled check.
+  raisedById      String?   @db.Uuid
+  raisedByName    String?
+  reviewStartedAt DateTime?
+  reviewedAt      DateTime?
+  reviewedById    String?   @db.Uuid
+  reviewedByName  String?
+  /// What the reviewing teacher knew (also kept as an observation event).
+  context         String?
+  actionPlan      String?
+  /// Employee who owns the intervention.
+  ownerId         String?   @db.Uuid
+  nextReviewOn    DateTime? @db.Date
+  /// Band set by the reviewer (On Track | Watch | Developing Risk | At Risk); null = automatic.
+  riskLevel       String?
+  dismissReason   String?
+  outcome         String?
+  closedAt        DateTime?
+  closedById      String?   @db.Uuid
+  closedByName    String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  events EarlyWarningEvent[]
+
+  @@index([studentId, signalType])
+  @@index([campusId, decision])
+  @@index([ownerId])
+  @@index([raisedOn])
+  @@index([closedAt])
+}
+
+/// History of a signal: raised, review started, context recorded, accepted, dismissed, advanced, closed.
+model EarlyWarningEvent {
+  id          String             @id @default(uuid()) @db.Uuid
+  signalId    String             @db.Uuid
+  signal      EarlyWarningSignal @relation(fields: [signalId], references: [id], onDelete: Cascade)
+  studentId   String             @db.Uuid
+  /// raise | review | context | approve | dismiss | advance | close
+  action      String
+  description String
+  byId        String?            @db.Uuid
+  byName      String
+  at          DateTime           @default(now())
+
+  @@index([signalId, at])
+  @@index([studentId, action])
+}
+
+/// The latest Early Warning indicators for a student (refreshed daily, on demand and after registers).
+model EarlyWarningStudent {
+  studentId        String   @id @db.Uuid
+  campusId         String   @db.Uuid
+  sectionId        String?  @db.Uuid
+  /// Present or late over marked days, current academic year.
+  attendancePct    Float?
+  markedDays       Int      @default(0)
+  absent30         Int      @default(0)
+  late30           Int      @default(0)
+  /// Latest-term average (% of maximum marks) and the previous term's.
+  average          Float?
+  previousAverage  Float?
+  /// average − previousAverage
+  trend            Float?
+  termLabel        String?
+  /// Homework handed in over homework due in the last 30 days (%).
+  homeworkRate     Float?
+  homeworkDue      Int      @default(0)
+  concerns60       Int      @default(0)
+  positives60      Int      @default(0)
+  wellbeingFlags30 Int      @default(0)
+  activities       Int      @default(0)
+  feesOverdue      Decimal  @default(0) @db.Decimal(12, 2)
+  feesOverdueDays  Int      @default(0)
+  /// Indicators past their threshold: attendance | academic | participation
+  indicators       String[]
+  /// On Track | Watch | Developing Risk | At Risk
+  band             String   @default("On Track")
+  computedAt       DateTime @default(now())
+
+  @@index([campusId, band])
+  @@index([sectionId])
+}
+
+/// A strength derived from a student's real results, achievements and projects (0–100 with evidence).
+model TalentStrength {
+  id            String   @id @default(uuid()) @db.Uuid
+  studentId     String   @db.Uuid
+  campusId      String   @db.Uuid
+  skill         String
+  score         Int
+  /// High | Medium | Low
+  confidence    String
+  /// One line per record that produced the score.
+  evidence      String[]
+  /// Distinct kinds of evidence (results, achievements, projects, activities).
+  evidenceCount Int      @default(0)
+  activities    Int      @default(0)
+  assessedOn    DateTime @db.Date
+  computedAt    DateTime @default(now())
+
+  @@unique([studentId, skill])
+  @@index([campusId, skill])
+}
+
+/// A teacher's decision on a talent suggestion: an opportunity offered, or dismissed with a reason.
+model TalentDecision {
+  id              String   @id @default(uuid()) @db.Uuid
+  strengthId      String?  @db.Uuid
+  studentId       String   @db.Uuid
+  campusId        String   @db.Uuid
+  skill           String
+  /// accept | dismiss
+  action          String
+  /// The opportunity offered, or the reason for dismissing.
+  note            String
+  scoreAtDecision Int
+  decidedById     String   @db.Uuid
+  decidedByName   String
+  decidedAt       DateTime @default(now())
+
+  @@index([studentId, skill])
+  @@index([campusId, decidedAt])
+}
+
+/// An AI Teacher Co-Pilot draft: generated, reviewed and edited, then approved (or discarded) by a named teacher.
+model CopilotDraft {
+  id              String    @id @default(uuid()) @db.Uuid
+  /// lesson | worksheet | quiz | comment | message | brief
+  type            String
+  /// Draft | Under Review | Approved | Rejected
+  status          String    @default("Draft")
+  title           String
+  classLabel      String?
+  campusId        String?   @db.Uuid
+  gradeLevel      Int?
+  sectionId       String?   @db.Uuid
+  subjectId       String?   @db.Uuid
+  studentId       String?   @db.Uuid
+  objectiveId     String?   @db.Uuid
+  /// The request as made (grade, subject, topic, section, student, purpose …).
+  prompt          Json
+  /// The draft content the page renders and edits.
+  output          Json
+  warnings        Int       @default(0)
+  /// template | model
+  generatorKind   String    @default("template")
+  requestedById   String    @db.Uuid
+  requestedByName String
+  approvedById    String?   @db.Uuid
+  approvedByName  String?
+  approvedAt      DateTime?
+  rejectedAt      DateTime?
+  /// Lesson plan created when a lesson draft is approved.
+  lessonPlanId    String?   @db.Uuid
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([requestedById, createdAt])
+  @@index([campusId, status])
+  @@index([createdAt])
+}
+
+/// An approved school source the Knowledge AI (and WhatsApp AI) may answer from: a verified school
+/// document (operations) or a released circular (parents), with its visibility.
+model KnowledgeSource {
+  id              String           @id @default(uuid()) @db.Uuid
+  /// document | circular
+  kind            String
+  /// OpsDocument id or CommCircular id.
+  refId           String           @db.Uuid
+  title           String
+  /// Document set or circular audience, shown as the section.
+  section         String?
+  campusId        String?          @db.Uuid
+  /// public (prospective parents too) | families | staff | restricted
+  visibility      String           @default("families")
+  /// Role keys that may read it; empty = everyone who may use the assistant.
+  audience        String[]
+  restricted      Boolean          @default(false)
+  keywords        String[]
+  /// indexed | no_text | failed
+  status          String           @default("indexed")
+  error           String?
+  /// File hash (documents) or update stamp (circulars); re-indexed when it changes.
+  contentHash     String?
+  sourceUpdatedAt DateTime
+  indexedAt       DateTime         @default(now())
+
+  chunks KnowledgeChunk[]
+
+  @@unique([kind, refId])
+  @@index([status])
+}
+
+/// A passage of an approved source, as retrieved and quoted in answers.
+model KnowledgeChunk {
+  id       String          @id @default(uuid()) @db.Uuid
+  sourceId String          @db.Uuid
+  source   KnowledgeSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  ordinal  Int
+  heading  String?
+  text     String
+
+  @@index([sourceId, ordinal])
+}
+
+/// Every question asked of the Knowledge AI or the WhatsApp AI (for "most asked" and the audit of answers).
+model KnowledgeQuestion {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String?  @db.Uuid
+  roleKey    String?
+  /// web | whatsapp
+  channel    String   @default("web")
+  campusId   String?  @db.Uuid
+  question   String
+  /// Lower-case form used to count repeats.
+  normalized String
+  found      Boolean
+  /// documents | live
+  kind       String
+  confidence String?
+  sourceIds  String[]
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([normalized])
+}
+
+/// "Was this useful?" on a Knowledge AI answer; "Ask a person instead" routes it to the front office.
+model KnowledgeFeedback {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @db.Uuid
+  question      String
+  helpful       Boolean
+  routeToPerson Boolean  @default(false)
+  documentIds   String[]
+  createdAt     DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+/// One WhatsApp number talking to the school's WhatsApp AI assistant.
+model WhatsappConversation {
+  id               String            @id @default(uuid()) @db.Uuid
+  /// Sender's WhatsApp id (digits with country code).
+  waId             String            @unique
+  /// Last 10 digits, for matching guardians and leads.
+  phoneKey         String
+  profileName      String?
+  /// family | prospect
+  kind             String            @default("prospect")
+  guardianId       String?           @db.Uuid
+  leadId           String?           @db.Uuid
+  campusId         String?           @db.Uuid
+  /// open | escalated
+  status           String            @default("open")
+  escalatedAt      DateTime?
+  escalationReason String?
+  lastInboundAt    DateTime?
+  lastOutboundAt   DateTime?
+  messageCount     Int               @default(0)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  messages WhatsappMessage[]
+
+  @@index([phoneKey])
+  @@index([status, lastInboundAt])
+}
+
+/// A message in a WhatsApp AI conversation (inbound from the sender or the assistant's reply).
+model WhatsappMessage {
+  id                String               @id @default(uuid()) @db.Uuid
+  conversationId    String               @db.Uuid
+  conversation      WhatsappConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  /// inbound | outbound
+  direction         String
+  /// Meta message id (wamid); unique so webhook retries are processed once.
+  providerMessageId String?              @unique
+  /// text | image | audio | other
+  messageType       String               @default("text")
+  body              String
+  /// answer | admission | fees | complaint | safeguarding | human | unknown
+  intent            String?
+  escalated         Boolean              @default(false)
+  /// AI provider and model that wrote the reply; "template" when no model was used.
+  generator         String?
+  /// received | sent | failed
+  status            String
+  error             String?
+  sourceIds         String[]
+  createdAt         DateTime             @default(now())
+
+  @@index([conversationId, createdAt])
+}

@@ -1,0 +1,12 @@
+{
+ "@react-leaflet/core": 12,
+ "@tanstack/query-core": 18,
+ "@tanstack/react-query": 9,
+ "leaflet": 1,
+ "qrcode-generator": 1,
+ "react": 4,
+ "react-dom": 4,
+ "react-leaflet": 8,
+ "react-router": 1,
+ "scheduler": 2
+}

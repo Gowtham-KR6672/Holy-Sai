@@ -1,0 +1,237 @@
+// Core school structure shared by every module: classes and sections, subjects, houses,
+// students and guardians, employees, and transport routes (needed by the student record).
+// Module tables refer to these by id. Modules other than core keep plain uuid columns
+// (no Prisma relation) to core records so each module's schema file stays independent.
+
+model SchoolClass {
+  id         String   @id @default(uuid()) @db.Uuid
+  campusId   String   @db.Uuid
+  campus     Campus   @relation(fields: [campusId], references: [id])
+  /// e.g. "Grade 5"
+  name       String
+  gradeLevel Int
+  /// Curriculum stage, e.g. "Cambridge Primary".
+  stage      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  sections Section[]
+
+  @@unique([campusId, name])
+}
+
+model Section {
+  id             String      @id @default(uuid()) @db.Uuid
+  classId        String      @db.Uuid
+  class          SchoolClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+  campusId       String      @db.Uuid
+  /// e.g. "A"
+  name           String
+  room           String?
+  capacity       Int         @default(40)
+  classTeacherId String?     @db.Uuid
+  classTeacher   Employee?   @relation("ClassTeacher", fields: [classTeacherId], references: [id])
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  students Student[]
+
+  @@unique([classId, name])
+  @@index([campusId])
+}
+
+model Subject {
+  id         String   @id @default(uuid()) @db.Uuid
+  /// e.g. "MAT"
+  code       String   @unique
+  name       String
+  /// Stages it is taught at, e.g. "All", "IGCSE", "Primary & Lower Secondary".
+  stageScope String   @default("All")
+  isElective Boolean  @default(false)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model House {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @unique
+  color     String?
+  createdAt DateTime @default(now())
+}
+
+model Student {
+  id                String    @id @default(uuid()) @db.Uuid
+  /// e.g. "HS-2026-1077"
+  admissionNo       String    @unique
+  firstName         String
+  lastName          String
+  fullName          String
+  dateOfBirth       DateTime  @db.Date
+  /// F | M | O
+  gender            String
+  bloodGroup        String?
+  campusId          String    @db.Uuid
+  campus            Campus    @relation(fields: [campusId], references: [id])
+  sectionId         String    @db.Uuid
+  section           Section   @relation(fields: [sectionId], references: [id])
+  rollNo            Int?
+  house             String?
+  address           String?
+  city              String?
+  pincode           String?
+  admittedOn        DateTime? @db.Date
+  /// Visible only to staff with students.sensitive.
+  medicalNotes      String?
+  photoUrl          String?
+  /// active | discontinued | graduated | transferred
+  status            String    @default("active")
+  discontinuedOn    DateTime? @db.Date
+  discontinueReason String?
+  /// GPS tracking: active | paused | disabled
+  trackingStatus    String    @default("disabled")
+  trackingConsentAt DateTime?
+  /// Cached indicators, refreshed by attendance, assessments and the Early Warning check.
+  attendancePct     Float?
+  averageScore      Float?
+  scoreTrend        Float?
+  /// On Track | Developing Risk | At Risk
+  risk              String    @default("On Track")
+  /// Lead that became this student, if enrolled through Admissions.
+  leadId            String?   @db.Uuid
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  guardians StudentGuardian[]
+  transport StudentTransport?
+
+  @@index([campusId, status])
+  @@index([sectionId])
+  @@index([fullName])
+}
+
+/// A parent or guardian. One guardian can have several children at the school.
+model Guardian {
+  id               String   @id @default(uuid()) @db.Uuid
+  fullName         String
+  phone            String
+  email            String?
+  occupation       String?
+  address          String?
+  /// whatsapp | sms | email | app
+  preferredChannel String   @default("whatsapp")
+  /// en | ta | hi
+  language         String   @default("en")
+  /// 0–100, from interactions, acknowledgements and PTM bookings.
+  engagementScore  Int      @default(60)
+  lastInteractionAt DateTime?
+  lastInteractionChannel String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  students StudentGuardian[]
+
+  @@index([phone])
+}
+
+model StudentGuardian {
+  studentId    String   @db.Uuid
+  guardianId   String   @db.Uuid
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  guardian     Guardian @relation(fields: [guardianId], references: [id], onDelete: Cascade)
+  /// Father | Mother | Guardian | Grandparent …
+  relationship String
+  isPrimary    Boolean  @default(false)
+
+  @@id([studentId, guardianId])
+}
+
+model Employee {
+  id                 String    @id @default(uuid()) @db.Uuid
+  /// e.g. "EMP-1044"
+  code               String    @unique
+  fullName           String
+  gender             String?
+  phone              String?
+  email              String?
+  campusId           String    @db.Uuid
+  department         String
+  designation        String
+  /// teaching | non_teaching
+  employeeType       String
+  /// Staff group: Leadership, Teachers, Reception & Admin, Security, Drivers & Attendants, Housekeeping, Lab Staff, Library Staff
+  category           String
+  shiftName          String?
+  joinDate           DateTime? @db.Date
+  /// active | on_notice | exited
+  employmentStatus   String    @default("active")
+  basicSalary        Decimal   @default(0) @db.Decimal(12, 2)
+  bankAccountMasked  String?
+  /// Recorded load including duties (periods per week).
+  workloadPeriods    Int       @default(0)
+  maxPeriodsWeek     Int       @default(27)
+  backgroundVerified Boolean   @default(false)
+  qualification      String?
+  specialisation     String?
+  licenceNoMasked    String?
+  licenceExpiry      DateTime? @db.Date
+  archivedAt         DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  classTeacherOf Section[] @relation("ClassTeacher")
+
+  @@index([campusId, employmentStatus])
+}
+
+model TransportRoute {
+  id          String   @id @default(uuid()) @db.Uuid
+  campusId    String   @db.Uuid
+  /// e.g. "R04"
+  code        String
+  /// Area served, e.g. "Urapakkam"
+  name        String
+  /// e.g. "Bus 4"
+  vehicleLabel String
+  vehicleNo   String?
+  capacity    Int      @default(40)
+  driverId    String?  @db.Uuid
+  attendantId String?  @db.Uuid
+  /// scheduled | en_route | at_campus | delayed | maintenance
+  status      String   @default("scheduled")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  stops    RouteStop[]
+  students StudentTransport[]
+
+  @@unique([campusId, code])
+}
+
+model RouteStop {
+  id         String         @id @default(uuid()) @db.Uuid
+  routeId    String         @db.Uuid
+  route      TransportRoute @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  name       String
+  sequence   Int
+  /// "07:40"
+  pickupTime String?
+  dropTime   String?
+  latitude   Float?
+  longitude  Float?
+
+  students StudentTransport[]
+
+  @@index([routeId, sequence])
+}
+
+model StudentTransport {
+  studentId String         @id @db.Uuid
+  student   Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  routeId   String         @db.Uuid
+  route     TransportRoute @relation(fields: [routeId], references: [id])
+  stopId    String?        @db.Uuid
+  stop      RouteStop?     @relation(fields: [stopId], references: [id])
+  since     DateTime       @default(now())
+}

@@ -1,0 +1,514 @@
+download    :p:p                                                         intelligence/shared.tsx
+post        :p/answers/:p/${ask ===                                      exam-correction/SheetPage.tsx
+post        :p/answers/:p/approve                                        exam-correction/SheetPage.tsx
+post        :p/answers/:p/evaluate                                       exam-correction/SheetPage.tsx
+put         :p/answers/:p/marks                                          exam-correction/SheetPage.tsx
+patch       :p/answers/:p/text                                           exam-correction/SheetPage.tsx
+post        :p/answers/:p/verify                                         exam-correction/SheetPage.tsx
+upload      :p/exams/:p/questions/import                                 exam-correction/ExamPage.tsx
+download    :p/exams/:p/report.csv                                       exam-correction/ExamPage.tsx
+postLong    :p/exams/:p/rubrics/draft-all                                exam-correction/ExamPage.tsx
+upload      :p/exams/:p/submissions                                      exam-correction/ExamPage.tsx
+upload      :p/exams/:p/submissions/bulk                                 exam-correction/ExamPage.tsx
+blob        :p/pages/:p/image                                            exam-correction/SheetPage.tsx
+post        :p/pages/:p/rotate                                           exam-correction/SheetPage.tsx
+postLong    :p/questions/:p/rubric/draft                                 exam-correction/ExamPage.tsx
+postLong    :p/settings/ai/test/:p${sample ?                             exam-correction/AiSettingsPage.tsx
+post        :p/submissions/:p/:p                                         exam-correction/SheetPage.tsx
+post        :p/submissions/:p/identity                                   exam-correction/SheetPage.tsx
+GET(paged)  /academics/assessments                                       academics/AssessmentsPage.tsx, exam-correction/ExamPage.tsx
+POST        /academics/assessments                                       academics/AssessmentsPage.tsx
+GET         /academics/assessments/:p                                    academics/AssessmentsPage.tsx
+PUT         /academics/assessments/:p/marks                              academics/AssessmentsPage.tsx
+GET         /academics/assessments/summary                               academics/AssessmentsPage.tsx
+GET(paged)  /academics/classes                                           academics/ClassesPage.tsx
+GET         /academics/classes/summary                                   academics/ClassesPage.tsx
+GET         /academics/curriculum                                        academics/CurriculumPage.tsx
+GET(paged)  /academics/homework                                          academics/HomeworkPage.tsx
+POST        /academics/homework                                          academics/HomeworkPage.tsx
+POST        /academics/homework/:p/close                                 academics/HomeworkPage.tsx
+POST        /academics/homework/:p/publish                               academics/HomeworkPage.tsx
+POST        /academics/homework/:p/remind                                academics/HomeworkPage.tsx
+GET         /academics/homework/:p/submissions                           academics/HomeworkPage.tsx
+PUT         /academics/homework/:p/submissions                           academics/HomeworkPage.tsx
+GET         /academics/homework/summary                                  academics/HomeworkPage.tsx
+GET(paged)  /academics/lesson-plans                                      academics/LessonPlansPage.tsx
+POST        /academics/lesson-plans                                      academics/LessonPlansPage.tsx
+DELETE      /academics/lesson-plans/:p                                   academics/LessonPlansPage.tsx
+GET         /academics/lesson-plans/:p                                   academics/LessonPlansPage.tsx
+PUT         /academics/lesson-plans/:p                                   academics/LessonPlansPage.tsx
+POST        /academics/lesson-plans/:p/transition                        academics/LessonPlansPage.tsx
+GET         /academics/lesson-plans/summary                              academics/LessonPlansPage.tsx
+GET         /academics/objectives                                        academics/LessonPlansPage.tsx
+GET(paged)  /academics/objectives                                        academics/ObjectivesPage.tsx
+POST        /academics/objectives/import                                 academics/objectiveForms.tsx
+GET         /academics/objectives/stages                                 academics/ObjectivesPage.tsx
+GET         /academics/performance                                       academics/AcademicPerformancePage.tsx
+GET(paged)  /academics/performance/students                              academics/AcademicPerformancePage.tsx
+GET(paged)  /academics/question-bank                                     academics/QuestionBankPage.tsx
+DELETE      /academics/question-bank/:p                                  academics/QuestionBankPage.tsx
+PUT         /academics/question-bank/:p                                  academics/QuestionBankPage.tsx
+GET         /academics/question-bank/topics                              academics/QuestionBankPage.tsx
+POST        /academics/report-card-comments/:p/review                    academics/ReportCardsPage.tsx
+GET         /academics/report-cards                                      academics/ReportCardsPage.tsx
+GET         /academics/report-cards/:p                                   academics/ReportCardsPage.tsx
+POST        /academics/report-cards/:p/advance                           academics/ReportCardsPage.tsx
+POST        /academics/report-cards/:p/draft-missing                     academics/ReportCardsPage.tsx
+POST        /academics/report-cards/release                              academics/ReportCardsPage.tsx
+GET         /academics/sections                                          academics/shared.tsx
+PUT         /academics/sections/:p                                       academics/ClassesPage.tsx
+GET         /academics/subjects                                          academics/SubjectsPage.tsx
+GET         /academics/teacher-dashboard                                 academics/TeacherDashboardPage.tsx
+GET         /academics/timetable | /academics/timetable                  academics/TimetablePage.tsx
+PUT         /academics/timetable/entries/:p                              academics/TimetablePage.tsx
+DELETE      /academics/timetable/entries/:p/substitute                   academics/TimetablePage.tsx
+POST        /academics/timetable/entries/:p/substitute                   academics/TimetablePage.tsx
+GET         /academics/timetable/entries/:p/substitutes                  academics/TimetablePage.tsx
+GET         /academics/timetable/insights                                academics/TimetablePage.tsx
+POST        /academics/timetable/publish                                 academics/TimetablePage.tsx
+GET         /admissions/conversion                                       admissions/ConversionPage.tsx
+GET         /admissions/counsellors                                      admissions/shared.tsx
+GET         /admissions/dashboard                                        admissions/AdmissionsDashboardPage.tsx
+GET(paged)  /alumni                                                      admissions/AlumniPage.tsx
+GET         /alumni/summary                                              admissions/AlumniPage.tsx
+GET         /analytics/overview                                          intelligence/AnalyticsPage.tsx
+GET(paged)  /applications                                                admissions/ApplicationsPage.tsx
+POST        /applications                                                admissions/ApplicationPanel.tsx
+PATCH       /applications/:p/documents/:p                                admissions/ApplicationPanel.tsx
+POST        /applications/:p/enrol                                       admissions/ApplicationPanel.tsx
+POST        /applications/:p/status                                      admissions/ApplicationPanel.tsx
+GET         /applications/summary                                        admissions/ApplicationsPage.tsx
+GET         /assets                                                      operations/MaintenancePage.tsx
+GET(paged)  /assets                                                      operations/AssetsPage.tsx
+DELETE      /assets/:p                                                   operations/AssetsPage.tsx
+POST        /assets/:p/service                                           operations/AssetsPage.tsx
+GET         /assets/summary                                              operations/AssetsPage.tsx
+GET         /attendance/analytics                                        academics/AttendancePage.tsx
+get         /attendance/register                                         academics/TeacherDashboardPage.tsx
+GET         /attendance/register                                         academics/AttendancePage.tsx
+PUT         /attendance/register                                         academics/AttendancePage.tsx
+GET         /attendance/sections                                         academics/AttendancePage.tsx
+GET         /attendance/summary                                          academics/AttendancePage.tsx
+GET(paged)  /audit-logs                                                  operations/AuditPage.tsx
+getPaged    /audit-logs                                                  operations/AuditPage.tsx
+GET         /audit/facets                                                operations/AuditPage.tsx
+POST        /auth/change-password                                        core/AccountPage.tsx
+post        /auth/login                                                  auth/AuthContext.tsx
+post        /auth/logout                                                 auth/AuthContext.tsx
+get         /auth/me                                                     auth/AuthContext.tsx
+GET         /auth/sessions                                               core/AccountPage.tsx
+POST        /auth/sessions/revoke-all                                    core/AccountPage.tsx
+GET(paged)  /certificates                                                operations/CertificatesPage.tsx
+POST        /certificates                                                operations/CertificatesPage.tsx
+POST        /certificates/:p/decision                                    operations/CertificatesPage.tsx
+GET         /certificates/checks/:p                                      operations/CertificatesPage.tsx
+GET         /certificates/summary                                        operations/CertificatesPage.tsx
+get         /certificates/verify/:p                                      operations/CertificatesPage.tsx
+GET(paged)  /circulars                                                   parents-experience/AcknowledgementsPage.tsx, parents-experience/CircularsPage.tsx
+POST        /circulars                                                   parents-experience/CircularsPage.tsx
+GET         /circulars/:p                                                parents-experience/AcknowledgementsPage.tsx, parents-experience/CircularsPage.tsx
+PUT         /circulars/:p                                                parents-experience/CircularsPage.tsx
+GET(paged)  /circulars/:p/acknowledgements                               parents-experience/AcknowledgementsPage.tsx
+POST        /circulars/:p/release                                        parents-experience/CircularsPage.tsx
+POST        /circulars/:p/remind                                         parents-experience/AcknowledgementsPage.tsx, parents-experience/CircularsPage.tsx
+POST        /circulars/:p/return                                         parents-experience/CircularsPage.tsx
+POST        /circulars/:p/submit                                         parents-experience/CircularsPage.tsx
+POST        /circulars/:p/withdraw                                       parents-experience/CircularsPage.tsx
+POST        /circulars/audience-count                                    parents-experience/shared.tsx
+GET         /circulars/summary                                           parents-experience/AcknowledgementsPage.tsx, parents-experience/CircularsPage.tsx
+GET(paged)  /communication/threads                                       parents-experience/ParentCommunicationPage.tsx
+GET         /communication/threads/:p                                    parents-experience/ParentCommunicationPage.tsx
+POST        /communication/threads/:p/:p                                 parents-experience/ParentCommunicationPage.tsx
+POST        /communication/threads/:p/reply                              parents-experience/ParentCommunicationPage.tsx
+GET(paged)  /communications                                              parents-experience/ParentCommunicationPage.tsx
+POST        /communications                                              parents-experience/shared.tsx
+POST        /communications/:p/replied                                   parents-experience/ParentCommunicationPage.tsx
+POST        /communications/send                                         parents-experience/ParentCommunicationPage.tsx, parents-experience/shared.tsx
+GET         /communications/summary                                      parents-experience/ParentCommunicationPage.tsx
+GET(paged)  /compliance                                                  operations/CompliancePage.tsx
+POST        /compliance/:p/complete                                      operations/CompliancePage.tsx
+POST        /compliance/:p/escalate                                      operations/CompliancePage.tsx
+GET         /compliance/summary                                          operations/CompliancePage.tsx
+GET         /copilot/context                                             intelligence/CopilotPage.tsx
+GET(paged)  /copilot/drafts                                              intelligence/CopilotPage.tsx
+POST        /copilot/drafts                                              intelligence/CopilotPage.tsx
+GET         /copilot/drafts/:p                                           intelligence/CopilotPage.tsx
+PUT         /copilot/drafts/:p                                           intelligence/CopilotDraft.tsx
+POST        /copilot/drafts/:p/approve                                   intelligence/CopilotDraft.tsx
+POST        /copilot/drafts/:p/discard                                   intelligence/CopilotDraft.tsx
+GET(paged)  /counselling/sessions                                        safety/CounsellingPage.tsx
+GET         /counselling/summary                                         safety/CounsellingPage.tsx
+GET         /dashboard/command-center                                    components/ui/dashboardWidgets.tsx, core/CommandCenterPage.tsx, intelligence/useLiveFigures.ts
+GET         /dashboard/overview                                          core/OwnerOverviewPage.tsx
+GET(paged)  /device-assignments                                          tracking/DeviceAssignmentsPage.tsx
+POST        /device-assignments                                          components/tracking/devices.tsx
+POST        /device-assignments/:p/unassign                              components/tracking/devices.tsx
+GET         /devices                                                     components/tracking/devices.tsx
+GET(paged)  /devices                                                     tracking/DevicesPage.tsx
+POST        /devices                                                     tracking/DevicesPage.tsx
+GET         /devices/:p                                                  tracking/DevicesPage.tsx
+PUT         /devices/:p                                                  tracking/DevicesPage.tsx
+POST        /devices/:p/token                                            tracking/DevicesPage.tsx
+get         /devices/lookup                                              components/tracking/devices.tsx
+GET         /devices/summary                                             tracking/DevicesPage.tsx
+upload      /documents                                                   operations/DocumentsPage.tsx, students/Student360Page.tsx
+download    /documents/:p/download                                       operations/DocumentsPage.tsx, students/Student360Page.tsx
+PATCH       /documents/:p/verify                                         operations/DocumentsPage.tsx, students/Student360Page.tsx
+GET         /documents/collections                                       operations/DocumentsPage.tsx
+GET(paged)  /documents/pending                                           operations/DocumentsPage.tsx
+GET(paged)  /documents/school                                            operations/DocumentsPage.tsx
+GET         /documents/summary                                           operations/DocumentsPage.tsx
+POST        /early-warning/run-check                                     intelligence/EarlyWarningPage.tsx
+GET(paged)  /early-warning/signals                                       intelligence/EarlyWarningPage.tsx
+GET         /early-warning/signals/:p                                    intelligence/EarlyWarningPage.tsx
+POST        /early-warning/signals/:p/advance                            intelligence/EarlyWarningPage.tsx
+POST        /early-warning/signals/:p/close                              intelligence/EarlyWarningPage.tsx
+POST        /early-warning/signals/:p/review                             intelligence/EarlyWarningPage.tsx
+GET(paged)  /early-warning/students                                      intelligence/EarlyWarningPage.tsx
+GET         /early-warning/summary                                       intelligence/EarlyWarningPage.tsx
+GET         /emergency/audience                                          safety/EmergencyPage.tsx
+GET(paged)  /emergency/broadcasts                                        safety/EmergencyPage.tsx
+POST        /emergency/broadcasts                                        safety/EmergencyPage.tsx
+GET         /enquiries                                                   admissions/LeadForms.tsx
+GET(paged)  /enquiries                                                   admissions/AdmissionsDashboardPage.tsx, admissions/EnquiriesPage.tsx, admissions/LeadsPage.tsx
+POST        /enquiries                                                   admissions/LeadForms.tsx
+POST        /enquiries/:p/assign                                         admissions/LeadProfile.tsx
+POST        /enquiries/:p/communications                                 admissions/LeadForms.tsx, admissions/LeadProfile.tsx
+POST        /enquiries/:p/stage                                          admissions/LeadForms.tsx
+POST        /enquiries/auto-assign                                       admissions/LeadsPage.tsx
+GET         /enquiries/pipeline                                          admissions/PipelinePage.tsx
+GET         /enquiries/summary                                           admissions/EnquiriesPage.tsx
+GET(paged)  /events                                                      components/ui/dashboard.tsx, parents-experience/EventsPage.tsx
+POST        /events/:p/cancel                                            parents-experience/EventsPage.tsx
+POST        /events/:p/notify                                            parents-experience/EventsPage.tsx
+GET         /events/summary                                              parents-experience/EventsPage.tsx
+POST        /exam-correction/exams/:p/push-marks                         exam-correction/ExamPage.tsx
+get         /exam-correction/status                                      exam-correction/shared.tsx
+POST        /exam-correction/sync                                        exam-correction/ExamsPage.tsx
+GET         /facilities                                                  operations/AssetsPage.tsx, operations/FacilitiesPage.tsx, operations/MaintenancePage.tsx
+GET         /facilities/:p/bookings                                      operations/FacilitiesPage.tsx
+POST        /facilities/:p/bookings                                      operations/FacilitiesPage.tsx
+DELETE      /facility-bookings/:p                                        operations/FacilitiesPage.tsx
+GET         /family/children/:p/fees                                     parents/Parent360Page.tsx
+POST        /family/children/:p/fees/pay                                 parents/Parent360Page.tsx
+POST        /family/children/:p/pickup                                   parents/Parent360Page.tsx
+POST        /family/children/:p/pickup/:p/:p                             parents/Parent360Page.tsx
+GET         /family/children/:p/safety                                   parents/Parent360Page.tsx
+GET         /family/circulars                                            parents/Parent360Page.tsx
+POST        /family/circulars/:p/acknowledge                             parents/Parent360Page.tsx
+GET         /family/events                                               components/ui/dashboard.tsx
+GET         /family/messages                                             parents/Parent360Page.tsx
+POST        /family/messages                                             parents/Parent360Page.tsx
+GET         /family/ptm                                                  parents/Parent360Page.tsx
+POST        /family/ptm/:p/book                                          parents/Parent360Page.tsx
+POST        /family/ptm/bookings/:p/cancel                               parents/Parent360Page.tsx
+GET         /family/receipts/:p                                          parents/Parent360Page.tsx
+GET         /finance/accounts                                            finance/shared.tsx
+GET(paged)  /finance/accounts                                            finance/StudentAccountsPage.tsx
+GET         /finance/accounts/:p                                         finance/StudentAccountsPage.tsx
+POST        /finance/accounts/:p/charges                                 finance/StudentAccountsPage.tsx
+POST        /finance/accounts/:p/payments                                finance/shared.tsx
+GET(paged)  /finance/allowances                                          finance/AllowancesPage.tsx
+POST        /finance/allowances                                          finance/AllowancesPage.tsx
+POST        /finance/allowances/decide                                   finance/AllowancesPage.tsx
+GET         /finance/allowances/summary                                  finance/AllowancesPage.tsx
+GET         /finance/budgets                                             finance/BudgetsPage.tsx
+POST        /finance/budgets                                             finance/BudgetsPage.tsx
+PATCH       /finance/budgets/${row && row !==                            finance/BudgetsPage.tsx
+GET(paged)  /finance/concessions                                         finance/ConcessionsPage.tsx, finance/ScholarshipsPage.tsx
+POST        /finance/concessions                                         finance/ConcessionsPage.tsx
+POST        /finance/concessions/:p/approve                              finance/ConcessionsPage.tsx
+POST        /finance/concessions/:p/reject                               finance/ConcessionsPage.tsx
+POST        /finance/concessions/:p/review                               finance/ConcessionsPage.tsx
+GET         /finance/concessions/summary                                 finance/ConcessionsPage.tsx, finance/ScholarshipsPage.tsx
+GET(paged)  /finance/expenses                                            finance/ExpensesPage.tsx
+POST        /finance/expenses                                            finance/ExpensesPage.tsx
+POST        /finance/expenses/:p/approve                                 finance/ExpensesPage.tsx
+POST        /finance/expenses/:p/pay                                     finance/ExpensesPage.tsx
+POST        /finance/expenses/:p/reject                                  finance/ExpensesPage.tsx
+POST        /finance/expenses/:p/review                                  finance/ExpensesPage.tsx
+POST        /finance/expenses/:p/submit                                  finance/ExpensesPage.tsx
+GET         /finance/expenses/summary                                    finance/ExpensesPage.tsx
+GET(paged)  /finance/fee-structures                                      finance/FeeStructuresPage.tsx
+POST        /finance/fee-structures                                      finance/FeeStructuresPage.tsx
+PATCH       /finance/fee-structures/:p                                   finance/FeeStructuresPage.tsx
+POST        /finance/fee-structures/:p/apply                             finance/FeeStructuresPage.tsx
+GET         /finance/fee-structures/summary                              finance/FeeStructuresPage.tsx
+POST        /finance/fees/reminders                                      finance/FeesPage.tsx
+GET         /finance/fees/reminders/audience                             finance/FeesPage.tsx
+GET         /finance/fees/summary                                        finance/FeesPage.tsx
+GET         /finance/lookups                                             finance/shared.tsx
+GET(paged)  /finance/payments                                            finance/PaymentsPage.tsx, finance/ReceiptsPage.tsx
+GET         /finance/payments/:p/receipt                                 finance/shared.tsx
+POST        /finance/payments/:p/send-receipt                            finance/ReceiptsPage.tsx, finance/shared.tsx
+download    /finance/payments/export?:p                                  finance/PaymentsPage.tsx
+GET         /finance/payments/summary                                    finance/PaymentsPage.tsx, finance/ReceiptsPage.tsx
+GET         /finance/reconciliation/lines                                finance/ReconciliationPage.tsx
+GET(paged)  /finance/reconciliation/lines                                finance/ReconciliationPage.tsx
+POST        /finance/reconciliation/lines/:p/:p                          finance/ReconciliationPage.tsx
+GET         /finance/reconciliation/lines/:p/candidates                  finance/ReconciliationPage.tsx
+POST        /finance/reconciliation/lines/:p/match                       finance/ReconciliationPage.tsx
+POST        /finance/reconciliation/run                                  finance/ReconciliationPage.tsx
+GET         /finance/reconciliation/summary                              finance/ReconciliationPage.tsx
+GET(paged)  /finance/reimbursements                                      finance/ReimbursementsPage.tsx
+POST        /finance/reimbursements                                      finance/ReimbursementsPage.tsx
+POST        /finance/reimbursements/:p/approve                           finance/ReimbursementsPage.tsx
+POST        /finance/reimbursements/:p/pay                               finance/ReimbursementsPage.tsx
+POST        /finance/reimbursements/:p/reject                            finance/ReimbursementsPage.tsx
+POST        /finance/reimbursements/:p/review                            finance/ReimbursementsPage.tsx
+GET         /finance/reimbursements/summary                              finance/ReimbursementsPage.tsx
+get         /finance/reports/:p                                          finance/FinancialReportsPage.tsx
+GET         /finance/scholarships                                        finance/ScholarshipsPage.tsx
+POST        /finance/scholarships                                        finance/ScholarshipsPage.tsx
+PATCH       /finance/scholarships/:p                                     finance/ScholarshipsPage.tsx
+PATCH       /follow-ups/:p                                               admissions/LeadForms.tsx, admissions/VisitsPage.tsx
+GET(paged)  /gate/events                                                 safety/GateLogPage.tsx
+POST        /gate/events                                                 safety/shared.tsx
+download    /gate/events/export?:p                                       safety/GateLogPage.tsx
+GET         /gate/feed                                                   safety/SmartGatePage.tsx
+GET(paged)  /gate/log                                                    safety/GateLogPage.tsx
+GET         /gate/summary                                                safety/SmartGatePage.tsx
+GET         /group/campuses                                              group/CampusesPage.tsx
+PUT         /group/campuses/:p                                           group/CampusesPage.tsx
+GET         /group/comparison                                            group/CampusComparisonPage.tsx
+GET         /group/dashboard                                             group/GroupDashboardPage.tsx
+GET(paged)  /group/policies                                              group/GroupPoliciesPage.tsx
+DELETE      /group/policies/:p                                           group/GroupPoliciesPage.tsx
+GET         /group/policies/:p                                           group/GroupPoliciesPage.tsx
+GET(paged)  /group/transfers                                             group/TransfersPage.tsx
+POST        /group/transfers                                             group/TransfersPage.tsx
+GET         /group/transfers/:p                                          group/TransfersPage.tsx
+POST        /group/transfers/:p/complete                                 group/TransfersPage.tsx
+POST        /group/transfers/:p/decision                                 group/TransfersPage.tsx
+GET         /group/transfers/summary                                     group/TransfersPage.tsx
+GET(paged)  /incidents                                                   safety/EmergencyPage.tsx, safety/SafeguardingPage.tsx, safety/SmartGatePage.tsx
+POST        /incidents                                                   safety/shared.tsx
+GET         /incidents/:p                                                safety/SafeguardingPage.tsx
+PATCH       /incidents/:p                                                safety/SafeguardingPage.tsx
+GET         /incidents/summary                                           safety/SafeguardingPage.tsx
+GET         /infirmary/summary                                           safety/InfirmaryPage.tsx
+GET(paged)  /infirmary/visits                                            safety/InfirmaryPage.tsx
+POST        /infirmary/visits                                            safety/InfirmaryPage.tsx
+PATCH       /infirmary/visits/:p                                         safety/InfirmaryPage.tsx
+GET         /innovation/achievement-types                                innovation/AchievementsPage.tsx
+GET(paged)  /innovation/achievements                                     innovation/AchievementsPage.tsx
+GET         /innovation/achievements/summary                             innovation/AchievementsPage.tsx
+GET(paged)  /innovation/competitions                                     innovation/CompetitionsPage.tsx
+POST        /innovation/competitions/:p/entries                          innovation/CompetitionsPage.tsx
+DELETE      /innovation/competitions/:p/entries/:p                       innovation/CompetitionsPage.tsx
+PATCH       /innovation/competitions/:p/entries/:p                       innovation/CompetitionsPage.tsx
+GET         /innovation/dashboard                                        innovation/InnovationDashboardPage.tsx
+DELETE      /innovation/evidence/:p                                      innovation/ProjectPage.tsx
+GET(paged)  /innovation/ideas                                            innovation/IdeasPage.tsx
+POST        /innovation/ideas                                            innovation/shared.tsx
+POST        /innovation/ideas/:p/convert                                 innovation/IdeasPage.tsx
+POST        /innovation/ideas/:p/review                                  innovation/IdeasPage.tsx
+GET         /innovation/ideas/summary                                    innovation/IdeasPage.tsx
+GET         /innovation/mentors                                          innovation/MentorsPage.tsx, innovation/shared.tsx
+PATCH       /innovation/mentors/:p                                       innovation/MentorsPage.tsx
+GET(paged)  /innovation/milestones                                       innovation/MilestonesPage.tsx
+DELETE      /innovation/milestones/:p                                    innovation/ProjectPage.tsx
+PATCH       /innovation/milestones/:p                                    innovation/MilestonesPage.tsx, innovation/ProjectPage.tsx
+GET         /innovation/milestones/summary                               innovation/MilestonesPage.tsx
+GET         /innovation/projects                                         innovation/CompetitionsPage.tsx
+GET(paged)  /innovation/projects                                         innovation/ProjectsPage.tsx
+POST        /innovation/projects                                         innovation/ProjectsPage.tsx
+GET         /innovation/projects/:p                                      innovation/ProjectPage.tsx
+PATCH       /innovation/projects/:p                                      innovation/ProjectPage.tsx
+POST        /innovation/projects/:p/advance                              innovation/ProjectPage.tsx
+POST        /innovation/projects/:p/evidence                             innovation/ProjectPage.tsx
+POST        /innovation/projects/:p/feedback                             innovation/ProjectPage.tsx
+POST        /innovation/projects/:p/members                              innovation/ProjectPage.tsx
+DELETE      /innovation/projects/:p/members/:p                           innovation/ProjectPage.tsx
+GET(paged)  /inventory                                                   operations/InventoryPage.tsx
+POST        /inventory/:p/movements                                      operations/InventoryPage.tsx
+POST        /inventory/:p/purchase-request                               operations/InventoryPage.tsx
+GET(paged)  /inventory/movements                                         operations/InventoryPage.tsx
+GET         /inventory/summary                                           operations/InventoryPage.tsx
+POST        /knowledge/ask${campusParam.campusId ?                       intelligence/KnowledgePage.tsx
+POST        /knowledge/feedback                                          intelligence/KnowledgePage.tsx
+GET         /knowledge/sources                                           intelligence/KnowledgePage.tsx
+GET         /knowledge/top-questions                                     intelligence/KnowledgePage.tsx
+GET         /lookups                                                     hooks/useLookups.ts
+GET(paged)  /maintenance                                                 operations/MaintenancePage.tsx
+POST        /maintenance                                                 operations/MaintenancePage.tsx
+PATCH       /maintenance/:p/status                                       operations/MaintenancePage.tsx
+GET         /maintenance/summary                                         operations/MaintenancePage.tsx
+GET         /me/attendance                                               workforce/StaffSelfPage.tsx
+POST        /me/attendance/check-in                                      workforce/StaffSelfPage.tsx
+POST        /me/attendance/check-out                                     workforce/StaffSelfPage.tsx
+GET         /me/employee                                                 workforce/StaffSelfPage.tsx
+GET         /me/ideas                                                    students/MyIdeasPage.tsx
+POST        /me/ideas                                                    students/MyIdeasPage.tsx
+GET         /me/leave-balances                                           workforce/shared.tsx, workforce/StaffSelfPage.tsx
+POST        /me/leave-requests | /workforce/leave-requests               workforce/shared.tsx
+GET         /me/leave-requests                                           workforce/StaffSelfPage.tsx
+POST        /me/leave-requests/:p/cancel                                 workforce/StaffSelfPage.tsx
+GET         /me/overtime                                                 workforce/StaffSelfPage.tsx
+POST        /me/overtime                                                 workforce/StaffSelfPage.tsx
+GET         /me/payslips                                                 workforce/StaffSelfPage.tsx
+GET         /me/payslips/:p | /payslips/:p                               workforce/PayslipPrintPage.tsx, workforce/shared.tsx
+GET         /me/requests                                                 workforce/StaffSelfPage.tsx
+GET         /me/roster                                                   workforce/StaffSelfPage.tsx
+GET         /me/tasks                                                    workforce/StaffSelfPage.tsx
+GET         /notification-preferences                                    core/AccountPage.tsx
+PUT         /notification-preferences                                    core/AccountPage.tsx
+GET(paged)  /notifications                                               components/ui/dashboard.tsx, core/NotificationsPage.tsx, students/MyProfilePage.tsx
+PATCH       /notifications/:p/read                                       core/NotificationsPage.tsx
+GET         /notifications/counts                                        layouts/AppShell.tsx, core/NotificationsPage.tsx
+POST        /notifications/read-all                                      core/NotificationsPage.tsx
+GET         /parent-directory                                            parents-experience/ParentDirectoryPage.tsx
+GET(paged)  /parent-directory                                            parents-experience/ParentDirectoryPage.tsx, parents-experience/shared.tsx
+GET         /parent-directory/summary                                    parents-experience/ParentDirectoryPage.tsx
+GET         /parents/:p                                                  parents-experience/ParentDirectoryPage.tsx
+GET         /parents/:p/children                                         parents-experience/ParentDirectoryPage.tsx
+GET         /parents/:p/children/:p/location                             parents/Parent360Page.tsx
+GET         /parents/me                                                  parents/Parent360Page.tsx
+GET(paged)  /partners                                                    admissions/VendorsPage.tsx
+GET(paged)  /payroll/runs                                                workforce/PayrollPage.tsx
+POST        /payroll/runs                                                workforce/PayrollPage.tsx
+GET         /payroll/runs/:p                                             workforce/PayrollPage.tsx
+POST        /payroll/runs/:p/:p                                          workforce/PayrollPage.tsx
+POST        /payroll/runs/:p/approve                                     workforce/PayrollPage.tsx
+POST        /payroll/runs/:p/release                                     workforce/PayslipsPage.tsx
+POST        /payroll/runs/:p/return                                      workforce/PayrollPage.tsx
+GET(paged)  /payslips                                                    workforce/PayrollPage.tsx, workforce/PayslipsPage.tsx
+GET         /payslips/summary                                            workforce/PayslipsPage.tsx
+GET(paged)  /pickup/authorisations                                       safety/PickupPage.tsx, safety/SmartGatePage.tsx
+POST        /pickup/authorisations                                       safety/PickupPage.tsx
+POST        /pickup/authorisations/:p/collect                            safety/PickupPage.tsx
+POST        /pickup/authorisations/:p/otp                                safety/PickupPage.tsx
+POST        /pickup/authorisations/:p/revoke                             safety/PickupPage.tsx
+POST        /pickup/authorisations/:p/verify                             safety/PickupPage.tsx
+GET         /pickup/summary                                              safety/PickupPage.tsx
+POST        /pickup/unauthorised                                         safety/shared.tsx
+GET         /portfolio/overview                                          intelligence/PortfolioPage.tsx
+POST        /ptm/bookings/:p/status                                      parents-experience/PtmPage.tsx
+GET(paged)  /ptm/sessions                                                parents-experience/PtmPage.tsx
+POST        /ptm/sessions                                                parents-experience/PtmPage.tsx
+GET         /ptm/sessions/:p                                             parents-experience/PtmPage.tsx
+PATCH       /ptm/sessions/:p                                             parents-experience/PtmPage.tsx
+POST        /ptm/sessions/:p/notify                                      parents-experience/PtmPage.tsx
+GET         /ptm/summary                                                 parents-experience/PtmPage.tsx
+get         /public/config                                               components/map/StudentMap.tsx, core/LoginPage.tsx, safety/BusMap.tsx
+GET(paged)  /referrals                                                   admissions/ReferralsPage.tsx
+POST        /referrals                                                   admissions/ReferralsPage.tsx
+PATCH       /referrals/:p/reward                                         admissions/ReferralsPage.tsx
+GET         /referrals/referrers                                         admissions/ReferralsPage.tsx
+GET         /referrals/summary                                           admissions/ReferralsPage.tsx
+GET         /reports/:p/preview                                          reports/ReportViewerPage.tsx
+GET         /reports/catalog                                             intelligence/ReportsPage.tsx, reports/ReportCenterPage.tsx, reports/ReportViewerPage.tsx
+GET         /roles                                                       core/AdminUsersPage.tsx
+PUT         /roles/:p/permissions                                        core/AdminUsersPage.tsx
+GET         /safety/students                                             safety/shared.tsx
+GET         /search                                                      layouts/AppShell.tsx
+GET         /settings                                                    core/AdminSettingsPage.tsx
+PUT         /settings/:p                                                 core/AdminSettingsPage.tsx
+GET         /students                                                    intelligence/shared.tsx, operations/shared.tsx
+GET(paged)  /students                                                    components/ui/dashboardWidgets.tsx, hooks/useListParams.ts, students/Student360Page.tsx, students/StudentsPage.tsx
+getPaged    /students                                                    students/StudentsPage.tsx
+POST        /students                                                    hooks/useApi.ts
+POST        /students/:p/achievements                                    students/Student360Page.tsx
+POST        /students/:p/behaviour                                       students/Student360Page.tsx
+GET         /students/:p/location                                        tracking/StudentTrackingPage.tsx
+POST        /students/:p/observations                                    students/Student360Page.tsx
+GET         /students/:p/profile                                         parents/Parent360Page.tsx, students/MyProfilePage.tsx, students/Student360Page.tsx
+GET         /students/summary                                            academics/TeacherDashboardPage.tsx, students/StudentsPage.tsx
+GET         /talent/overview                                             intelligence/TalentPage.tsx
+POST        /talent/suggestions/:p/decision                              intelligence/TalentPage.tsx
+GET(paged)  /tasks                                                       core/MyTasksPage.tsx
+PATCH       /tasks/:p                                                    core/MyTasksPage.tsx
+GET         /tracking/map                                                tracking/StudentTrackingPage.tsx
+GET         /tracking/students                                           components/tracking/devices.tsx
+GET(paged)  /tracking/students                                           tracking/StudentTrackingPage.tsx
+PATCH       /tracking/students/:p/profile                                components/tracking/TrackingPanel.tsx
+POST        /transport/boarding                                          safety/BoardingPage.tsx
+GET         /transport/boarding/summary                                  safety/BoardingPage.tsx
+GET         /transport/routes                                            safety/BusTrackingPage.tsx, safety/RoutesPage.tsx
+DELETE      /transport/routes/:p                                         safety/RoutesPage.tsx
+GET         /transport/routes/:p                                         safety/BoardingPage.tsx, safety/BusTrackingPage.tsx, safety/RoutesPage.tsx
+POST        /transport/routes/:p/notify                                  safety/BusTrackingPage.tsx
+PATCH       /transport/routes/:p/run                                     safety/BusTrackingPage.tsx
+DELETE      /transport/routes/:p/stops/:p                                safety/RoutesPage.tsx
+PUT         /transport/routes/:p/stops/order                             safety/RoutesPage.tsx
+POST        /transport/routes/:p/students                                safety/RoutesPage.tsx
+DELETE      /transport/routes/:p/students/:p                             safety/RoutesPage.tsx
+GET         /transport/vehicles                                          safety/RoutesPage.tsx
+GET(paged)  /users                                                       core/AdminUsersPage.tsx
+POST        /users                                                       core/AdminUsersPage.tsx
+PATCH       /users/:p                                                    core/AdminUsersPage.tsx
+GET(paged)  /vendors                                                     admissions/VendorsPage.tsx
+GET         /vendors/summary                                             admissions/VendorsPage.tsx
+GET(paged)  /visitors                                                    safety/VisitorsPage.tsx
+POST        /visitors                                                    safety/VisitorsPage.tsx
+POST        /visitors/:p/:p                                              safety/VisitorsPage.tsx
+GET         /visitors/summary                                            safety/VisitorsPage.tsx
+GET(paged)  /visits                                                      admissions/VisitsPage.tsx
+GET         /visits/summary                                              admissions/VisitsPage.tsx
+GET(paged)  /wellbeing/behaviour                                         intelligence/WellbeingPage.tsx
+POST        /wellbeing/behaviour                                         intelligence/WellbeingPage.tsx
+GET(paged)  /wellbeing/checkins                                          intelligence/WellbeingPage.tsx
+POST        /wellbeing/checkins                                          intelligence/WellbeingPage.tsx
+GET         /wellbeing/overview                                          intelligence/WellbeingPage.tsx
+GET(paged)  /workforce/attendance                                        workforce/StaffAttendancePage.tsx
+getPaged    /workforce/attendance                                        workforce/StaffAttendancePage.tsx
+PUT         /workforce/attendance                                        workforce/StaffAttendancePage.tsx
+GET         /workforce/attendance/summary                                workforce/StaffAttendancePage.tsx, workforce/WorkforcePage.tsx
+GET(paged)  /workforce/cpd                                               workforce/CpdPage.tsx
+POST        /workforce/cpd                                               workforce/CpdPage.tsx
+PATCH       /workforce/cpd/:p                                            workforce/CpdPage.tsx
+GET         /workforce/cpd/records                                       workforce/CpdPage.tsx
+GET         /workforce/cpd/summary                                       workforce/CpdPage.tsx
+GET         /workforce/departments                                       workforce/OvertimePage.tsx
+GET(paged)  /workforce/employees                                         workforce/StaffListPage.tsx, workforce/WorkforcePage.tsx
+DELETE      /workforce/employees/:p                                      workforce/shared.tsx
+GET         /workforce/employees/:p                                      workforce/shared.tsx
+GET(paged)  /workforce/leave-requests                                    workforce/LeavePage.tsx
+POST        /workforce/leave-requests/:p/review                          workforce/LeavePage.tsx
+GET         /workforce/leave-requests/summary                            workforce/LeavePage.tsx
+GET         /workforce/leave-types                                       workforce/shared.tsx
+GET(paged)  /workforce/overtime                                          workforce/OvertimePage.tsx
+POST        /workforce/overtime                                          workforce/OvertimePage.tsx
+POST        /workforce/overtime/:p/approve                               workforce/OvertimePage.tsx
+POST        /workforce/overtime/:p/reject                                workforce/OvertimePage.tsx
+GET         /workforce/overtime/summary                                  workforce/OvertimePage.tsx
+GET         /workforce/roster                                            workforce/ShiftsPage.tsx
+POST        /workforce/roster                                            workforce/ShiftsPage.tsx
+DELETE      /workforce/roster/:p                                         workforce/ShiftsPage.tsx
+POST        /workforce/roster/:p/assign-cover                            workforce/ShiftsPage.tsx
+POST        /workforce/roster/:p/flag-cover                              workforce/ShiftsPage.tsx, workforce/StaffAttendancePage.tsx
+POST        /workforce/roster/publish                                    workforce/ShiftsPage.tsx
+GET         /workforce/shifts                                            workforce/shared.tsx, workforce/ShiftsPage.tsx
+GET         /workforce/summary                                           workforce/StaffListPage.tsx, workforce/WorkforcePage.tsx
+GET         /workforce/workload                                          workforce/WorkforcePage.tsx, workforce/WorkloadPage.tsx
+POST        <(eid) => `${EV}/submissions/${sheet.id}/extraction>         exam-correction/SheetPage.tsx
+POST        <(to) => `${EV}/exams/${id}/results/${to}`>                  exam-correction/ExamPage.tsx
+POST        <(x) => x.path>                                              admissions/LeadForms.tsx
+GET         <`/enquiries/${encodeURIComponent(code>                      admissions/LeadProfile.tsx
+GET         <`/portfolio/students/${encodeURIComponen>                   intelligence/PortfolioPage.tsx
+GET         <`/talent/students/${encodeURIComponent(e>                   intelligence/TalentPage.tsx
+GET         <`${EV}/answers/${answerId}/history`>                        exam-correction/SheetPage.tsx
+POST        <`${EV}/exams/${exam.id}/reevaluate`>                        exam-correction/ExamPage.tsx
+GET         <`${EV}/exams/${exam.id}/report`>                            exam-correction/ExamPage.tsx
+GET         <`${EV}/exams/${exam.id}/submissions`>                       exam-correction/ExamPage.tsx
+PUT         <`${EV}/exams/${exam.id}/teachers`>                          exam-correction/ExamPage.tsx
+DELETE      <`${EV}/questions/${q?.id}`>                                 exam-correction/ExamPage.tsx
+POST        <`${EV}/questions/${q.id}/rubric`>                           exam-correction/ExamPage.tsx
+PUT         <`${EV}/settings/ai`>                                        exam-correction/AiSettingsPage.tsx
+GET         <`${EV}/students`>                                           exam-correction/ExamPage.tsx, exam-correction/SheetPage.tsx
+POST        <`${EV}/submissions/${sheet.id}/identity`>                   exam-correction/SheetPage.tsx
+POST        <`${EV}/submissions/${sheet.id}/pages/order`>                exam-correction/SheetPage.tsx
+GET         <`${EV}/users`>                                              exam-correction/ExamPage.tsx
+GET(paged)  <can('communication.read'>                                   admissions/VendorsPage.tsx
+GET         <can('finance.read'>                                         core/CommandCenterPage.tsx
+GET         <connected ? `${EV}/exams` : null>                           exam-correction/ExamsPage.tsx
+GET(paged)  <id && can('communication.read'>                             parents-experience/ParentDirectoryPage.tsx
+GET         <locationPath>                                               components/tracking/TrackingPanel.tsx
+GET         <overviewPath(parent.id>                                     parents/Parent360Page.tsx
+GET         <overviewPath(pid>                                           parents/Parent360Page.tsx
+GET         <path: string | null>                                        hooks/useApi.ts
+GET(paged)  <path: string | null>                                        hooks/useApi.ts
+GET         <path>                                                       components/tracking/TrackingPanel.tsx
+GET         <st.data?.connected ? `${EV}/exams/${id}`>                   exam-correction/ExamPage.tsx
+GET         <st.data?.connected ? `${EV}/submissions/>                   exam-correction/SheetPage.tsx
+GET         <st.data?.connected && st.data.role === '>                   exam-correction/AiSettingsPage.tsx

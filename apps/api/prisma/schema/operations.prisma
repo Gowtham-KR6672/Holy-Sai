@@ -1,0 +1,307 @@
+// Operations: asset register and service history, facilities and room bookings, maintenance requests,
+// inventory with stock movements and purchase requests, documents (school sets and student files),
+// certificates with verification codes, and the compliance calendar.
+// Core records (Campus, Employee, Student, User) are referenced by plain uuid columns without relations.
+
+/// An asset on the register, e.g. "AST-0042 Dell Latitude 5440".
+model OpsAsset {
+  id            String       @id @default(uuid()) @db.Uuid
+  /// e.g. "AST-0042"
+  code          String       @unique
+  name          String
+  /// IT | Lab | Vehicle | Facilities | Furniture | Sports | Library
+  category      String
+  campusId      String       @db.Uuid
+  facilityId    String?      @db.Uuid
+  facility      OpsFacility? @relation(fields: [facilityId], references: [id], onDelete: SetNull)
+  location      String?
+  /// Employee who holds the asset.
+  assignedTo    String?      @db.Uuid
+  purchasedOn   DateTime?    @db.Date
+  purchaseValue Decimal?     @db.Decimal(12, 2)
+  lastServiceOn DateTime?    @db.Date
+  nextServiceOn DateTime?    @db.Date
+  /// Active | Maintenance due | In maintenance | Retired
+  status        String       @default("Active")
+  retiredAt     DateTime?
+  retiredById   String?      @db.Uuid
+  createdById   String?      @db.Uuid
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  services    OpsAssetService[]
+  maintenance OpsMaintenanceRequest[]
+
+  @@index([campusId, status])
+  @@index([nextServiceOn])
+  @@index([assignedTo])
+}
+
+/// One service visit logged against an asset (manually or when a maintenance request is completed).
+model OpsAssetService {
+  id             String    @id @default(uuid()) @db.Uuid
+  assetId        String    @db.Uuid
+  asset          OpsAsset  @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  servicedOn     DateTime  @db.Date
+  nextServiceOn  DateTime? @db.Date
+  note           String?
+  cost           Decimal?  @db.Decimal(12, 2)
+  /// The maintenance request that produced this entry, if any.
+  maintenanceId  String?   @db.Uuid
+  recordedById   String?   @db.Uuid
+  recordedByName String?
+  createdAt      DateTime  @default(now())
+
+  @@index([assetId, servicedOn])
+}
+
+/// A bookable space: classroom, lab, hall, field …
+model OpsFacility {
+  id           String   @id @default(uuid()) @db.Uuid
+  campusId     String   @db.Uuid
+  name         String
+  /// Classroom | Lab | Hall | Field | Library | Studio | Other
+  facilityType String
+  capacity     Int?
+  /// Available | In use | Maintenance | Closed
+  status       String   @default("Available")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  bookings    OpsFacilityBooking[]
+  assets      OpsAsset[]
+  maintenance OpsMaintenanceRequest[]
+
+  @@unique([campusId, name])
+}
+
+model OpsFacilityBooking {
+  id            String      @id @default(uuid()) @db.Uuid
+  facilityId    String      @db.Uuid
+  facility      OpsFacility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  bookedOn      DateTime    @db.Date
+  /// 24-hour campus time, e.g. "09:00".
+  startsAt      String
+  endsAt        String
+  purpose       String
+  /// User who made the booking.
+  bookedById    String?     @db.Uuid
+  bookedByName  String?
+  cancelledAt   DateTime?
+  cancelledById String?     @db.Uuid
+  createdAt     DateTime    @default(now())
+
+  @@index([facilityId, bookedOn])
+}
+
+/// A maintenance request, e.g. "MR-118": Submitted → Under Review → Approved → In Progress → Completed (or Rejected).
+model OpsMaintenanceRequest {
+  id            String       @id @default(uuid()) @db.Uuid
+  /// e.g. "MR-118"
+  code          String       @unique
+  campusId      String       @db.Uuid
+  description   String
+  /// Urgent | High | Medium | Low
+  priority      String       @default("Medium")
+  /// 4 = Urgent … 1 = Low (for sorting).
+  priorityRank  Int          @default(2)
+  /// Submitted | Under Review | Approved | In Progress | Completed | Rejected
+  status        String       @default("Submitted")
+  assetId       String?      @db.Uuid
+  asset         OpsAsset?    @relation(fields: [assetId], references: [id], onDelete: SetNull)
+  facilityId    String?      @db.Uuid
+  facility      OpsFacility? @relation(fields: [facilityId], references: [id], onDelete: SetNull)
+  /// User who raised the request.
+  raisedById    String?      @db.Uuid
+  raisedByName  String?
+  /// Employee doing the work.
+  assignedToId  String?      @db.Uuid
+  cost          Decimal?     @db.Decimal(12, 2)
+  /// Latest note (the reason when rejected).
+  note          String?
+  /// Who approved or rejected it.
+  decidedById   String?      @db.Uuid
+  decidedByName String?
+  decidedAt     DateTime?
+  startedAt     DateTime?
+  completedAt   DateTime?
+  /// Status changes: [{ status, at, by, note }].
+  history       Json         @default("[]")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([campusId, status])
+  @@index([assetId])
+  @@index([facilityId])
+  @@index([raisedById])
+}
+
+/// A stock item, e.g. "INV-0007 A4 paper (reams)".
+model OpsInventoryItem {
+  id             String    @id @default(uuid()) @db.Uuid
+  /// e.g. "INV-0007"
+  sku            String    @unique
+  campusId       String    @db.Uuid
+  name           String
+  /// Stationery | Lab | Health | Transport | Office | Housekeeping | Uniform | Sports
+  category       String
+  unit           String
+  quantity       Int       @default(0)
+  reorderLevel   Int       @default(0)
+  unitCost       Decimal   @default(0) @db.Decimal(12, 2)
+  lastMovementAt DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  movements        OpsStockMovement[]
+  purchaseRequests OpsPurchaseRequest[]
+
+  @@unique([campusId, name])
+  @@index([campusId, category])
+}
+
+/// Stock in, stock out or a count adjustment. Quantity is the signed change.
+model OpsStockMovement {
+  id           Int              @id @default(autoincrement())
+  itemId       String           @db.Uuid
+  item         OpsInventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  campusId     String           @db.Uuid
+  /// in | out | adjust
+  movementType String
+  quantity     Int
+  balanceAfter Int
+  note         String?
+  movedById    String?          @db.Uuid
+  movedByName  String?
+  createdAt    DateTime         @default(now())
+
+  @@index([itemId, createdAt])
+  @@index([campusId, createdAt])
+}
+
+/// A purchase request sent to Finance for a low stock item, e.g. "PR-0031".
+model OpsPurchaseRequest {
+  id              String           @id @default(uuid()) @db.Uuid
+  code            String           @unique
+  itemId          String           @db.Uuid
+  item            OpsInventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  campusId        String           @db.Uuid
+  quantity        Int
+  unitCost        Decimal          @db.Decimal(12, 2)
+  estimatedCost   Decimal          @db.Decimal(12, 2)
+  note            String?
+  /// Requested | Ordered | Received | Cancelled
+  status          String           @default("Requested")
+  requestedById   String?          @db.Uuid
+  requestedByName String?
+  /// The finance expense raised for it, once Finance links one.
+  expenseId       String?          @db.Uuid
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([itemId])
+  @@index([status, createdAt])
+}
+
+/// A school document (in a named set) or a student/employee document, with its file and verification state.
+model OpsDocument {
+  id             String    @id @default(uuid()) @db.Uuid
+  campusId       String?   @db.Uuid
+  studentId      String?   @db.Uuid
+  employeeId     String?   @db.Uuid
+  /// Document set for school documents, e.g. "Policies" or "Vehicle papers". Null for student documents.
+  collection     String?
+  name           String
+  category       String
+  /// Pending (requested, not uploaded) | Submitted (uploaded, awaiting verification) | Verified | Rejected | Expired
+  status         String    @default("Submitted")
+  /// Key in the file store (see StorageService); null for a requested document with no file yet.
+  storageKey     String?
+  originalName   String?
+  mimeType       String?
+  sizeBytes      Int?
+  sha256         String?
+  requestedOn    DateTime? @db.Date
+  requestedById  String?   @db.Uuid
+  uploadedById   String?   @db.Uuid
+  uploadedByName String?
+  uploadedAt     DateTime?
+  verifiedById   String?   @db.Uuid
+  verifiedByName String?
+  verifiedAt     DateTime?
+  /// Reason given when rejected.
+  reviewNote     String?
+  expiresOn      DateTime? @db.Date
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([studentId, status])
+  @@index([collection])
+  @@index([status, campusId])
+  @@index([employeeId])
+}
+
+/// A certificate request: Submitted → Under Review → Approved (code assigned) → Issued (or Rejected).
+model OpsCertificate {
+  id               String    @id @default(uuid()) @db.Uuid
+  /// Transfer certificate | Bonafide certificate | Conduct certificate | Study certificate | Achievement certificate
+  certificateType  String
+  studentId        String    @db.Uuid
+  campusId         String    @db.Uuid
+  /// Snapshot at request time, for search and sorting (the live student record is shown).
+  studentName      String
+  admissionNo      String
+  purpose          String?
+  /// Submitted | Under Review | Approved | Issued | Rejected
+  status           String    @default("Submitted")
+  requestedById    String?   @db.Uuid
+  requestedByName  String?
+  reviewedById     String?   @db.Uuid
+  reviewedAt       DateTime?
+  approvedById     String?   @db.Uuid
+  approvedByName   String?
+  approvedAt       DateTime?
+  /// QR verification code, e.g. "BC-2026-1182"; assigned on approval, verifiable once issued.
+  verificationCode String?   @unique
+  issuedById       String?   @db.Uuid
+  issuedAt         DateTime?
+  rejectedById     String?   @db.Uuid
+  rejectedAt       DateTime?
+  decisionNote     String?
+  /// The automatic checks as they stood at approval.
+  checks           Json?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([studentId])
+  @@index([campusId, status])
+}
+
+/// A compliance requirement with an owner and a due date (fire NOC, vehicle fitness, staff checks …).
+model OpsComplianceItem {
+  id              String    @id @default(uuid()) @db.Uuid
+  campusId        String    @db.Uuid
+  item            String
+  authority       String
+  dueOn           DateTime  @db.Date
+  /// Employee who owns the requirement.
+  ownerId         String?   @db.Uuid
+  /// Scheduled | In Progress | Completed (Overdue and Due Soon are derived from the due date).
+  status          String    @default("Scheduled")
+  notes           String?
+  completedOn     DateTime? @db.Date
+  completedById   String?   @db.Uuid
+  completionNotes String?
+  /// Days between occurrences when it repeats, e.g. 91, 182, 365.
+  recurrenceDays  Int?
+  /// The occurrence this one follows on from.
+  previousId      String?   @db.Uuid
+  escalatedAt     DateTime?
+  escalations     Int       @default(0)
+  createdById     String?   @db.Uuid
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([campusId, status, dueOn])
+  @@index([ownerId])
+}

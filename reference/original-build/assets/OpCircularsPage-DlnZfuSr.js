@@ -1,0 +1,2 @@
+import{c as e}from"./framework-B0H5IFsL.js";import t from"./CircularsPage-CHbPPJT9.js";var n=e();function r(){return(0,n.jsx)(t,{title:`Circulars`,sub:`Internal and parent-facing circulars, with acknowledgement tracked.`})}export{r as default};
+//# sourceMappingURL=OpCircularsPage-DlnZfuSr.js.map

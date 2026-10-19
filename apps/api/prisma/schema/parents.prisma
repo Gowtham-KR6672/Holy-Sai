@@ -1,0 +1,285 @@
+// Parent experience: parent profiles, the family communication log and parent-app conversations,
+// circulars with per-family acknowledgement, the school events calendar, and parent–teacher meetings.
+// Core records (Guardian, Student, Section, Employee, User, Campus) are referenced by plain uuid columns.
+//
+// The family portal uses these tables too:
+//   - PtmSession / PtmBooking          — families book, view and cancel PTM slots
+//   - CommCircular / CommCircularRecipient — families read circulars and acknowledge them
+//   - CommThread / CommThreadMessage / CommThreadParticipant / CommThreadRead and CommMessage
+//                                       — families message the school from the app
+
+/// Directory extras for a core Guardian: the human reference and an alternate phone.
+model ParentProfile {
+  guardianId String   @id @db.Uuid
+  /// e.g. "PAR-1001"
+  parentCode String   @unique
+  altPhone   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+/// One interaction with a family on any channel, or a broadcast to many families.
+model CommMessage {
+  id            String    @id @default(uuid()) @db.Uuid
+  /// The family (Guardian); null for broadcasts and notes not about a parent.
+  guardianId    String?   @db.Uuid
+  studentId     String?   @db.Uuid
+  campusId      String?   @db.Uuid
+  /// WhatsApp | SMS | Email | Call | Note | In-app
+  channel       String
+  /// inbound | outbound | internal
+  direction     String
+  /// Who it was with: the parent's name, a broadcast audience, or free text for notes.
+  counterpart   String
+  subject       String
+  body          String?
+  /// Delivered | Delivered in app | Failed | Not delivered | Received | Replied | Connected | No answer | Left voicemail | Internal | Sent
+  status        String
+  deliveryError String?
+  /// In the unanswered queue (24-hour reply SLA).
+  needsReply    Boolean   @default(false)
+  /// Families reached (broadcasts > 1).
+  recipients    Int       @default(1)
+  occurredAt    DateTime  @default(now())
+  sentById      String?   @db.Uuid
+  sentByName    String?
+  repliedById   String?   @db.Uuid
+  repliedByName String?
+  repliedAt     DateTime?
+  /// The inbound item this message answers.
+  replyToId     String?   @db.Uuid
+  /// Parent-app conversation this item belongs to.
+  threadId      String?   @db.Uuid
+  /// Record that caused it, e.g. "circular", "event", "ptm_session".
+  entityType    String?
+  entityId      String?
+  /// When the reply-SLA breach was escalated to staff.
+  escalatedAt   DateTime?
+  createdAt     DateTime  @default(now())
+
+  @@index([guardianId, occurredAt])
+  @@index([needsReply, occurredAt])
+  @@index([campusId, occurredAt])
+  @@index([threadId])
+  @@index([occurredAt])
+}
+
+/// A parent-app conversation between a family and school staff.
+model CommThread {
+  id                  String    @id @default(uuid()) @db.Uuid
+  guardianId          String    @db.Uuid
+  studentId           String?   @db.Uuid
+  campusId            String?   @db.Uuid
+  subject             String
+  /// Open | Closed
+  status              String    @default("Open")
+  /// The family wrote last and no staff reply has been sent yet.
+  awaitingReply       Boolean   @default(false)
+  lastMessageAt       DateTime  @default(now())
+  /// Last message from the family (staff unread markers).
+  lastParentMessageAt DateTime?
+  /// Last message from staff (the family's unread marker).
+  lastStaffMessageAt  DateTime?
+  closedAt            DateTime?
+  closedById          String?   @db.Uuid
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  messages     CommThreadMessage[]
+  participants CommThreadParticipant[]
+  reads        CommThreadRead[]
+
+  @@index([guardianId])
+  @@index([campusId, lastMessageAt])
+  @@index([lastMessageAt])
+}
+
+model CommThreadMessage {
+  id           String     @id @default(uuid()) @db.Uuid
+  threadId     String     @db.Uuid
+  thread       CommThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  senderUserId String?    @db.Uuid
+  /// "parent", or the staff member's role key (teacher, principal …)
+  senderRole   String
+  senderName   String
+  body         String
+  createdAt    DateTime   @default(now())
+
+  @@index([threadId, createdAt])
+}
+
+/// Users taking part in a conversation (the parent account and the staff it is with).
+model CommThreadParticipant {
+  threadId String     @db.Uuid
+  thread   CommThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  userId   String     @db.Uuid
+  /// "parent", or the staff member's role key
+  role     String
+  name     String
+  addedAt  DateTime   @default(now())
+
+  @@id([threadId, userId])
+  @@index([userId])
+}
+
+/// When each user last opened a conversation (unread markers).
+model CommThreadRead {
+  threadId String     @db.Uuid
+  thread   CommThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  userId   String     @db.Uuid
+  readAt   DateTime
+
+  @@id([threadId, userId])
+  @@index([userId])
+}
+
+/// A circular: Draft → Under Review → Released (→ Withdrawn).
+model CommCircular {
+  id              String    @id @default(uuid()) @db.Uuid
+  /// e.g. "CIR-2026-014"
+  reference       String    @unique
+  title           String
+  body            String
+  /// { kind: 'all' | 'grades' | 'transport' | 'staff', grades?: number[] }
+  audience        Json
+  audienceLabel   String
+  /// null = every campus
+  campusId        String?   @db.Uuid
+  /// push | whatsapp | sms | email
+  channels        String[]
+  requiresAck     Boolean   @default(true)
+  /// Draft | Under Review | Released | Withdrawn
+  status          String    @default("Draft")
+  /// Recipients snapshotted at release; the audience size before release.
+  targetCount     Int       @default(0)
+  createdById     String?   @db.Uuid
+  createdByName   String?
+  submittedAt     DateTime?
+  submittedById   String?   @db.Uuid
+  submittedByName String?
+  returnedAt      DateTime?
+  returnedByName  String?
+  releasedAt      DateTime?
+  releasedById    String?   @db.Uuid
+  releasedByName  String?
+  withdrawnAt     DateTime?
+  withdrawnByName String?
+  lastRemindedAt  DateTime?
+  reminderCount   Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  recipients CommCircularRecipient[]
+
+  @@index([status])
+  @@index([campusId])
+  @@index([releasedAt])
+}
+
+/// One family (or staff account) a released circular went to, with its acknowledgement.
+model CommCircularRecipient {
+  id               String       @id @default(uuid()) @db.Uuid
+  circularId       String       @db.Uuid
+  circular         CommCircular @relation(fields: [circularId], references: [id], onDelete: Cascade)
+  /// Family recipient (parent audiences).
+  guardianId       String?      @db.Uuid
+  /// Staff recipient (staff audience).
+  userId           String?      @db.Uuid
+  /// Children through whom the family was reached.
+  studentIds       String[]
+  acknowledgedAt   DateTime?
+  /// The parent account that acknowledged.
+  acknowledgedById String?      @db.Uuid
+  lastRemindedAt   DateTime?
+  createdAt        DateTime     @default(now())
+
+  @@unique([circularId, guardianId])
+  @@unique([circularId, userId])
+  @@index([guardianId])
+  @@index([userId])
+}
+
+/// An entry on the school calendar.
+model CommEvent {
+  id              String    @id @default(uuid()) @db.Uuid
+  title           String
+  description     String?
+  /// School | Academic | Sports | Cultural | PTM | Holiday
+  eventType       String
+  startsOn        DateTime  @db.Date
+  endsOn          DateTime? @db.Date
+  /// "18:30"
+  startsAt        String?
+  venue           String?
+  /// { kind: 'all' | 'grades' | 'transport' | 'staff', grades?: number[] }
+  audience        Json
+  audienceLabel   String
+  /// null = every campus
+  campusId        String?   @db.Uuid
+  /// Published | Draft | Cancelled
+  status          String    @default("Published")
+  notifiedAt      DateTime?
+  notifyCount     Int       @default(0)
+  cancelledAt     DateTime?
+  cancelledByName String?
+  createdById     String?   @db.Uuid
+  createdByName   String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([startsOn])
+  @@index([campusId])
+  @@index([status])
+}
+
+/// A parent–teacher meeting session for one teacher, subject and section, split into equal slots.
+model PtmSession {
+  id             String    @id @default(uuid()) @db.Uuid
+  campusId       String    @db.Uuid
+  employeeId     String    @db.Uuid
+  sectionId      String    @db.Uuid
+  /// e.g. "Mathematics · Grade 5A"
+  subjectLabel   String
+  sessionDate    DateTime  @db.Date
+  /// "09:00"
+  startsAt       String
+  slotMinutes    Int
+  totalSlots     Int
+  venue          String?
+  lastNotifiedAt DateTime?
+  notifyCount    Int       @default(0)
+  createdById    String?   @db.Uuid
+  createdByName  String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  bookings PtmBooking[]
+
+  @@index([campusId, sessionDate])
+  @@index([sectionId])
+  @@index([employeeId])
+}
+
+/// A family's booking of one slot. Cancelled bookings free the slot.
+model PtmBooking {
+  id                String     @id @default(uuid()) @db.Uuid
+  sessionId         String     @db.Uuid
+  session           PtmSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  /// 1-based slot number; slot time = startsAt + (slotNo - 1) × slotMinutes
+  slotNo            Int
+  studentId         String     @db.Uuid
+  guardianId        String?    @db.Uuid
+  /// Booked | Attended | No-show | Cancelled
+  status            String     @default("Booked")
+  bookedById        String?    @db.Uuid
+  bookedByName      String?
+  statusChangedAt   DateTime?
+  statusChangedById String?    @db.Uuid
+  cancelledAt       DateTime?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  @@index([sessionId, slotNo])
+  @@index([studentId])
+  @@index([guardianId])
+}

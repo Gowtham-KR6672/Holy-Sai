@@ -1,0 +1,358 @@
+// Paper Correction (EXAM Vision, built into the API): examinations with questions and versioned rubrics,
+// uploaded handwritten answer sheets split into pages, AI readings (transcriptions) and AI mark suggestions,
+// teacher review with a full change history, and approval before marks are released to Academics.
+// Core records (User, Student, Campus, SchoolClass, Section, Subject) and Academics assessments are referenced
+// by plain uuid columns without relations. AI providers and keys live in AiProvider (AI Providers page).
+
+/// Module settings (a single row, id "default"). No vendor keys are stored here.
+model ExamCorrectionConfig {
+  id                String    @id @default("default")
+  /// Master switch for AI reading and marking in Paper Correction.
+  aiEnabled         Boolean   @default(true)
+  /// low | medium | high — image resolution and reply budget sent to the AI.
+  effort            String    @default("medium")
+  /// Time limit in seconds for one reading or marking call; null = the provider's own timeout.
+  timeoutSec        Int?
+  /// How many times a failed sheet job is retried automatically.
+  maxRetries        Int       @default(2)
+  /// Ask once more with a stricter instruction when the AI refuses or replies with unusable data.
+  retryUnusable     Boolean   @default(true)
+  /// An administrator acknowledged that student pages are sent to the external AI provider.
+  externalAck       Boolean   @default(false)
+  externalAckById   String?   @db.Uuid
+  externalAckByName String?
+  externalAckAt     DateTime?
+  /// Percentage of the top of page 1 blanked before sending (hides name and roll number); 0 = off.
+  redactTopPercent  Int       @default(0)
+  /// { at, students_created, students_updated, staff } from the last roster check.
+  lastSync          Json?
+  updatedById       String?   @db.Uuid
+  updatedAt         DateTime  @updatedAt
+}
+
+/// An examination whose handwritten answer sheets are read and marked.
+model ExamCorrectionExam {
+  id                   String    @id @default(uuid()) @db.Uuid
+  name                 String
+  academicYear         String
+  /// Class label as the pages show it, e.g. "Grade 7 · GDV".
+  className            String
+  /// Section name; "" = the whole class.
+  section              String    @default("")
+  /// Subject name, e.g. "Science".
+  subject              String
+  gradeLevel           String    @default("")
+  instructions         String    @default("")
+  campusId             String?   @db.Uuid
+  classId              String?   @db.Uuid
+  sectionId            String?   @db.Uuid
+  subjectId            String?   @db.Uuid
+  /// draft | reviewed | approved | published
+  resultsStatus        String    @default("draft")
+  resultsChangedAt     DateTime?
+  resultsChangedById   String?   @db.Uuid
+  resultsChangedByName String?
+  /// Academics assessment the approved marks were last sent to.
+  assessmentId         String?   @db.Uuid
+  pushedAt             DateTime?
+  pushedByName         String?
+  createdById          String?   @db.Uuid
+  createdByName        String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  teachers    ExamCorrectionTeacher[]
+  questions   ExamCorrectionQuestion[]
+  submissions ExamCorrectionSubmission[]
+
+  @@index([campusId, createdAt])
+  @@index([classId])
+}
+
+/// A teacher (User) assigned to mark an examination. Teachers see only their assigned examinations.
+model ExamCorrectionTeacher {
+  id           String             @id @default(uuid()) @db.Uuid
+  examId       String             @db.Uuid
+  exam         ExamCorrectionExam @relation(fields: [examId], references: [id], onDelete: Cascade)
+  userId       String             @db.Uuid
+  assignedById String?            @db.Uuid
+  assignedAt   DateTime           @default(now())
+
+  @@unique([examId, userId])
+  @@index([userId])
+}
+
+/// A question of the paper, e.g. Q2a (3 marks).
+model ExamCorrectionQuestion {
+  id               String             @id @default(uuid()) @db.Uuid
+  examId           String             @db.Uuid
+  exam             ExamCorrectionExam @relation(fields: [examId], references: [id], onDelete: Cascade)
+  /// "1", "2", "2a"
+  number           String
+  /// Natural sort key derived from the number (2 → 200, 2a → 201, 10 → 1000).
+  order            Int
+  text             String
+  /// short | long | math | science | diagram | essay | comprehension | translation
+  qtype            String             @default("short")
+  maxMarks         Float
+  markIncrement    Float              @default(0.5)
+  /// Expected final number, checked by code independently of the AI.
+  numericAnswer    String?
+  numericTolerance Float              @default(0.01)
+  unit             String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  rubrics ExamCorrectionRubric[]
+  answers ExamCorrectionAnswer[]
+
+  @@unique([examId, number])
+  @@index([examId, order])
+}
+
+/// A rubric version for a question. Saving always creates a new version; the highest version is current.
+model ExamCorrectionRubric {
+  id                 String                 @id @default(uuid()) @db.Uuid
+  questionId         String                 @db.Uuid
+  question           ExamCorrectionQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  version            Int
+  /// teacher | ai_draft
+  source             String                 @default("teacher")
+  /// The model answer.
+  referenceAnswer    String                 @default("")
+  /// [{ id, name, max_marks, description }]
+  criteria           Json
+  expectedConcepts   Json                   @default("[]")
+  alternatives       Json                   @default("[]")
+  misconceptions     Json                   @default("[]")
+  partialCreditRules String                 @default("")
+  requiredElements   String                 @default("")
+  ignoreCriteria     String                 @default("")
+  subjectRules       String                 @default("")
+  /// Points the AI drafter wants a teacher to clarify.
+  problems           Json                   @default("[]")
+  model              String?
+  createdById        String?                @db.Uuid
+  createdByName      String?
+  createdAt          DateTime               @default(now())
+
+  @@unique([questionId, version])
+}
+
+/// One student's answer sheet for an examination (one per student per exam).
+model ExamCorrectionSubmission {
+  id                     String             @id @default(uuid()) @db.Uuid
+  examId                 String             @db.Uuid
+  exam                   ExamCorrectionExam @relation(fields: [examId], references: [id], onDelete: Cascade)
+  studentId              String             @db.Uuid
+  /// uploaded | extracting | extracted | evaluating | evaluated | reviewed | approved | needs_attention | failed
+  status                 String             @default("uploaded")
+  statusNote             String             @default("")
+  identityVerified       Boolean            @default(false)
+  identityVerifiedById   String?            @db.Uuid
+  identityVerifiedByName String?
+  identityVerifiedAt     DateTime?
+  /// Uploaded file name(s).
+  filename               String             @default("")
+  uploadedById           String?            @db.Uuid
+  uploadedByName         String?
+  /// Estimated AI cost and token usage (reading and marking) for this sheet.
+  costUsd                Float              @default(0)
+  inputTokens            Int                @default(0)
+  outputTokens           Int                @default(0)
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  pages       ExamCorrectionPage[]
+  jobs        ExamCorrectionJob[]
+  extractions ExamCorrectionExtraction[]
+  answers     ExamCorrectionAnswer[]
+
+  @@unique([examId, studentId])
+  @@index([studentId])
+  @@index([examId, status])
+}
+
+/// One page of an answer sheet: the stored source (an image, or one page split from a PDF) and a derived
+/// display image (rendered PDF page or rotated photo), created on demand.
+model ExamCorrectionPage {
+  id           String                   @id @default(uuid()) @db.Uuid
+  submissionId String                   @db.Uuid
+  submission   ExamCorrectionSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  /// Current position (1-based); answers' page references use it.
+  pageNo       Int
+  /// Position in the original upload.
+  uploadedNo   Int
+  sourceKey    String
+  /// image/jpeg | image/png | image/webp | application/pdf
+  sourceMime   String
+  sizeBytes    Int                      @default(0)
+  sha256       String                   @default("")
+  imageKey     String?
+  imageMime    String?
+  /// Clockwise rotation applied to the source: 0 | 90 | 180 | 270.
+  rotation     Int                      @default(0)
+  width        Int?
+  height       Int?
+  /// { warnings: string[] }
+  quality      Json                     @default("{}")
+  createdAt    DateTime                 @default(now())
+
+  @@index([submissionId, pageNo])
+}
+
+/// A background job for a sheet: reading (then marking) or marking only.
+model ExamCorrectionJob {
+  id            String                   @id @default(uuid()) @db.Uuid
+  submissionId  String                   @db.Uuid
+  submission    ExamCorrectionSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  /// Reading | Marking
+  kind          String
+  /// queued | running | done | failed
+  status        String                   @default("queued")
+  progress      String                   @default("")
+  error         String?
+  attempts      Int                      @default(0)
+  maxAttempts   Int                      @default(3)
+  /// Reading jobs: mark the answers afterwards.
+  evaluateAfter Boolean                  @default(true)
+  /// Marking jobs: re-mark answers that already have an AI suggestion (never approved ones).
+  force         Boolean                  @default(false)
+  /// Marking jobs: only these answers.
+  answerIds     Json?
+  runAfter      DateTime                 @default(now())
+  createdById   String?                  @db.Uuid
+  createdByName String?
+  createdAt     DateTime                 @default(now())
+  startedAt     DateTime?
+  finishedAt    DateTime?
+  /// Bumped by the worker while it runs (heartbeat); stale running jobs are picked up again.
+  updatedAt     DateTime                 @updatedAt
+
+  @@index([status, runAfter])
+  @@index([submissionId, createdAt])
+}
+
+/// One AI reading (transcription) of a sheet. Exactly one completed reading is active.
+model ExamCorrectionExtraction {
+  id             String                   @id @default(uuid()) @db.Uuid
+  submissionId   String                   @db.Uuid
+  submission     ExamCorrectionSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  /// running | done | failed
+  status         String                   @default("running")
+  error          String?
+  provider       String?
+  model          String?
+  active         Boolean                  @default(false)
+  /// [{ page_no, text, warnings, uncertain, confidence }]
+  pages          Json                     @default("[]")
+  /// [{ question, text, page_refs, confidence, flags }]
+  answers        Json                     @default("[]")
+  warnings       Json                     @default("[]")
+  nameOnSheet    String?
+  unassignedText String                   @default("")
+  redacted       Boolean                  @default(false)
+  /// pdf | image | mixed — how the pages were sent to the provider.
+  sentAs         String                   @default("")
+  durationMs     Int                      @default(0)
+  inputTokens    Int                      @default(0)
+  outputTokens   Int                      @default(0)
+  costUsd        Float                    @default(0)
+  createdById    String?                  @db.Uuid
+  createdAt      DateTime                 @default(now())
+
+  @@index([submissionId, createdAt])
+}
+
+/// A student's answer to one question: the transcription (AI reading and teacher correction) and the marks.
+model ExamCorrectionAnswer {
+  id             String                   @id @default(uuid()) @db.Uuid
+  submissionId   String                   @db.Uuid
+  submission     ExamCorrectionSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  questionId     String                   @db.Uuid
+  question       ExamCorrectionQuestion   @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  /// Reading the original text came from.
+  extractionId   String?                  @db.Uuid
+  originalText   String                   @default("")
+  correctedText  String?
+  /// extracted | needs_verification | verified
+  ocrStatus      String                   @default("extracted")
+  ocrConfidence  Float?
+  pageRefs       Json                     @default("[]")
+  flags          Json                     @default("[]")
+  finalMarks     Float?
+  /// { criterionId: marks }
+  criterionMarks Json                     @default("{}")
+  /// Rubric version the criterion marks belong to.
+  rubricVersion  Int?
+  /// pending | suggested | needs_review | reviewed | approved
+  markStatus     String                   @default("pending")
+  feedback       String                   @default("")
+  verifiedById   String?                  @db.Uuid
+  verifiedByName String?
+  verifiedAt     DateTime?
+  approvedAt     DateTime?
+  approvedById   String?                  @db.Uuid
+  approvedByName String?
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
+
+  evaluations ExamCorrectionEvaluation[]
+  events      ExamCorrectionAnswerEvent[]
+
+  @@unique([submissionId, questionId])
+  @@index([questionId])
+}
+
+/// One AI marking of an answer (kept for history and AI-vs-teacher statistics).
+model ExamCorrectionEvaluation {
+  id             String               @id @default(uuid()) @db.Uuid
+  answerId       String               @db.Uuid
+  answer         ExamCorrectionAnswer @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  /// ok | invalid | failed
+  status         String
+  /// AI provider id, or "rules" for answers marked by code (blank answers).
+  provider       String
+  model          String?
+  rubricVersion  Int                  @default(0)
+  promptVersion  String
+  suggestedMarks Float?
+  criterionMarks Json                 @default("{}")
+  requiresReview Boolean              @default(false)
+  reviewReasons  Json                 @default("[]")
+  error          String?
+  /// [{ check, ok, detail }]
+  checks         Json                 @default("[]")
+  /// { maximum_marks, verdict, coverage, confidence, strengths, missing_concepts, misconceptions, feedback, criteria[] }
+  result         Json?
+  confidence     Float?
+  /// The text that was marked.
+  answerText     String               @default("")
+  durationMs     Int                  @default(0)
+  inputTokens    Int                  @default(0)
+  outputTokens   Int                  @default(0)
+  costUsd        Float                @default(0)
+  createdById    String?              @db.Uuid
+  createdAt      DateTime             @default(now())
+
+  @@index([answerId, createdAt])
+}
+
+/// Every teacher change to an answer: who, when, old → new.
+model ExamCorrectionAnswerEvent {
+  id          String               @id @default(uuid()) @db.Uuid
+  answerId    String               @db.Uuid
+  answer      ExamCorrectionAnswer @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  /// marks | text | verify | approve | reopen | request_review
+  kind        String
+  marksBefore Float?
+  marksAfter  Float?
+  before      Json?
+  after       Json?
+  reason      String               @default("")
+  byId        String?              @db.Uuid
+  byName      String
+  at          DateTime             @default(now())
+
+  @@index([answerId, at])
+}

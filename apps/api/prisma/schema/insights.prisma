@@ -1,0 +1,84 @@
+// Insights: group (multi-campus) management records — inter-campus student transfers and group policies
+// with their version history. Dashboards and reports are computed from the other modules' tables and need
+// no storage; the report catalog lives in code. Core records (Student, Campus, Section, User) are referenced
+// by plain uuid columns without Prisma relations.
+
+/// A request to move a student from one campus of the group to another:
+/// Submitted → Under Review → Approved → Completed (the core Student moves), or Rejected.
+model GroupTransfer {
+  id              String    @id @default(uuid()) @db.Uuid
+  studentId       String    @db.Uuid
+  fromCampusId    String    @db.Uuid
+  /// Section the student was in when the request was raised.
+  fromSectionId   String?   @db.Uuid
+  toCampusId      String    @db.Uuid
+  reason          String
+  /// Submitted | Under Review | Approved | Completed | Rejected
+  status          String    @default("Submitted")
+  requestedOn     DateTime  @db.Date
+  requestedById   String?   @db.Uuid
+  requestedByName String?
+  reviewStartedAt DateTime?
+  reviewedById    String?   @db.Uuid
+  decidedAt       DateTime?
+  decidedById     String?   @db.Uuid
+  decidedByName   String?
+  decisionNote    String?
+  /// Class joined at the destination campus (set on completion).
+  toSectionId     String?   @db.Uuid
+  completedAt     DateTime?
+  completedById   String?   @db.Uuid
+  completedByName String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([studentId, status])
+  @@index([fromCampusId, status])
+  @@index([toCampusId, status])
+  @@index([requestedOn])
+}
+
+/// A policy that applies across the group (or a named scope), with its current version.
+model GroupPolicy {
+  id            String    @id @default(uuid()) @db.Uuid
+  name          String
+  /// Free text, e.g. "All campuses" or "Secondary campuses".
+  scope         String    @default("All campuses")
+  /// e.g. "v1.2"
+  version       String    @default("v1.0")
+  /// Draft | Under review | Active | Retired
+  status        String    @default("Draft")
+  body          String?
+  effectiveOn   DateTime? @db.Date
+  createdById   String?   @db.Uuid
+  createdByName String?
+  updatedById   String?   @db.Uuid
+  updatedByName String?
+  retiredAt     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  versions GroupPolicyVersion[]
+
+  @@index([status])
+  @@index([name])
+}
+
+/// A superseded version of a group policy, kept for the version history.
+model GroupPolicyVersion {
+  id             String      @id @default(uuid()) @db.Uuid
+  policyId       String      @db.Uuid
+  policy         GroupPolicy @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  version        String
+  status         String
+  scope          String
+  body           String?
+  effectiveOn    DateTime?   @db.Date
+  /// What changed when this version was superseded.
+  changeNote     String?
+  archivedAt     DateTime    @default(now())
+  archivedById   String?     @db.Uuid
+  archivedByName String?
+
+  @@index([policyId, archivedAt])
+}

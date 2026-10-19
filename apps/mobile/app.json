@@ -1,0 +1,70 @@
+{
+  "expo": {
+    "name": "Holy Sai Smart School 360",
+    "slug": "holysai-smart-school-360",
+    "scheme": "holysai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#FAF8F6",
+    "primaryColor": "#990033",
+    "description": "Holy Sai Smart School 360 — the connected campus for parents, students, teachers and staff.",
+    "ios": {
+      "bundleIdentifier": "com.holysai.smartschool360",
+      "buildNumber": "1",
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true
+        }
+      }
+    },
+    "android": {
+      "package": "com.holysai.smartschool360",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#FAF8F6",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "permissions": [],
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-secure-store",
+      "expo-web-browser",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 180,
+          "resizeMode": "contain",
+          "backgroundColor": "#FAF8F6"
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#990033"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "extra": {
+      "router": {},
+      "eas": {}
+    }
+  }
+}

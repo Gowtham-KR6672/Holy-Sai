@@ -1,0 +1,220 @@
+// Student Innovation Lab: ideas, projects (team, milestones, evidence, mentor feedback), the mentor panel,
+// competitions with project entries, and student achievements.
+// Pipeline: Idea → Review → Mentor → Project → Prototype → Competition → Achievement (stages 0–6).
+// Core records (Student, Employee, Campus, User) are referenced by plain uuid columns without relations.
+
+/// An idea submitted by (or for) a student, reviewed by a teacher within a week.
+model InnovationIdea {
+  id              String             @id @default(uuid()) @db.Uuid
+  title           String
+  problem         String?
+  /// Robotics & electronics | Software & apps | Environment & sustainability | Health & wellbeing | Community & social | Other
+  category        String?
+  /// "Yes, please assign one" | "I already have one in mind" | "Not yet"
+  wantsMentor     String?
+  /// Submitted | Under Review | Accepted | Converted | Declined
+  status          String             @default("Submitted")
+  studentId       String             @db.Uuid
+  /// The student's campus when submitted (for campus views).
+  campusId        String             @db.Uuid
+  submittedOn     DateTime           @db.Date
+  submittedById   String?            @db.Uuid
+  /// "student" when submitted from the student portal, otherwise "staff".
+  source          String             @default("staff")
+  reviewedById    String?            @db.Uuid
+  reviewedByName  String?
+  reviewStartedAt DateTime?
+  decidedAt       DateTime?
+  reviewNote      String?
+  projectId       String?            @unique @db.Uuid
+  project         InnovationProject? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@index([campusId, status])
+  @@index([studentId])
+  @@index([submittedOn])
+}
+
+/// A student project with a lead student, a team, a mentor (staff), milestones and evidence.
+model InnovationProject {
+  id          String    @id @default(uuid()) @db.Uuid
+  /// e.g. "IP-014"
+  code        String    @unique
+  title       String
+  summary     String?
+  /// 0 Idea · 1 Review · 2 Mentor · 3 Project · 4 Prototype · 5 Competition · 6 Achievement
+  stage       Int       @default(3)
+  /// Active | Completed
+  status      String    @default("Active")
+  /// Lead student.
+  studentId   String    @db.Uuid
+  campusId    String    @db.Uuid
+  /// Employee mentoring the project.
+  mentorId    String?   @db.Uuid
+  startedOn   DateTime? @db.Date
+  completedOn DateTime? @db.Date
+  createdById String?   @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  idea         InnovationIdea?
+  members      InnovationProjectMember[]
+  milestones   InnovationMilestone[]
+  evidence     InnovationEvidence[]
+  feedback     InnovationFeedback[]
+  competitions InnovationCompetitionEntry[]
+
+  @@index([campusId, stage])
+  @@index([studentId])
+  @@index([mentorId])
+  @@index([updatedAt])
+}
+
+/// A student on a project team. The lead student is stored with role "Lead".
+model InnovationProjectMember {
+  projectId String            @db.Uuid
+  project   InnovationProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  studentId String            @db.Uuid
+  /// Lead | Member | Designer | Researcher | Builder | Presenter
+  role      String            @default("Member")
+  addedById String?           @db.Uuid
+  createdAt DateTime          @default(now())
+
+  @@id([projectId, studentId])
+  @@index([studentId])
+}
+
+/// A project checkpoint. Status is derived: Completed, Overdue, In Progress (next open one) or Pending.
+model InnovationMilestone {
+  id            String               @id @default(uuid()) @db.Uuid
+  projectId     String               @db.Uuid
+  project       InnovationProject    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  sequence      Int
+  title         String
+  dueOn         DateTime?            @db.Date
+  completedOn   DateTime?            @db.Date
+  completedById String?              @db.Uuid
+  /// Evidence summary written against the milestone.
+  evidence      String?
+  /// Mentor feedback on the milestone.
+  feedback      String?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  items InnovationEvidence[]
+
+  @@index([projectId, sequence])
+  @@index([dueOn])
+}
+
+/// Portfolio evidence for a project: photos, videos, documents, test logs, judging sheets, links.
+model InnovationEvidence {
+  id          String               @id @default(uuid()) @db.Uuid
+  projectId   String               @db.Uuid
+  project     InnovationProject    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  milestoneId String?              @db.Uuid
+  milestone   InnovationMilestone? @relation(fields: [milestoneId], references: [id], onDelete: SetNull)
+  title       String
+  /// Photo | Video | Document | Test log | Judging sheet | Link
+  kind        String
+  link        String?
+  note        String?
+  addedById   String?              @db.Uuid
+  addedByName String?
+  createdAt   DateTime             @default(now())
+
+  @@index([projectId, createdAt])
+}
+
+/// Mentor feedback on a project.
+model InnovationFeedback {
+  id               String            @id @default(uuid()) @db.Uuid
+  projectId        String            @db.Uuid
+  project          InnovationProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  authorId         String?           @db.Uuid
+  /// Employee who wrote it, when the author is staff (counts towards the mentor's feedback load).
+  authorEmployeeId String?           @db.Uuid
+  authorName       String
+  authorRole       String?
+  body             String
+  createdAt        DateTime          @default(now())
+
+  @@index([projectId, createdAt])
+  @@index([authorEmployeeId, createdAt])
+}
+
+/// Staff on the Innovation Lab mentor panel (one row per employee; removal clears isActive).
+model InnovationMentor {
+  employeeId     String   @id @db.Uuid
+  isActive       Boolean  @default(true)
+  specialisation String?
+  addedById      String?  @db.Uuid
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+/// An external competition the lab registered for.
+model InnovationCompetition {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  /// School | District | State | National | International
+  level       String
+  heldOn      DateTime @db.Date
+  /// Overall result, e.g. "Registered", "Shortlisting in progress", "Finalist", "2nd place", "Participation".
+  result      String?
+  createdById String?  @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  entries InnovationCompetitionEntry[]
+
+  @@index([heldOn])
+}
+
+/// A project entered in a competition, with its own result.
+model InnovationCompetitionEntry {
+  competitionId String                @db.Uuid
+  competition   InnovationCompetition @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  projectId     String                @db.Uuid
+  project       InnovationProject     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  result        String?
+  enteredById   String?               @db.Uuid
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+
+  @@id([competitionId, projectId])
+  @@index([projectId])
+}
+
+/// A student achievement. Student-centric: it is part of the student's profile (Student 360) and portfolio.
+/// Recorded by the Innovation Lab when a project completes, and by Student 360 for other achievements.
+model InnovationAchievement {
+  id             String    @id @default(uuid()) @db.Uuid
+  studentId      String    @db.Uuid
+  campusId       String    @db.Uuid
+  title          String
+  /// Academic | Attendance | Co-curricular | Competition | Innovation | Sports | Service
+  type           String
+  /// School | District | State | National | International
+  level          String?
+  achievedOn     DateTime  @db.Date
+  verified       Boolean   @default(false)
+  verifiedById   String?   @db.Uuid
+  verifiedByName String?
+  verifiedAt     DateTime?
+  /// Innovation project or competition that produced it, if any.
+  projectId      String?   @db.Uuid
+  competitionId  String?   @db.Uuid
+  note           String?
+  /// innovation | student360 | other module key
+  source         String    @default("innovation")
+  createdById    String?   @db.Uuid
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([studentId, achievedOn])
+  @@index([campusId, achievedOn])
+  @@index([projectId])
+  @@index([type])
+}
