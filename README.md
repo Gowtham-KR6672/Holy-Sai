@@ -98,6 +98,7 @@ node tools/tests/platform-console.test.cjs  # console, support access, suspensio
 node tools/tests/campus-admin.test.cjs      # campus admins see only their campus
 node tools/tests/billing.test.cjs           # plans, payments, invoices, signed webhooks, expiry and renewal
 node tools/tests/delete-school.test.cjs     # deleting a school: guards, what goes, what stays, code reuse
+node tools/tests/payroll-allowances.test.cjs # allowance rules (auto calculate or fixed) and per-employee amounts
 node tools/tests/account-links.test.cjs     # account ↔ record linking (inside a test school)
 node tools/tests/student-lifecycle.test.cjs # leaving and re-enrolling, Tamil and Hindi data
 ```

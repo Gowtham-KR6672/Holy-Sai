@@ -15,13 +15,31 @@ export interface MoneyLine {
 }
 
 /** Salary structure parameters (system settings with these defaults). */
-interface PayRules {
+export interface PayRules {
+  /** On: HRA and special allowance are a % of basic. Off: the fixed amounts, the same for every employee. */
+  autoAllowances: boolean;
   hraPercent: number;
   conveyance: number;
   specialPercent: number;
+  fixedHra: number;
+  fixedSpecial: number;
   pfPercent: number;
   pfWageCeiling: number;
   standardDeduction: number;
+}
+
+type AllowanceSource = Pick<Employee, 'basicSalary' | 'customAllowances' | 'hraAmount' | 'conveyanceAmount' | 'specialAllowanceAmount'>;
+
+/**
+ * An employee's allowances for a full month: their own amounts when set on the employee, otherwise the school's
+ * rules (a % of basic when auto calculation is on, or the school's fixed amounts).
+ */
+export function monthlyAllowances(e: AllowanceSource, rules: PayRules): { hra: number; conveyance: number; special: number; own: boolean } {
+  if (e.customAllowances) return { hra: num(e.hraAmount), conveyance: num(e.conveyanceAmount), special: num(e.specialAllowanceAmount), own: true };
+  const basic = num(e.basicSalary);
+  return rules.autoAllowances
+    ? { hra: (basic * rules.hraPercent) / 100, conveyance: rules.conveyance, special: (basic * rules.specialPercent) / 100, own: false }
+    : { hra: rules.fixedHra, conveyance: rules.conveyance, special: rules.fixedSpecial, own: false };
 }
 
 /** Tamil Nadu professional tax, per half-year of gross income (₹). Charged monthly as one sixth. */
@@ -80,9 +98,12 @@ export class PayrollService {
   async rules(): Promise<PayRules> {
     const s = this.wf.settings;
     return {
+      autoAllowances: (await s.get<unknown>('payroll.auto_allowances', true)) !== false,
       hraPercent: Number(await s.get('payroll.hra_percent', 40)),
       conveyance: Number(await s.get('payroll.conveyance', 1600)),
       specialPercent: Number(await s.get('payroll.special_allowance_percent', 10)),
+      fixedHra: Number(await s.get('payroll.fixed_hra', 0)),
+      fixedSpecial: Number(await s.get('payroll.fixed_special_allowance', 0)),
       pfPercent: Number(await s.get('payroll.pf_percent', 12)),
       pfWageCeiling: Number(await s.get('payroll.pf_wage_ceiling', 15000)),
       standardDeduction: Number(await s.get('payroll.tds_standard_deduction', 75000)),
@@ -281,9 +302,12 @@ export class PayrollService {
       const factor = wd ? paidDays / wd : 0;
       const basicFull = num(e.basicSalary);
       const basic = round(basicFull * factor, 0);
-      const hra = round(basic * (rules.hraPercent / 100), 0);
-      const conveyance = round(rules.conveyance * factor, 0);
-      const special = round(basic * (rules.specialPercent / 100), 0);
+      // Allowances are reduced for unpaid days like the basic (a % of the reduced basic, or a fixed amount × factor).
+      const full = monthlyAllowances(e, rules);
+      const byPercent = !full.own && rules.autoAllowances;
+      const hra = byPercent ? round(basic * (rules.hraPercent / 100), 0) : round(full.hra * factor, 0);
+      const conveyance = round(full.conveyance * factor, 0);
+      const special = byPercent ? round(basic * (rules.specialPercent / 100), 0) : round(full.special * factor, 0);
       const claims = otBy.get(e.id) ?? [];
       const otPay = round(sumBy(claims, (o) => num(o.cost)));
       const otHours = round(sumBy(claims, (o) => num(o.hours)), 1);
@@ -305,7 +329,7 @@ export class PayrollService {
       const taxableMonth = gross - reimbTotal;
       const pf = round(Math.min(basic, rules.pfWageCeiling) * (rules.pfPercent / 100), 0);
       const pt = taxableMonth > 0 ? professionalTax(taxableMonth) : 0;
-      const fullMonthly = basicFull * (1 + rules.hraPercent / 100 + rules.specialPercent / 100) + rules.conveyance + allowTotal;
+      const fullMonthly = basicFull + full.hra + full.conveyance + full.special + allowTotal;
       // TDS under the new regime: projected annual salary less the standard deduction (PF is not deductible).
       const projected = Math.max(0, fullMonthly * 12 + otPay - rules.standardDeduction);
       const tds = paidDays > 0 ? Math.round(annualTax(projected) / 12) : 0;

@@ -87,6 +87,11 @@ export interface EmployeeDetail {
   /** Only present for holders of payroll.read. */
   basicSalary?: number;
   bankAccount?: string | null;
+  /** Only present for holders of payroll.read. On: the three amounts below instead of the school's allowance rules. */
+  customAllowances?: boolean;
+  hraAmount?: number;
+  conveyanceAmount?: number;
+  specialAllowanceAmount?: number;
   workload: number;
   maxPeriodsWeek: number;
   backgroundVerified: boolean;
@@ -485,4 +490,23 @@ export interface TaskRow {
   status: string;
   overdue: boolean;
   route: string | null;
+}
+
+/** GET /payroll/rules — how allowances are worked out for employees without their own amounts. */
+export interface PayRules {
+  /** On: HRA and special allowance are a % of basic. Off: the fixed amounts for every employee. */
+  autoCalculate: boolean;
+  hraPercent: number;
+  specialPercent: number;
+  conveyance: number;
+  fixedHra: number;
+  fixedSpecial: number;
+  employeesWithOwnAmounts: number;
+}
+
+/** Full-month allowances under the school's rules for a basic salary (mirrors the API's payroll calculation). */
+export function schoolAllowances(rules: PayRules, basic: number): { hra: number; conveyance: number; special: number } {
+  return rules.autoCalculate
+    ? { hra: Math.round((basic * rules.hraPercent) / 100), conveyance: rules.conveyance, special: Math.round((basic * rules.specialPercent) / 100) }
+    : { hra: rules.fixedHra, conveyance: rules.conveyance, special: rules.fixedSpecial };
 }

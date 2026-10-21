@@ -6,11 +6,11 @@ import { useLookups } from '@/hooks/useLookups';
 import { useSchool } from '@/layouts/SchoolContext';
 import {
   Banner, Button, Card, DataTable, Empty, ErrorState, Flow, Grid, InlineError, Kpi, Meter, Modal, Page, PageHead, PageSkeleton,
-  SelectField, StatStrip, Status, TextArea, TextField, useConfirm,
+  SelectField, StatStrip, Status, Switch, TextArea, TextField, useConfirm,
 } from '@/components/ui';
 import { fmt, todayKey } from '@/lib/format';
-import { PayslipModal, TotalsBar, monthLabel } from './shared';
-import type { PayrollRun, PayslipRow, RunDetail } from './types';
+import { PayslipModal, TotalsBar, fieldErrors, monthLabel } from './shared';
+import type { PayRules, PayrollRun, PayslipRow, RunDetail } from './types';
 
 export default function PayrollPage() {
   const { can } = useAuth();
@@ -23,7 +23,7 @@ export default function PayrollPage() {
   const sampleNamed = usePagedQuery<PayslipRow>('/payslips', { runId: runId ?? undefined, pageSize: 1, q: 'Priya Raghavan' }, { enabled: !!runId });
   const sampleFirst = usePagedQuery<PayslipRow>('/payslips', { runId: runId ?? undefined, pageSize: 1, sort: 'name' }, { enabled: !!runId });
   const sampleSlip = sampleNamed.data?.rows[0] ?? sampleFirst.data?.rows[0];
-  const [modal, setModal] = useState<'approve' | 'return' | 'new' | 'history' | null>(null);
+  const [modal, setModal] = useState<'approve' | 'return' | 'new' | 'history' | 'rules' | null>(null);
   const [slipId, setSlipId] = useState<string | null>(null);
   const confirm = useConfirm();
   const selectRun = (id: string) => setSp((p) => { const n = new URLSearchParams(p); n.set('run', id); return n; }, { replace: true });
@@ -89,6 +89,7 @@ export default function PayrollPage() {
       title="Payroll"
       sub={`${r ? `${r.monthLabel}${scope === 'group' && r.campusName ? ` · ${r.campusName}` : ''}` : 'Current'} run. Attendance, leave, overtime and allowances flow in automatically — approval is the only manual gate.`}
       actions={<>
+        <Button icon="settings" onClick={() => setModal('rules')}>Allowance rules</Button>
         <Button icon="clock" onClick={() => setModal('history')}>Payroll history</Button>
         {can('payroll.manage') && <Button icon="plus" onClick={() => setModal('new')}>New run</Button>}
         {a?.canReturn && <Button onClick={() => setModal('return')}>Return for changes</Button>}
@@ -106,6 +107,7 @@ export default function PayrollPage() {
         <Card><Empty icon="wallet" title="No payroll runs yet" sub={campus ? `Open the first run for ${campus.shortName}.` : 'Choose a campus and open a run.'}
           action={can('payroll.manage') ? <Button variant="primary" icon="plus" onClick={() => setModal('new')}>New run</Button> : undefined} /></Card>
         {modal === 'new' && <NewRunModal onClose={() => setModal(null)} onCreated={selectRun} />}
+        {modal === 'rules' && <AllowanceRulesModal onClose={() => setModal(null)} />}
       </Page>
     );
   }
@@ -193,6 +195,7 @@ export default function PayrollPage() {
       {modal === 'approve' && d && <ApproveModal detail={d} onClose={() => setModal(null)} />}
       {modal === 'return' && r && <ReturnModal run={r} onClose={() => setModal(null)} />}
       {modal === 'new' && <NewRunModal onClose={() => setModal(null)} onCreated={selectRun} />}
+      {modal === 'rules' && <AllowanceRulesModal onClose={() => setModal(null)} />}
       {modal === 'history' && <HistoryModal runs={runs.data.rows} current={runId} onPick={(id) => { selectRun(id); setModal(null); }} onClose={() => setModal(null)} />}
       {slipId && <PayslipModal id={slipId} onClose={() => setSlipId(null)} />}
     </Page>
@@ -292,6 +295,85 @@ function NewRunModal({ onClose, onCreated }: { onClose: () => void; onCreated: (
         <TextField label="Pay month" type="month" required value={f.payMonth} onChange={(v) => setF((x) => ({ ...x, payMonth: v }))} error={touched ? errors.payMonth : undefined} />
       </div>
       {m.error && <div className="mt-3"><InlineError error={m.error} /></div>}
+    </Modal>
+  );
+}
+
+/** The school's allowance rules. Auto calculate on: HRA and special allowance are a % of basic; off: fixed amounts. */
+function AllowanceRulesModal({ onClose }: { onClose: () => void }) {
+  const q = useApiQuery<PayRules>('/payroll/rules');
+  if (!q.data) {
+    return (
+      <Modal open onClose={onClose} title="Allowance rules" foot={<Button onClick={onClose}>Close</Button>}>
+        {q.error ? <InlineError error={q.error} /> : <p className="t-sm t-muted">Loading…</p>}
+      </Modal>
+    );
+  }
+  return <AllowanceRulesForm rules={q.data} onClose={onClose} />;
+}
+
+function AllowanceRulesForm({ rules, onClose }: { rules: PayRules; onClose: () => void }) {
+  const { can } = useAuth();
+  const editable = can('settings.manage');
+  const [f, setF] = useState({
+    autoCalculate: rules.autoCalculate, hraPercent: String(rules.hraPercent), specialPercent: String(rules.specialPercent),
+    conveyance: String(rules.conveyance), fixedHra: String(rules.fixedHra), fixedSpecial: String(rules.fixedSpecial),
+  });
+  const [touched, setTouched] = useState(false);
+  const set = (k: Exclude<keyof typeof f, 'autoCalculate'>) => (v: string) => setF((x) => ({ ...x, [k]: v }));
+  const save = useApiMutation<void>('put', '/payroll/rules', {
+    invalidate: ['/payroll/rules'], error: false, onSuccess: onClose,
+    body: () => ({
+      autoCalculate: f.autoCalculate, hraPercent: Number(f.hraPercent), specialPercent: Number(f.specialPercent),
+      conveyance: Number(f.conveyance), fixedHra: Number(f.fixedHra), fixedSpecial: Number(f.fixedSpecial),
+    }),
+  });
+  const errors: Record<string, string> = {};
+  const bad = (v: string, max?: number) => v.trim() === '' || Number.isNaN(Number(v)) || Number(v) < 0 || (max !== undefined && Number(v) > max);
+  if (f.autoCalculate && bad(f.hraPercent, 100)) errors.hraPercent = 'Between 0 and 100';
+  if (f.autoCalculate && bad(f.specialPercent, 100)) errors.specialPercent = 'Between 0 and 100';
+  if (!f.autoCalculate && bad(f.fixedHra)) errors.fixedHra = 'Enter an amount (0 or more)';
+  if (!f.autoCalculate && bad(f.fixedSpecial)) errors.fixedSpecial = 'Enter an amount (0 or more)';
+  if (bad(f.conveyance)) errors.conveyance = 'Enter an amount (0 or more)';
+  const server = fieldErrors(save.error);
+  const err = (k: string) => (touched ? errors[k] : undefined) ?? server[k];
+
+  return (
+    <Modal open onClose={onClose} busy={save.isPending} title="Allowance rules" sub="How house rent allowance, conveyance and special allowance are worked out on payslips"
+      foot={editable ? <>
+        <Button onClick={onClose} disabled={save.isPending}>Cancel</Button>
+        <Button variant="primary" icon="check" loading={save.isPending} onClick={() => { setTouched(true); if (!Object.keys(errors).length) save.mutate(); }}>Save</Button>
+      </> : <Button onClick={onClose}>Close</Button>}>
+      {save.error && !Object.keys(server).length && <div className="mb-3"><InlineError error={save.error} /></div>}
+      <div className="col g-3">
+        <Switch checked={f.autoCalculate} onChange={(v) => setF((x) => ({ ...x, autoCalculate: v }))} label="Auto calculate" disabled={!editable} />
+        <p className="t-sm t-muted">
+          {f.autoCalculate
+            ? "On: house rent allowance and special allowance are a percentage of each employee's basic salary."
+            : 'Off: the amounts below are paid to every employee, whatever their basic salary.'}
+        </p>
+        <div className="form-grid">
+          {f.autoCalculate ? (
+            <>
+              <TextField label="House rent allowance (% of basic)" required type="number" min={0} max={100} value={f.hraPercent} onChange={set('hraPercent')} error={err('hraPercent')} disabled={!editable} />
+              <TextField label="Special allowance (% of basic)" required type="number" min={0} max={100} value={f.specialPercent} onChange={set('specialPercent')} error={err('specialPercent')} disabled={!editable} />
+            </>
+          ) : (
+            <>
+              <TextField label="House rent allowance (₹ / month)" required type="number" min={0} value={f.fixedHra} onChange={set('fixedHra')} error={err('fixedHra')} disabled={!editable} />
+              <TextField label="Special allowance (₹ / month)" required type="number" min={0} value={f.fixedSpecial} onChange={set('fixedSpecial')} error={err('fixedSpecial')} disabled={!editable} />
+            </>
+          )}
+          <TextField label="Conveyance (₹ / month)" required type="number" min={0} value={f.conveyance} onChange={set('conveyance')} error={err('conveyance')} disabled={!editable} />
+        </div>
+        <Banner tone="neutral" icon="info">
+          All allowances are reduced for unpaid days, like the basic salary. Changes apply when a payroll run is calculated; approved runs keep their payslips.
+        </Banner>
+        {rules.employeesWithOwnAmounts > 0 && (
+          <p className="t-sm t-muted">{`${rules.employeesWithOwnAmounts} employee(s) have their own amounts (Edit employee › Pay) and are not affected.`}</p>
+        )}
+        {!editable && <p className="t-xs t-muted">Only a Workspace Admin can change these rules.</p>}
+      </div>
     </Modal>
   );
 }

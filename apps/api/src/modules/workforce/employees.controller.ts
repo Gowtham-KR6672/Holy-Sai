@@ -49,6 +49,11 @@ class EmployeeDto {
   @IsOptional() @IsIn(['active', 'on_notice', 'exited']) employmentStatus?: string;
   @IsOptional() @Type(() => Number) @IsNumber({}, { message: 'Enter the monthly basic salary' }) @Min(0, { message: 'Enter the monthly basic salary' }) @Max(10_000_000) basicSalary?: number;
   @IsOptional() @Matches(/^[X0-9 ]{4,24}$/, { message: 'Masked number only, e.g. XXXXXX4417' }) bankAccountMasked?: string | null;
+  /** On: the three allowance amounts below are used instead of the school's rules. */
+  @IsOptional() @IsBoolean() customAllowances?: boolean;
+  @IsOptional() @Type(() => Number) @IsNumber({}, { message: 'Enter an amount (0 or more)' }) @Min(0, { message: 'Enter an amount (0 or more)' }) @Max(10_000_000) hraAmount?: number;
+  @IsOptional() @Type(() => Number) @IsNumber({}, { message: 'Enter an amount (0 or more)' }) @Min(0, { message: 'Enter an amount (0 or more)' }) @Max(10_000_000) conveyanceAmount?: number;
+  @IsOptional() @Type(() => Number) @IsNumber({}, { message: 'Enter an amount (0 or more)' }) @Min(0, { message: 'Enter an amount (0 or more)' }) @Max(10_000_000) specialAllowanceAmount?: number;
   @IsOptional() @Type(() => Number) @IsInt() @Min(0) @Max(60) workloadPeriods?: number;
   @IsOptional() @IsBoolean() backgroundVerified?: boolean;
   @IsOptional() @IsString() @MaxLength(160) qualification?: string | null;
@@ -59,6 +64,7 @@ class EmployeeDto {
 }
 
 const clean = (v: string | null | undefined) => (v == null ? null : v.trim() || null);
+const ALLOWANCE_FIELDS = { customAllowances: 1, hraAmount: 1, conveyanceAmount: 1, specialAllowanceAmount: 1 };
 
 /** The employee record as the profile and the edit form read it. Salary fields only for payroll.read. */
 export function employeeDetail(
@@ -85,7 +91,12 @@ export function employeeDetail(
     shift: e.shiftName,
     joinDate: keyOrNull(e.joinDate),
     employmentStatus: e.employmentStatus,
-    ...(seesPay ? { basicSalary: num(e.basicSalary), bankAccount: e.bankAccountMasked } : {}),
+    ...(seesPay
+      ? {
+          basicSalary: num(e.basicSalary), bankAccount: e.bankAccountMasked, customAllowances: e.customAllowances,
+          hraAmount: num(e.hraAmount), conveyanceAmount: num(e.conveyanceAmount), specialAllowanceAmount: num(e.specialAllowanceAmount),
+        }
+      : {}),
     workload: stats.workload,
     maxPeriodsWeek: e.maxPeriodsWeek,
     backgroundVerified: e.backgroundVerified,
@@ -429,6 +440,7 @@ export class EmployeesController {
         code,
         basicSalary: dto.basicSalary,
         bankAccountMasked: clean(dto.bankAccountMasked),
+        ...this.allowanceData(dto),
         archivedAt: exited ? new Date() : null,
       },
     });
@@ -458,13 +470,21 @@ export class EmployeesController {
         data.bankAccountMasked = clean(dto.bankAccountMasked);
         salaryChanged.push('bank account');
       }
+      const allowances = this.allowanceData(dto);
+      const allowanceChanged = (Object.keys(allowances) as (keyof typeof allowances)[]).some((k) =>
+        k === 'customAllowances' ? allowances[k] !== existing.customAllowances : Number(allowances[k]) !== num(existing[k]),
+      );
+      if (allowanceChanged) {
+        Object.assign(data, allowances);
+        salaryChanged.push(allowances.customAllowances ?? existing.customAllowances ? 'own allowances' : 'allowances (school rules)');
+      }
     }
     const status = dto.employmentStatus ?? existing.employmentStatus;
     if (status === 'exited' && !existing.archivedAt) data.archivedAt = new Date();
     if (status !== 'exited' && existing.archivedAt) data.archivedAt = null;
 
     const changed = (Object.keys(data) as (keyof Employee)[]).filter((k) => {
-      if (k === 'archivedAt' || k === 'basicSalary' || k === 'bankAccountMasked') return false;
+      if (k === 'archivedAt' || k === 'basicSalary' || k === 'bankAccountMasked' || k in ALLOWANCE_FIELDS) return false;
       const before = existing[k];
       const after = (data as Record<string, unknown>)[k];
       const b = before instanceof Date ? keyOf(before) : before;
@@ -526,6 +546,16 @@ export class EmployeesController {
       if (dup) throw fieldError('email', `${dup.fullName} (${dup.code}) already uses this email`);
     }
     if (dto.joinDate && dto.joinDate.slice(0, 10) > addDays(todayKey(), 366)) throw fieldError('joinDate', 'Join date is too far in the future');
+  }
+
+  /** The employee's own allowances from the form (only the fields that were sent). */
+  private allowanceData(dto: EmployeeDto) {
+    return {
+      ...(dto.customAllowances !== undefined ? { customAllowances: dto.customAllowances } : {}),
+      ...(dto.hraAmount !== undefined ? { hraAmount: dto.hraAmount } : {}),
+      ...(dto.conveyanceAmount !== undefined ? { conveyanceAmount: dto.conveyanceAmount } : {}),
+      ...(dto.specialAllowanceAmount !== undefined ? { specialAllowanceAmount: dto.specialAllowanceAmount } : {}),
+    };
   }
 
   private data(dto: EmployeeDto, creating: boolean) {

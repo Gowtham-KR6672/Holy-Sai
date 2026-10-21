@@ -11,10 +11,10 @@ import { useLookups } from '@/hooks/useLookups';
 import { useSchool } from '@/layouts/SchoolContext';
 import {
   Avatar, Badge, Banner, Button, Card, Checkbox, DataTable, Dl, Empty, ErrorState, Flow, Grid, Icon, InlineError, Meter, Modal, Person,
-  SelectField, Skeleton, Status, Tabs, TextArea, TextField, useConfirm,
+  SelectField, Skeleton, Status, Switch, Tabs, TextArea, TextField, useConfirm,
 } from '@/components/ui';
 import { fmt, todayKey, loc } from '@/lib/format';
-import type { EmployeeDetail, EmployeeProfile, LeaveBalance, LeaveType, Payslip, Shift } from './types';
+import { schoolAllowances, type EmployeeDetail, type EmployeeProfile, type LeaveBalance, type LeaveType, type PayRules, type Payslip, type Shift } from './types';
 
 export { ListCount, TotalsBar } from '../finance/shared';
 
@@ -137,7 +137,13 @@ function EmployeeProfileModal({ id, onClose }: { id: string; onClose: () => void
                 ...(e.employeeType === 'teaching'
                   ? [['Qualification', e.qualification ?? '—'] as [string, ReactNode]]
                   : e.licenceNoMasked ? [['Licence', `${e.licenceNoMasked} · expires ${fmt.date(e.licenceExpiry)}`] as [string, ReactNode]] : []),
-                ...(e.basicSalary != null ? [['Basic salary', fmt.money(e.basicSalary)] as [string, ReactNode], ['Bank account', e.bankAccount ?? '—'] as [string, ReactNode]] : []),
+                ...(e.basicSalary != null
+                  ? [
+                      ['Basic salary', fmt.money(e.basicSalary)] as [string, ReactNode],
+                      ['Allowances', e.customAllowances ? 'Own amounts' : "School's rules"] as [string, ReactNode],
+                      ['Bank account', e.bankAccount ?? '—'] as [string, ReactNode],
+                    ]
+                  : []),
               ]} />
             </Card>
             <Card icon="calendar" title="Time and leave" tight>
@@ -235,6 +241,8 @@ interface EmpForm {
   employeeType: string; category: string; shiftName: string; joinDate: string; employmentStatus: string; basicSalary: string;
   bankAccountMasked: string; workloadPeriods: string; backgroundVerified: boolean; qualification: string; specialisation: string;
   maxPeriodsWeek: string; licenceNoMasked: string; licenceExpiry: string;
+  /** Off (false): allowances follow the school's rules; on: the three amounts below. */
+  customAllowances: boolean; hraAmount: string; conveyanceAmount: string; specialAllowanceAmount: string;
 }
 
 export function EmployeeFormModal({ employee, onClose }: { employee?: EmployeeDetail; onClose: () => void }) {
@@ -252,10 +260,20 @@ export function EmployeeFormModal({ employee, onClose }: { employee?: EmployeeDe
     workloadPeriods: String(e?.workload ?? 0), backgroundVerified: e?.backgroundVerified ?? false,
     qualification: e?.qualification ?? '', specialisation: e?.specialisation ?? '', maxPeriodsWeek: String(e?.maxPeriodsWeek ?? 27),
     licenceNoMasked: e?.licenceNoMasked ?? '', licenceExpiry: e?.licenceExpiry ?? '',
+    customAllowances: e?.customAllowances ?? false,
+    hraAmount: e?.customAllowances ? String(e.hraAmount ?? 0) : '', conveyanceAmount: e?.customAllowances ? String(e.conveyanceAmount ?? 0) : '',
+    specialAllowanceAmount: e?.customAllowances ? String(e.specialAllowanceAmount ?? 0) : '',
   });
   const [touched, setTouched] = useState(false);
   const set = <K extends keyof EmpForm>(k: K, v: EmpForm[K]) => setF((x) => ({ ...x, [k]: v }));
   const showSalary = !e || e.basicSalary !== undefined || can('payroll.read');
+  const rules = useApiQuery<PayRules>(showSalary && can('payroll.read') ? '/payroll/rules' : null);
+  const fromRules = rules.data ? schoolAllowances(rules.data, Number(f.basicSalary) || 0) : null;
+  /** Switching auto calculation off starts from what the school's rules give this employee today. */
+  const setAuto = (auto: boolean) => setF((x) => {
+    if (auto || x.hraAmount || x.conveyanceAmount || x.specialAllowanceAmount || !fromRules) return { ...x, customAllowances: !auto };
+    return { ...x, customAllowances: true, hraAmount: String(fromRules.hra), conveyanceAmount: String(fromRules.conveyance), specialAllowanceAmount: String(fromRules.special) };
+  });
 
   const errors = useMemo(() => {
     const out: Record<string, string> = {};
@@ -268,6 +286,11 @@ export function EmployeeFormModal({ employee, onClose }: { employee?: EmployeeDe
     if (f.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) out.email = 'Enter a valid email';
     if (f.bankAccountMasked && !/^[X0-9 ]{4,24}$/.test(f.bankAccountMasked)) out.bankAccountMasked = 'Masked number only, e.g. XXXXXX4417';
     if (f.employeeType === 'teaching' && (Number(f.maxPeriodsWeek) < 1 || Number(f.maxPeriodsWeek) > 60)) out.maxPeriodsWeek = 'Between 1 and 60';
+    if (showSalary && f.customAllowances) {
+      for (const k of ['hraAmount', 'conveyanceAmount', 'specialAllowanceAmount'] as const) {
+        if (f[k].trim() === '' || Number.isNaN(Number(f[k])) || Number(f[k]) < 0) out[k] = 'Enter an amount (0 or more)';
+      }
+    }
     return out;
   }, [f, showSalary]);
 
@@ -278,7 +301,11 @@ export function EmployeeFormModal({ employee, onClose }: { employee?: EmployeeDe
       shiftName: f.shiftName || null, joinDate: f.joinDate || null, employmentStatus: f.employmentStatus,
       bankAccountMasked: f.bankAccountMasked || null, workloadPeriods: Number(f.workloadPeriods) || 0, backgroundVerified: f.backgroundVerified,
     };
-    if (showSalary) b.basicSalary = Number(f.basicSalary);
+    if (showSalary) {
+      b.basicSalary = Number(f.basicSalary);
+      b.customAllowances = f.customAllowances;
+      if (f.customAllowances) Object.assign(b, { hraAmount: Number(f.hraAmount), conveyanceAmount: Number(f.conveyanceAmount), specialAllowanceAmount: Number(f.specialAllowanceAmount) });
+    }
     if (f.employeeType === 'teaching') Object.assign(b, { qualification: f.qualification || null, specialisation: f.specialisation || null, maxPeriodsWeek: Number(f.maxPeriodsWeek) });
     else Object.assign(b, { licenceNoMasked: f.licenceNoMasked || null, licenceExpiry: f.licenceExpiry || null });
     return b;
@@ -333,6 +360,23 @@ export function EmployeeFormModal({ employee, onClose }: { employee?: EmployeeDe
           <div className="form-grid">
         <TextField label="Basic salary (₹ / month)" required type="number" min={0} value={f.basicSalary} onChange={(v) => set('basicSalary', v)} error={err('basicSalary')} />
         <TextField label="Bank account (masked)" value={f.bankAccountMasked} onChange={(v) => set('bankAccountMasked', v)} error={err('bankAccountMasked')} placeholder="XXXXXX4417" hint="Never enter a full account number" />
+        <div className="field span-2">
+          <Switch checked={!f.customAllowances} onChange={setAuto} label="Auto calculate allowances" />
+          <span className="t-xs t-muted">
+            {f.customAllowances
+              ? 'Off: this employee gets the amounts below every month (reduced for unpaid days).'
+              : fromRules
+                ? `On: from the school's rules (Payroll › Allowance rules) — a full month gives HRA ${fmt.money(fromRules.hra)} · Conveyance ${fmt.money(fromRules.conveyance)} · Special allowance ${fmt.money(fromRules.special)}.`
+                : "On: from the school's rules (Payroll › Allowance rules)."}
+          </span>
+        </div>
+        {f.customAllowances && (
+          <>
+            <TextField label="House rent allowance (₹ / month)" required type="number" min={0} value={f.hraAmount} onChange={(v) => set('hraAmount', v)} error={err('hraAmount')} />
+            <TextField label="Conveyance (₹ / month)" required type="number" min={0} value={f.conveyanceAmount} onChange={(v) => set('conveyanceAmount', v)} error={err('conveyanceAmount')} />
+            <TextField label="Special allowance (₹ / month)" required type="number" min={0} value={f.specialAllowanceAmount} onChange={(v) => set('specialAllowanceAmount', v)} error={err('specialAllowanceAmount')} />
+          </>
+        )}
           </div>
         </div>
       )}

@@ -1,6 +1,7 @@
-import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, Req } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
-import { IsIn, IsOptional, IsString, IsUUID, Matches, MaxLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsBoolean, IsIn, IsNumber, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
 import type { Request } from 'express';
 import { can, type AuthUser } from '../../common/auth-user';
 import { CurrentUser, RequirePermissions } from '../../common/decorators';
@@ -36,6 +37,28 @@ class CampusQuery {
   @IsOptional() @IsString() campusId?: string;
 }
 
+const percent = { message: 'Between 0 and 100' };
+const amount = { message: 'Enter an amount (0 or more)' };
+
+/** The school's allowance rules: a % of basic (auto calculate) or fixed amounts for every employee. */
+class PayRulesDto {
+  @IsBoolean() autoCalculate: boolean;
+  @Type(() => Number) @IsNumber({}, percent) @Min(0, percent) @Max(100, percent) hraPercent: number;
+  @Type(() => Number) @IsNumber({}, percent) @Min(0, percent) @Max(100, percent) specialPercent: number;
+  @Type(() => Number) @IsNumber({}, amount) @Min(0, amount) @Max(10_000_000) conveyance: number;
+  @Type(() => Number) @IsNumber({}, amount) @Min(0, amount) @Max(10_000_000) fixedHra: number;
+  @Type(() => Number) @IsNumber({}, amount) @Min(0, amount) @Max(10_000_000) fixedSpecial: number;
+}
+
+const RULE_KEYS = {
+  autoCalculate: 'payroll.auto_allowances',
+  hraPercent: 'payroll.hra_percent',
+  specialPercent: 'payroll.special_allowance_percent',
+  conveyance: 'payroll.conveyance',
+  fixedHra: 'payroll.fixed_hra',
+  fixedSpecial: 'payroll.fixed_special_allowance',
+} as const;
+
 /** Monthly payroll runs: Draft → Inputs → Calculated → Under Review → Approved → Released → Paid (maker-checker). */
 @Controller('payroll')
 export class PayrollController {
@@ -48,6 +71,31 @@ export class PayrollController {
 
   private get prisma() {
     return this.wf.prisma;
+  }
+
+  /** How allowances are worked out for employees without their own amounts. */
+  @Get('rules')
+  @RequirePermissions('payroll.read')
+  async rules() {
+    const r = await this.payroll.rules();
+    const custom = await this.prisma.employee.count({ where: { customAllowances: true, archivedAt: null } });
+    return {
+      autoCalculate: r.autoAllowances, hraPercent: r.hraPercent, specialPercent: r.specialPercent, conveyance: r.conveyance,
+      fixedHra: r.fixedHra, fixedSpecial: r.fixedSpecial, employeesWithOwnAmounts: custom,
+    };
+  }
+
+  /** Changes the allowance rules (Workspace Admins). Runs calculated from now on use them. */
+  @Put('rules')
+  @RequirePermissions('settings.manage')
+  async saveRules(@Body() dto: PayRulesDto, @CurrentUser() user: AuthUser, @Req() req: Request) {
+    for (const [field, key] of Object.entries(RULE_KEYS)) await this.wf.settings.put(key, dto[field as keyof PayRulesDto], user.id);
+    const rupees = (n: number) => `₹${n}`;
+    const summary = dto.autoCalculate
+      ? `auto calculate on — HRA ${dto.hraPercent}% and special allowance ${dto.specialPercent}% of basic, conveyance ${rupees(dto.conveyance)}`
+      : `auto calculate off — HRA ${rupees(dto.fixedHra)}, conveyance ${rupees(dto.conveyance)}, special allowance ${rupees(dto.fixedSpecial)} a month`;
+    await this.audit.record({ user, action: 'update', module: 'workforce', entityType: 'setting', entityId: 'payroll.allowances', description: `Allowance rules: ${summary}`, metadata: { ...dto }, req });
+    return ok(await this.rules(), 'Allowance rules saved');
   }
 
   @Get('runs')

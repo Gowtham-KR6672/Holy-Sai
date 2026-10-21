@@ -166,6 +166,11 @@ model Employee {
   /// active | on_notice | exited
   employmentStatus   String    @default("active")
   basicSalary        Decimal   @default(0) @db.Decimal(12, 2)
+  /// Off: allowances follow the school's rules (Payroll › Allowances). On: the three amounts below, per month.
+  customAllowances       Boolean @default(false)
+  hraAmount              Decimal @default(0) @db.Decimal(12, 2)
+  conveyanceAmount       Decimal @default(0) @db.Decimal(12, 2)
+  specialAllowanceAmount Decimal @default(0) @db.Decimal(12, 2)
   bankAccountMasked  String?
   /// Recorded load including duties (periods per week).
   workloadPeriods    Int       @default(0)

@@ -3,6 +3,7 @@ import type { Prisma } from '@prisma/client';
 import { badRequest, notFound } from '../../common/errors';
 import { PrismaService } from '../../common/prisma.service';
 import { PerWorkspace } from '../../tenancy/context';
+import { SETTING_DEFAULTS } from './defaults';
 
 const kindOf = (v: unknown) => (typeof v === 'boolean' ? 'boolean' : typeof v === 'number' ? 'number' : typeof v === 'string' ? 'string' : 'json');
 
@@ -30,6 +31,20 @@ export class SettingsService {
   async publicValues(): Promise<Record<string, unknown>> {
     const rows = await this.prisma.setting.findMany({ where: { isPublic: true } });
     return Object.fromEntries(rows.map((r) => [r.key, r.value]));
+  }
+
+  /** Saves a known setting, creating it from its default when this school does not have it yet. Returns the old value. */
+  async put(key: string, value: Prisma.InputJsonValue, userId: string): Promise<unknown> {
+    const def = SETTING_DEFAULTS.find((s) => s.key === key);
+    if (!def) throw notFound('Setting');
+    const before = await this.prisma.setting.findUnique({ where: { key } });
+    await this.prisma.setting.upsert({
+      where: { key },
+      create: { key, value, description: def.description, isPublic: def.isPublic, updatedById: userId },
+      update: { value, updatedById: userId },
+    });
+    this.state.get().loadedAt = 0;
+    return before ? before.value : def.value;
   }
 
   /** Updates a setting; the new value must keep the same kind (number, text, on/off or list/object). */

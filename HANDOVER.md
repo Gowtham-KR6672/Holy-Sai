@@ -17,7 +17,7 @@ each school on a subscription, each school has its own admins, and the Super Adm
 | Web app (React) | `apps/web` | School pages (the original UI) + the **We School console** at `/platform`, support access, the school's Subscription page. Typecheck 0 errors. |
 | Mobile app (Expo) | `apps/mobile` | Same sign-in for every school; ends the session with a message when a school is suspended or its subscription ended. Typecheck 0 errors. Not yet run on a real phone; no APK yet. |
 | Shared package | `packages/shared` | Roles (incl. **Campus Admin**), permissions (63), navigation, icons, enums, mobile translations. |
-| Database | embedded PostgreSQL (dev) | One database: schema `platform` (We School) + one schema per school `ws_<code>`. Dev DB `holysai_app`: workspace **`holysai`** (converted from the single-school data). Test DB `holysai_test`: workspace `qa` + throw-away test schools. |
+| Database | embedded PostgreSQL (dev) | One database: schema `platform` (We School) + one schema per school `ws_<code>`. Dev DB `holysai_app`: workspace **`iconstechnologies`** (the converted `holysai` workspace was deleted by the owner on 21 Oct 2026 while trying Delete school; it held 1 campus and no students or staff). Test DB `holysai_test`: workspace `qa` + throw-away test schools. |
 | Rebrand | merged into `main` | New logo, neutral sign-in page, texts, mobile app name/ids (commit `5c4f217`, merged 21 Oct 2026). |
 | GitHub | https://github.com/Gowtham-KR6672/Holy-Sai | `main` (local) holds the We School work, the rebrand and the Tamil/Hindi translations — **not pushed yet**. The repository is **public**. |
 
@@ -237,6 +237,15 @@ Unchanged: account ↔ record linking; student leaving keeps the record and disa
 data. New: one email / mobile per school across We School; the hidden support account never appears in lists and does
 not count as the school's admin.
 
+**Payroll allowances** (21 Oct 2026). Payroll › **Allowance rules** (Workspace Admins, `settings.manage`): with **Auto
+calculate** on, HRA and special allowance are a % of basic (default 40% / 10%); off, the school's fixed monthly amounts
+are paid to every employee. Conveyance is a fixed monthly amount in both modes (default ₹1,600). Edit employee › Pay has
+its own **Auto calculate allowances** switch: off, that employee's HRA / conveyance / special allowance are entered by
+hand and win over the school's rules. Everything is reduced for unpaid days like the basic; PF (12% of basic up to
+₹15,000), Tamil Nadu professional tax and TDS stay automatic. Settings `payroll.auto_allowances`, `payroll.fixed_hra`,
+`payroll.fixed_special_allowance`; employee columns from school migration `20261021160000_employee_allowances` (run
+`npm run db:migrate` after pulling).
+
 ---
 
 ## 11. AI and integrations (per school)
@@ -288,6 +297,8 @@ audit descriptions and gateway error messages.
   trails, works when suspended, cannot change passwords), suspend/resume, extra admins, password resets, platform admins.
 - `tools/tests/campus-admin.test.cjs` — all: own campus only (lists, `campusId=all`, by-id, edits), cannot add campuses or
   school-wide admins, campus dashboard works, Workspace Admin unaffected.
+- `tools/tests/payroll-allowances.test.cjs` — all: default % rules, own amounts win, fixed amounts with auto calculate
+  off, only `settings.manage` may change the rules, audit entry, switching an employee back to the school rules.
 - `tools/tests/delete-school.test.cjs` — all: only a suspended school with its code typed; schema, sign-ins, sessions,
   webhooks and uploads gone; payments and invoices kept (marked "Deleted school"); code and admin email reusable by a
   new, empty school.
@@ -344,5 +355,5 @@ especially), the platform SMTP sender, school integrations, AI providers, the mo
 
 1. Push `main` (only with the owner's OK); consider making the repository private first.
 2. Set prices, billing details and SMTP; connect gateway sandbox keys and try a renewal end to end for each gateway.
-3. Decide hosting; deploy; register webhook URLs; create the real schools (Holy Sai already exists as `holysai`).
+3. Decide hosting; deploy; register webhook URLs; create the real schools (Holy Sai must be created again — its dev workspace was deleted).
 4. Build the Android APK and test on phones.
