@@ -1,160 +1,857 @@
-/* We School sign-in page: brand background, the platform summary on the left and the sign-in card on
-   the right. The page fits the screen and never scrolls. Loaded after holysai.css. */
+/* We School sign-in page: a book on the brand background. The logo zooms out of the screen, the book opens on a
+   spread that explains the platform, and the Sign in corner turns the pages to the sign-in spread. Everything is
+   inside the book; the page fits the screen and never scrolls (long pages scroll inside the paper).
+   Loaded after holysai.css, which gives .home its background. */
 .home {
   height: 100dvh;
   min-height: 0;
 }
-/* Soft brand glows and a faint dot grid (replaces the overlay that sat on the campus photo). */
+/* Soft brand glows and a faint dot grid. */
 .home:before {
   background:
     radial-gradient(900px 620px at 88% 4%, #fedb6e2e, #0000 60%),
     radial-gradient(760px 560px at 6% 100%, #b3004266, #0000 62%),
     radial-gradient(#ffffff12 1px, #0000 1.6px) 0 0 / 24px 24px;
 }
-.home__body {
-  min-height: 0;
-  grid-template-rows: minmax(0, 1fr);
-  align-items: stretch;
+
+/* ---------------------------------------------------------------------------------------------------------------
+   Intro: the logo zooms out of the screen and a gold ring loads around it.
+   --------------------------------------------------------------------------------------------------------------- */
+.bookintro {
+  z-index: 6;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease;
 }
-/* No script lines in the right margin any more, so wide screens keep the normal gutter. */
-@media (width>=1360px) {
-  .home__nav,
-  .home__body {
-    padding-right: var(--s-7);
+/* Beats the stylesheet's ".home > :not(.home__photo):not(.script)" (position: relative for the page's children). */
+.home.home--book > .bookintro {
+  z-index: 6;
+  position: absolute;
+}
+.bookintro[data-done="true"] {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.82);
+}
+.bookintro__mark {
+  place-items: center;
+  width: 140px;
+  height: 140px;
+  display: grid;
+  position: relative;
+  animation: we-zoom-out 0.95s cubic-bezier(0.16, 0.84, 0.3, 1) both;
+}
+.bookintro__mark img {
+  width: 92px;
+  height: 92px;
+  filter: drop-shadow(0 18px 36px #14000699);
+}
+.bookintro__ring {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.bookintro__ring circle {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 402;
+  stroke-dashoffset: 402;
+  animation: we-ring 0.75s 0.7s ease-in-out forwards;
+}
+.bookintro__name {
+  font-family: var(--font-serif);
+  color: #fff;
+  letter-spacing: 0.06em;
+  margin-top: 18px;
+  font-size: 26px;
+  font-weight: 700;
+  animation: we-rise 0.6s 0.55s ease both;
+}
+@keyframes we-zoom-out {
+  0% {
+    opacity: 0;
+    filter: blur(14px);
+    transform: scale(7);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
   }
 }
-.home__left,
-.home__right {
-  min-height: 0;
+@keyframes we-ring {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes we-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-/* Left side: what the platform connects. */
-.home__left {
-  justify-content: center;
-  position: relative;
-}
-.home__hero {
-  z-index: 1;
-  max-width: 720px;
-  position: relative;
-}
-.home__hero .hero__title {
-  font-size: clamp(36px, 3.6vw, 56px);
-}
-.home__lotus {
-  opacity: 0.05;
-  filter: grayscale(1) brightness(4);
-  pointer-events: none;
-  width: 360px;
-  height: 270px;
-  position: absolute;
-  bottom: -24px;
-  right: -12px;
-}
-.featuregrid {
-  gap: var(--s-3);
-  margin: var(--s-6) 0 0;
-  padding: 0;
-  list-style: none;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+/* ---------------------------------------------------------------------------------------------------------------
+   The book: a two-page spread on wide screens. Pages turn around the spine in 3D; each leaf sits a pixel above the
+   next (--z), and turning it over (rotateY -180°) reverses that order, so the last page turned lies on top.
+   --------------------------------------------------------------------------------------------------------------- */
+.bookstage {
+  z-index: 2;
+  flex: 1;
+  place-items: center;
+  min-height: 0;
+  padding: 32px;
   display: grid;
+  position: relative;
 }
-.feature {
-  gap: var(--s-3);
-  padding: 14px var(--s-4);
-  border-radius: var(--r-lg);
-  background: #ffffff12;
-  border: 1px solid #fedb6e33;
-  align-items: flex-start;
+/* The wrapper fades and lifts the book in: opacity below 1 on the book itself would flatten its 3D pages.
+   --k (set by the page, 1–2) enlarges the book on large screens. The 3D pages grow by size; their paper and
+   cover by zoom, so text stays sharp (zoom on the 3D elements themselves throws Chrome's perspective off). */
+.bookwrap {
+  --k: 1;
+  --page-w: min(calc(520px * var(--k)), calc((100vw - 64px) / 2));
+  --page-h: min(calc(680px * var(--k)), calc(100dvh - 64px));
+  perspective: calc(2800px * var(--k));
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.bookwrap[data-state="intro"] {
+  opacity: 0;
+  transform: translateY(28px) scale(0.92);
+}
+.bookwrap {
+  position: relative;
+}
+/* The open book's left page again, flat (no 3D), laid exactly over the turned leaf once it has landed: browsers do
+   not reliably pass clicks to the back of a 3D-turned element, so this copy takes them. It looks identical. */
+.book__flat {
+  visibility: hidden;
+  z-index: 3;
+  width: var(--page-w);
+  height: var(--page-h);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.book__flat[data-show="true"] {
+  visibility: visible;
+}
+/* The left half of the spine crease, which the flat page would otherwise cover. */
+.book__flat:after {
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(90deg, #0000, #46200c2e 84%, #2a10063d);
+  width: 23px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+.book {
+  --turn: 0.9s;
+  transform-style: preserve-3d;
+  width: calc(var(--page-w) * 2);
+  height: var(--page-h);
+  transition: transform 1s cubic-bezier(0.6, 0.05, 0.25, 1);
+  position: relative;
+}
+/* Closed, the cover (the right half) is centred. */
+.book[data-state="intro"],
+.book[data-state="cover"] {
+  transform: translateX(calc(var(--page-w) * -0.5));
+}
+.book__base,
+.leaf {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+.book__base {
+  border-radius: 2px 12px 12px 2px;
+  transform: translateZ(0);
+  /* The edges of the pages still to read, and the book's shadow on the desk. */
+  box-shadow:
+    1px 1px 0 #efe6d6,
+    2px 2px 0 #d9cbb2,
+    3px 3px 0 #f2eadb,
+    4px 4px 0 #d2c2a6,
+    5px 5px 0 #efe6d6,
+    6px 6px 0 #c8b696,
+    30px 36px 64px -18px #140008b8;
+}
+.book__leftbase {
+  opacity: 0;
+  border-radius: 12px 2px 2px 12px;
+  width: 50%;
+  height: 100%;
+  transition: opacity 0.3s ease 0.55s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateZ(-12px);
+  box-shadow:
+    -1px 1px 0 #efe6d6,
+    -2px 2px 0 #d9cbb2,
+    -3px 3px 0 #f2eadb,
+    -4px 4px 0 #c8b696,
+    -30px 36px 64px -18px #140008b8;
+  background: #f4ecdd;
+}
+.book[data-state="about"] .book__leftbase,
+.book[data-state="signin"] .book__leftbase {
+  opacity: 1;
+}
+/* The crease down the middle of an open book. */
+.book__spine {
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, #0000, #46200c2e 42%, #2a10063d 50%, #46200c2e 58%, #0000);
+  width: 46px;
+  height: 100%;
+  transition: opacity 0.3s ease 0.6s;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 23px);
+  transform: translateZ(12px);
+}
+.book[data-state="about"] .book__spine,
+.book[data-state="signin"] .book__spine {
+  opacity: 1;
+}
+.leaf {
+  transform-origin: 0;
+  transform-style: preserve-3d;
+  transform: rotateY(0) translateZ(var(--z));
+  transition: transform var(--turn) cubic-bezier(0.5, 0.05, 0.2, 1) var(--delay, 0ms);
+}
+.leaf--cover {
+  --turn: 1.05s;
+}
+.leaf[data-flipped="true"] {
+  transform: rotateY(-180deg) translateZ(var(--z));
+}
+.leaf__face {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+  inset: 0;
+}
+/* Both faces get an explicit 3D plane: Chrome then hit-tests the controls on them (e.g. the Sign in corner). */
+.leaf__front {
+  transform: rotateY(0) translateZ(0.1px);
+}
+.leaf__back {
+  transform: rotateY(180deg) translateZ(0.1px);
+}
+
+/* ---------------------------------------------------------------------------------------------------------------
+   Cover: maroon leather, a gold frame and the mark.
+   --------------------------------------------------------------------------------------------------------------- */
+.cover {
+  zoom: var(--k);
+  color: #fff;
+  text-align: center;
+  border-radius: 3px 14px 14px 3px;
+  flex-direction: column;
+  height: 100%;
+  padding: 48px 40px 36px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 70% 18%, #ffffff17, #0000 55%),
+    radial-gradient(#0000001f 1px, #0000 1.4px) 0 0 / 5px 5px,
+    linear-gradient(150deg, #7a0029 0%, #8f0033 38%, #5c001e 72%, #3f0014 100%);
+  box-shadow:
+    inset 0 0 0 1px #fedb6e40,
+    30px 36px 64px -18px #140008cc;
+}
+/* The gold frame. */
+.cover:before {
+  content: "";
+  pointer-events: none;
+  border: 1.5px solid #fedb6e8c;
+  border-radius: 8px;
+  position: absolute;
+  inset: 20px 20px 20px 34px;
+  box-shadow:
+    inset 0 0 0 5px #0000,
+    inset 0 0 0 6px #fedb6e40;
+}
+/* The spine edge. */
+.cover:after {
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(90deg, #00000073, #ffffff14 55%, #00000033);
+  width: 22px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+.cover__center {
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
   display: flex;
 }
-.feature__ico {
-  color: var(--gold);
-  background: #fedb6e1f;
+.cover__center .brandmark {
+  filter: drop-shadow(0 10px 22px #14000699);
+  margin-bottom: 10px;
+}
+.cover__title {
+  font-family: var(--font-serif);
+  letter-spacing: 0.04em;
+  background: linear-gradient(180deg, #ffe9a6, #e3b04b 60%, #c48a2a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: #0000;
+  font-size: clamp(34px, 4.2vw, 54px);
+  font-weight: 700;
+  line-height: 1.1;
+}
+.cover__tag {
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #fedb6ecc;
+  font-size: 11px;
+  font-weight: 600;
+}
+.cover__rule {
+  background: linear-gradient(90deg, #0000, #fedb6e, #0000);
+  width: 140px;
+  height: 1px;
+  margin: 18px 0 14px;
+}
+.cover__motto {
+  font-family: var(--font-serif);
+  color: #fce4ec;
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.5;
+}
+.cover__foot {
+  color: #fedb6e99;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------
+   Paper. The book keeps its own light colours whatever the app theme.
+   --------------------------------------------------------------------------------------------------------------- */
+.paper {
+  --surface: #fffdf8;
+  --surface-alt: #f7f0e2;
+  --text: #2a1a1f;
+  --text-strong: #1c0e13;
+  --text-muted: #6a585e;
+  --text-faint: #9c8a8f;
+  --border: #e3d5c0;
+  --border-strong: #cdbba1;
+  --brand: #903;
+  --brand-hover: #b30042;
+  --magenta: #903;
+  --magenta-line: #e8b6c7;
+  zoom: var(--k);
+  color: var(--text);
+  background-color: #fbf5ea;
+  background-image:
+    radial-gradient(120% 90% at 50% 40%, #ffffff8c, #fff0 70%),
+    repeating-linear-gradient(0deg, #78502806 0 1px, #0000 1px 4px);
+  flex-direction: column;
+  display: flex;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.paper--right {
+  border-radius: 2px 12px 12px 2px;
+  box-shadow: inset 26px 0 30px -20px #46200c66;
+}
+.paper--left {
+  border-radius: 12px 2px 2px 12px;
+  box-shadow: inset -26px 0 30px -20px #46200c66;
+}
+.paper__body {
+  scrollbar-width: none;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding: 30px 40px 8px;
+  display: flex;
+  position: relative;
+  overflow-y: auto;
+}
+.paper__body::-webkit-scrollbar {
+  display: none;
+}
+.paper__num {
+  pointer-events: none;
+  font-family: var(--font-serif);
+  color: var(--text-faint);
+  text-align: center;
+  flex: none;
+  padding-bottom: 12px;
+  font-size: 12px;
+  font-style: italic;
+}
+.paper--blank {
+  background-image:
+    radial-gradient(120% 90% at 50% 40%, #ffffff8c, #fff0 70%),
+    repeating-linear-gradient(0deg, #0000 0 29px, #9a785214 29px 30px);
+  justify-content: flex-end;
+}
+.paper__mark {
+  opacity: 0.07;
+  width: 200px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.paper__mark svg {
+  width: 100%;
+  height: auto;
+}
+
+/* Page content. */
+.page__head {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: 22px;
+  display: flex;
+}
+.page__brand {
+  font-family: var(--font-serif);
+  color: var(--brand);
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  display: inline-flex;
+}
+.page__back {
+  color: var(--text-muted);
+  border-radius: var(--r-pill);
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 6px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+}
+.page__back:hover {
+  color: var(--brand);
+  background: #99003314;
+}
+.langpill--paper {
+  border-color: var(--border);
+  background: #fff9ee;
+}
+.langpill--paper button {
+  color: var(--text-muted);
+  height: 26px;
+  padding: 0 11px;
+}
+.langpill--paper button:hover {
+  color: var(--brand);
+}
+.langpill--paper button[aria-pressed="true"] {
+  background: var(--brand);
+  color: #fff;
+}
+.paper .hero__eyebrow {
+  color: #a3123f;
+}
+.book__title {
+  font-family: var(--font-serif), "Noto Sans Tamil", "Noto Sans Devanagari", serif;
+  color: var(--text-strong);
+  margin-top: 12px;
+  font-size: clamp(28px, 2.7vw, 40px);
+  font-weight: 700;
+  line-height: 1.18;
+}
+.book__title em {
+  color: var(--brand);
+  font-style: italic;
+  display: block;
+}
+.book__title--small {
+  margin-bottom: 18px;
+  font-size: 24px;
+}
+.book__lede {
+  color: var(--text-muted);
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.book__note {
+  font-family: var(--font-serif), "Noto Sans Tamil", "Noto Sans Devanagari", serif;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+  padding-top: 14px;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.6;
+}
+.page__kicker {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a3123f;
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.booklist {
+  gap: 14px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+.booklist__item {
+  align-items: flex-start;
+  gap: 14px;
+  display: flex;
+}
+.booklist__ico {
+  color: var(--brand);
+  background: #9900331a;
   border-radius: 10px;
   flex: none;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   display: grid;
 }
-.feature__title {
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.3;
+.booklist__title {
+  font-family: var(--font-serif), "Noto Sans Tamil", "Noto Sans Devanagari", serif;
+  color: var(--text-strong);
+  font-size: 15px;
+  font-weight: 700;
 }
-.feature__text {
-  color: #f5d2db;
+.booklist__text {
+  color: var(--text-muted);
   margin-top: 2px;
-  font-size: 12.5px;
-  line-height: 1.45;
+  font-size: 13px;
+  line-height: 1.5;
 }
-.home__hero .statsbar {
-  margin-top: var(--s-5);
+.bookstats {
+  gap: var(--s-5);
+  border: 1px solid var(--border);
+  background: #fff9ee;
+  border-radius: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 12px 16px;
+  display: flex;
+}
+.bookstat {
+  color: var(--brand);
+  align-items: center;
+  gap: 10px;
+  display: flex;
+}
+.bookstat__value {
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.bookstat__label {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+.booksteps {
+  gap: 14px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+.booksteps li {
+  color: var(--text);
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  display: flex;
+}
+.booksteps li > svg {
+  color: var(--brand);
+  flex: none;
+  margin-top: 3px;
+}
+.booksteps b {
+  font-family: var(--font-serif), "Noto Sans Tamil", "Noto Sans Devanagari", serif;
+  color: var(--text-strong);
+}
+.bookhelp {
+  border: 1px solid var(--border);
+  background: #fff9ee;
+  border-radius: 14px;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  display: flex;
+}
+.bookhelp__title {
+  color: var(--text-strong);
+  font-size: 14px;
+  font-weight: 700;
+}
+.bookhelp__text {
+  color: var(--text-muted);
+  margin-top: 2px;
+  font-size: 12px;
+}
+.bookhelp__actions {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  display: flex;
+}
+.bookhelp--compact {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  margin-top: 20px;
+}
+.bookprivacy {
+  color: var(--text-muted);
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 16px;
+  font-size: 12px;
+  display: flex;
+}
+.bookprivacy svg {
+  color: var(--brand);
+  flex: none;
+}
+.bookhelp--compact .bookprivacy {
+  margin-top: 8px;
+  padding-top: 0;
+}
+/* The form sits on the paper without a card of its own. */
+.bookform {
+  color: var(--text);
+}
+.bookform .logincard__title {
+  font-family: var(--font-serif), "Noto Sans Tamil", "Noto Sans Devanagari", serif;
 }
 
-/* Shorter laptop screens: drop the extras before anything is cut off. */
-@media (height<=760px) and (width>=1025px) {
-  .home__right > .row.center {
-    display: none;
+/* ---------------------------------------------------------------------------------------------------------------
+   The Sign in corner: a dog-eared page corner with its label; it peels a little now and then.
+   --------------------------------------------------------------------------------------------------------------- */
+/* The page with the corner keeps its foot clear for it. */
+.paper--corner .paper__body {
+  padding-bottom: 20px;
+}
+.paper--corner .paper__num {
+  margin-bottom: 72px;
+}
+.pagecorner {
+  z-index: 2;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  width: 260px;
+  height: 130px;
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.pagecorner__fold {
+  border-bottom-right-radius: 12px;
+  width: 74px;
+  height: 74px;
+  transition:
+    width 0.35s cubic-bezier(0.3, 0.7, 0.3, 1),
+    height 0.35s cubic-bezier(0.3, 0.7, 0.3, 1);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(to bottom right, #fffaf0 0%, #e9dabf 47%, #00000026 49.5%, #7a0029 50%, #5c001e 100%);
+  box-shadow: -8px -8px 16px -8px #46200c59;
+  animation: we-peel 3.4s ease-in-out 2.6s infinite;
+}
+.pagecorner__label {
+  color: #fff;
+  border-radius: var(--r-pill);
+  background: linear-gradient(135deg, var(--brand), var(--brand-hover));
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 0.3s ease;
+  display: inline-flex;
+  position: absolute;
+  bottom: 30px;
+  right: 90px;
+  box-shadow: 0 12px 26px -12px #990033b3;
+}
+.pagecorner:hover .pagecorner__fold,
+.pagecorner:focus-visible .pagecorner__fold {
+  width: 104px;
+  height: 104px;
+  animation: none;
+}
+.pagecorner:hover .pagecorner__label,
+.pagecorner:focus-visible .pagecorner__label {
+  transform: translateX(-14px);
+}
+.pagecorner:focus-visible {
+  outline: none;
+}
+.pagecorner:focus-visible .pagecorner__label {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+@keyframes we-peel {
+  0%,
+  70%,
+  100% {
+    width: 74px;
+    height: 74px;
   }
-  .home__hero .hero__title {
-    font-size: clamp(34px, 3.3vw, 48px);
-  }
-  .featuregrid {
-    margin-top: var(--s-5);
-  }
-  .feature {
-    padding: 10px 14px;
+  82% {
+    width: 92px;
+    height: 92px;
   }
 }
-@media (height<=680px) and (width>=1025px) {
-  .hero__lede {
-    display: none;
-  }
-}
-@media (height<=660px) and (width>=1025px) {
-  .aicard,
-  .home__hero .statsbar {
+
+/* Two-page spread only / single page only. */
+@media (width>=900px) {
+  .only-single {
     display: none;
   }
 }
 
-/* Tablets and phones: show only the sign-in side; the summary is decorative. */
-@media (width<=1024px) {
-  .home__left {
+/* ---------------------------------------------------------------------------------------------------------------
+   Phones and narrow tablets: one page at a time. Turned pages swing away to the left and fade.
+   --------------------------------------------------------------------------------------------------------------- */
+@media (width<=899px) {
+  .bookstage {
+    padding: 16px;
+  }
+  .bookwrap {
+    --page-w: min(460px, calc(100vw - 32px));
+    --page-h: min(720px, calc(100dvh - 32px));
+  }
+  .book {
+    width: var(--page-w);
+  }
+  .book[data-state="intro"],
+  .book[data-state="cover"] {
+    transform: none;
+  }
+  .book__base,
+  .leaf {
+    width: 100%;
+    left: 0;
+  }
+  .book__leftbase,
+  .book__spine,
+  .book__flat {
     display: none;
   }
-  .home__right {
-    justify-self: center;
+  .leaf[data-flipped="true"] {
+    opacity: 0;
+    transition:
+      transform var(--turn) cubic-bezier(0.5, 0.05, 0.2, 1) var(--delay, 0ms),
+      opacity 0.25s linear calc(var(--delay, 0ms) + var(--turn) * 0.5);
+  }
+  .leaf[data-flipped="false"] {
+    opacity: 1;
+    transition:
+      transform var(--turn) cubic-bezier(0.5, 0.05, 0.2, 1) var(--delay, 0ms),
+      opacity 0.2s linear var(--delay, 0ms);
+  }
+  .paper__body {
+    padding: 20px 20px 6px;
+  }
+  .page__head {
+    margin-bottom: 14px;
+  }
+  .book__title--small {
+    margin: 8px 0 14px;
+    font-size: 22px;
+  }
+  .page__kicker {
+    margin-bottom: 10px;
+  }
+  .booklist {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .booklist__ico {
+    border-radius: 9px;
+    width: 30px;
+    height: 30px;
+  }
+  .booklist__title {
+    font-size: 14px;
+  }
+  .booklist__text {
+    font-size: 12.5px;
+  }
+  .book__note {
+    padding-top: 10px;
+    font-size: 12px;
+  }
+  .paper--corner .paper__num {
+    margin-bottom: 64px;
+  }
+  .cover {
+    padding: 40px 28px 30px;
+  }
+  .pagecorner {
+    width: 200px;
+    height: 110px;
+  }
+  .pagecorner__label {
+    bottom: 24px;
+    right: 80px;
   }
 }
-@media (width<=767px) {
-  .home__right > .row.center {
-    display: none;
-  }
-  .aicard {
-    text-align: left;
-    flex-direction: row;
-  }
-  /* The assistant's picture gives its room to the help buttons. */
-  .aicard > span:first-child > svg {
-    display: none;
-  }
-}
-/* Narrow phones: the sign-in card already names the product, so the header keeps only the mark
-   and the language switcher stays whole. */
 @media (width<=480px) {
-  .home__brand > .col {
-    display: none;
+  .langpill--paper button {
+    padding: 0 8px;
   }
-  /* The three help buttons share one row (without icons); longer Tamil and Hindi labels wrap inside them. */
-  .aicard__actions {
+  .bookhelp__actions {
     grid-template-columns: repeat(3, auto);
     display: grid;
   }
-  .aicard__actions .btn {
+  .bookhelp__actions .btn {
     white-space: normal;
     text-align: center;
     height: auto;
@@ -162,17 +859,58 @@
     padding: 5px 8px;
     line-height: 1.2;
   }
-  .aicard__actions .btn > svg {
+  .bookhelp__actions .btn > svg {
     display: none;
   }
 }
-
-/* Last resort for very small windows (e.g. a phone held sideways): the sign-in column scrolls on its own,
-   so the Sign in button is always reachable, while the page stays fixed. */
-.home__right {
-  overflow-y: auto;
-  scrollbar-width: none;
+/* Short laptop screens: tighter pages. */
+@media (height<=760px) and (width>=900px) {
+  .paper__body {
+    padding: 22px 34px 6px;
+  }
+  .book__title {
+    font-size: clamp(26px, 2.4vw, 34px);
+  }
+  .booklist {
+    gap: 10px;
+  }
+  .ifield .input {
+    height: 42px;
+  }
+  .logincard__btn {
+    height: 44px;
+  }
 }
-.home__right::-webkit-scrollbar {
-  display: none;
+
+/* Very short windows: the closing notes and the assistant's picture give way to the essentials. */
+@media (height<=700px) and (width>=900px) {
+  .book__note,
+  .bookhelp > span:first-child {
+    display: none;
+  }
+  .booksteps {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .booksteps li {
+    font-size: 13px;
+  }
+}
+
+/* No motion: the book simply shows the right spread. */
+@media (prefers-reduced-motion: reduce) {
+  .bookwrap,
+  .book,
+  .leaf,
+  .book__leftbase,
+  .book__spine,
+  .bookintro {
+    transition: none !important;
+  }
+  .pagecorner__fold,
+  .bookintro__mark,
+  .bookintro__ring circle,
+  .bookintro__name {
+    animation: none !important;
+  }
 }

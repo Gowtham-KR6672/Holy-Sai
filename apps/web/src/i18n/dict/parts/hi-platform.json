@@ -287,5 +287,15 @@
   "Overtime ({0} h)": "ओवरटाइम ({0} घंटे)",
   "Allowance rules": "भत्ता नियम",
   "All allowances are reduced for unpaid days, like the basic salary. Changes apply when a payroll run is calculated; approved runs keep their payslips.": "मूल वेतन की तरह सभी भत्ते अवैतनिक दिनों के लिए घटाए जाते हैं। बदलाव वेतन सूची की गणना पर लागू होते हैं; स्वीकृत वेतन सूचियों की पर्चियाँ नहीं बदलतीं।",
-  "{0} employee(s) have their own amounts (Edit employee › Pay) and are not affected.": "{0} कर्मचारियों की अपनी राशियाँ हैं (कर्मचारी संपादित करें › वेतन); उन पर इसका असर नहीं होता।"
+  "{0} employee(s) have their own amounts (Edit employee › Pay) and are not affected.": "{0} कर्मचारियों की अपनी राशियाँ हैं (कर्मचारी संपादित करें › वेतन); उन पर इसका असर नहीं होता।",
+  "— sign in with the temporary password you received, then choose your own.": "— मिले हुए अस्थायी पासवर्ड से साइन इन करें, फिर अपना पासवर्ड चुनें।",
+  "— use the email or mobile number registered with your school.": "— अपने स्कूल में पंजीकृत ईमेल या मोबाइल नंबर का उपयोग करें।",
+  "— use the mobile number or email you gave the school; you see only your own children.": "— स्कूल को दिया गया मोबाइल नंबर या ईमेल उपयोग करें; आपको केवल अपने बच्चों की जानकारी दिखती है।",
+  "Admissions · Academics · Parents · Safety · Finance · Workforce": "प्रवेश · शिक्षा · अभिभावक · सुरक्षा · वित्त · कर्मचारी",
+  "Before you sign in": "साइन इन करने से पहले",
+  "Each school has its own private space on We School: its own campuses, staff, students, parents and settings.": "We School पर हर स्कूल का अपना निजी स्थान है: उसके अपने परिसर, कर्मचारी, विद्यार्थी, अभिभावक और सेटिंग्स।",
+  "New account": "नया खाता",
+  "One sign-in for everyone: school leaders, teachers, office staff, parents and students each see what their role needs.": "सबके लिए एक साइन-इन: स्कूल प्रमुख, शिक्षक, कार्यालय कर्मचारी, अभिभावक और विद्यार्थी — हर कोई वही देखता है जो उसकी भूमिका के लिए ज़रूरी है।",
+  "Sign in": "साइन इन",
+  "What's inside": "अंदर क्या है"
 }

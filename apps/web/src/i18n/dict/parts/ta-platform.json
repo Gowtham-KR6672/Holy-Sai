@@ -287,5 +287,15 @@
   "Overtime ({0} h)": "கூடுதல் நேரம் ({0} மணி)",
   "Allowance rules": "படி விதிகள்",
   "All allowances are reduced for unpaid days, like the basic salary. Changes apply when a payroll run is calculated; approved runs keep their payslips.": "அடிப்படை ஊதியம் போலவே எல்லாப் படிகளும் சம்பளமில்லா நாட்களுக்குக் குறைக்கப்படும். ஊதியப் பட்டியல் கணக்கிடப்படும்போது மாற்றங்கள் பொருந்தும்; அங்கீகரிக்கப்பட்டவற்றின் ஊதியச் சீட்டுகள் மாறாது.",
-  "{0} employee(s) have their own amounts (Edit employee › Pay) and are not affected.": "{0} ஊழியர்களுக்குச் சொந்தத் தொகைகள் உள்ளன (ஊழியரைத் திருத்து › ஊதியம்); அவர்களுக்கு இது பொருந்தாது."
+  "{0} employee(s) have their own amounts (Edit employee › Pay) and are not affected.": "{0} ஊழியர்களுக்குச் சொந்தத் தொகைகள் உள்ளன (ஊழியரைத் திருத்து › ஊதியம்); அவர்களுக்கு இது பொருந்தாது.",
+  "— sign in with the temporary password you received, then choose your own.": "— உங்களுக்குக் கிடைத்த தற்காலிக கடவுச்சொல்லுடன் உள்நுழைந்து, பின்னர் உங்கள் சொந்தக் கடவுச்சொல்லைத் தேர்ந்தெடுங்கள்.",
+  "— use the email or mobile number registered with your school.": "— உங்கள் பள்ளியில் பதிவு செய்த மின்னஞ்சல் அல்லது கைபேசி எண்ணைப் பயன்படுத்துங்கள்.",
+  "— use the mobile number or email you gave the school; you see only your own children.": "— பள்ளிக்கு நீங்கள் கொடுத்த கைபேசி எண் அல்லது மின்னஞ்சலைப் பயன்படுத்துங்கள்; உங்கள் குழந்தைகளின் விவரங்கள் மட்டுமே தெரியும்.",
+  "Admissions · Academics · Parents · Safety · Finance · Workforce": "சேர்க்கை · கல்வி · பெற்றோர் · பாதுகாப்பு · நிதி · பணியாளர்கள்",
+  "Before you sign in": "உள்நுழைவதற்கு முன்",
+  "Each school has its own private space on We School: its own campuses, staff, students, parents and settings.": "We School-இல் ஒவ்வொரு பள்ளிக்கும் தனி இடம் உண்டு: அதன் சொந்த வளாகங்கள், ஊழியர்கள், மாணவர்கள், பெற்றோர் மற்றும் அமைப்புகள்.",
+  "New account": "புதிய கணக்கு",
+  "One sign-in for everyone: school leaders, teachers, office staff, parents and students each see what their role needs.": "அனைவருக்கும் ஒரே உள்நுழைவு: பள்ளித் தலைவர்கள், ஆசிரியர்கள், அலுவலக ஊழியர்கள், பெற்றோர் மற்றும் மாணவர்கள் தங்கள் பணிக்குத் தேவையானதை மட்டும் காண்பார்கள்.",
+  "Sign in": "உள்நுழைக",
+  "What's inside": "உள்ளே என்ன உள்ளது"
 }
