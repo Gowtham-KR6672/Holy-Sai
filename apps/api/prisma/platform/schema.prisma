@@ -1,0 +1,279 @@
+// We School platform data: platform admins, school workspaces, the sign-in directory and the platform audit trail.
+// These tables live in the "platform" PostgreSQL schema. Each school's own tables (the models in prisma/schema)
+// live in that school's schema, ws_<code>. This file has its own generated client and its own migrations.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../../node_modules/.prisma/platform-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  // DATABASE_URL with ?schema=platform (set by tools/migrate-all.mjs and by the API at start-up).
+  url      = env("PLATFORM_DATABASE_URL")
+}
+
+/// We School's own administrators (the platform Super Admin). Not members of any school.
+model PlatformAdmin {
+  id                 String            @id @default(uuid()) @db.Uuid
+  email              String            @unique
+  phone              String?           @unique
+  fullName           String
+  passwordHash       String
+  status             String            @default("active")
+  mustChangePassword Boolean           @default(false)
+  failedLogins       Int               @default(0)
+  lockedUntil        DateTime?
+  lastLoginAt        DateTime?
+  lastLoginIp        String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  sessions           PlatformSession[]
+}
+
+/// Refresh-token sessions of platform admins (rotated like school sessions).
+model PlatformSession {
+  id           String        @id @default(uuid()) @db.Uuid
+  adminId      String        @db.Uuid
+  admin        PlatformAdmin @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  familyId     String        @db.Uuid
+  tokenHash    String        @unique
+  userAgent    String?
+  ip           String?
+  expiresAt    DateTime
+  rotatedAt    DateTime?
+  revokedAt    DateTime?
+  lastActiveAt DateTime      @default(now())
+  createdAt    DateTime      @default(now())
+
+  @@index([adminId])
+  @@index([familyId])
+}
+
+/// A school on We School. Its data lives in the PostgreSQL schema `schemaName` (ws_<code>).
+model Workspace {
+  id            String            @id @default(uuid()) @db.Uuid
+  /// Permanent short code (a-z, 0-9): schema name, upload folder, webhook URLs.
+  code          String            @unique
+  name          String
+  schemaName    String            @unique
+  /// active | suspended (suspended by a platform admin; subscription expiry is computed separately)
+  status        String            @default("active")
+  /// Billing currency: INR | USD
+  currency      String            @default("INR")
+  country       String            @default("India")
+  timezone      String            @default("Asia/Kolkata")
+  contactName   String?
+  contactEmail  String?
+  contactPhone  String?
+  address       String?
+  taxId         String?
+  notes         String?
+  /// Name of the last school migration applied to this schema.
+  schemaVersion String?
+  /// The hidden "We School Support" user inside the school, used for support access.
+  supportUserId String?           @db.Uuid
+  suspendedAt   DateTime?
+  suspendReason String?
+  createdById   String?           @db.Uuid
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  identifiers   LoginIdentifier[]
+  periods       SubscriptionPeriod[]
+  payments      Payment[]
+  invoices      Invoice[]
+}
+
+/// One sign-in page for everyone: each email / mobile number points at one school user or one platform admin.
+model LoginIdentifier {
+  id              String     @id @default(uuid()) @db.Uuid
+  /// email | phone
+  kind            String
+  /// Lower-case email, or the mobile number's digits only.
+  value           String
+  workspaceId     String?    @db.Uuid
+  workspace       Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  userId          String?    @db.Uuid
+  platformAdminId String?    @db.Uuid
+  createdAt       DateTime   @default(now())
+
+  @@unique([kind, value])
+  @@index([workspaceId, userId])
+}
+
+/// GPS devices post with a bearer token; this index finds the device's school from the token's hash.
+model DeviceToken {
+  tokenHash   String   @id
+  workspaceId String   @db.Uuid
+  deviceId    String   @db.Uuid
+  createdAt   DateTime @default(now())
+
+  @@index([workspaceId, deviceId])
+}
+
+/// Single-use codes that open a support session in a new tab (60 seconds).
+model SupportCode {
+  codeHash    String    @id
+  adminId     String    @db.Uuid
+  workspaceId String    @db.Uuid
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+/// What platform admins did (workspace changes, support access, payments…).
+model PlatformAuditLog {
+  id          String   @id @default(uuid()) @db.Uuid
+  adminId     String?  @db.Uuid
+  adminName   String?
+  action      String
+  entityType  String?
+  entityId    String?
+  workspaceId String?  @db.Uuid
+  description String
+  metadata    Json?
+  ip          String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([workspaceId])
+}
+
+/// Platform-wide settings (billing details, reminder and grace days, email sender…).
+model PlatformSetting {
+  key         String   @id
+  value       Json
+  updatedById String?  @db.Uuid
+  updatedAt   DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// Subscriptions and billing
+// ---------------------------------------------------------------------------------------------------------------
+
+/// A subscription plan: monthly, quarterly, half-yearly or annual, priced in INR and USD.
+model Plan {
+  code      String   @id
+  name      String
+  months    Int
+  priceInr  Decimal  @default(0) @db.Decimal(12, 2)
+  priceUsd  Decimal  @default(0) @db.Decimal(12, 2)
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+/// A stretch of time a school may use We School (paid, trial or an adjustment). The latest end date decides the status.
+model SubscriptionPeriod {
+  id          String    @id @default(uuid()) @db.Uuid
+  workspaceId String    @db.Uuid
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  planCode    String
+  startsOn    DateTime  @db.Date
+  endsOn      DateTime  @db.Date
+  /// manual | trial | adjustment | razorpay | razorpay_intl | stripe | paypal
+  source      String
+  paymentId   String?   @db.Uuid
+  note        String?
+  createdById String?   @db.Uuid
+  createdAt   DateTime  @default(now())
+
+  @@index([workspaceId, endsOn])
+}
+
+/// A subscription payment: recorded by a platform admin, or paid online through a gateway.
+model Payment {
+  id               String    @id @default(uuid()) @db.Uuid
+  workspaceId      String    @db.Uuid
+  workspace        Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  planCode         String
+  amount           Decimal   @db.Decimal(12, 2)
+  currency         String
+  /// manual | razorpay | razorpay_intl | stripe | paypal
+  gateway          String
+  /// bank | upi | cheque | cash | card | wallet | netbanking | paypal …
+  method           String?
+  /// initiated | paid | failed | refunded
+  status           String    @default("initiated")
+  gatewayOrderId   String?   @unique
+  gatewayPaymentId String?
+  reference        String?
+  failureReason    String?
+  paidAt           DateTime?
+  recordedById     String?   @db.Uuid
+  initiatedById    String?   @db.Uuid
+  invoiceId        String?   @db.Uuid
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([workspaceId, createdAt])
+  @@index([status, createdAt])
+}
+
+/// Invoice for a paid subscription period (PDF generated on download).
+model Invoice {
+  id          String    @id @default(uuid()) @db.Uuid
+  number      String    @unique
+  workspaceId String    @db.Uuid
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  paymentId   String    @unique @db.Uuid
+  planCode    String
+  periodStart DateTime  @db.Date
+  periodEnd   DateTime  @db.Date
+  currency    String
+  subtotal    Decimal   @db.Decimal(12, 2)
+  taxPercent  Decimal   @default(0) @db.Decimal(5, 2)
+  taxAmount   Decimal   @default(0) @db.Decimal(12, 2)
+  total       Decimal   @db.Decimal(12, 2)
+  /// Seller and buyer details as they were on the day (name, address, tax ID).
+  seller      Json
+  billTo      Json
+  issuedAt    DateTime  @default(now())
+
+  @@index([workspaceId, issuedAt])
+}
+
+/// We School's payment gateways for subscriptions: razorpay (INR), razorpay_intl, stripe, paypal (USD).
+model GatewayConfig {
+  gateway         String    @id
+  isEnabled       Boolean   @default(false)
+  /// test | live
+  mode            String    @default("test")
+  /// Public settings (key id, publishable key, client id, webhook id).
+  config          Json      @default("{}")
+  /// Secrets, AES-256-GCM encrypted with APP_ENCRYPTION_KEY (key secret, secret key, client secret, webhook secret).
+  secretsEnc      String?
+  lastTestedAt    DateTime?
+  lastTestOk      Boolean?
+  lastTestMessage String?
+  updatedById     String?   @db.Uuid
+  updatedAt       DateTime  @updatedAt
+}
+
+/// Webhook deliveries already processed (gateways retry; each event is handled once).
+model GatewayEvent {
+  id         String   @id @default(uuid()) @db.Uuid
+  gateway    String
+  eventId    String
+  type       String?
+  receivedAt DateTime @default(now())
+
+  @@unique([gateway, eventId])
+}
+
+/// Running numbers (invoice numbers per year).
+model PlatformCounter {
+  key   String @id
+  value Int    @default(0)
+}
+
+/// Renewal reminders already sent (one per school, kind and end date).
+model ReminderLog {
+  id          String   @id @default(uuid()) @db.Uuid
+  workspaceId String   @db.Uuid
+  kind        String
+  sentAt      DateTime @default(now())
+
+  @@unique([workspaceId, kind])
+}

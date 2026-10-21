@@ -11,6 +11,8 @@ import { PrismaService } from '../../common/prisma.service';
 import { AuditService } from '../audit/audit.service';
 import { gradeLabel, isUuid } from './geo';
 import { GPS_OFFLINE_SECONDS, GPS_ONLINE_SECONDS, gpsStatusOf, LOW_BATTERY_PCT } from './transport-config.service';
+import { currentWorkspace } from '../../tenancy/context';
+import { PlatformDb } from '../../tenancy/platform-db.service';
 
 export const DEVICE_TYPES = ['gps_tracker', 'id_card_tag', 'wearable', 'mobile_app'] as const;
 export const DEVICE_STATUSES = ['available', 'assigned', 'maintenance', 'inactive', 'lost'] as const;
@@ -51,6 +53,7 @@ export class DevicesService {
     private readonly crypto: CryptoService,
     private readonly counters: CountersService,
     private readonly audit: AuditService,
+    private readonly platform: PlatformDb,
   ) {}
 
   // -------------------------------------------------------------------------
@@ -318,7 +321,17 @@ export class DevicesService {
       user, req, action: 'create', module: 'tracking', entityType: 'device', entityId: device.id, campusId: device.campusId,
       description: `Registered GPS device ${deviceCode} (${dto.deviceType}${imei ? `, IMEI ${imei}` : ''}) and issued its token`,
     });
+    await this.indexToken(device.id, hash);
     return { device: (await this.rows([device]))[0], token };
+  }
+
+  /** Devices post without a school address: the platform index finds the school from the token (old tokens are dropped). */
+  private async indexToken(deviceId: string, tokenHash: string) {
+    const ws = currentWorkspace();
+    await this.platform.$transaction([
+      this.platform.deviceToken.deleteMany({ where: { workspaceId: ws.id, deviceId } }),
+      this.platform.deviceToken.create({ data: { tokenHash, workspaceId: ws.id, deviceId } }),
+    ]);
   }
 
   /** POST /devices/:id/token — replaces the token; the old one stops working immediately. */
@@ -326,6 +339,7 @@ export class DevicesService {
     const d = await this.find(id);
     const { token, hash } = this.newToken();
     await this.prisma.trackingDevice.update({ where: { id: d.id }, data: { tokenHash: hash, tokenIssuedAt: new Date() } });
+    await this.indexToken(d.id, hash);
     await this.audit.record({
       user, req, action: 'update', module: 'tracking', entityType: 'device', entityId: d.id, campusId: d.campusId,
       description: `${d.tokenHash ? 'Replaced' : 'Issued'} the device token for ${d.deviceCode}`,

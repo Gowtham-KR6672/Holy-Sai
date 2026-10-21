@@ -1,0 +1,146 @@
+/* We School console (/platform/*) and the support-access bar shown inside a school. */
+
+.wsc {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.wsc__bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  height: 60px;
+  background: var(--topbar-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--topbar-border);
+  color: var(--text-strong);
+}
+
+.wsc__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+.wsc__brand small {
+  font-weight: 500;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.wsc__nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  flex: 1;
+  scrollbar-width: none;
+}
+
+.wsc__nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.wsc__nav a:hover {
+  color: var(--text-strong);
+  background: var(--surface-alt);
+}
+
+.wsc__nav a.active {
+  color: var(--primary);
+  background: var(--surface-alt);
+  font-weight: 600;
+}
+
+.wsc__me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.wsc__main {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+  flex: 1;
+}
+
+.wsc__secret {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--surface-alt);
+  border: 1px dashed var(--border, rgba(0, 0, 0, 0.2));
+  user-select: all;
+  word-break: break-all;
+}
+
+.wsc__kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1100px) {
+  .wsc__me .wsc__who {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .wsc__bar {
+    padding: 0 12px;
+    gap: 8px;
+  }
+  .wsc__brand small,
+  .wsc__me .wsc__who {
+    display: none;
+  }
+  .wsc__main {
+    padding: 16px;
+  }
+}
+
+/* Inside a school during support access. */
+.supportbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 16px;
+  background: var(--warning-tint);
+  color: var(--warning-text);
+  border-bottom: 1px solid var(--warning-line);
+  font-size: 0.9rem;
+}
+
+.supportbar strong {
+  font-weight: 700;
+}
+
+.supportbar .spacer {
+  flex: 1;
+}

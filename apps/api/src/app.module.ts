@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { type MiddlewareConsumer, Module, type NestModule, RequestMethod } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -20,6 +20,8 @@ import { SettingsController } from './modules/settings/settings.controller';
 import { SetupController } from './modules/setup/setup.controller';
 import { RolesController, UsersController } from './modules/users/users.controller';
 import { FEATURE_MODULES } from './modules';
+import { PlatformModule } from './platform/platform.module';
+import { TenancyMiddleware } from './tenancy/tenancy.middleware';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { FEATURE_MODULES } from './modules';
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 1200 }]),
     ScheduleModule.forRoot(),
     CommonModule,
+    PlatformModule,
     ...FEATURE_MODULES,
   ],
   controllers: [
@@ -51,4 +54,9 @@ import { FEATURE_MODULES } from './modules';
     { provide: APP_FILTER, useClass: ErrorFilter },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // Every request runs inside its school's workspace (after the body parsers, before guards).
+    consumer.apply(TenancyMiddleware).forRoutes({ path: '{*path}', method: RequestMethod.ALL });
+  }
+}

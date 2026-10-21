@@ -3,6 +3,7 @@ import { ThrottlerException } from '@nestjs/throttler';
 import { Prisma } from '@prisma/client';
 import type { ValidationError } from 'class-validator';
 import type { Response } from 'express';
+import { NoWorkspaceError } from '../tenancy/context';
 
 export interface FieldIssue {
   field: string;
@@ -74,6 +75,10 @@ export class ErrorFilter implements ExceptionFilter {
       code = exception.code;
       message = exception.message;
       details = exception.details;
+    } else if (exception instanceof NoWorkspaceError) {
+      status = 400;
+      code = 'NO_SCHOOL';
+      message = 'This address needs a school: use /api/w/<school code>/… (as shown on the school\'s Integrations page).';
     } else if (exception instanceof ThrottlerException) {
       status = 429;
       code = 'RATE_LIMITED';

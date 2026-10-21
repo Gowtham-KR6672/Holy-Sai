@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { isUUID } from 'class-validator';
 import { fieldError, notFound } from '../../common/errors';
+import { workspaceKey } from '../../tenancy/context';
 
 // ---------------------------------------------------------------------------
 // School clock. Date-only columns are stored as UTC midnight; "today" is the school's date (IST).
@@ -182,13 +183,14 @@ export function sortRows<T>(rows: T[], key: (r: T) => string | number | null | u
 export const classLabel = (grade: string | null | undefined, section: string | null | undefined) =>
   grade ? `${grade}${section ?? ''}` : null;
 
-/** Small in-memory cache that also coalesces concurrent identical requests (dashboards are polled). */
+/** Small in-memory cache (per school) that also coalesces concurrent identical requests (dashboards are polled). */
 export class ShortCache {
   private readonly entries = new Map<string, { at: number; value: Promise<unknown> }>();
 
   constructor(private readonly ttlMs: number, private readonly max = 300) {}
 
-  get<T>(key: string, make: () => Promise<T>): Promise<T> {
+  get<T>(rawKey: string, make: () => Promise<T>): Promise<T> {
+    const key = workspaceKey(rawKey);
     const now = Date.now();
     const hit = this.entries.get(key);
     if (hit && now - hit.at < this.ttlMs) return hit.value as Promise<T>;

@@ -5,8 +5,9 @@ import { mkdir, readFile, stat, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { Readable } from 'node:stream';
 import type { ReadableStream as WebReadableStream } from 'node:stream/web';
-import { env } from '../../config/env';
 import { badRequest, notFound, unavailable } from '../../common/errors';
+import { PerWorkspace } from '../../tenancy/context';
+import { workspaceUploadDir } from '../../tenancy/uploads';
 import { IntegrationsService } from '../integrations/integrations.service';
 import { type S3Config, s3ConfigFrom, s3Delete, s3Get, s3Put } from '../integrations/s3';
 
@@ -55,12 +56,13 @@ export const DOCUMENT_TYPES: Record<string, string> = {
 @Injectable()
 export class StorageService {
   private readonly log = new Logger(StorageService.name);
-  private cached: { at: number; cfg: S3Config | null; provider: string | null } | null = null;
+  private readonly cached = new PerWorkspace<{ at: number; cfg: S3Config | null; provider: string | null } | null>(() => null);
 
   constructor(private readonly integrations: IntegrationsService) {}
 
+  /** Each school's local files live in their own folder. */
   private root(): string {
-    return path.resolve(env().uploadDir);
+    return workspaceUploadDir();
   }
 
   /** Absolute path of a key, refusing anything that escapes the upload folder. */
@@ -73,10 +75,12 @@ export class StorageService {
 
   /** The bucket new files go to, or null for the local disk (settings re-read every 30 s). */
   private async target(): Promise<{ cfg: S3Config | null; provider: string | null }> {
-    if (this.cached && Date.now() - this.cached.at < 30_000) return this.cached;
+    const hit = this.cached.get();
+    if (hit && Date.now() - hit.at < 30_000) return hit;
     const i = await this.integrations.get('storage').catch(() => null);
-    this.cached = { at: Date.now(), cfg: i ? s3ConfigFrom(i) : null, provider: i?.provider ?? null };
-    return this.cached;
+    const fresh = { at: Date.now(), cfg: i ? s3ConfigFrom(i) : null, provider: i?.provider ?? null };
+    this.cached.set(fresh);
+    return fresh;
   }
 
   /** Bucket settings for a key that was saved remotely (whatever the current provider is). */

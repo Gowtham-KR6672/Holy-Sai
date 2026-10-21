@@ -14,6 +14,7 @@ import { AuditService } from '../audit/audit.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PHONE_RE } from './pickup.service';
 import { iso, isDate, SafetyContext, sortRows } from './safety.util';
+import { ForEachWorkspace } from '../../tenancy/for-each-workspace.decorator';
 
 class CampusQuery {
   @IsOptional() @IsString() campusId?: string;
@@ -94,6 +95,7 @@ export class VisitorsService {
 
   /** 17:30 reconciliation: anyone still checked in is flagged to the front office. */
   @Cron('30 17 * * *', { timeZone: 'Asia/Kolkata' })
+  @ForEachWorkspace('safety-visitors-reconcile')
   async reconcile() {
     try {
       const inside = await this.prisma.safetyVisitor.groupBy({ by: ['campusId'], where: { status: 'Inside' }, _count: { _all: true } });

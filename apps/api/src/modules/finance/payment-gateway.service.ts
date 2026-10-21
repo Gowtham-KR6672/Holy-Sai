@@ -8,6 +8,7 @@ import { IntegrationsService } from '../integrations/integrations.service';
 import { SettingsService } from '../settings/settings.service';
 import { inr, methodOf, num, r2 } from './finance.util';
 import { FinanceLedgerService } from './ledger.service';
+import { ForEachWorkspace } from '../../tenancy/for-each-workspace.decorator';
 
 const API = 'https://api.razorpay.com/v1';
 const NOT_SET_UP = 'Online payments are not set up yet. Connect Razorpay under Administration › Integrations (payment gateway) to accept Pay Now.';
@@ -230,6 +231,7 @@ export class PaymentGatewayService {
 
   /** Abandoned checkouts: online payments still Initiated after six hours are marked Failed. */
   @Cron('0 */30 * * * *')
+  @ForEachWorkspace('finance-expire-checkouts')
   async expireAbandoned() {
     try {
       await this.prisma.financePayment.updateMany({

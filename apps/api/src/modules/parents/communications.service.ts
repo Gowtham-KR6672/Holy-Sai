@@ -15,6 +15,7 @@ import { NotificationsService } from '../notifications/notifications.service';
 import type { CommQuery, LogInteractionDto, SendMessageDto } from './dto';
 import { ParentsService } from './parents.service';
 import { daysAgo, gradeOf, hoursSince, iso, REPLY_SLA_HOURS, startOfToday } from './parents.util';
+import { ForEachWorkspace } from '../../tenancy/for-each-workspace.decorator';
 
 /** The parent-app route families land on for messages, circulars and PTM. */
 export const FAMILY_ROUTE = '/parent-360?tab=more';
@@ -404,6 +405,7 @@ export class CommunicationsService {
   // ---------------------------------------------------------------------------
   /** Escalates parent messages that have waited longer than the reply SLA to staff who can answer them. */
   @Cron(CronExpression.EVERY_30_MINUTES)
+  @ForEachWorkspace('parents-escalate-overdue')
   async escalateOverdue() {
     try {
       const cutoff = new Date(Date.now() - REPLY_SLA_HOURS * 3_600_000);

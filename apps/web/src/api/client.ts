@@ -51,11 +51,23 @@ export class ApiError extends Error {
 
 let accessToken: string | null = null;
 let onSessionEnded: (() => void) | null = null;
+
+/** school: a school user (refresh cookie hs_rt) · platform: a We School admin (cookie we_prt) · support: a
+ *  platform admin inside a school (one-hour token, never refreshed). */
+export type SessionKind = 'school' | 'platform' | 'support';
+let sessionKind: SessionKind = 'school';
+export function setSessionKind(kind: SessionKind) {
+  sessionKind = kind;
+}
+export function getSessionKind(): SessionKind {
+  return sessionKind;
+}
 export interface SessionPayload {
   accessToken: string;
   user: SessionUser;
 }
-let refreshing: Promise<SessionPayload | null> | null = null;
+/** One refresh in flight per kind of session (concurrent callers share it). */
+const refreshing: Partial<Record<SessionKind, Promise<SessionPayload | null> | null>> = {};
 
 export function setAccessToken(token: string | null) {
   accessToken = token;
@@ -90,12 +102,13 @@ async function parse(res: Response) {
   }
 }
 
-/** Obtains a new access token from the refresh cookie. Concurrent callers share one request. */
-export async function refreshAccessToken(): Promise<SessionPayload | null> {
-  if (!refreshing) {
-    refreshing = (async () => {
+/** Obtains a new access token from the refresh cookie of the given kind of session. Concurrent callers share one request. */
+export async function refreshAccessToken(kind: SessionKind = sessionKind): Promise<SessionPayload | null> {
+  if (kind === 'support') return null;
+  if (!refreshing[kind]) {
+    refreshing[kind] = (async () => {
       try {
-        const res = await fetch(`${API_BASE}/auth/refresh`, {
+        const res = await fetch(`${API_BASE}${kind === 'platform' ? '/platform/auth/refresh' : '/auth/refresh'}`, {
           method: 'POST',
           credentials: 'include',
           signal: AbortSignal.timeout(15_000),
@@ -109,11 +122,11 @@ export async function refreshAccessToken(): Promise<SessionPayload | null> {
       } catch {
         return null;
       } finally {
-        setTimeout(() => (refreshing = null), 0);
+        setTimeout(() => (refreshing[kind] = null), 0);
       }
     })();
   }
-  return refreshing;
+  return refreshing[kind]!;
 }
 
 export interface RequestOptions {
@@ -147,7 +160,7 @@ async function request<T>(method: string, path: string, opts: RequestOptions = {
     throw new ApiError(0, 'NETWORK_ERROR', 'Cannot reach the server. Check your connection and try again.');
   }
 
-  if (res.status === 401 && !retried && !path.startsWith('/auth/')) {
+  if (res.status === 401 && !retried && !path.startsWith('/auth/') && !path.startsWith('/platform/auth/') && !path.startsWith('/platform/support/')) {
     const refreshed = await refreshAccessToken();
     if (refreshed) return request<T>(method, path, opts, true);
     accessToken = null;
@@ -157,6 +170,19 @@ async function request<T>(method: string, path: string, opts: RequestOptions = {
   if (opts.raw && res.ok) return { success: true, data: res as unknown as T, message: 'OK' };
 
   const json = await parse(res);
+  if (res.status === 402 && json?.error === 'SUBSCRIPTION_EXPIRED' && window.location.pathname !== '/admin/subscription') {
+    window.location.assign('/admin/subscription');
+  }
+  // The school was suspended or its subscription ended for good: end the session and say why on the sign-in page.
+  if (res.status === 403 && (json?.error === 'SUBSCRIPTION_EXPIRED' || json?.error === 'WORKSPACE_SUSPENDED') && !path.startsWith('/auth/login')) {
+    try {
+      sessionStorage.setItem('we.ended', json.message ?? '');
+    } catch {
+      /* the sign-in page then shows no reason */
+    }
+    accessToken = null;
+    onSessionEnded?.();
+  }
   if (!res.ok || !json?.success) {
     throw new ApiError(res.status, json?.error ?? 'HTTP_' + res.status, json?.message ?? `Request failed (${res.status})`, json?.details);
   }

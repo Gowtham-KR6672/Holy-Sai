@@ -13,6 +13,10 @@ import { PrismaService } from '../../common/prisma.service';
 import { AuditService } from '../audit/audit.service';
 import { PASSWORD_HINT, PASSWORD_RULE } from '../auth/auth.service';
 import { TokensService } from '../auth/tokens.service';
+import { SCHOOL_WIDE_ROLES, type RoleKey } from '@holysai/shared';
+import { SUPPORT_EMAIL_DOMAIN, isSupportEmail } from '../../platform/provisioning.service';
+import { currentWorkspace } from '../../tenancy/context';
+import { LoginDirectory } from '../../tenancy/login-directory.service';
 import { type LinkedRecord, assertCanActivate, linkCandidates, linkKindFor, linkedRecords, resolveLink } from './account-links';
 
 class UserQuery extends ListQuery {
@@ -73,12 +77,14 @@ export class UsersController {
     private readonly audit: AuditService,
     private readonly tokens: TokensService,
     private readonly perms: PermissionCacheService,
+    private readonly directory: LoginDirectory,
   ) {}
 
   @Get()
   async list(@Query() q: UserQuery) {
     const p = pageOf(q);
     const where: Prisma.UserWhereInput = {
+      NOT: { email: { endsWith: `.${SUPPORT_EMAIL_DOMAIN}` } },
       ...(q.role ? { role: { key: q.role } } : {}),
       ...(q.status ? { status: q.status } : {}),
       ...(q.q ? { OR: [{ fullName: like(q.q) }, { email: like(q.q) }, { title: like(q.q) }, { phone: like(q.q) }] } : {}),
@@ -101,14 +107,26 @@ export class UsersController {
   async create(@Body() dto: CreateUserDto, @CurrentUser() actor: AuthUser, @Req() req: Request) {
     const role = await this.prisma.role.findUnique({ where: { key: dto.roleKey } });
     if (!role) throw fieldError('roleKey', 'Choose a role');
-    if (role.key === 'super_admin' && actor.roleKey !== 'super_admin') throw forbidden('Only a Super Admin can grant the Super Admin role');
+    if (role.key === 'super_admin' && actor.roleKey !== 'super_admin') throw forbidden('Only a Workspace Admin can grant the Workspace Admin role');
+    // Campus admins create accounts for their own campus only, and never school-wide admins.
+    if (actor.pinnedCampusId) {
+      if (SCHOOL_WIDE_ROLES.includes(role.key as RoleKey)) throw forbidden(`A campus admin cannot create ${role.name} accounts`);
+      if (dto.campusId && dto.campusId !== actor.pinnedCampusId) throw forbidden('That campus is outside your access');
+      dto.campusId = actor.pinnedCampusId;
+    }
+    if (role.key === 'campus_admin' && !dto.campusId) throw fieldError('campusId', 'Choose the campus this admin runs');
     if (!PASSWORD_RULE.test(dto.password)) throw fieldError('password', PASSWORD_HINT);
     const email = dto.email.trim().toLowerCase();
     if (await this.prisma.user.findUnique({ where: { email } })) throw fieldError('email', 'An account with this email already exists');
     const phone = dto.phone?.trim() || null;
     if (phone && (await this.prisma.user.findUnique({ where: { phone } }))) throw fieldError('phone', 'An account with this mobile number already exists');
+    if (isSupportEmail(email)) throw fieldError('email', 'This address is reserved');
+    const ws = currentWorkspace();
+    await this.directory.assertAvailable(ws.id, { email, phone });
     const link = await resolveLink(this.prisma, { kind: linkKindFor(role.key), linkId: dto.linkId, email, phone });
-    const user = await this.prisma.user.create({
+    const passwordHash = await bcrypt.hash(dto.password, 12);
+    const user = await this.prisma.$transaction(async (tx) => {
+      const created = await tx.user.create({
       data: {
         fullName: dto.fullName.trim(),
         email,
@@ -119,10 +137,13 @@ export class UsersController {
         studentId: link.studentId,
         parentId: link.parentId,
         employeeId: link.employeeId,
-        passwordHash: await bcrypt.hash(dto.password, 12),
+        passwordHash,
         mustChangePassword: true,
       },
       include: { role: true },
+      });
+      await this.directory.writeForUser(tx, ws.id, created);
+      return created;
     });
     await this.audit.record({ user: actor, action: 'create', module: 'users', entityType: 'user', entityId: user.id, description: `Created ${role.name} account for ${user.fullName}${link.name ? ` (linked to ${link.name})` : ''}`, req });
     const links = await linkedRecords(this.prisma, [user]);
@@ -136,12 +157,18 @@ export class UsersController {
     const data: Prisma.UserUpdateInput = {};
     const notes: string[] = [];
     let signOut = false;
+    if (actor.pinnedCampusId) {
+      if (SCHOOL_WIDE_ROLES.includes(existing.role.key as RoleKey) || existing.campusId !== actor.pinnedCampusId) throw forbidden('This account is outside your campus');
+      if (dto.roleKey && SCHOOL_WIDE_ROLES.includes(dto.roleKey as RoleKey)) throw forbidden('A campus admin cannot grant this role');
+      if (dto.campusId && dto.campusId !== actor.pinnedCampusId) throw forbidden('That campus is outside your access');
+    }
+    if ((dto.roleKey ?? existing.role.key) === 'campus_admin' && !(dto.campusId ?? existing.campusId)) throw fieldError('campusId', 'Choose the campus this admin runs');
 
     if (dto.roleKey && dto.roleKey !== existing.role.key) {
       if (id === actor.id) throw forbidden('You cannot change your own role');
       const role = await this.prisma.role.findUnique({ where: { key: dto.roleKey } });
       if (!role) throw fieldError('roleKey', 'Unknown role');
-      if ((role.key === 'super_admin' || existing.role.key === 'super_admin') && actor.roleKey !== 'super_admin') throw forbidden('Only a Super Admin can change Super Admin access');
+      if ((role.key === 'super_admin' || existing.role.key === 'super_admin') && actor.roleKey !== 'super_admin') throw forbidden('Only a Workspace Admin can change Workspace Admin access');
       if (existing.role.key === 'super_admin') await this.keepOneSuperAdmin(id);
       data.role = { connect: { id: role.id } };
       notes.push(`role ${existing.role.name} → ${role.name}`);
@@ -186,8 +213,15 @@ export class UsersController {
       signOut = true;
     }
     if (Object.keys(data).length === 0) throw badRequest('Nothing to change');
+    if (isSupportEmail(existing.email)) throw forbidden('The We School support account cannot be changed here');
 
-    const user = await this.prisma.user.update({ where: { id }, data, include: { role: true } });
+    const ws = currentWorkspace();
+    if (data.phone) await this.directory.assertAvailable(ws.id, { phone: data.phone as string }, id);
+    const user = await this.prisma.$transaction(async (tx) => {
+      const updated = await tx.user.update({ where: { id }, data, include: { role: true } });
+      if (dto.phone !== undefined) await this.directory.writeForUser(tx, ws.id, updated);
+      return updated;
+    });
     if (signOut) await this.tokens.revokeAllForUser(id);
     await this.audit.record({
       user: actor,
@@ -203,8 +237,11 @@ export class UsersController {
   }
 
   private async keepOneSuperAdmin(excludingId: string) {
-    const others = await this.prisma.user.count({ where: { role: { key: 'super_admin' }, status: 'active', NOT: { id: excludingId } } });
-    if (others === 0) throw badRequest('At least one active Super Admin must remain');
+    // The hidden We School support account does not count: the school must keep an admin of its own.
+    const others = await this.prisma.user.count({
+      where: { role: { key: 'super_admin' }, status: 'active', NOT: [{ id: excludingId }, { email: { endsWith: `.${SUPPORT_EMAIL_DOMAIN}` } }] },
+    });
+    if (others === 0) throw badRequest('At least one active Workspace Admin must remain');
   }
 }
 
@@ -244,10 +281,10 @@ export class RolesController {
   }
 
   private async setPermissions(id: string, body: { permissions: string[] }, actor: AuthUser, req: Request) {
-    if (actor.roleKey !== 'super_admin') throw forbidden('Only a Super Admin can change role permissions');
+    if (actor.roleKey !== 'super_admin') throw forbidden('Only a Workspace Admin can change role permissions');
     const role = await this.prisma.role.findUnique({ where: { id }, include: { permissions: true } });
     if (!role) throw notFound('Role');
-    if (role.key === 'super_admin') throw badRequest('Super Admin always holds every permission');
+    if (role.key === 'super_admin') throw badRequest('Workspace Admin always holds every permission');
     if (!Array.isArray(body?.permissions)) throw badRequest('Send the list of permissions');
     const valid = new Set((await this.prisma.permission.findMany({ select: { key: true } })).map((p) => p.key));
     const next = [...new Set(body.permissions)].filter((p) => valid.has(p));

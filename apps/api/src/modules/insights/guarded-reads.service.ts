@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../common/prisma.service';
 import { andCampus, istStart, sqlDate, sqlTs } from './insights.util';
+import { workspaceKey } from '../../tenancy/context';
 
 export interface EarlyWarningFigures {
   open: number;
@@ -34,7 +35,8 @@ export class GuardedReadsService {
 
   /** Whether a table exists, remembered for a minute. */
   async has(table: string): Promise<boolean> {
-    const hit = this.exists.get(table);
+    const key = workspaceKey(table);
+    const hit = this.exists.get(key);
     if (hit && Date.now() - hit.at < 60_000) return hit.ok;
     let ok = false;
     try {
@@ -43,7 +45,7 @@ export class GuardedReadsService {
     } catch {
       ok = false;
     }
-    this.exists.set(table, { at: Date.now(), ok });
+    this.exists.set(key, { at: Date.now(), ok });
     return ok;
   }
 

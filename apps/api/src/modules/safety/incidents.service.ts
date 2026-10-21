@@ -9,6 +9,7 @@ import { PrismaService } from '../../common/prisma.service';
 import { AuditService } from '../audit/audit.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { dayStr, SafetyContext, SENSITIVE } from './safety.util';
+import { ForEachWorkspace } from '../../tenancy/for-each-workspace.decorator';
 
 export interface CreateIncidentInput {
   campusId: string;
@@ -337,6 +338,7 @@ export class IncidentsService {
 
   /** Concerns still waiting for the DSL review after 24 hours get one reminder. */
   @Cron(CronExpression.EVERY_HOUR)
+  @ForEachWorkspace('safety-review-reminders')
   async remindOverdueReviews() {
     try {
       const overdue = await this.prisma.safetyIncident.findMany({

@@ -12,6 +12,7 @@ const AdminSettingsPage = page(() => import('./AdminSettingsPage'));
 const SchoolSetupPage = page(() => import('./SchoolSetupPage'));
 const AiProvidersPage = page(() => import('./AiProvidersPage'));
 const IntegrationsPage = page(() => import('./IntegrationsPage'));
+const SubscriptionPage = page(() => import('./SubscriptionPage'));
 
 export const routes: AppRoute[] = [
   { path: '/command-center', perm: ['students.read'], element: <CommandCenterPage /> },
@@ -22,7 +23,8 @@ export const routes: AppRoute[] = [
   { path: '/help', element: <HelpPage /> },
   { path: '/admin/users', perm: ['users.manage'], element: <AdminUsersPage /> },
   { path: '/admin/settings', perm: ['settings.manage'], element: <AdminSettingsPage /> },
-  { path: '/admin/setup', perm: ['settings.manage'], element: <SchoolSetupPage /> },
+  { path: '/admin/setup', perm: ['settings.manage', 'setup.campus'], element: <SchoolSetupPage /> },
   { path: '/admin/ai', perm: ['settings.manage'], element: <AiProvidersPage /> },
   { path: '/admin/integrations', perm: ['settings.manage'], element: <IntegrationsPage /> },
+  { path: '/admin/subscription', perm: ['subscription.manage'], element: <SubscriptionPage /> },
 ];

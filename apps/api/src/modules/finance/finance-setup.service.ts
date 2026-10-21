@@ -2,6 +2,7 @@ import { Injectable, Logger, type OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { like } from '../../common/paging';
 import { PrismaService } from '../../common/prisma.service';
+import { WorkspaceSeeds } from '../../tenancy/workspace-seeds.service';
 import { CertificateChecksService } from '../operations/certificate-checks.service';
 import { ParentsService } from '../parents/parents.service';
 import { SearchService, type SearchHit } from '../search/search.service';
@@ -22,6 +23,7 @@ export class FinanceSetupService implements OnModuleInit {
     private readonly search: SearchService,
     private readonly ledger: FinanceLedgerService,
     private readonly moduleRef: ModuleRef,
+    private readonly seeds: WorkspaceSeeds,
   ) {}
 
   /** A provider from another feature module, if that module is loaded (no module import, so no cycle). */
@@ -57,7 +59,7 @@ export class FinanceSetupService implements OnModuleInit {
     this.log.log(`Finance hooks: parents fee status ${parents ? 'on' : 'unavailable'}, certificate fee check ${checks ? 'on' : 'unavailable'}`);
   }
 
-  async onModuleInit() {
+  onModuleInit() {
     this.wireOtherModules();
     this.search.register(async (user, q): Promise<SearchHit[]> => {
       if (!user.permissions.has('finance.read')) return [];
@@ -75,10 +77,10 @@ export class FinanceSetupService implements OnModuleInit {
         ...claims.map((r) => ({ group: 'Finance', label: `${r.code} · ${r.description}`, meta: `${inr(num(r.amount))} · ${r.status}`, icon: 'refresh', route: `/reimbursements?q=${encodeURIComponent(r.code)}` })),
       ];
     });
-    await this.seedDefaults();
+    this.seeds.register('finance catalogs', () => this.seedDefaults());
   }
 
-  /** Idempotent: each catalog is filled only when it is empty. */
+  /** Idempotent: each catalog is filled only when it is empty (every school, at start-up and when it is created). */
   async seedDefaults() {
     try {
       if ((await this.prisma.financeFeeHead.count()) === 0) {

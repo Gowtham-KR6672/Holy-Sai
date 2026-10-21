@@ -1,5 +1,5 @@
-// The 61 permissions, in the order the Users & Roles screen lists them.
-// Keys match the original Holy Sai Smart School 360 build.
+// The permissions, in the order the Users & Roles screen lists them. Roles pick theirs by position, so new
+// permissions are always added at the end.
 
 export interface PermissionDef {
   key: string;
@@ -69,6 +69,8 @@ export const PERMISSIONS = [
   { key: 'transport.manage', area: 'TRANSPORT', label: 'Manage routes and confirm boarding' },
   { key: 'transport.read', area: 'TRANSPORT', label: 'View routes, buses and boarding' },
   { key: 'users.manage', area: 'USERS', label: 'Manage user accounts and roles' },
+  { key: 'setup.campus', area: 'SETTINGS', label: 'Set up your own campus: its details, classes and sections' },
+  { key: 'subscription.manage', area: 'SETTINGS', label: 'See and renew the school’s We School subscription' },
 ] as const satisfies readonly PermissionDef[];
 
 export type PermissionKey = (typeof PERMISSIONS)[number]['key'];

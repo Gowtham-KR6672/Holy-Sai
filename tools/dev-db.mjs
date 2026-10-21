@@ -16,6 +16,8 @@ const pg = new EmbeddedPostgres({
   persistent: true,
   // UTF-8 so Tamil / Hindi text and the ₹ sign can be stored (Windows would otherwise default to WIN1252).
   initdbFlags: ['--encoding=UTF8', '--locale=C'],
+  // Many schools (each with a small connection pool) and test runs: allow more connections than the default 100.
+  postgresFlags: ['-c', 'max_connections=300'],
 });
 
 /** Creates a UTF-8 database with Indian-English sorting (ICU), whatever the cluster default is. */

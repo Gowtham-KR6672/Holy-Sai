@@ -64,7 +64,7 @@ const day = (d: Date) => d.toISOString().slice(0, 10);
 
 /** School setup for a fresh installation: campuses, academic years, classes and sections, subjects and houses. */
 @Controller('setup')
-@RequirePermissions('settings.manage')
+@RequirePermissions('settings.manage', 'setup.campus')
 export class SetupController {
   constructor(
     private readonly prisma: PrismaService,
@@ -115,6 +115,7 @@ export class SetupController {
 
   // ---- Campuses ----
 
+  @RequirePermissions('settings.manage')
   @Post('campuses')
   async createCampus(@Body() dto: CampusDto, @CurrentUser() user: AuthUser, @Req() req: Request) {
     if (await this.prisma.campus.findUnique({ where: { code: dto.code } })) throw fieldError('code', 'A campus with this code already exists');
@@ -151,6 +152,7 @@ export class SetupController {
 
   // ---- Academic years ----
 
+  @RequirePermissions('settings.manage')
   @Post('academic-years')
   async createYear(@Body() dto: YearDto, @CurrentUser() user: AuthUser, @Req() req: Request) {
     if (dto.endsOn <= dto.startsOn) throw fieldError('endsOn', 'The year must end after it starts');
@@ -163,6 +165,7 @@ export class SetupController {
     return ok({ id: y.id }, `Academic year ${y.label} created${first ? ' and made current' : ''}`);
   }
 
+  @RequirePermissions('settings.manage')
   @Put('academic-years/:id')
   async updateYear(@Param('id') id: string, @Body() dto: YearDto, @CurrentUser() user: AuthUser, @Req() req: Request) {
     const y = await this.prisma.academicYear.findUnique({ where: { id } });
@@ -175,6 +178,7 @@ export class SetupController {
   }
 
   /** Makes a year current. The previous current year is archived and becomes read-only. */
+  @RequirePermissions('settings.manage')
   @Post('academic-years/:id/make-current')
   @HttpCode(200)
   async makeCurrent(@Param('id') id: string, @CurrentUser() user: AuthUser, @Req() req: Request) {
@@ -250,6 +254,7 @@ export class SetupController {
 
   // ---- Subjects ----
 
+  @RequirePermissions('settings.manage')
   @Post('subjects')
   async createSubject(@Body() dto: SubjectDto, @CurrentUser() user: AuthUser, @Req() req: Request) {
     if (await this.prisma.subject.findUnique({ where: { code: dto.code } })) throw fieldError('code', 'A subject with this code already exists');
@@ -260,6 +265,7 @@ export class SetupController {
     return ok({ id: s.id }, `${s.name} created`);
   }
 
+  @RequirePermissions('settings.manage')
   @Put('subjects/:id')
   async updateSubject(@Param('id') id: string, @Body() dto: SubjectDto, @CurrentUser() user: AuthUser, @Req() req: Request) {
     const s = await this.prisma.subject.findUnique({ where: { id } });
@@ -275,6 +281,7 @@ export class SetupController {
 
   // ---- Houses ----
 
+  @RequirePermissions('settings.manage')
   @Post('houses')
   async createHouse(@Body() dto: HouseDto, @CurrentUser() user: AuthUser, @Req() req: Request) {
     const name = dto.name.trim();
@@ -284,6 +291,7 @@ export class SetupController {
     return ok({ id: h.id }, `${name} house created`);
   }
 
+  @RequirePermissions('settings.manage')
   @Delete('houses/:id')
   async deleteHouse(@Param('id') id: string, @CurrentUser() user: AuthUser, @Req() req: Request) {
     const h = await this.prisma.house.findUnique({ where: { id } });

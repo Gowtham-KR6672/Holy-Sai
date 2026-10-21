@@ -17,17 +17,21 @@ const call = async (method, p, body, tok) => {
 };
 const check = (name, cond, extra = '') => console.log(`${cond ? 'PASS' : 'FAIL'}  ${name}${extra ? '  — ' + extra : ''}`);
 const login = (identifier, password) => call('POST', '/auth/login', { identifier, password, clientType: 'mobile' }, '');
+const { newSchool } = require('./helpers.cjs');
 
 (async () => {
   const health = await fetch(base + '/public/health');
   if (!health.ok) throw new Error('test API not running');
-  const admin = await login(get('SEED_ADMIN_EMAIL'), get('SEED_ADMIN_PASSWORD'));
-  token = admin.data.accessToken;
+  // Its own throw-away school (helpers.cjs), signed in as that school's Workspace Admin.
+  const school = await newSchool('Lifecycle');
+  token = school.token;
+  await school.db.$disconnect();
   const tag = Date.now().toString(36).slice(-5);
 
   // School setup with Tamil / Hindi text (UTF-8 check)
   const campus = await call('POST', '/setup/campuses', { code: `g${tag}`.toLowerCase(), name: `Holy Sai Guduvanchery ${tag}`, shortName: 'கூடுவாஞ்சேரி', place: 'Guduvanchery', curriculum: 'Cambridge' });
-  check('campus with Tamil short name is saved', campus.status < 300 && campus.data?.shortName === 'கூடுவாஞ்சேரி', `${campus.status} ${campus.message}`);
+  const saved = (await call('GET', '/setup')).data?.campuses?.find((c) => c.id === campus.data?.id);
+  check('campus with Tamil short name is saved', campus.status < 300 && saved?.shortName === 'கூடுவாஞ்சேரி', `${campus.status} ${campus.message} · ${saved?.shortName}`);
   const campusId = campus.data?.id;
   const year = await call('POST', '/setup/academic-years', { label: `${2030 + Math.floor(Math.random() * 60)}-${tag}`.slice(0, 20), startsOn: '2026-06-01', endsOn: '2027-04-30' });
   check('academic year created', year.status < 300, `${year.status} ${year.message}`);

@@ -7,12 +7,24 @@ import { AuthUser, clientIp, clientType, userAgent } from '../../common/auth-use
 import { CurrentUser, Public } from '../../common/decorators';
 import { ok } from '../../common/envelope';
 import { AppError } from '../../common/errors';
+import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../../common/prisma.service';
+import { PlatformAuthService } from '../../platform/platform-auth.service';
+import { platformSignedIn } from '../../platform/platform-auth.controller';
+import { currentSubscription, splitRefreshToken } from '../../tenancy/context';
+import { LoginDirectory } from '../../tenancy/login-directory.service';
+import { PlatformDb } from '../../tenancy/platform-db.service';
+import { SubscriptionStatusService } from '../../tenancy/subscription-status.service';
+import { TenancyService } from '../../tenancy/tenancy.service';
 import { AuditService } from '../audit/audit.service';
 import { AuthService } from './auth.service';
 import { IssuedTokens, TokensService } from './tokens.service';
 
 const COOKIE = 'hs_rt';
+/** Sign-in attempts per minute from one address (LOGIN_RATE_LIMIT; the test API raises it). */
+const LOGIN_RATE_LIMIT = Math.max(1, Number(process.env.LOGIN_RATE_LIMIT ?? 10) || 10);
+/** A bcrypt hash nobody's password matches: unknown accounts take as long to reject as a wrong password. */
+const UNKNOWN_ACCOUNT_HASH = bcrypt.hashSync('no account has this password', 12);
 
 class LoginDto {
   @IsString() @MinLength(3) @MaxLength(200) identifier: string;
@@ -45,17 +57,44 @@ export class AuthController {
     private readonly tokens: TokensService,
     private readonly audit: AuditService,
     private readonly prisma: PrismaService,
+    private readonly tenancy: TenancyService,
+    private readonly directory: LoginDirectory,
+    private readonly platformAuth: PlatformAuthService,
+    private readonly platform: PlatformDb,
+    private readonly subscriptions: SubscriptionStatusService,
   ) {}
 
   @Public()
-  @Throttle({ default: { limit: 10, ttl: 60_000 } })
+  @Throttle({ default: { limit: LOGIN_RATE_LIMIT, ttl: 60_000 } })
   @Post('login')
   @HttpCode(200)
   async login(@Body() dto: LoginDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const ct = dto.clientType ?? clientType(req);
-    const tokens = await this.auth.login(dto.identifier, dto.password, ct, req);
-    const user = await this.auth.sessionUser((await this.userIdFor(tokens))!);
-    return ok(this.respond(tokens, ct, res, user), `Welcome, ${user.fullName}`);
+    // One sign-in page for everyone: the email / mobile number decides the school (or the We School console).
+    const target = await this.directory.lookup(dto.identifier);
+    if (target?.kind === 'platform') {
+      if (ct === 'mobile') throw new AppError(403, 'USE_WEB_CONSOLE', 'We School admins sign in on the web console.');
+      const { tokens, me } = await this.platformAuth.login(target.adminId, dto.password, req);
+      return ok(platformSignedIn(res, tokens, me), `Welcome, ${me.fullName}`);
+    }
+    const ws = target ? await this.tenancy.byId(target.workspaceId) : null;
+    if (!ws) {
+      // Same answer and similar timing as a wrong password, so sign-in does not reveal which accounts exist.
+      await bcrypt.compare(dto.password, UNKNOWN_ACCOUNT_HASH);
+      throw new AppError(401, 'INVALID_CREDENTIALS', 'The email or mobile number and password do not match.');
+    }
+    if (ws.status === 'suspended') throw new AppError(403, 'WORKSPACE_SUSPENDED', "This school's We School account is suspended. Please contact We School.");
+    const subscription = await this.subscriptions.forWorkspace(ws.id);
+    return this.tenancy.run(ws, async () => {
+      const tokens = await this.auth.login(dto.identifier, dto.password, ct, req);
+      const user = await this.auth.sessionUser((await this.userIdFor(tokens))!);
+      // After the grace period only Workspace Admins sign in (to renew).
+      if (subscription.status === 'expired' && user.role.key !== 'super_admin') {
+        await this.tokens.revokeFamily(tokens.familyId);
+        throw new AppError(403, 'SUBSCRIPTION_EXPIRED', "Your school's We School subscription has ended. Please contact your school office.");
+      }
+      return ok(this.respond(tokens, ct, res, user), `Welcome, ${user.fullName}`);
+    });
   }
 
   @Public()
@@ -65,6 +104,15 @@ export class AuthController {
   async refresh(@Body() dto: RefreshDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const raw = dto?.refreshToken ?? (req.cookies?.[COOKIE] as string | undefined);
     if (!raw) throw new AppError(401, 'UNAUTHORIZED', 'Sign in to continue');
+    const ws = await this.schoolOf(raw);
+    if (!ws) {
+      this.clearCookie(res);
+      throw new AppError(401, 'SESSION_ENDED', 'Your session has ended. Please sign in again.');
+    }
+    return this.tenancy.run(ws, () => this.refreshInSchool(raw, dto, req, res));
+  }
+
+  private async refreshInSchool(raw: string, dto: RefreshDto, req: Request, res: Response) {
     const outcome = await this.tokens.refresh(raw, { ip: clientIp(req), userAgent: userAgent(req) });
     if (outcome.kind === 'reused') {
       const u = await this.prisma.user.findUnique({ where: { id: outcome.userId }, include: { role: true } });
@@ -93,6 +141,15 @@ export class AuthController {
   @HttpCode(200)
   async logout(@Body() dto: RefreshDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const raw = dto?.refreshToken ?? (req.cookies?.[COOKIE] as string | undefined);
+    const ws = raw ? await this.schoolOf(raw) : null;
+    if (!ws) {
+      this.clearCookie(res);
+      return ok(null, 'Signed out');
+    }
+    return this.tenancy.run(ws, () => this.logoutInSchool(raw!, req, res));
+  }
+
+  private async logoutInSchool(raw: string, req: Request, res: Response) {
     const userId = raw ? await this.tokens.revokeByToken(raw) : null;
     this.clearCookie(res);
     // Signing out on the phone stops notifications to that device.
@@ -122,13 +179,17 @@ export class AuthController {
   }
 
   @Get('me')
-  me(@CurrentUser() user: AuthUser) {
-    return this.auth.sessionUser(user.id);
+  async me(@CurrentUser() user: AuthUser) {
+    const me = { ...(await this.auth.sessionUser(user.id)), subscription: currentSubscription() };
+    if (!user.supportAdminId) return { ...me, support: null };
+    const admin = await this.platform.platformAdmin.findUnique({ where: { id: user.supportAdminId }, select: { fullName: true } });
+    return { ...me, support: { adminName: admin?.fullName ?? 'We School' } };
   }
 
   @Post('change-password')
   @HttpCode(200)
   async changePassword(@CurrentUser() user: AuthUser, @Body() dto: ChangePasswordDto, @Req() req: Request) {
+    if (user.supportAdminId) throw new AppError(403, 'FORBIDDEN', 'Support sessions cannot change passwords');
     await this.auth.changePassword(user.id, dto.currentPassword, dto.newPassword, req);
     return ok(null, 'Password changed — please sign in again');
   }
@@ -146,6 +207,12 @@ export class AuthController {
     return ok(null, 'Signed out of every device');
   }
 
+  /** The school a "<code>.<secret>" refresh token belongs to. */
+  private async schoolOf(token: string) {
+    const parts = splitRefreshToken(token);
+    return parts ? this.tenancy.byCode(parts.code) : null;
+  }
+
   /** The user behind a just-issued token family. */
   private async userIdFor(tokens: IssuedTokens) {
     const s = await this.prisma.session.findUnique({ where: { id: tokens.sessionId }, select: { userId: true } });
@@ -153,7 +220,7 @@ export class AuthController {
   }
 
   private respond(tokens: IssuedTokens, ct: 'web' | 'mobile', res: Response, user: unknown) {
-    if (ct === 'mobile') return { accessToken: tokens.accessToken, expiresIn: tokens.expiresIn, refreshToken: tokens.refreshToken, user };
+    if (ct === 'mobile') return { kind: 'school' as const, accessToken: tokens.accessToken, expiresIn: tokens.expiresIn, refreshToken: tokens.refreshToken, user };
     res.cookie(COOKIE, tokens.refreshToken, {
       httpOnly: true,
       sameSite: 'lax',
@@ -161,7 +228,7 @@ export class AuthController {
       path: '/api/auth',
       expires: tokens.refreshExpiresAt,
     });
-    return { accessToken: tokens.accessToken, expiresIn: tokens.expiresIn, user };
+    return { kind: 'school' as const, accessToken: tokens.accessToken, expiresIn: tokens.expiresIn, user };
   }
 
   private clearCookie(res: Response) {

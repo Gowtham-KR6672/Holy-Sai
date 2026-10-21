@@ -39,7 +39,7 @@ export interface NavGroup {
  * parent or student record behind these screens, so the pages only report that
  * nothing is linked to the account. Hidden from the menu rather than shown empty.
  */
-const NOT_FOR_ADMINS = ['super_admin', 'school_admin', 'principal'];
+const NOT_FOR_ADMINS = ['super_admin', 'school_admin', 'campus_admin', 'principal'];
 
 const STAFF_STUDENTS = ['students.read', 'students.read_assigned'];
 const STAFF_TRACK = ['tracking.read_all', 'tracking.read_assigned'];
@@ -213,9 +213,10 @@ export const NAV: NavGroup[] = [
       { label: 'Report Centre', icon: 'barChart', to: '/admin/reports', perm: ['users.manage'] },
       { label: 'Users & Roles', icon: 'users', to: '/admin/users', perm: ['users.manage'] },
       { label: 'System Settings', icon: 'settings', to: '/admin/settings', perm: ['settings.manage'] },
-      { label: 'School Setup', icon: 'building', to: '/admin/setup', perm: ['settings.manage'] },
+      { label: 'School Setup', icon: 'building', to: '/admin/setup', perm: ['settings.manage', 'setup.campus'] },
       { label: 'AI Providers', icon: 'sparkle', to: '/admin/ai', perm: ['settings.manage'] },
       { label: 'Integrations', icon: 'link', to: '/admin/integrations', perm: ['settings.manage'] },
+      { label: 'Subscription', icon: 'creditCard', to: '/admin/subscription', perm: ['subscription.manage'] },
     ],
   },
   {

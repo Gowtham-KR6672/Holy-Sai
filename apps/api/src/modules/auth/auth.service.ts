@@ -7,6 +7,7 @@ import { PermissionCacheService } from '../../common/permission-cache.service';
 import { PrismaService } from '../../common/prisma.service';
 import { AuditService } from '../audit/audit.service';
 import { SettingsService } from '../settings/settings.service';
+import { currentWorkspace } from '../../tenancy/context';
 import { TokensService } from './tokens.service';
 
 /** At least 10 characters with upper case, lower case and a number (the rule the web app shows). */
@@ -29,6 +30,8 @@ export interface SessionUser {
   studentId: string | null;
   employeeId: string | null;
   mustChangePassword: boolean;
+  /** The school this account belongs to on We School. */
+  workspace: { id: string; code: string; name: string };
 }
 
 @Injectable()
@@ -134,6 +137,7 @@ export class AuthService {
       studentId: user.studentId,
       employeeId: user.employeeId,
       mustChangePassword: user.mustChangePassword,
+      workspace: (({ id, code, name }) => ({ id, code, name }))(currentWorkspace()),
     };
   }
 

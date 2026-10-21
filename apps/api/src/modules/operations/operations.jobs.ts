@@ -8,6 +8,7 @@ import { NotificationsService } from '../notifications/notifications.service';
 import { SearchService, type SearchHit } from '../search/search.service';
 import { DUE_SOON_DAYS } from './compliance.controller';
 import { addDays, OpsContext, today, TZ } from './ops.util';
+import { ForEachWorkspace } from '../../tenancy/for-each-workspace.decorator';
 
 /** Global search entries for operations records, and the daily reminders (due dates, service dates, expiries). */
 @Injectable()
@@ -65,6 +66,7 @@ export class OperationsJobs implements OnModuleInit {
 
   /** Every morning: requirements that just fell due or became overdue, assets due for service, documents that expired. */
   @Cron('0 7 * * *', { name: 'operations-daily', timeZone: TZ })
+  @ForEachWorkspace('operations-daily')
   async daily() {
     try {
       await this.complianceReminders();

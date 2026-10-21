@@ -1,15 +1,17 @@
-// Applies SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD from apps/api/.env to the existing Super Admin account
-// (the account with that email, otherwise the oldest Super Admin). Unlocks it and signs out its sessions.
-// The seed only creates the first Super Admin, so use this to change that login later.
+// Applies SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD from apps/api/.env to the We School platform Super Admin
+// (the platform admin with that email, otherwise the oldest one). Unlocks it, signs out its sessions and updates its
+// sign-in directory entry. The seed only creates the first platform admin, so use this to change that login later.
 // Usage: node tools/reset-admin.mjs
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import path from 'node:path';
 
-const require = createRequire(import.meta.url);
+const api = path.resolve(import.meta.dirname, '..', 'apps', 'api');
+const require = createRequire(path.join(api, 'package.json'));
 const bcrypt = require('bcryptjs');
 const { Client } = require('pg');
 
-const env = readFileSync('apps/api/.env', 'utf8');
+const env = readFileSync(path.join(api, '.env'), 'utf8');
 const get = (k) => env.match(new RegExp(`^${k}=(.*)$`, 'm'))?.[1]?.trim().replace(/^"(.*)"$/, '$1');
 const email = (get('SEED_ADMIN_EMAIL') ?? '').toLowerCase();
 const password = get('SEED_ADMIN_PASSWORD') ?? '';
@@ -18,33 +20,35 @@ if (password.length < 10 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) |
   throw new Error('The password needs at least 10 characters with upper case, lower case and a digit.');
 }
 
-const db = new Client({ connectionString: get('DATABASE_URL').replace(/\?.*$/, '') });
+const url = new URL(get('DATABASE_URL'));
+for (const p of ['schema', 'connection_limit', 'pool_timeout']) url.searchParams.delete(p);
+const db = new Client({ connectionString: url.toString() });
 await db.connect();
+// Prisma stores timestamps as UTC wall time; the embedded server's own zone is local.
+await db.query("SET TIME ZONE 'UTC'");
 try {
-  const { rows } = await db.query(
-    `SELECT u.id, u.email FROM "User" u JOIN "Role" r ON r.id = u."roleId"
-      WHERE r.key = 'super_admin' ORDER BY (lower(u.email) = $1) DESC, u."createdAt" ASC LIMIT 1`,
-    [email],
-  );
-  if (!rows.length) throw new Error('No Super Admin yet — run npm run db:seed to create it from .env.');
-  const user = rows[0];
-  const clash = await db.query(`SELECT 1 FROM "User" WHERE lower(email) = $1 AND id <> $2`, [email, user.id]);
-  if (clash.rowCount) throw new Error(`${email} already belongs to another user.`);
+  const { rows } = await db.query(`SELECT id, email FROM platform."PlatformAdmin" ORDER BY (lower(email) = $1) DESC, "createdAt" ASC LIMIT 1`, [email]);
+  if (!rows.length) throw new Error('No platform Super Admin yet — run npm run db:seed to create it from .env.');
+  const admin = rows[0];
+  const clash = await db.query(`SELECT 1 FROM platform."LoginIdentifier" WHERE kind = 'email' AND value = $1 AND ("platformAdminId" IS NULL OR "platformAdminId" <> $2)`, [email, admin.id]);
+  if (clash.rowCount) throw new Error(`${email} already signs in to a school or another platform admin.`);
 
   await db.query('BEGIN');
   await db.query(
-    `UPDATE "User" SET email = $1, "passwordHash" = $2, status = 'active', "failedLogins" = 0, "lockedUntil" = NULL,
+    `UPDATE platform."PlatformAdmin" SET email = $1, "passwordHash" = $2, status = 'active', "failedLogins" = 0, "lockedUntil" = NULL,
        "mustChangePassword" = false, "updatedAt" = now() WHERE id = $3`,
-    [email, await bcrypt.hash(password, 12), user.id],
+    [email, await bcrypt.hash(password, 12), admin.id],
   );
-  await db.query(`UPDATE "Session" SET "revokedAt" = now() WHERE "userId" = $1 AND "revokedAt" IS NULL`, [user.id]);
+  await db.query(`UPDATE platform."PlatformSession" SET "revokedAt" = now() WHERE "adminId" = $1 AND "revokedAt" IS NULL`, [admin.id]);
+  await db.query(`DELETE FROM platform."LoginIdentifier" WHERE "platformAdminId" = $1 AND kind = 'email'`, [admin.id]);
+  await db.query(`INSERT INTO platform."LoginIdentifier" (id, kind, value, "platformAdminId", "createdAt") VALUES (gen_random_uuid(), 'email', $1, $2, now())`, [email, admin.id]);
   await db.query(
-    `INSERT INTO "AuditLog" ("userId", "userName", role, action, module, "entityType", "entityId", description, sensitive)
-     VALUES ($1::uuid, 'System', 'super_admin', 'update', 'users', 'User', $1::text, $2, true)`,
-    [user.id, `Super Admin sign-in changed from ${user.email} to ${email} (tools/reset-admin.mjs)`],
+    `INSERT INTO platform."PlatformAuditLog" (id, "adminName", action, "entityType", "entityId", description, "createdAt")
+     VALUES (gen_random_uuid(), 'System', 'update', 'platform_admin', $1, $2, now())`,
+    [admin.id, `Platform Super Admin sign-in changed from ${admin.email} to ${email} (tools/reset-admin.mjs)`],
   );
   await db.query('COMMIT');
-  console.log(`Super Admin sign-in is now ${email} (was ${user.email}). Existing sessions were signed out.`);
+  console.log(`Platform Super Admin sign-in is now ${email} (was ${admin.email}). Existing sessions were signed out.`);
 } catch (e) {
   await db.query('ROLLBACK').catch(() => {});
   throw e;

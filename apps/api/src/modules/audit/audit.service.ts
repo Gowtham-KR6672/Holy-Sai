@@ -18,6 +18,8 @@ export type AuditAction =
   | 'login_failed'
   | 'logout'
   | 'device_auth_failed'
+  /** A We School platform admin opened a support session in this school. */
+  | 'support_access'
   | 'seed';
 
 export interface AuditInput {

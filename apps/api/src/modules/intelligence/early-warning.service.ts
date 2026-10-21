@@ -10,6 +10,7 @@ import {
 } from './intel.util';
 import { IntelPeople } from './people.service';
 import { isConcern, isConcernMood, isPositive, StudentExtrasService } from './student-extras.service';
+import { ForEachWorkspace } from '../../tenancy/for-each-workspace.decorator';
 
 export interface Thresholds {
   attendance: number;
@@ -406,6 +407,7 @@ export class EarlyWarningService implements OnModuleInit {
 
   /** Daily check across every active student (06:30 school time). */
   @Cron('30 6 * * *', { timeZone: 'Asia/Kolkata', name: 'early-warning-daily' })
+  @ForEachWorkspace('early-warning-daily')
   async daily() {
     try {
       const ids = (await this.prisma.student.findMany({ where: { status: 'active' }, select: { id: true } })).map((s) => s.id);

@@ -5,6 +5,7 @@ import { PrismaService } from '../../common/prisma.service';
 import { SettingsService } from '../settings/settings.service';
 import { addDays, asDate, byStudent, dayKey, mean, schoolToday, shortDate } from './intel.util';
 import { StudentExtrasService, type ActivityRow } from './student-extras.service';
+import { ForEachWorkspace } from '../../tenancy/for-each-workspace.decorator';
 
 /**
  * Talent Discovery: strengths derived from what the school already records — subject results,
@@ -234,6 +235,7 @@ export class TalentService {
 
   /** Nightly refresh for every active student (05:45 school time). */
   @Cron('45 5 * * *', { timeZone: 'Asia/Kolkata', name: 'talent-nightly' })
+  @ForEachWorkspace('talent-nightly')
   async nightly() {
     try {
       const ids = (await this.prisma.student.findMany({ where: { status: 'active' }, select: { id: true } })).map((s) => s.id);

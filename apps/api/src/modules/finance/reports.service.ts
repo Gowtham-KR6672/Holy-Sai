@@ -247,7 +247,7 @@ export class FinanceReportsService {
       const t = await this.prisma.$queryRaw<{ t: string | null }[]>`SELECT to_regclass('"WorkforcePayslip"')::text AS t`;
       if (!t[0]?.t) return { columns, rows: [] };
       const cols = new Set(
-        (await this.prisma.$queryRaw<{ c: string }[]>`SELECT column_name AS c FROM information_schema.columns WHERE table_name = 'WorkforcePayslip'`).map((r) => r.c),
+        (await this.prisma.$queryRaw<{ c: string }[]>`SELECT column_name AS c FROM information_schema.columns WHERE table_name = 'WorkforcePayslip' AND table_schema = current_schema()`).map((r) => r.c),
       );
       if (!['category', 'employeeId', 'gross', 'totalDeductions', 'net', 'payMonth', 'campusId'].every((c) => cols.has(c))) return { columns, rows: [] };
       const sql = `SELECT category, COUNT(DISTINCT "employeeId")::int AS employees, COUNT(*)::int AS payslips,

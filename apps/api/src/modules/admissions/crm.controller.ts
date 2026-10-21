@@ -13,6 +13,7 @@ import { NotificationsService } from '../notifications/notifications.service';
 import { AlumniQuery, AlumnusDto, CommQuery, CrmCommunicationDto, PartnerDto, VendorDto, VendorQuery } from './admissions.dto';
 import { ENGAGEMENT_RANK, asDate, dateOnly, monthLabel, pct, phoneKey, todayKey } from './admissions.util';
 import { LeadsService, assertId } from './leads.service';
+import { ForEachWorkspace } from '../../tenancy/for-each-workspace.decorator';
 
 const READ = ['crm.read', 'crm.manage'];
 const DAY = 86_400_000;
@@ -52,6 +53,7 @@ export class VendorRenewals {
   }
 
   @Cron('0 30 2 * * *')
+  @ForEachWorkspace('crm-vendor-renewals')
   async daily() {
     try {
       await this.expire();

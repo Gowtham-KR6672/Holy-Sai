@@ -10,6 +10,7 @@ import { ok, paged } from '../../common/envelope';
 import { conflict, fieldError, notFound } from '../../common/errors';
 import { ListQuery, like, pageOf } from '../../common/paging';
 import { PrismaService } from '../../common/prisma.service';
+import { workspaceKey } from '../../tenancy/context';
 import { ScopeService } from '../../common/scope.service';
 import { AuditService } from '../audit/audit.service';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -241,7 +242,7 @@ export class InventoryController {
     if (dto.movementType !== 'adjust' && dto.quantity < 1) throw fieldError('quantity', 'Quantity must be at least 1');
     if (dto.movementType === 'adjust' && !note) throw fieldError('note', 'A reason is required');
     const result = await this.prisma.$transaction(async (tx) => {
-      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${`ops-stock:${id}`}))`;
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${workspaceKey(`ops-stock:${id}`)}))`;
       const item = await tx.opsInventoryItem.findUnique({ where: { id } });
       if (!item) throw notFound('Item');
       const before = item.quantity;

@@ -10,6 +10,7 @@ import { NAV, mobileNavFor, type NavItem } from './nav';
 import { routeMeta } from './routeMeta';
 import { useSchool } from './SchoolContext';
 import { fmt } from '@/lib/format';
+import '@/styles/platform.css';
 
 interface Counts { unread: number; alerts: number; openTasks: number }
 
@@ -58,6 +59,7 @@ export function AppShell() {
   const [mobileSearch, setMobileSearch] = useState(false);
   const location = useLocation();
   const mainRef = useRef<HTMLElement>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     setDrawer(false);
@@ -72,8 +74,9 @@ export function AppShell() {
     const meta = routeMeta(location.pathname);
     const extra: Record<string, string> = { '/account': 'My account', '/help': 'Help' };
     const name = meta ? t(meta.label) : extra[location.pathname];
-    document.title = name ? `${name} · Holy Sai Smart School 360` : 'Holy Sai Smart School 360';
-  }, [location.pathname, t]);
+    const school = user?.workspace?.name;
+    document.title = [name, school, 'We School'].filter(Boolean).join(' · ');
+  }, [location.pathname, t, user?.workspace?.name]);
 
   useEffect(() => {
     try {
@@ -93,6 +96,8 @@ export function AppShell() {
         <Sidebar rail={rail} onToggleRail={() => setRail((r) => !r)} onExpand={() => setRail(false)} counts={counts.data} />
       </aside>
       <div className="main">
+        <SupportBar />
+        <SubscriptionBar />
         <header className="topbar" id="topbar">
           <Topbar
             onMenu={() => setDrawer((d) => !d)}
@@ -106,6 +111,54 @@ export function AppShell() {
         </main>
       </div>
       <MobileNav onDrawer={() => setDrawer((d) => !d)} />
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Subscription bar (Workspace Admins: ending soon, grace period, ended)
+// ---------------------------------------------------------------------------
+function SubscriptionBar() {
+  const { user, can } = useAuth();
+  const s = user?.subscription;
+  if (!s || !can('subscription.manage') || !['expiring', 'grace', 'expired'].includes(s.status)) return null;
+  const day = (d: string | null) => (d ? fmt.date(d) : '');
+  const text =
+    s.status === 'expiring'
+      ? `Your We School subscription ends on ${day(s.endsOn)} (${s.daysLeft} day${s.daysLeft === 1 ? '' : 's'} left).`
+      : s.status === 'grace'
+        ? `Your We School subscription ended on ${day(s.endsOn)}. Everyone can sign in until ${day(s.graceEndsOn)}.`
+        : 'Your We School subscription has ended. Staff, parents and students cannot sign in until it is renewed.';
+  return (
+    <div className="supportbar" role="status">
+      <Icon name={s.status === 'expiring' ? 'calendar' : 'alert'} size={16} />
+      <span>{text}</span>
+      <span className="spacer" />
+      <Link to="/admin/subscription" className="btn btn--primary btn--sm">Renew</Link>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Support access bar (a We School admin inside this school)
+// ---------------------------------------------------------------------------
+function SupportBar() {
+  const { mode, user, logout } = useAuth();
+  if (mode !== 'support') return null;
+  const exit = async () => {
+    await logout();
+    window.close();
+    // The tab stays open when the browser does not allow closing it: go back to the console.
+    window.location.assign('/platform');
+  };
+  return (
+    <div className="supportbar" role="status">
+      <Icon name="shieldCheck" size={16} />
+      <span>
+        <strong>Support access</strong> · {user?.workspace?.name} · {user?.support?.adminName ?? 'We School'} is signed in as We School Support. Every action is recorded in this school's audit trail.
+      </span>
+      <span className="spacer" />
+      <button className="btn btn--ghost btn--sm" onClick={exit}>Exit support</button>
     </div>
   );
 }
@@ -227,11 +280,11 @@ function Sidebar({ rail, onToggleRail, onExpand, counts }: { rail: boolean; onTo
   return (
     <>
       <div className="sidebar__brand">
-        <Link to={user!.role.homeRoute} className="sidebar__logo" aria-label="Holy Sai Smart School 360 — home">
+        <Link to={user!.role.homeRoute} className="sidebar__logo" aria-label={`${user?.workspace?.name ?? 'We School'} — home`}>
           <span className="sidebar__mark"><Lotus size={32} /></span>
           <span className="col grow" style={{ minWidth: 0 }}>
-            <span className="sidebar__name">Holy Sai</span>
-            <span className="sidebar__tag">Smart School 360</span>
+            <span className="sidebar__name" title={user?.workspace?.name}>{user?.workspace?.name ?? 'We School'}</span>
+            <span className="sidebar__tag">We School</span>
           </span>
         </Link>
         <button className="iconbtn none sidebar__railbtn" onClick={onToggleRail} aria-label={rail ? 'Expand navigation' : 'Collapse navigation'} title={rail ? 'Expand navigation' : 'Collapse navigation'}>
@@ -379,7 +432,7 @@ function Topbar({ onMenu, mobileSearch, onToggleSearch, alertCount }: { onMenu: 
       <button className="iconbtn iconbtn--onnavy menubtn hidden" onClick={onMenu} aria-label="Open navigation"><Icon name="menu" size={20} /></button>
       <span className="topbar__brandSm hidden row g-2">
         <Lotus size={28} />
-        <span className="topbar__brandname">Holy Sai</span>
+        <span className="topbar__brandname">{user?.workspace?.name ?? 'We School'}</span>
       </span>
       <GlobalSearch />
       <div className="spacer" />

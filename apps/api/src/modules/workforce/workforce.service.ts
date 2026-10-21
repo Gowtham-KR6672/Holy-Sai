@@ -3,6 +3,8 @@ import type { Employee, Prisma, WorkforceLeaveType } from '@prisma/client';
 import type { AuthUser } from '../../common/auth-user';
 import { PrismaService } from '../../common/prisma.service';
 import { ScopeService } from '../../common/scope.service';
+import { PerWorkspace } from '../../tenancy/context';
+import { WorkspaceSeeds } from '../../tenancy/workspace-seeds.service';
 import { NotificationsService, type TaskInput } from '../notifications/notifications.service';
 import { SearchService } from '../search/search.service';
 import { SettingsService } from '../settings/settings.service';
@@ -47,7 +49,7 @@ export interface LoadView {
 @Injectable()
 export class WorkforceService implements OnModuleInit {
   private readonly log = new Logger(WorkforceService.name);
-  private leaveTypeCache: { at: number; rows: WorkforceLeaveType[] } | null = null;
+  private readonly leaveTypeCache = new PerWorkspace<{ at: number; rows: WorkforceLeaveType[] } | null>(() => null);
 
   constructor(
     readonly prisma: PrismaService,
@@ -55,9 +57,10 @@ export class WorkforceService implements OnModuleInit {
     readonly settings: SettingsService,
     readonly notifications: NotificationsService,
     private readonly search: SearchService,
+    private readonly seeds: WorkspaceSeeds,
   ) {}
 
-  async onModuleInit() {
+  onModuleInit() {
     // Ctrl K: leave references (LV-123).
     this.search.register(async (user, q) => {
       if (!user.permissions.has('hr.read') || !/^lv-?\d+$/i.test(q.trim())) return [];
@@ -72,17 +75,17 @@ export class WorkforceService implements OnModuleInit {
         route: `/leave?q=${encodeURIComponent(r.code)}`,
       }));
     });
-    try {
-      const existing = await this.prisma.workforceLeaveType.findMany({ select: { code: true } });
-      const have = new Set(existing.map((t) => t.code));
-      const missing = DEFAULT_LEAVE_TYPES.filter((t) => !have.has(t.code));
-      if (missing.length) {
-        await this.prisma.workforceLeaveType.createMany({ data: missing, skipDuplicates: true });
-        this.log.log(`Seeded ${missing.length} leave type(s)`);
-      }
-    } catch (err) {
-      // Tables not migrated yet — seeding runs on the next start.
-      this.log.warn(`Leave types not seeded: ${(err as Error).message.split('\n')[0]}`);
+    this.seeds.register('workforce leave types', () => this.seedLeaveTypes());
+  }
+
+  /** Adds the standard leave types a school is missing (every school, at start-up and when it is created). */
+  private async seedLeaveTypes() {
+    const existing = await this.prisma.workforceLeaveType.findMany({ select: { code: true } });
+    const have = new Set(existing.map((t) => t.code));
+    const missing = DEFAULT_LEAVE_TYPES.filter((t) => !have.has(t.code));
+    if (missing.length) {
+      await this.prisma.workforceLeaveType.createMany({ data: missing, skipDuplicates: true });
+      this.log.log(`Seeded ${missing.length} leave type(s)`);
     }
   }
 
@@ -162,9 +165,10 @@ export class WorkforceService implements OnModuleInit {
   // ---------------------------------------------------------------------------
 
   async leaveTypes(): Promise<WorkforceLeaveType[]> {
-    if (this.leaveTypeCache && Date.now() - this.leaveTypeCache.at < 60_000) return this.leaveTypeCache.rows;
+    const hit = this.leaveTypeCache.get();
+    if (hit && Date.now() - hit.at < 60_000) return hit.rows;
     const rows = await this.prisma.workforceLeaveType.findMany({ where: { isActive: true }, orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }] });
-    this.leaveTypeCache = { at: Date.now(), rows };
+    this.leaveTypeCache.set({ at: Date.now(), rows });
     return rows;
   }
 

@@ -2,27 +2,29 @@ import { Injectable } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
 import { badRequest, notFound } from '../../common/errors';
 import { PrismaService } from '../../common/prisma.service';
+import { PerWorkspace } from '../../tenancy/context';
 
 const kindOf = (v: unknown) => (typeof v === 'boolean' ? 'boolean' : typeof v === 'number' ? 'number' : typeof v === 'string' ? 'string' : 'json');
 
-/** Typed access to the key/value system settings (cached for 30 seconds). */
+/** Typed access to the key/value system settings (cached for 30 seconds, per school). */
 @Injectable()
 export class SettingsService {
-  private cache = new Map<string, unknown>();
-  private loadedAt = 0;
+  private readonly state = new PerWorkspace(() => ({ values: new Map<string, unknown>(), loadedAt: 0 }));
 
   constructor(private readonly prisma: PrismaService) {}
 
   private async load() {
-    if (Date.now() - this.loadedAt < 30_000) return;
+    const st = this.state.get();
+    if (Date.now() - st.loadedAt < 30_000) return st.values;
     const rows = await this.prisma.setting.findMany();
-    this.cache = new Map(rows.map((r) => [r.key, r.value]));
-    this.loadedAt = Date.now();
+    st.values = new Map(rows.map((r) => [r.key, r.value]));
+    st.loadedAt = Date.now();
+    return st.values;
   }
 
   async get<T>(key: string, fallback: T): Promise<T> {
-    await this.load();
-    return this.cache.has(key) ? (this.cache.get(key) as T) : fallback;
+    const values = await this.load();
+    return values.has(key) ? (values.get(key) as T) : fallback;
   }
 
   async publicValues(): Promise<Record<string, unknown>> {
@@ -42,7 +44,7 @@ export class SettingsService {
       where: { key },
       data: { value: (want === 'string' ? (value as string).trim() : value) as Prisma.InputJsonValue, updatedById: userId },
     });
-    this.loadedAt = 0;
+    this.state.get().loadedAt = 0;
     return { before: row.value, after: updated };
   }
 }

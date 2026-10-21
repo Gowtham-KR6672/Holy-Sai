@@ -2,6 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { can, type AuthUser } from '../../common/auth-user';
 import { PrismaService } from '../../common/prisma.service';
 import { ScopeService } from '../../common/scope.service';
+import { WorkspaceSeeds } from '../../tenancy/workspace-seeds.service';
 import { SearchService } from '../search/search.service';
 import { StudentsExtensions, type ProfileExtras } from '../students/students.extensions';
 import { dayKey, STAGES } from './intel.util';
@@ -22,21 +23,22 @@ export class IntelligenceHooks implements OnModuleInit {
     private readonly people: IntelPeople,
     private readonly extras: StudentExtrasService,
     private readonly talent: TalentService,
+    private readonly seeds: WorkspaceSeeds,
   ) {}
 
   onModuleInit() {
     StudentsExtensions.registerProfile((studentId, viewer) => this.profile(studentId, viewer));
     this.search.register((user, q) => this.find(user, q));
-    // This module's own thresholds, editable under Settings (created once; existing values are never overwritten).
-    void this.prisma.setting
-      .createMany({
+    // This module's own thresholds, editable under Settings (created once per school; existing values are never overwritten).
+    this.seeds.register('intelligence settings', () =>
+      this.prisma.setting.createMany({
         data: [
           { key: 'early_warning.fee_overdue_days', value: 60, description: 'Days fees may be overdue before Early Warning raises a family-support signal', isPublic: false },
           { key: 'talent.strong_threshold', value: 82, description: 'Talent Discovery score (0–100) that counts as strong evidence', isPublic: false },
         ],
         skipDuplicates: true,
-      })
-      .catch(() => undefined);
+      }),
+    );
   }
 
   async profile(studentId: string, viewer: AuthUser): Promise<ProfileExtras> {

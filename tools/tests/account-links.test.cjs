@@ -1,27 +1,17 @@
 // Integration test for account ↔ record linking. Runs ONLY against the test API (port 4001, database holysai_test).
-const path = require('path');
 // Usage (from the repo root, with the test API running on port 4001): node tools/tests/account-links.test.cjs
-const root = process.argv[2] ?? process.cwd();
-process.env.DATABASE_URL = 'postgresql://holysai:holysai_dev@localhost:5433/holysai_test';
-{ const engine = path.join(root, '.data/prisma-engine/query_engine-windows.dll.node'); if (require('fs').existsSync(engine)) process.env.PRISMA_QUERY_ENGINE_LIBRARY = engine; }
-const { PrismaClient } = require(path.join(root, 'node_modules/@prisma/client'));
-const fs = require('fs');
-const env = fs.readFileSync(path.join(root, 'apps/api/.env'), 'utf8');
-const get = (k) => env.match(new RegExp(`^${k}=(.*)$`, 'm'))[1].trim();
-const base = 'http://localhost:4001/api';
-const db = new PrismaClient();
+// Creates its own throw-away school (helpers.cjs) and works inside it.
+const { call: request, check, failed, newSchool } = require('./helpers.cjs');
 let token;
-const call = async (method, p, body, tok = token) => {
-  const r = await fetch(base + p, { method, headers: { 'content-type': 'application/json', authorization: `Bearer ${tok}`, 'x-client-type': 'mobile' }, body: body ? JSON.stringify(body) : undefined });
-  return { status: r.status, ...(await r.json()) };
-};
-const check = (name, cond, extra = '') => console.log(`${cond ? 'PASS' : 'FAIL'}  ${name}${extra ? '  — ' + extra : ''}`);
+let db;
+const call = (method, p, body, tok = token) => request(method, p, body, tok);
 
 (async () => {
-  const dbName = (await db.$queryRawUnsafe('select current_database() as d'))[0].d;
-  if (dbName !== 'holysai_test') throw new Error('Refusing to run outside holysai_test: ' + dbName);
-  const login = await call('POST', '/auth/login', { identifier: get('SEED_ADMIN_EMAIL'), password: get('SEED_ADMIN_PASSWORD'), clientType: 'mobile' }, '');
-  token = login.data.accessToken;
+  const school = await newSchool('Links');
+  token = school.token;
+  db = school.db;
+  const [{ s }] = await db.$queryRawUnsafe('select current_schema() as s');
+  if (s !== school.schema) throw new Error('Refusing to run outside the test school schema: ' + s);
 
   const tag = Date.now().toString(36);
   const campus = await db.campus.create({ data: { code: `T${tag}`, name: `Test Campus ${tag}`, shortName: 'Test', place: 'Chennai', curriculum: 'Cambridge' } });
@@ -63,4 +53,6 @@ const check = (name, cond, extra = '') => console.log(`${cond ? 'PASS' : 'FAIL'}
   check('linked parent can sign in and carries parentId', pl.data?.user?.parentId === guardian.id, `${pl.status} ${pl.message}`);
 
   await db.$disconnect();
-})().catch(async (e) => { console.error(e); await db.$disconnect(); process.exit(1); });
+  console.log(failed() ? `\n${failed()} check(s) failed` : '\nAll checks passed');
+  process.exit(failed() ? 1 : 0);
+})().catch(async (e) => { console.error(e); await db?.$disconnect(); process.exit(1); });

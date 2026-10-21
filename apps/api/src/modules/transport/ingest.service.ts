@@ -6,11 +6,13 @@ import { type AuthUser, can } from '../../common/auth-user';
 import { CryptoService } from '../../common/crypto.service';
 import { AppError, badRequest, forbidden, notFound } from '../../common/errors';
 import { PrismaService } from '../../common/prisma.service';
+import { PerWorkspace } from '../../tenancy/context';
 import { AuditService } from '../audit/audit.service';
 import { IntegrationsService } from '../integrations/integrations.service';
 import { isUuid } from './geo';
 import { type DevicePoint, LocationService } from './location.service';
 import { type BusPoint, TransportService } from './transport.service';
+import { ForEachWorkspace } from '../../tenancy/for-each-workspace.decorator';
 
 /** Oldest buffered fix a device may upload. */
 const MAX_AGE_MS = 7 * 24 * 3600_000;
@@ -95,7 +97,8 @@ const toBusPoint = (p: DevicePoint): BusPoint => ({
 @Injectable()
 export class IngestService {
   private readonly log = new Logger(IngestService.name);
-  private polling = false;
+  /** One Traccar poll at a time per school. */
+  private readonly polling = new PerWorkspace(() => ({ busy: false }));
 
   constructor(
     private readonly prisma: PrismaService,
@@ -226,9 +229,11 @@ export class IngestService {
    * by Traccar device id, else by unique id = our IMEI or device ID.
    */
   @Interval(60_000)
+  @ForEachWorkspace('transport-traccar-poll')
   async pollTraccar() {
-    if (this.polling) return;
-    this.polling = true;
+    const state = this.polling.get();
+    if (state.busy) return;
+    state.busy = true;
     try {
       const gps = await this.integrations.get('gps').catch(() => null);
       if (!gps?.isEnabled || gps.provider !== 'Traccar') return;
@@ -273,7 +278,7 @@ export class IngestService {
     } catch (err) {
       this.log.warn(`Traccar poll failed: ${(err as Error).message}`);
     } finally {
-      this.polling = false;
+      state.busy = false;
     }
   }
 }

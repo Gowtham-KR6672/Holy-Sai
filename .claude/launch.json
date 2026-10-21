@@ -20,6 +20,22 @@
       "port": 4000
     },
     {
+      "name": "api-test",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "tools/test-api.mjs"
+      ],
+      "port": 4001
+    },
+    {
+      "name": "web-test",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "tools/test-web.mjs"
+      ],
+      "port": 5174
+    },
+    {
       "name": "web",
       "runtimeExecutable": "npm",
       "runtimeArgs": [

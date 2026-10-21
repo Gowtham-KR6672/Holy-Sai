@@ -283,6 +283,7 @@ export const NAV: NavGroup[] = [
       { label: 'System Settings', icon: 'settings', to: '/admin/settings', perm: ['settings.manage'] },
       { label: 'AI Providers', icon: 'sparkle', to: '/admin/ai', perm: ['settings.manage'] },
       { label: 'Integrations', icon: 'link', to: '/admin/integrations', perm: ['settings.manage'] },
+      { label: 'Subscription', icon: 'creditCard', to: '/admin/subscription', perm: ['subscription.manage'] },
     ],
   },
   {

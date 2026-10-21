@@ -4,6 +4,7 @@ import type { AuthUser } from '../../common/auth-user';
 import { fieldError } from '../../common/errors';
 import { PrismaService } from '../../common/prisma.service';
 import { ScopeService } from '../../common/scope.service';
+import { PerWorkspace } from '../../tenancy/context';
 
 /** Campus local time zone; every "today" in this module is a date in this zone. */
 export const TZ = 'Asia/Kolkata';
@@ -103,7 +104,7 @@ export interface EmployeeInfo {
 /** Lookups shared by the operations controllers: campus names, people, recipients. */
 @Injectable()
 export class OpsContext {
-  private campusCache: { at: number; map: Map<string, { name: string; shortName: string; place: string }> } | null = null;
+  private readonly campusCache = new PerWorkspace<{ at: number; map: Map<string, { name: string; shortName: string; place: string }> } | null>(() => null);
 
   constructor(
     private readonly prisma: PrismaService,
@@ -111,10 +112,11 @@ export class OpsContext {
   ) {}
 
   async campuses() {
-    if (this.campusCache && Date.now() - this.campusCache.at < 60_000) return this.campusCache.map;
+    const hit = this.campusCache.get();
+    if (hit && Date.now() - hit.at < 60_000) return hit.map;
     const rows = await this.prisma.campus.findMany({ select: { id: true, name: true, shortName: true, place: true } });
     const map = new Map(rows.map((c) => [c.id, { name: c.name, shortName: c.shortName, place: c.place }]));
-    this.campusCache = { at: Date.now(), map };
+    this.campusCache.set({ at: Date.now(), map });
     return map;
   }
 
@@ -128,7 +130,7 @@ export class OpsContext {
   async assertCampus(user: AuthUser, campusId: string, field = 'campusId') {
     const map = await this.campuses();
     if (!map.has(campusId)) {
-      this.campusCache = null;
+      this.campusCache.set(null);
       if (!(await this.prisma.campus.findUnique({ where: { id: campusId } }))) throw fieldError(field, 'Choose a campus');
     }
     this.scope.campus(user, campusId);

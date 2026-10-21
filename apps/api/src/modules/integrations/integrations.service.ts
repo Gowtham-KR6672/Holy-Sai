@@ -3,10 +3,10 @@ import type { Integration } from '@prisma/client';
 import { mkdir, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { INTEGRATION_FIELDS, INTEGRATION_KINDS, type IntegrationKind } from '@holysai/shared';
-import { env } from '../../config/env';
 import { CryptoService } from '../../common/crypto.service';
 import { badRequest } from '../../common/errors';
 import { PrismaService } from '../../common/prisma.service';
+import { workspaceUploadDir } from '../../tenancy/uploads';
 import { s3ConfigFrom, s3Delete, s3Get, s3Put } from './s3';
 
 const MASK = '••••••••';
@@ -163,7 +163,7 @@ export class IntegrationsService {
       }
       case 'storage': {
         if (!i.provider || i.provider === 'Local disk') {
-          const dir = path.resolve(env().uploadDir);
+          const dir = workspaceUploadDir();
           await mkdir(dir, { recursive: true });
           const probe = path.join(dir, '.write-test');
           await writeFile(probe, 'ok');

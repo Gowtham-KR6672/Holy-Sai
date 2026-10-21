@@ -3,10 +3,12 @@ import { Cron } from '@nestjs/schedule';
 import type { KnowledgeSource } from '@prisma/client';
 import type { AuthUser } from '../../common/auth-user';
 import { PrismaService } from '../../common/prisma.service';
+import { PerWorkspace } from '../../tenancy/context';
 import { AiService } from '../ai/ai.service';
 import { StorageService } from '../operations/storage.service';
 import { extractText, readable } from './knowledge.text';
 import { asDate, dayKey, schoolToday, truncate } from './intel.util';
+import { ForEachWorkspace } from '../../tenancy/for-each-workspace.decorator';
 
 /**
  * School Knowledge: the approved sources the assistants may answer from, their indexed text, and
@@ -107,13 +109,18 @@ export function chunkText(text: string): { heading: string | null; text: string 
   return out;
 }
 
+interface KnowledgeState {
+  lastSync: number;
+  syncing: Promise<void> | null;
+  index: { chunks: IndexedChunk[]; df: Map<string, number>; avg: number; sources: Map<string, KnowledgeSource> } | null;
+  roleCache: { at: number; staff: string[]; sensitive: string[] } | null;
+}
+
 @Injectable()
 export class KnowledgeService implements OnModuleInit {
   private readonly log = new Logger(KnowledgeService.name);
-  private lastSync = 0;
-  private syncing: Promise<void> | null = null;
-  private index: { chunks: IndexedChunk[]; df: Map<string, number>; avg: number; sources: Map<string, KnowledgeSource> } | null = null;
-  private roleCache: { at: number; staff: string[]; sensitive: string[] } | null = null;
+  /** Each school has its own index, sync state and role audiences. */
+  private readonly state = new PerWorkspace<KnowledgeState>(() => ({ lastSync: 0, syncing: null, index: null, roleCache: null }));
 
   constructor(
     private readonly prisma: PrismaService,
@@ -121,12 +128,17 @@ export class KnowledgeService implements OnModuleInit {
     private readonly ai: AiService,
   ) {}
 
+  private get st(): KnowledgeState {
+    return this.state.get();
+  }
+
   onModuleInit() {
-    // Index in the background shortly after start-up.
-    setTimeout(() => void this.sync(true), 15_000).unref?.();
+    // Index every school in the background shortly after start-up.
+    setTimeout(() => void this.hourly(), 15_000).unref?.();
   }
 
   @Cron('15 * * * *', { name: 'knowledge-sync' })
+  @ForEachWorkspace('knowledge-sync')
   async hourly() {
     await this.sync(true);
   }
@@ -136,14 +148,14 @@ export class KnowledgeService implements OnModuleInit {
   // ---------------------------------------------------------------------------
 
   private async roles() {
-    if (this.roleCache && Date.now() - this.roleCache.at < 10 * 60_000) return this.roleCache;
+    if (this.st.roleCache && Date.now() - this.st.roleCache.at < 10 * 60_000) return this.st.roleCache;
     const roles = await this.prisma.role.findMany({ select: { key: true, permissions: { select: { permissionKey: true } } }, orderBy: { sortOrder: 'asc' } });
-    this.roleCache = {
+    this.st.roleCache = {
       at: Date.now(),
       staff: roles.filter((r) => !['parent', 'student'].includes(r.key)).map((r) => r.key),
       sensitive: roles.filter((r) => r.permissions.some((p) => p.permissionKey === 'students.sensitive')).map((r) => r.key),
     };
-    return this.roleCache;
+    return this.st.roleCache;
   }
 
   private visibilityOf(text: string): Visibility {
@@ -169,13 +181,14 @@ export class KnowledgeService implements OnModuleInit {
 
   /** Brings the index in step with the approved documents and released circulars. */
   async sync(force = false): Promise<void> {
-    if (this.syncing) return this.syncing;
-    if (!force && Date.now() - this.lastSync < 2 * 60_000) return;
-    this.syncing = this.runSync().catch((err) => this.log.warn(`Knowledge sources not refreshed: ${(err as Error).message}`)).finally(() => {
-      this.syncing = null;
-      this.lastSync = Date.now();
+    const st = this.st;
+    if (st.syncing) return st.syncing;
+    if (!force && Date.now() - st.lastSync < 2 * 60_000) return;
+    st.syncing = this.runSync().catch((err) => this.log.warn(`Knowledge sources not refreshed: ${(err as Error).message}`)).finally(() => {
+      st.syncing = null;
+      st.lastSync = Date.now();
     });
-    return this.syncing;
+    return st.syncing;
   }
 
   private async runSync() {
@@ -242,7 +255,7 @@ export class KnowledgeService implements OnModuleInit {
       });
       changed = true;
     }
-    if (changed || !this.index) this.index = null;
+    if (changed || !this.st.index) this.st.index = null;
   }
 
   private async aiTranscribe(buf: Buffer, mime: string | null, name: string): Promise<string | null> {
@@ -285,7 +298,7 @@ export class KnowledgeService implements OnModuleInit {
   }
 
   private async loadIndex() {
-    if (this.index) return this.index;
+    if (this.st.index) return this.st.index;
     let sources: KnowledgeSource[] = [];
     let chunks: { id: string; sourceId: string; heading: string | null; text: string }[] = [];
     try {
@@ -311,8 +324,8 @@ export class KnowledgeService implements OnModuleInit {
       list.push({ id: c.id, sourceId: c.sourceId, heading: c.heading, text: c.text, tf, headTerms, len: tokens.length || 1 });
     }
     const avg = list.length ? list.reduce((n, c) => n + c.len, 0) / list.length : 1;
-    this.index = { chunks: list, df, avg, sources: byId };
-    return this.index;
+    this.st.index = { chunks: list, df, avg, sources: byId };
+    return this.st.index;
   }
 
   // ---------------------------------------------------------------------------

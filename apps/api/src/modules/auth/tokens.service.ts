@@ -5,6 +5,7 @@ import { env } from '../../config/env';
 import { CryptoService } from '../../common/crypto.service';
 import { AppError } from '../../common/errors';
 import { PrismaService } from '../../common/prisma.service';
+import { currentWorkspace, splitRefreshToken } from '../../tenancy/context';
 import { SettingsService } from '../settings/settings.service';
 
 /** A token presented again within this window (another tab refreshing at the same moment) is not treated as theft. */
@@ -30,10 +31,18 @@ export class TokensService {
     private readonly settings: SettingsService,
   ) {}
 
-  async accessToken(userId: string, familyId: string): Promise<{ token: string; expiresIn: number }> {
-    const ttl = env().jwtAccessTtl;
-    const token = await this.jwt.signAsync({ sub: userId, fam: familyId }, { secret: env().jwtAccessSecret, expiresIn: ttl });
+  /** A short-lived access token for the current school (its `ws` claim selects the school on each request). */
+  async accessToken(userId: string, familyId: string, extra: { sup?: string; ttl?: number } = {}): Promise<{ token: string; expiresIn: number }> {
+    const ttl = extra.ttl ?? env().jwtAccessTtl;
+    const claims = { sub: userId, fam: familyId, ws: currentWorkspace().code, aud: 'ws', ...(extra.sup ? { sup: extra.sup } : {}) };
+    const token = await this.jwt.signAsync(claims, { secret: env().jwtAccessSecret, expiresIn: ttl });
     return { token, expiresIn: ttl };
+  }
+
+  /** The secret part of a "<school>.<secret>" refresh token, if it belongs to the current school. */
+  private secretOf(token: string): string | null {
+    const parts = splitRefreshToken(token);
+    return parts && parts.code === currentWorkspace().code ? parts.secret : null;
   }
 
   /** Starts a new sign-in (a new token family). */
@@ -42,8 +51,9 @@ export class TokensService {
   }
 
   /** Rotates a refresh token. Concurrent refreshes from several tabs share a short grace window. */
-  async refresh(rawToken: string, meta: { ip: string | null; userAgent: string | null }): Promise<RefreshOutcome> {
-    const session = await this.prisma.session.findUnique({ where: { tokenHash: this.crypto.sha256(rawToken) } });
+  async refresh(token: string, meta: { ip: string | null; userAgent: string | null }): Promise<RefreshOutcome> {
+    const secret = this.secretOf(token);
+    const session = secret ? await this.prisma.session.findUnique({ where: { tokenHash: this.crypto.sha256(secret) } }) : null;
     if (!session || session.revokedAt || session.expiresAt < new Date()) {
       throw new AppError(401, 'SESSION_ENDED', 'Your session has ended. Please sign in again.');
     }
@@ -65,8 +75,9 @@ export class TokensService {
     return { kind: 'ok', userId: session.userId, tokens };
   }
 
-  async revokeByToken(rawToken: string): Promise<string | null> {
-    const session = await this.prisma.session.findUnique({ where: { tokenHash: this.crypto.sha256(rawToken) } });
+  async revokeByToken(token: string): Promise<string | null> {
+    const secret = this.secretOf(token);
+    const session = secret ? await this.prisma.session.findUnique({ where: { tokenHash: this.crypto.sha256(secret) } }) : null;
     if (!session) return null;
     await this.revokeFamily(session.familyId);
     return session.userId;
@@ -110,12 +121,13 @@ export class TokensService {
   ): Promise<IssuedTokens> {
     const days = await this.settings.get<number>('auth.session_days', 7);
     const expiresAt = keepExpiry ?? new Date(Date.now() + days * 86_400_000);
-    const refreshToken = this.crypto.randomToken(32);
+    const secret = this.crypto.randomToken(32);
+    const refreshToken = `${currentWorkspace().code}.${secret}`;
     const row = await this.prisma.session.create({
       data: {
         userId,
         familyId,
-        tokenHash: this.crypto.sha256(refreshToken),
+        tokenHash: this.crypto.sha256(secret),
         clientType: opts.clientType,
         remember: true,
         ip: opts.ip,

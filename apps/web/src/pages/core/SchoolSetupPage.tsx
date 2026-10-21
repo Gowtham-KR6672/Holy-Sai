@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ApiError } from '@/api/client';
+import { useAuth } from '@/auth/AuthContext';
 import { useApiMutation, useApiQuery } from '@/hooks/useApi';
 import { useLookups } from '@/hooks/useLookups';
 import {
@@ -10,8 +11,9 @@ import {
 import { fmt } from '@/lib/format';
 
 /**
- * School setup (new in the rebuild): the school starts with no demo data, so the Super Admin creates
- * campuses, academic years, classes and sections, subjects and houses here.
+ * School setup (new in the rebuild): the school starts with no demo data, so the Workspace Admin creates
+ * campuses, academic years, classes and sections, subjects and houses here. Campus admins set up their own campus
+ * (its details, classes and sections); the school-wide parts stay with the Workspace Admin.
  */
 
 interface CheckItem { key: string; label: string; done: boolean; count: number; to: string }
@@ -37,6 +39,8 @@ export default function SchoolSetupPage() {
   const tab = (sp.get('tab') as Tab) || 'overview';
   const q = useApiQuery<Setup>('/setup');
   const setTab = (t: Tab) => setSp(t === 'overview' ? {} : { tab: t }, { replace: true });
+  const { can } = useAuth();
+  const schoolWide = can('settings.manage');
 
   if (q.isLoading) return <Page><PageSkeleton /></Page>;
   if (q.error || !q.data) return <Page><PageHead title="School setup" /><ErrorState error={q.error} onRetry={() => q.refetch()} /></Page>;
@@ -53,11 +57,10 @@ export default function SchoolSetupPage() {
         <Tabs<Tab>
           items={[
             { id: 'overview', label: 'Overview' },
-            { id: 'campuses', label: 'Campuses', count: d.campuses.length },
-            { id: 'years', label: 'Academic years', count: d.years.length },
+            { id: 'campuses', label: schoolWide ? 'Campuses' : 'My campus', count: d.campuses.length },
+            ...(schoolWide ? [{ id: 'years' as const, label: 'Academic years', count: d.years.length }] : []),
             { id: 'classes', label: 'Classes & sections', count: d.classes.length },
-            { id: 'subjects', label: 'Subjects', count: d.subjects.length },
-            { id: 'houses', label: 'Houses', count: d.houses.length },
+            ...(schoolWide ? [{ id: 'subjects' as const, label: 'Subjects', count: d.subjects.length }, { id: 'houses' as const, label: 'Houses', count: d.houses.length }] : []),
           ]}
           active={tab}
           onChange={setTab}
@@ -86,7 +89,7 @@ export default function SchoolSetupPage() {
             </div>
           </Card>
         )}
-        {tab === 'campuses' && <Campuses rows={d.campuses} />}
+        {tab === 'campuses' && <Campuses rows={d.campuses} canAdd={schoolWide} />}
         {tab === 'years' && <Years rows={d.years} />}
         {tab === 'classes' && <Classes rows={d.classes} campuses={d.campuses} />}
         {tab === 'subjects' && <Subjects rows={d.subjects} />}
@@ -101,7 +104,7 @@ export default function SchoolSetupPage() {
 // ---------------------------------------------------------------------------
 const EMPTY_CAMPUS = { code: '', name: '', shortName: '', place: '', curriculum: '', address: '', establishedYear: '', staffingTarget: '', latitude: '', longitude: '', radiusM: '250', isActive: true };
 
-function Campuses({ rows }: { rows: CampusRow[] }) {
+function Campuses({ rows, canAdd }: { rows: CampusRow[]; canAdd: boolean }) {
   const [edit, setEdit] = useState<CampusRow | 'new' | null>(null);
   const [f, setF] = useState(EMPTY_CAMPUS);
   const open = (r: CampusRow | 'new') => {
@@ -128,7 +131,7 @@ function Campuses({ rows }: { rows: CampusRow[] }) {
   return (
     <>
       <Card icon="building" title="Campuses" sub="Each campus has its own classes, staff and students. The header's campus selector lists these."
-        actions={<Button variant="primary" icon="plus" onClick={() => open('new')}>Add campus</Button>} flush>
+        actions={canAdd ? <Button variant="primary" icon="plus" onClick={() => open('new')}>Add campus</Button> : undefined} flush>
         {rows.length === 0 ? (
           <Empty icon="building" title="No campuses yet" sub="Add the first campus to begin." action={<Button variant="primary" icon="plus" onClick={() => open('new')}>Add campus</Button>} />
         ) : (

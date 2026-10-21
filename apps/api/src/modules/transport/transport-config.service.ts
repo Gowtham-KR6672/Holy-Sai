@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma.service';
+import { PerWorkspace } from '../../tenancy/context';
 import { IntegrationsService } from '../integrations/integrations.service';
 import { SettingsService } from '../settings/settings.service';
 import { dateKey, minutesOfDay, timeToMinutes } from './geo';
@@ -26,8 +27,8 @@ export interface CampusGeo {
  */
 @Injectable()
 export class TransportConfig {
-  private campusCache: { at: number; rows: CampusGeo[] } | null = null;
-  private gpsCache: { at: number; stale: number | null } | null = null;
+  private readonly campusCache = new PerWorkspace<{ at: number; rows: CampusGeo[] } | null>(() => null);
+  private readonly gpsCache = new PerWorkspace<{ at: number; stale: number | null } | null>(() => null);
 
   constructor(
     private readonly settings: SettingsService,
@@ -41,7 +42,8 @@ export class TransportConfig {
 
   /** A location older than this is "last known" (gps integration override, else tracking.stale_after_minutes). */
   async staleAfterMinutes(): Promise<number> {
-    if (!this.gpsCache || Date.now() - this.gpsCache.at > 60_000) {
+    let gpsHit = this.gpsCache.get();
+    if (!gpsHit || Date.now() - gpsHit.at > 60_000) {
       let stale: number | null = null;
       try {
         const gps = await this.integrations.get('gps');
@@ -50,9 +52,10 @@ export class TransportConfig {
       } catch {
         stale = null;
       }
-      this.gpsCache = { at: Date.now(), stale };
+      gpsHit = { at: Date.now(), stale };
+      this.gpsCache.set(gpsHit);
     }
-    if (this.gpsCache.stale) return this.gpsCache.stale;
+    if (gpsHit.stale) return gpsHit.stale;
     const v = Number(await this.settings.get<number>('tracking.stale_after_minutes', 30));
     return Number.isFinite(v) && v > 0 ? v : 30;
   }
@@ -88,15 +91,17 @@ export class TransportConfig {
   }
 
   async campuses(): Promise<CampusGeo[]> {
-    if (!this.campusCache || Date.now() - this.campusCache.at > 60_000) {
+    let hit = this.campusCache.get();
+    if (!hit || Date.now() - hit.at > 60_000) {
       const rows = await this.prisma.campus.findMany({
         where: { isActive: true },
         select: { id: true, name: true, shortName: true, latitude: true, longitude: true, radiusM: true },
         orderBy: { name: 'asc' },
       });
-      this.campusCache = { at: Date.now(), rows };
+      hit = { at: Date.now(), rows };
+      this.campusCache.set(hit);
     }
-    return this.campusCache.rows;
+    return hit.rows;
   }
 }
 

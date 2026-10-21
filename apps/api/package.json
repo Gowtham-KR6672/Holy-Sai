@@ -8,11 +8,11 @@
     "start": "node dist/main.js",
     "start:dev": "nest start --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "prisma:generate": "prisma generate",
+    "prisma:generate": "prisma generate && prisma generate --schema prisma/platform/schema.prisma",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:seed": "tsx prisma/seed.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate && prisma generate --schema prisma/platform/schema.prisma"
   },
   "prisma": {
     "schema": "prisma/schema",
@@ -37,6 +37,7 @@
     "nodemailer": "^7.0.6",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^6.4.299",
+    "pg": "^8.23.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
@@ -47,6 +48,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^22.15.0",
     "@types/nodemailer": "^7.0.1",
+    "@types/pg": "^8.15.6",
     "prisma": "6.19.3",
     "tsx": "^4.20.0",
     "typescript": "5.9.3"

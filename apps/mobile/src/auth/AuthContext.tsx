@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Alert } from 'react-native';
 import { useQueryClient } from '@tanstack/react-query';
 import { api, ApiError, login as apiLogin, logout as apiLogout, onSessionEnded, refreshSession } from '@/api/client';
 import type { SessionUser } from '@/api/types';
@@ -64,10 +65,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     void restore();
-    onSessionEnded(() => {
+    onSessionEnded((reason) => {
       setUser(null);
       setStatus('anonymous');
       qc.clear();
+      if (reason) Alert.alert('We School', reason);
     });
     return () => onSessionEnded(null);
   }, [restore, qc]);

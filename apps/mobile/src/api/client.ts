@@ -46,7 +46,8 @@ export interface Envelope<T> {
 type Params = Record<string, string | number | boolean | null | undefined>;
 
 let accessToken: string | null = null;
-let sessionEndedListener: (() => void) | null = null;
+/** reason: shown to the user when the school (not the token) ended the session. */
+let sessionEndedListener: ((reason?: string) => void) | null = null;
 let refreshing: Promise<RefreshOutcome> | null = null;
 
 export type RefreshOutcome =
@@ -59,7 +60,7 @@ export function setAccessToken(token: string | null) {
 }
 
 /** Called when a refresh fails for good (token expired, revoked or reused): the app returns to sign-in. */
-export function onSessionEnded(fn: (() => void) | null) {
+export function onSessionEnded(fn: ((reason?: string) => void) | null) {
   sessionEndedListener = fn;
 }
 
@@ -175,6 +176,12 @@ async function request<T>(method: string, path: string, opts: RequestOptions = {
   }
 
   const json = await parse(res);
+  // The school's We School subscription ended, or the school is suspended: sign out on this device and say why.
+  if ((res.status === 402 || res.status === 403) && (json?.error === 'SUBSCRIPTION_EXPIRED' || json?.error === 'WORKSPACE_SUSPENDED') && !path.startsWith('/auth/login')) {
+    accessToken = null;
+    await tokenStore.clear();
+    sessionEndedListener?.(json?.message);
+  }
   if (!res.ok || !json?.success) {
     throw new ApiError(res.status, json?.error ?? `HTTP_${res.status}`, json?.message ?? `Request failed (${res.status})`, json?.details);
   }

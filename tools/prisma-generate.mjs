@@ -1,5 +1,5 @@
-// Runs `prisma generate` for apps/api under a cross-process lock, so parallel builds never
-// regenerate the client at the same time (which corrupts it on Windows).
+// Runs `prisma generate` for apps/api (the school client and the We School platform client) under a cross-process
+// lock, so parallel builds never regenerate a client at the same time (which corrupts it on Windows).
 import { execSync } from 'node:child_process';
 import { mkdirSync, rmdirSync, statSync } from 'node:fs';
 import path from 'node:path';
@@ -28,6 +28,7 @@ for (;;) {
 let code = 0;
 try {
   execSync('npx prisma generate', { cwd: path.resolve('apps/api'), stdio: 'inherit' });
+  execSync('npx prisma generate --schema prisma/platform/schema.prisma', { cwd: path.resolve('apps/api'), stdio: 'inherit' });
 } catch {
   code = 1;
 } finally {

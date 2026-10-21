@@ -2,6 +2,9 @@ import { Injectable, Logger, OnApplicationShutdown, OnModuleInit } from '@nestjs
 import type { ExamCorrectionJob, Prisma } from '@prisma/client';
 import { AppError, conflict } from '../../common/errors';
 import { PrismaService } from '../../common/prisma.service';
+import { PerWorkspace } from '../../tenancy/context';
+import { TenancyService } from '../../tenancy/tenancy.service';
+import { PlatformDb } from '../../tenancy/platform-db.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { EcAccess } from './ec.access';
 import { EcPages, PermanentError } from './ec.pages.service';
@@ -26,9 +29,9 @@ export class EcQueue implements OnModuleInit, OnApplicationShutdown {
   private running = 0;
   private timer: NodeJS.Timeout | null = null;
   private stopping = false;
-  private pumping = false;
   private warnedMissing = false;
-  private lastSweep = 0;
+  /** Each school's queue is pumped and swept on its own; CONCURRENCY is shared by all schools on this instance. */
+  private readonly school = new PerWorkspace(() => ({ pumping: false, lastSweep: 0 }));
 
   constructor(
     private readonly prisma: PrismaService,
@@ -36,17 +39,40 @@ export class EcQueue implements OnModuleInit, OnApplicationShutdown {
     private readonly pipeline: EcPipeline,
     private readonly notifications: NotificationsService,
     private readonly pages: EcPages,
+    private readonly tenancy: TenancyService,
+    private readonly platform: PlatformDb,
   ) {}
 
   onModuleInit() {
-    this.timer = setInterval(() => void this.pump(), TICK_MS);
+    this.timer = setInterval(() => void this.tick(), TICK_MS);
     this.timer.unref?.();
+  }
+
+  /** Every tick each school with queued or running sheets gets a turn, one school after another. */
+  private async tick() {
+    if (this.stopping) return;
+    const busy = await this.schoolsWithWork().catch(() => null);
+    if (busy && !busy.length) return;
+    await this.tenancy.forEachWorkspace('paper-correction-queue', () => this.pump(), 1, busy ?? undefined);
+  }
+
+  /** The schools that have answer sheets waiting or being processed — one query across all school schemas. */
+  private async schoolsWithWork() {
+    const schools = await this.tenancy.workspaces();
+    if (!schools.length) return [];
+    const parts = schools
+      .filter((w) => /^ws_[a-z0-9_]{2,40}$/.test(w.schema))
+      .map((w) => `SELECT '${w.code}' AS code WHERE EXISTS (SELECT 1 FROM "${w.schema}"."ExamCorrectionJob" WHERE status IN ('queued', 'running'))`);
+    const rows = await this.platform.$queryRawUnsafe<{ code: string }[]>(parts.join(' UNION ALL '));
+    const codes = new Set(rows.map((r) => r.code));
+    return schools.filter((w) => codes.has(w.code));
   }
 
   /** Jobs whose worker stopped (API restarted or crashed) are queued again. Running workers send a heartbeat. */
   private async sweep() {
-    if (Date.now() - this.lastSweep < 60_000) return;
-    this.lastSweep = Date.now();
+    const school = this.school.get();
+    if (Date.now() - school.lastSweep < 60_000) return;
+    school.lastSweep = Date.now();
     const n = await this.prisma.examCorrectionJob.updateMany({
       where: { status: 'running', updatedAt: { lt: new Date(Date.now() - STALE_MS) } },
       data: { status: 'queued', progress: 'Resuming after an interruption' },
@@ -76,9 +102,11 @@ export class EcQueue implements OnModuleInit, OnApplicationShutdown {
     return job;
   }
 
+  /** Claims queued jobs of the current school while this instance has capacity. */
   private async pump() {
-    if (this.stopping || this.pumping) return;
-    this.pumping = true;
+    const school = this.school.get();
+    if (this.stopping || school.pumping) return;
+    school.pumping = true;
     try {
       await this.sweep();
       while (this.running < CONCURRENCY && !this.stopping) {
@@ -98,7 +126,7 @@ export class EcQueue implements OnModuleInit, OnApplicationShutdown {
     } catch (err) {
       this.missingTables(err);
     } finally {
-      this.pumping = false;
+      school.pumping = false;
     }
   }
 

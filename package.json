@@ -11,7 +11,7 @@
   "scripts": {
     "db:start": "node tools/dev-db.mjs",
     "build:shared": "npm run build -w @holysai/shared",
-    "db:migrate": "npm run prisma:migrate -w @holysai/api",
+    "db:migrate": "node tools/migrate-all.mjs",
     "db:seed": "npm run prisma:seed -w @holysai/api",
     "dev:api": "npm run start:dev -w @holysai/api",
     "dev:web": "npm run dev -w @holysai/web",

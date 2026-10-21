@@ -6,6 +6,7 @@ export type DataScope = 'school' | 'class' | 'family' | 'self';
 export type RoleKey =
   | 'super_admin'
   | 'school_admin'
+  | 'campus_admin'
   | 'principal'
   | 'management'
   | 'office'
@@ -24,6 +25,8 @@ export interface RoleDef {
   /** Where the role lands after sign-in. */
   home: string;
   permissions: PermissionKey[];
+  /** Limited to the campus on the account (campus admins): every list, record and report is for that campus only. */
+  campusPinned?: boolean;
 }
 
 // Permission sets are taken by position from the original Users & Roles screen.
@@ -33,9 +36,9 @@ const range = (from: number, to: number): number[] => Array.from({ length: to - 
 export const ROLES: RoleDef[] = [
   {
     key: 'super_admin',
-    name: 'Super Admin',
+    name: 'Workspace Admin',
     scope: 'school',
-    description: 'Platform administration with every permission, including settings and user accounts.',
+    description: 'Runs the whole school on We School: every permission, all campuses, settings and user accounts (including campus admins).',
     home: '/overview',
     permissions: [...ALL_PERMISSION_KEYS],
   },
@@ -46,6 +49,20 @@ export const ROLES: RoleDef[] = [
     description: 'Runs every staff-side module, including settings and users.',
     home: '/overview',
     permissions: pick(...range(0, 18), ...range(20, 32), ...range(34, 42), 44, ...range(46, 55), ...range(57, 60)),
+  },
+  {
+    key: 'campus_admin',
+    name: 'Campus Admin',
+    scope: 'school',
+    description: 'Runs one campus: its students, staff, fees, operations and user accounts. Cannot change school-wide settings or see other campuses.',
+    home: '/command-center',
+    campusPinned: true,
+    permissions: [
+      ...pick(...range(0, 18), ...range(20, 32), ...range(34, 42), 44, ...range(46, 55), ...range(57, 60)).filter(
+        (p) => !(['settings.manage', 'dashboard.group', 'group.read', 'group.manage', 'audit.read', 'prototype.view'] as string[]).includes(p),
+      ),
+      'setup.campus',
+    ],
   },
   {
     key: 'principal',
@@ -124,4 +141,10 @@ export const ROLES: RoleDef[] = [
 export const ROLE_BY_KEY: Record<RoleKey, RoleDef> = Object.fromEntries(ROLES.map((r) => [r.key, r])) as Record<RoleKey, RoleDef>;
 
 /** Roles that see the owner/administrator views rather than a personal portal. */
-export const ADMIN_ROLES: RoleKey[] = ['super_admin', 'school_admin', 'principal'];
+export const ADMIN_ROLES: RoleKey[] = ['super_admin', 'school_admin', 'campus_admin', 'principal'];
+
+/** Roles limited to the campus on the account. */
+export const CAMPUS_PINNED_ROLES: RoleKey[] = ROLES.filter((r) => r.campusPinned).map((r) => r.key);
+
+/** Roles a campus admin may not grant or change (they manage the school as a whole). */
+export const SCHOOL_WIDE_ROLES: RoleKey[] = ['super_admin', 'school_admin', 'campus_admin', 'management'];

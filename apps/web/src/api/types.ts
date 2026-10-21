@@ -9,6 +9,7 @@ export type Permission = string;
 
 export type RoleKey =
   | 'super_admin'
+  | 'campus_admin'
   | 'school_admin'
   | 'principal'
   | 'management'
@@ -42,6 +43,22 @@ export interface SessionUser {
   studentId: string | null;
   employeeId: string | null;
   mustChangePassword?: boolean;
+  /** The school this account belongs to on We School. */
+  workspace?: { id: string; code: string; name: string };
+  /** Set when a We School admin is in the school through support access. */
+  support?: { adminName: string } | null;
+  /** The school's We School subscription (status none = not set up yet). */
+  subscription?: { status: 'none' | 'active' | 'expiring' | 'grace' | 'expired' | 'suspended'; endsOn: string | null; daysLeft: number | null; graceEndsOn: string | null; planCode: string | null } | null;
+}
+
+/** A We School platform admin (the console at /platform). */
+export interface PlatformMe {
+  kind: 'platform';
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string | null;
+  mustChangePassword: boolean;
 }
 
 export interface Campus {

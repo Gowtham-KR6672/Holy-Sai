@@ -17,6 +17,10 @@ export interface AuthUser {
   permissions: Set<string>;
   sessionFamilyId: string | null;
   clientType: 'web' | 'mobile';
+  /** Set when a We School platform admin is in the school through support access. */
+  supportAdminId: string | null;
+  /** Campus admins: the only campus this account may see or change. */
+  pinnedCampusId: string | null;
 }
 
 export interface AuthedRequest extends Request {

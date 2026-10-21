@@ -1,6 +1,7 @@
 import { Module, OnModuleInit } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma.service';
 import { ScopeService } from '../../common/scope.service';
+import { WorkspaceSeeds } from '../../tenancy/workspace-seeds.service';
 import { SearchService } from '../search/search.service';
 import { AcademicsAccess } from './academics.access';
 import { AssessmentsController } from './assessments.controller';
@@ -49,12 +50,13 @@ export class AcademicsModule implements OnModuleInit {
     private readonly timetable: TimetableService,
     private readonly curriculum: CurriculumService,
     private readonly assessments: AssessmentsService,
+    private readonly seeds: WorkspaceSeeds,
   ) {}
 
-  async onModuleInit() {
+  onModuleInit() {
     // Teachers also see the sections they teach or cover in the timetable (not only their form class).
     this.scope.registerTeacherSections((employeeId) => this.timetable.teacherSections(employeeId));
-    await this.curriculum.seedDefaults();
+    this.seeds.register('cambridge stages', () => this.curriculum.seedDefaults());
 
     this.search.register(async (user, q) => {
       if (!user.permissions.has('academics.read')) return [];

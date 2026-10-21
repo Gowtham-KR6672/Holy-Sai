@@ -9,6 +9,7 @@ import { ok } from '../../common/envelope';
 import { badRequest, conflict, fieldError, forbidden, notFound } from '../../common/errors';
 import { like } from '../../common/paging';
 import { PrismaService } from '../../common/prisma.service';
+import { workspaceKey } from '../../tenancy/context';
 import { ScopeService } from '../../common/scope.service';
 import { AuditService } from '../audit/audit.service';
 import { addDays, DATE_RE, dateOf, day, daysBetween, isRealDate, minutes, nowHm, OpsContext, TIME_RE, today, todayIso } from './ops.util';
@@ -193,7 +194,7 @@ export class FacilitiesController {
     const date = dateOf(dto.bookedOn);
     const booking = await this.prisma.$transaction(async (tx) => {
       // Serialise bookings for this space so two requests cannot both pass the clash check.
-      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${`ops-booking:${id}`}))`;
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${workspaceKey(`ops-booking:${id}`)}))`;
       const clash = await tx.opsFacilityBooking.findFirst({
         where: { facilityId: id, cancelledAt: null, bookedOn: date, startsAt: { lt: dto.endsAt }, endsAt: { gt: dto.startsAt } },
         orderBy: { startsAt: 'asc' },

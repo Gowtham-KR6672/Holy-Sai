@@ -25,6 +25,11 @@ export class ScopeService {
   /** The campus to filter by; undefined means every campus (group view). */
   campus(user: AuthUser, requested?: string | null): string | undefined {
     const wanted = requested && requested !== 'all' ? requested : undefined;
+    // Campus admins: only their campus, whatever was asked for.
+    if (user.pinnedCampusId) {
+      if (wanted && wanted !== user.pinnedCampusId) throw forbidden('That campus is outside your access');
+      return user.pinnedCampusId;
+    }
     if (user.scope === 'school') {
       if (wanted) return wanted;
       return user.permissions.has('dashboard.group') ? undefined : (user.campusId ?? undefined);
