@@ -56,7 +56,8 @@ export default function SignIn() {
     }
   };
 
-  const school = config.data?.schoolName?.trim() || t('Your school');
+  // The shared We School sign-in has no school yet; a school's own address would name it.
+  const school = config.data?.schoolName?.trim();
   const tagline = config.data?.tagline?.trim();
 
   return (
@@ -77,7 +78,7 @@ export default function SignIn() {
           <Image source={require('../../assets/images/logo-mark.png')} style={styles.logo} resizeMode="contain" accessibilityLabel="We School" />
           <Txt variant="display" center color={colors.brandStrong}>We School</Txt>
           <Txt variant="h3" center color={colors.brand}>{t('Connected school platform')}</Txt>
-          <Txt variant="small" center>{school}</Txt>
+          {!!school && <Txt variant="small" center>{school}</Txt>}
           {!!tagline && <Txt variant="small" center color={colors.accentStrong} weight="semibold">{t(tagline)}</Txt>}
         </View>
 

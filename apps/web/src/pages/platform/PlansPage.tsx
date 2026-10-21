@@ -33,7 +33,7 @@ export default function PlansPage() {
           loading={q.isLoading}
           rowKey={(p) => p.code}
           columns={[
-            { key: 'name', label: 'Plan', render: (p) => <><span className="t-bold">{p.name}</span><div className="t-micro t-muted">{p.months} month{p.months === 1 ? '' : 's'}</div></> },
+            { key: 'name', label: 'Plan', render: (p) => <><span className="t-bold">{p.name}</span><div className="t-micro t-muted">{p.months === 1 ? '1 month' : `${p.months} months`}</div></> },
             { key: 'priceInr', label: 'Price (INR)', render: (p) => <TextField label="" aria-label={`${p.name} price in rupees`} type="number" min={0} step="1" value={edits[p.code]?.priceInr ?? ''} onChange={(v) => set(p.code, 'priceInr', v)} style={{ maxWidth: 160 }} /> },
             { key: 'priceUsd', label: 'Price (USD)', render: (p) => <TextField label="" aria-label={`${p.name} price in dollars`} type="number" min={0} step="0.01" value={edits[p.code]?.priceUsd ?? ''} onChange={(v) => set(p.code, 'priceUsd', v)} style={{ maxWidth: 160 }} /> },
             { key: 'isActive', label: 'Offered', render: (p) => <Switch checked={edits[p.code]?.isActive ?? p.isActive} onChange={(v) => set(p.code, 'isActive', v)} label="" /> },

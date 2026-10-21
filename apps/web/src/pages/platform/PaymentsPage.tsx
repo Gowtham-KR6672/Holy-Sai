@@ -25,6 +25,11 @@ interface Row {
 
 const TONE: Record<string, string> = { paid: 'success', initiated: 'info', failed: 'critical', refunded: 'neutral' };
 export const GATEWAY_LABEL: Record<string, string> = { manual: 'Recorded', razorpay: 'Razorpay', razorpay_intl: 'Razorpay Intl', stripe: 'Stripe', paypal: 'PayPal' };
+export const PAYMENT_STATUS: Record<string, string> = { paid: 'Paid', initiated: 'Started', failed: 'Failed', refunded: 'Refunded' };
+/** Payment methods: the ones recorded by hand plus those Razorpay reports for online payments. */
+export const METHOD_LABEL: Record<string, string> = {
+  bank: 'Bank transfer', upi: 'UPI', cheque: 'Cheque', cash: 'Cash', card: 'Card', other: 'Other', netbanking: 'Net banking', wallet: 'Wallet', emi: 'EMI',
+};
 
 /** Every subscription payment across schools. */
 export default function PaymentsPage() {
@@ -48,9 +53,9 @@ export default function PaymentsPage() {
             { key: 'createdAt', label: 'Date', render: (r) => <span className="t-xs">{fmt.dateTime(r.paidAt ?? r.createdAt)}</span>, width: '160px' },
             { key: 'school', label: 'School', render: (r) => <span className="t-bold">{r.school}</span> },
             { key: 'amount', label: 'Amount', className: 'num', render: (r) => money(r.currency, r.amount) },
-            { key: 'gateway', label: 'Via', render: (r) => <>{GATEWAY_LABEL[r.gateway] ?? r.gateway}{r.method ? <span className="t-micro t-muted"> · {r.method}</span> : null}</> },
+            { key: 'gateway', label: 'Via', render: (r) => <>{GATEWAY_LABEL[r.gateway] ?? r.gateway}{r.method ? <span className="t-micro t-muted"> · {METHOD_LABEL[r.method] ?? r.method}</span> : null}</> },
             { key: 'reference', label: 'Reference', render: (r) => <span className="t-micro">{r.reference ?? '—'}</span> },
-            { key: 'status', label: 'Status', render: (r) => <span title={r.failureReason ?? undefined}><Badge tone={TONE[r.status] ?? 'neutral'}>{r.status}</Badge></span> },
+            { key: 'status', label: 'Status', render: (r) => <span title={r.failureReason ?? undefined}><Badge tone={TONE[r.status] ?? 'neutral'}>{PAYMENT_STATUS[r.status] ?? r.status}</Badge></span> },
             { key: 'invoice', label: '', render: (r) => (r.invoiceId ? <Button size="sm" icon="download" onClick={(e) => { e.stopPropagation(); void api.download(`/platform/invoices/${r.invoiceId}/pdf`, 'invoice.pdf'); }}>Invoice</Button> : null) },
           ]}
         />

@@ -26,7 +26,7 @@ export interface LoginPayload {
 }
 
 export interface PublicConfig {
-  schoolName?: string;
+  schoolName?: string | null;
   productName?: string;
   tagline?: string;
   academicYear?: string | null;

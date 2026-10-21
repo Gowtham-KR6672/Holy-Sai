@@ -4,7 +4,7 @@ import { Badge, Button, Card, DataTable, Dl, InlineError, Modal, QueryState, Sel
 import { useApiMutation, useApiQuery } from '@/hooks/useApi';
 import { fmt, todayKey } from '@/lib/format';
 import { money, type SubscriptionStatusView } from '../core/SubscriptionPage';
-import { GATEWAY_LABEL } from './PaymentsPage';
+import { GATEWAY_LABEL, METHOD_LABEL, PAYMENT_STATUS } from './PaymentsPage';
 
 interface Summary {
   currency: string;
@@ -69,9 +69,9 @@ export default function SchoolSubscription({ schoolId, schoolName }: { schoolId:
                 columns={[
                   { key: 'date', label: 'Date', render: (p) => <span className="t-xs">{fmt.date(p.paidAt ?? p.createdAt)}</span> },
                   { key: 'amount', label: 'Amount', className: 'num', render: (p) => money(p.currency, p.amount) },
-                  { key: 'via', label: 'Via', render: (p) => <>{GATEWAY_LABEL[p.gateway] ?? p.gateway}{p.method ? <span className="t-micro t-muted"> · {p.method}</span> : null}</> },
+                  { key: 'via', label: 'Via', render: (p) => <>{GATEWAY_LABEL[p.gateway] ?? p.gateway}{p.method ? <span className="t-micro t-muted"> · {METHOD_LABEL[p.method] ?? p.method}</span> : null}</> },
                   { key: 'reference', label: 'Reference', render: (p) => <span className="t-micro">{p.reference ?? '—'}</span> },
-                  { key: 'status', label: 'Status', render: (p) => <Badge tone={p.status === 'paid' ? 'success' : p.status === 'failed' ? 'critical' : 'info'}>{p.status}</Badge> },
+                  { key: 'status', label: 'Status', render: (p) => <Badge tone={p.status === 'paid' ? 'success' : p.status === 'failed' ? 'critical' : 'info'}>{PAYMENT_STATUS[p.status] ?? p.status}</Badge> },
                   { key: 'invoice', label: '', render: (p) => (p.invoiceId ? <Button size="sm" icon="download" onClick={() => api.download(`/platform/invoices/${p.invoiceId}/pdf`, 'invoice.pdf')}>Invoice</Button> : null) },
                 ]}
               />

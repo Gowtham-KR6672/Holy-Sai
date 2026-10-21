@@ -1,7 +1,7 @@
 // Applies SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD from apps/api/.env to the We School platform Super Admin
 // (the platform admin with that email, otherwise the oldest one). Unlocks it, signs out its sessions and updates its
 // sign-in directory entry. The seed only creates the first platform admin, so use this to change that login later.
-// Usage: node tools/reset-admin.mjs
+// Usage: node tools/reset-admin.mjs   (DATABASE_URL in the environment overrides apps/api/.env, e.g. for the test database)
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
@@ -20,7 +20,7 @@ if (password.length < 10 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) |
   throw new Error('The password needs at least 10 characters with upper case, lower case and a digit.');
 }
 
-const url = new URL(get('DATABASE_URL'));
+const url = new URL(process.env.DATABASE_URL ?? get('DATABASE_URL'));
 for (const p of ['schema', 'connection_limit', 'pool_timeout']) url.searchParams.delete(p);
 const db = new Client({ connectionString: url.toString() });
 await db.connect();

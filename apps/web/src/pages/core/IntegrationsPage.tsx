@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth } from '@/auth/AuthContext';
 import { useApiMutation, useApiQuery } from '@/hooks/useApi';
 import { Badge, Banner, Button, Card, ErrorState, Grid, Icon, Page, PageHead, PageSkeleton, SelectField, Switch, TextField } from '@/components/ui';
 import { fmt } from '@/lib/format';
@@ -32,9 +33,10 @@ const PURPOSE: Record<string, string> = {
   storage: 'Where uploaded documents, answer sheets and photos are kept.',
 };
 
-const ENDPOINT: Record<string, { label: string; path: string }> = {
+/** Provider callback addresses. Each school has its own (/api/w/<code>/…); GPS devices share one, their token finds the school. */
+const ENDPOINT: Record<string, { label: string; path: string; shared?: boolean }> = {
   payment: { label: 'Webhook URL (Razorpay → Settings → Webhooks)', path: '/api/finance/webhooks/razorpay' },
-  gps: { label: 'Device ingest URL (device token in the X-Device-Token header)', path: '/api/tracking/ingest' },
+  gps: { label: 'Device ingest URL (device token in the X-Device-Token header)', path: '/api/tracking/ingest', shared: true },
   gate: { label: 'Reader webhook URL (send the webhook secret in the X-Webhook-Secret header)', path: '/api/gate/webhooks/scan' },
   biometric: { label: 'Device webhook URL (send the webhook secret in the X-Webhook-Secret header)', path: '/api/workforce/webhooks/biometric' },
   whatsapp: { label: 'Webhook callback URL (Meta → WhatsApp → Configuration)', path: '/api/whatsapp/webhook' },
@@ -66,6 +68,7 @@ export default function IntegrationsPage() {
 }
 
 function IntegrationCard({ item, fields }: { item: Integration; fields: Field[] }) {
+  const school = useAuth().user?.workspace?.code;
   const [f, setF] = useState<Record<string, string>>({});
   const [provider, setProvider] = useState(item.provider ?? '');
   const [enabled, setEnabled] = useState(item.isEnabled);
@@ -106,7 +109,7 @@ function IntegrationCard({ item, fields }: { item: Integration; fields: Field[] 
         {endpoint && (
           <div className="t-xs">
             <div className="t-muted">{endpoint.label}</div>
-            <code className="t-mono oi-code" style={{ wordBreak: 'break-all' }}>{window.location.origin}{endpoint.path}</code>
+            <code className="t-mono oi-code" style={{ wordBreak: 'break-all' }}>{window.location.origin}{endpoint.shared || !school ? endpoint.path : endpoint.path.replace('/api/', `/api/w/${school}/`)}</code>
           </div>
         )}
         {item.lastTestMessage && (

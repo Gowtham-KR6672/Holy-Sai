@@ -83,7 +83,7 @@ export default function SchoolsPage() {
             columns={[
               { key: 'name', label: 'School', render: (r) => <><span className="t-bold">{r.name}</span><div className="t-micro t-muted">{r.code} · {r.country}</div></> },
               { key: 'status', label: 'Status', render: (r) => <SchoolStatus status={r.status} /> },
-              { key: 'subscription', label: 'Subscription', render: (r) => (r.subscription ? <><Badge tone={SUB_STATE[r.subscription.status]?.tone ?? 'neutral'}>{SUB_STATE[r.subscription.status]?.label ?? r.subscription.status}</Badge>{r.subscription.endsOn && <div className="t-micro t-muted">until {fmt.date(r.subscription.endsOn)}</div>}</> : <span className="t-faint">—</span>) },
+              { key: 'subscription', label: 'Subscription', render: (r) => (r.subscription ? <><Badge tone={SUB_STATE[r.subscription.status]?.tone ?? 'neutral'}>{SUB_STATE[r.subscription.status]?.label ?? r.subscription.status}</Badge>{r.subscription.endsOn && <div className="t-micro t-muted">{`until ${fmt.date(r.subscription.endsOn)}`}</div>}</> : <span className="t-faint">—</span>) },
               { key: 'currency', label: 'Billing', render: (r) => r.currency },
               { key: 'contact', label: 'Contact', render: (r) => (r.contactName || r.contactEmail ? <><span>{r.contactName ?? '—'}</span><div className="t-micro t-muted">{r.contactEmail ?? ''}</div></> : <span className="t-faint">—</span>) },
               { key: 'createdAt', label: 'Created', render: (r) => <span className="t-xs">{fmt.date(r.createdAt)}</span> },

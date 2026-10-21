@@ -18,8 +18,8 @@ each school on a subscription, each school has its own admins, and the Super Adm
 | Mobile app (Expo) | `apps/mobile` | Same sign-in for every school; ends the session with a message when a school is suspended or its subscription ended. Typecheck 0 errors. Not yet run on a real phone; no APK yet. |
 | Shared package | `packages/shared` | Roles (incl. **Campus Admin**), permissions (63), navigation, icons, enums, mobile translations. |
 | Database | embedded PostgreSQL (dev) | One database: schema `platform` (We School) + one schema per school `ws_<code>`. Dev DB `holysai_app`: workspace **`holysai`** (converted from the single-school data). Test DB `holysai_test`: workspace `qa` + throw-away test schools. |
-| Rebrand | branch `claude/objective-borg-af50b1` | Done in a separate session (new logo, neutral sign-in page, texts, mobile app name/ids). **Not merged into `main` yet** — see §17. |
-| GitHub | https://github.com/Gowtham-KR6672/Holy-Sai | `main` holds the single-school build + two small fixes (popup focus, LAN access). The We School work is **not committed yet**. The repository is **public**. |
+| Rebrand | merged into `main` | New logo, neutral sign-in page, texts, mobile app name/ids (commit `5c4f217`, merged 21 Oct 2026). |
+| GitHub | https://github.com/Gowtham-KR6672/Holy-Sai | `main` (local) holds the We School work, the rebrand and the Tamil/Hindi translations — **not pushed yet**. The repository is **public**. |
 
 Nothing has been tried with **live third-party accounts** (Razorpay/Stripe/PayPal for subscriptions, school
 integrations, AI providers, devices). Gateway webhooks are covered by signed-payload tests — see §15.
@@ -49,7 +49,7 @@ integrations, AI providers, devices). Gateway webhooks are covered by signed-pay
 | 3 | Payments: manual, Razorpay, others, international in USD | Console › Record payment (bank / UPI / cheque / cash…); online renewal by the school: **Razorpay** (INR), **Stripe, PayPal, Razorpay International** (USD). Webhooks settle automatically; PDF invoices. Currency fixed per school. |
 | 4 | One admin login per school; they add admins for other campuses | Role **Workspace Admin** (all campuses; was "Super Admin" inside the school) creates **Campus Admins**, each limited to one campus. |
 | 5 | Super Admin can access any school any time | Console › school › **Open school (support)**: one-hour support session as the school's hidden "We School Support" account; recorded in both audit trails; works when suspended or expired. |
-| 6 | Site name We School | Product name everywhere; each school's own name/logo inside its workspace. Rebrand branch — §17. |
+| 6 | Site name We School | Product name everywhere; each school's own name inside its workspace (logo upload still open — §16). |
 | 7 | One sign-in page | Email / mobile number decides the school (or the console). Each email / mobile belongs to one school only. |
 | 8 | Expiry | Warnings from 15 days before; after a 7-day grace period staff, parents and students cannot sign in; Workspace Admins can sign in only to renew; data kept. |
 | 9 | AI keys | Each school connects its own (AI Providers page), as before. School integrations (WhatsApp, SMS, email, fee payments, GPS…) are per school too. |
@@ -185,7 +185,10 @@ reminders 09:00 IST (15/7/3/1 days, end day, grace start/last day, blocked). Unf
 ## 8. Accounts, roles and security
 
 - **Platform Super Admin:** `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` (in `handover.env`). Change with
-  `node tools/reset-admin.mjs` (updates the platform admin, its directory entry, signs it out). More platform admins:
+  `node tools/reset-admin.mjs` (updates the platform admin, its directory entry, signs it out; `DATABASE_URL=… node
+  tools/reset-admin.mjs` targets another database). The owner chose a new Super Admin login on 21 Oct 2026 and it was
+  set this way in the dev database and in `apps/api/.env` / `handover.env` (both git-ignored) — never in a tracked file.
+  Passwords need at least 10 characters. More platform admins:
   Console › Admins (temporary password, must change at first sign-in).
 - **School accounts:** created by each school (Users & Roles), or by the console (first admin, extra admins, password
   resets with temporary passwords).
@@ -241,8 +244,8 @@ not count as the school's admin.
 As before, each school connects its own AI providers and integrations. **Webhook addresses now include the school:**
 `/api/w/<code>/whatsapp/webhook`, `/api/w/<code>/finance/webhooks/razorpay` (fee payments), `/api/w/<code>/gate/webhooks/scan`,
 `/api/w/<code>/workforce/webhooks/biometric`; certificate verification `/api/w/<code>/certificates/verify/:code`. GPS
-devices keep `/api/tracking/ingest` (the token finds the school). The Integrations page of each school must show these
-addresses — check after the rebrand merge (§16).
+devices keep `/api/tracking/ingest` (the token finds the school). Each school's Integrations page shows its own
+addresses; the bare addresses (without `/w/<code>`) answer `NO_SCHOOL`.
 
 ---
 
@@ -254,9 +257,11 @@ Unchanged (pipeline, marking rules, external-processing acknowledgement). The ba
 
 ## 13. Translations
 
-Unchanged mechanism (`domTranslator.ts`, `dict/parts/*`, `tools/i18n-extract.mjs` / `i18n-merge.mjs`). The rebrand branch
-adds `ta-brand.json` / `hi-brand.json`. **To do after the merge:** translate the new console, support-bar, subscription
-and campus-admin strings into Tamil and Hindi (run extract → split → translate into new part files → merge).
+Unchanged mechanism (`domTranslator.ts`, `dict/parts/*`, `tools/i18n-extract.mjs` / `i18n-merge.mjs`). The rebrand adds
+`ta-brand.json` / `hi-brand.json`; the console, support bar, subscription pages and campus-admin texts are in
+`ta-platform.json` / `hi-platform.json` (incl. the gateway field names the API sends). Only four non-text values remain
+untranslated (CSS values, a setting key, a path). Data from the API stays as entered: school names, codes, platform
+audit descriptions and gateway error messages.
 
 ---
 
@@ -290,7 +295,10 @@ and campus-admin strings into Tamil and Hindi (run extract → split → transla
 - Every scheduled job run once across 15 schools without errors; `tools/smoke-api.mjs` 188/200 (same as before) before
   the cut-over.
 - Browser (test web 5174): console sign-in, overview, schools, create school, school page, support access and exit,
-  school sign-in on the shared page, school Subscription page, gateways page.
+  school sign-in on the shared page, school Subscription page, gateways page; the console in Tamil and Hindi; a school's
+  Integrations page showing `/api/w/<code>/…` addresses.
+- After committing the We School work and merging the rebrand (21 Oct 2026): typecheck API 0, web 0, mobile 0; all
+  suites above pass again; `tools/smoke-api.mjs` on `holysai` through support access 188/200 (the same 12 as before).
 
 **Not tested (needs real accounts/devices):** Razorpay / Stripe / PayPal live or sandbox checkouts (PayPal webhooks
 especially), the platform SMTP sender, school integrations, AI providers, the mobile app on phones.
@@ -299,8 +307,8 @@ especially), the platform SMTP sender, school integrations, AI providers, the mo
 
 ## 16. Open items and decisions
 
-1. **Merge the rebrand** (`refs/heads/claude/objective-borg-af50b1`) and commit the We School work (§17).
-2. **Translations** of the new console / subscription / campus-admin texts (Tamil, Hindi).
+1. **Push `main`** to GitHub when the owner says so (everything is committed locally).
+2. Check the Tamil/Hindi console texts with a native speaker (machine-assisted translations).
 3. Hosting: API + web + managed UTF-8 PostgreSQL (watch `max_connections`), public HTTPS for webhooks, `PUBLIC_WEB_URL`.
 4. Sandbox accounts for Razorpay (INR + international), Stripe and PayPal; a real SMTP account for receipts and reminders.
 5. **Schools outside India:** time zone and fee currency per school (daily jobs and fee amounts still assume
@@ -316,10 +324,9 @@ especially), the platform SMTP sender, school integrations, AI providers, the mo
 
 ## 17. Git and working conventions
 
-- `main`: the single-school build + popup-focus fix + LAN access. **Uncommitted** in the main checkout: all We School work
-  (tenancy, platform, billing, console, campus admins, tests, tools).
-- `refs/heads/claude/objective-borg-af50b1` (worktree `.claude/worktrees/objective-borg-af50b1`): the rebrand, 1 commit
-  `5c4f217`. One file overlaps with the uncommitted work (`SchoolSetupPage.tsx`, different lines).
+- `main` (local, not pushed): the single-school build, popup-focus fix, LAN access, the We School work (`5660399`), the
+  rebrand merged from `refs/heads/claude/objective-borg-af50b1` (`5c4f217`, merge `8a08ac5`) and the translations.
+- The rebrand worktree `.claude/worktrees/objective-borg-af50b1` can be removed; its branch is fully merged.
 - Never commit `apps/api/.env`, `handover.env`, `.data/`, `uploads/`. Commit or push only when the owner asks.
 - Rules: no demo data; every write audited; one `.prisma` file per school module; platform models in
   `prisma/platform/schema.prisma`; migrations additive and reviewed; test with the test database (API 4001), never with
@@ -329,8 +336,7 @@ especially), the platform SMTP sender, school integrations, AI providers, the mo
 
 ## 18. Suggested next steps
 
-1. Commit the We School work, merge the rebrand branch, re-run the typechecks and `tools/tests/*`.
-2. Add Tamil / Hindi translations for the new screens.
-3. Set prices, billing details and SMTP; connect gateway sandbox keys and try a renewal end to end for each gateway.
-4. Decide hosting; deploy; register webhook URLs; create the real schools (Holy Sai already exists as `holysai`).
-5. Build the Android APK and test on phones.
+1. Push `main` (only with the owner's OK); consider making the repository private first.
+2. Set prices, billing details and SMTP; connect gateway sandbox keys and try a renewal end to end for each gateway.
+3. Decide hosting; deploy; register webhook URLs; create the real schools (Holy Sai already exists as `holysai`).
+4. Build the Android APK and test on phones.

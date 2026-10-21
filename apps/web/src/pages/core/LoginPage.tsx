@@ -163,11 +163,14 @@ export default function LoginPage() {
               <Lotus size={42} />
             </div>
             <BrandDivider />
-            <button type="button" className="ctxrow" onClick={() => setInfo('Campus and academic year are chosen after sign-in, from the header.')}>
-              <Icon name="building" size={17} />
-              <span className="ctxrow__text grow">Academic Year {config.data?.academicYear ?? '—'} &nbsp;|&nbsp; <b>{schoolName}</b></span>
-              <Icon name="chevronDown" size={15} />
-            </button>
+            {/* Only when a school is known (its own address): the shared We School sign-in has no school yet. */}
+            {config.data?.academicYear && (
+              <button type="button" className="ctxrow" onClick={() => setInfo('Campus and academic year are chosen after sign-in, from the header.')}>
+                <Icon name="building" size={17} />
+                <span className="ctxrow__text grow">Academic Year {config.data.academicYear} &nbsp;|&nbsp; <b>{schoolName}</b></span>
+                <Icon name="chevronDown" size={15} />
+              </button>
+            )}
 
             <div className="col g-3 mt-4">
               <div className="ifield">
