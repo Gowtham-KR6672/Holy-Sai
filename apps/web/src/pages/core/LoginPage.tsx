@@ -4,7 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { api, ApiError } from '@/api/client';
 import { useAuth } from '@/auth/AuthContext';
 import { useI18n } from '@/i18n/I18nProvider';
-import { BrandDivider, Button, Icon, Lotus, Modal, Svg, useToast, CAMPUS_PHOTO } from '@/components/ui';
+import { BrandDivider, Button, Icon, Lotus, LotusMark, Modal, Svg, useToast } from '@/components/ui';
+import { useSchoolBrand } from '@/lib/brand';
 import { fmt } from '@/lib/format';
 
 interface PublicConfig {
@@ -28,6 +29,14 @@ const MASCOT = `<svg width="58" height="58" viewBox="0 0 64 64" role="img" aria-
 <circle cx="28.2" cy="22.8" r="1.1" fill="#fff"/><circle cx="38.2" cy="22.8" r="1.1" fill="#fff"/>
 <rect x="30.4" y="5" width="3.2" height="7" rx="1.6" fill="#B87008"/><circle cx="32" cy="4" r="3" fill="#E8B765"/>
 <circle cx="32" cy="46" r="2.2" fill="#4FD1E8" opacity=".8"/></svg>`;
+
+// What the platform connects, shown beside the sign-in card on wide screens.
+const FEATURES: { icon: string; title: string; text: string }[] = [
+  { icon: 'graduation', title: 'Student success', text: 'Attendance, marks and early warnings in one view.' },
+  { icon: 'heart', title: 'Connected parents', text: 'Fees, homework, transport and messages in one app.' },
+  { icon: 'shieldCheck', title: 'Safer campus', text: 'Visitors, gate passes and live bus tracking.' },
+  { icon: 'trending', title: 'Smarter operations', text: 'Finance, payroll and reports without spreadsheets.' },
+];
 
 // The five wireframe role tiles, in order.
 const TILES: { role: string; label: string; icon: string }[] = [
@@ -54,11 +63,12 @@ export default function LoginPage() {
   const [moreOpen, setMoreOpen] = useState(false);
 
   const config = useQuery({ queryKey: ['public-config'], queryFn: () => api.get<PublicConfig>('/public/config'), staleTime: 5 * 60_000 });
+  const { schoolName } = useSchoolBrand();
   const demo = config.data?.demoAccounts ?? [];
   const pickedAccount = demo.find((d) => d.role === picked) ?? null;
 
   useEffect(() => {
-    document.title = 'Sign in — Holy Sai Smart School 360';
+    document.title = 'Sign in — We School';
   }, []);
 
   const pick = (role: string, email?: string) => {
@@ -92,24 +102,15 @@ export default function LoginPage() {
   const stats = config.data?.stats;
 
   return (
-    <section className="home" aria-label="Holy Sai Smart School 360 — welcome and sign in">
-      <div className="home__photo" style={{ backgroundImage: `url(${CAMPUS_PHOTO})` }} aria-hidden="true" />
+    <section className="home" aria-label="We School — welcome and sign in">
       <header className="home__nav">
         <div className="home__brand">
-          <Lotus size={46} />
+          <Lotus size={42} />
           <span className="col">
-            <span className="home__brandname">Holy Sai</span>
-            <span className="home__brandtag">International School</span>
+            <span className="home__brandname">We School</span>
+            <span className="home__brandtag">School platform</span>
           </span>
         </div>
-        <nav className="home__links">
-          {['Learn', 'Grow', 'Belong', 'Lead'].map((l, i) => (
-            <span key={l} style={{ display: 'contents' }}>
-              {i > 0 && <span className="navlink__sep">|</span>}
-              <button className="navlink" onClick={() => setInfo(`${l} — the public website section lives on the school website.`)}>{l}</button>
-            </span>
-          ))}
-        </nav>
         <div className="spacer" />
         <div className="langpill">
           {langs.map((l) => (
@@ -118,26 +119,29 @@ export default function LoginPage() {
         </div>
       </header>
 
-      <p className="script script--tr">A Brighter Tomorrow<br />Begins Here</p>
-      <p className="script script--br">Growing Minds.<br />Inspiring Futures.</p>
-
       <div className="home__body">
         <div className="home__left">
-          <div className="home__shotwrap">
-            <div className="shot">
-              <img src="/homescreen.webp" width={1448} height={1086} fetchPriority="high" decoding="async" alt="Holy Sai International campus: students walking to the entrance, with Student Success, Connected Parents, Safer Campus and Smarter Operations highlighted." />
-            </div>
-          </div>
-          <div className="herofallback">
-            <p className="hero__eyebrow">A Brighter Tomorrow Begins Here</p>
-            <h1 className="hero__title">Holy Sai International.<em>Growing Minds. Inspiring Futures.</em></h1>
+          <LotusMark className="home__lotus" />
+          <div className="home__hero">
+            <p className="hero__eyebrow">One platform for the whole school</p>
+            <h1 className="hero__title">Every student.<em>Every family. Connected.</em></h1>
             <p className="hero__lede">Admissions, academics, parents, safety, finance, workforce and intelligence — connected around every student.</p>
+            <ul className="featuregrid">
+              {FEATURES.map((f) => (
+                <li className="feature" key={f.title}>
+                  <span className="feature__ico"><Icon name={f.icon} size={18} /></span>
+                  <span className="col">
+                    <span className="feature__title">{f.title}</span>
+                    <span className="feature__text">{f.text}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
             <div className="statsbar">
               {[
                 ['users', stats ? `${fmt.n(stats.students)}` : '—', 'Students'],
                 ['graduation', stats ? `${fmt.n(stats.staff)}` : '—', 'Staff'],
                 ['building', stats ? String(stats.campuses) : '—', 'Campuses'],
-                ['globe', 'Cambridge', 'Primary to A Level'],
               ].map(([ico, v, l]) => (
                 <span className="stat" key={l}>
                   <span className="stat__ico"><Icon name={ico} size={20} /></span>
@@ -146,15 +150,6 @@ export default function LoginPage() {
               ))}
             </div>
           </div>
-          <div className="row wrap g-3 mt-4" style={{ padding: '0 var(--s-2)' }}>
-            <span className="t-micro t-bold" style={{ color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '.14em' }}>Brand Values:</span>
-            {[['book', 'Educational'], ['lotus', 'Elegant'], ['sparkle', 'Inspiring'], ['trending', 'Modern'], ['shieldCheck', 'Trustworthy']].map(([i, l]) => (
-              <span key={l} className="badge" style={{ background: 'rgba(255,255,255,.1)', borderColor: 'rgba(254,219,110,.3)', color: '#FFF' }}>
-                <Icon name={i} size={13} />{l}
-              </span>
-            ))}
-            <span className="script-font" style={{ color: 'var(--gold)', fontSize: 18, marginLeft: 'auto' }}>Learning Beyond Limits</span>
-          </div>
         </div>
 
         <div className="home__right">
@@ -162,15 +157,15 @@ export default function LoginPage() {
             <div className="row between">
               <div>
                 <p className="logincard__welcome">Welcome to</p>
-                <h2 className="logincard__title">Holy Sai International</h2>
-                <p className="logincard__sub">Smart School 360 · Connected Digital Campus</p>
+                <h2 className="logincard__title">We School</h2>
+                <p className="logincard__sub">Connected school platform</p>
               </div>
               <Lotus size={42} />
             </div>
             <BrandDivider />
             <button type="button" className="ctxrow" onClick={() => setInfo('Campus and academic year are chosen after sign-in, from the header.')}>
               <Icon name="building" size={17} />
-              <span className="ctxrow__text grow">Academic Year {config.data?.academicYear ?? '—'} &nbsp;|&nbsp; <b>Holy Sai International</b></span>
+              <span className="ctxrow__text grow">Academic Year {config.data?.academicYear ?? '—'} &nbsp;|&nbsp; <b>{schoolName}</b></span>
               <Icon name="chevronDown" size={15} />
             </button>
 
@@ -242,7 +237,7 @@ export default function LoginPage() {
               <div className="aicard__text">Ask our AI Campus Assistant</div>
               <div className="aicard__actions">
                 <Button variant="primary" size="sm" icon="sparkle" onClick={() => setInfo('The AI Campus Assistant answers from approved school documents once you sign in.')}>Ask AI</Button>
-                <Button size="sm" icon="phone" onClick={() => setInfo('Holy Sai International School front office — available Monday to Saturday, 8:00 am to 5:00 pm.')}>Contact School</Button>
+                <Button size="sm" icon="phone" onClick={() => setInfo('Contact your school office: they can confirm your registered email or mobile number and reset your password.')}>Contact School</Button>
                 <Button size="sm" icon="helpCircle" onClick={() => setInfo('Sign in with the email or mobile number registered with the school. Parents see only their own children; staff see the modules their role allows.')}>{t('Help')}</Button>
               </div>
             </div>
@@ -250,13 +245,13 @@ export default function LoginPage() {
 
           <div className="row center">
             <span className="illustrative" style={{ background: 'rgba(255,255,255,.14)', color: '#FCE4EC' }}>
-              <Icon name="lotus" size={14} />Holy Sai International School · Growing Minds. Inspiring Futures.
+              <Icon name="shieldCheck" size={14} />Your data is visible only to people whose role requires it.
             </span>
           </div>
         </div>
       </div>
 
-      <Modal open={!!info} onClose={() => setInfo(null)} title="Holy Sai Smart School 360" foot={<Button variant="primary" onClick={() => setInfo(null)}>Understood</Button>}>
+      <Modal open={!!info} onClose={() => setInfo(null)} title="We School" foot={<Button variant="primary" onClick={() => setInfo(null)}>Understood</Button>}>
         <p className="t-sm">{info}</p>
       </Modal>
 

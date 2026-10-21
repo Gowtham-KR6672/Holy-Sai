@@ -20,7 +20,7 @@ export default function FeesPage() {
   const [reminders, setReminders] = useState(false);
   const confirm = useConfirm();
   const remindOne = useApiMutation<{ studentIds: string[]; name: string }>('post', '/finance/fees/reminders', {
-    body: (v) => ({ studentIds: v.studentIds, channel: 'whatsapp_app', message: 'Dear parent, the fee for {student} is overdue ({amount}). You can pay from the Holy Sai app, or contact the front office to discuss an instalment plan.' }),
+    body: (v) => ({ studentIds: v.studentIds, channel: 'whatsapp_app', message: 'Dear parent, the fee for {student} is overdue ({amount}). You can pay from the We School app, or contact the front office to discuss an instalment plan.' }),
     success: (_r, v) => `Reminder sent to the parent of ${v.name}`,
   });
 
@@ -177,7 +177,7 @@ export default function FeesPage() {
   );
 }
 
-const DEFAULT_MESSAGE = 'Dear parent, the fee instalment for {student} is outstanding ({amount}). You can pay from the Holy Sai app. Please contact the front office if you would like to discuss an instalment plan.';
+const DEFAULT_MESSAGE = 'Dear parent, the fee instalment for {student} is outstanding ({amount}). You can pay from the We School app. Please contact the front office if you would like to discuss an instalment plan.';
 
 function RemindersModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { campusParam } = useSchool();

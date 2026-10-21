@@ -5,6 +5,7 @@ import {
 import { useApiQuery } from '@/hooks/useApi';
 import { useAuth } from '@/auth/AuthContext';
 import { useSchool } from '@/layouts/SchoolContext';
+import { useSchoolBrand } from '@/lib/brand';
 import { fmt } from '@/lib/format';
 import { CAMPUS_COLORS, ComparisonCard, comparisonCsv, fmtMetric, type CampusMetrics, type MetricRow } from './shared';
 
@@ -21,6 +22,7 @@ interface Dashboard {
 
 export default function GroupDashboardPage() {
   const school = useSchool();
+  const { schoolName } = useSchoolBrand();
   const { can } = useAuth();
   const q = useApiQuery<Dashboard>('/group/dashboard');
   const [view, setView] = useState<'group' | 'campus'>(school.scope === 'campus' ? 'campus' : 'group');
@@ -35,7 +37,7 @@ export default function GroupDashboardPage() {
   if (!d.campuses.length) {
     return (
       <Page>
-        <CampusBanner title="Group Dashboard" sub="Consolidated position across the Holy Sai group." />
+        <CampusBanner title="Group Dashboard" sub={`${schoolName} · consolidated position across every campus.`} />
         <Card>
           <Empty icon="building" title="No campuses set up yet" sub="Group figures appear once campuses are configured and have students enrolled."
             action={can('group.read') ? <Button to="/campuses">Open campuses</Button> : undefined} />
@@ -85,7 +87,7 @@ export default function GroupDashboardPage() {
 
   return (
     <Page>
-      <CampusBanner title="Group Dashboard" sub="Consolidated position across the Holy Sai group, with each campus visible beside the total."
+      <CampusBanner title="Group Dashboard" sub={`${schoolName} · consolidated position, with each campus visible beside the total.`}
         actions={<>{segment}<Button icon="download" onClick={() => comparisonCsv(d.campuses, d.rows)}>Board pack (CSV)</Button></>} />
       <DashLayout rail={<DashRail events={false} actions={[
         { label: 'Campuses', icon: 'building', to: '/campuses' },

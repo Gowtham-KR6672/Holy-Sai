@@ -154,10 +154,10 @@ function Campuses({ rows, canAdd }: { rows: CampusRow[]; canAdd: boolean }) {
         <div className="formsection">
           <div className="formsection__title">Identity</div>
           <div className="form-grid">
-            <TextField label="Campus name" required value={f.name} onChange={set('name')} error={err.name} placeholder="Holy Sai International" />
+            <TextField label="Campus name" required value={f.name} onChange={set('name')} error={err.name} placeholder="Main campus" />
             <TextField label="Short name" value={f.shortName} onChange={set('shortName')} hint="Shown where space is tight" />
             <TextField label="Code" required value={f.code} onChange={set('code')} error={err.code} placeholder="gdv" />
-            <TextField label="Place" required value={f.place} onChange={set('place')} error={err.place} placeholder="Guduvanchery" />
+            <TextField label="Place" required value={f.place} onChange={set('place')} error={err.place} placeholder="Town or city" />
             <TextField label="Curriculum" value={f.curriculum} onChange={set('curriculum')} placeholder="Cambridge Primary → A Level" />
             <TextField label="Established (year)" type="number" value={f.establishedYear} onChange={set('establishedYear')} error={err.establishedYear} />
             <TextField className="span-2" label="Address" value={f.address} onChange={set('address')} />

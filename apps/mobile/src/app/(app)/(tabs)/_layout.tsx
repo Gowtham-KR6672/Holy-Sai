@@ -41,7 +41,7 @@ export default function TabsLayout() {
         headerTitleAlign: 'left',
         headerLeft: () => (
           <View style={{ paddingLeft: 14 }}>
-            <Image source={require('../../../../assets/images/logo-mark.webp')} style={{ width: 34, height: 26 }} resizeMode="contain" accessibilityIgnoresInvertColors />
+            <Image source={require('../../../../assets/images/logo-mark.png')} style={{ width: 28, height: 28 }} resizeMode="contain" accessibilityIgnoresInvertColors />
           </View>
         ),
         headerRight: () => (

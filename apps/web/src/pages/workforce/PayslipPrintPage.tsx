@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useApiQuery } from '@/hooks/useApi';
 import { Banner, Button, Card, Dl, ErrorState, Lotus, Page, PageSkeleton } from '@/components/ui';
+import { useSchoolBrand } from '@/lib/brand';
 import { fmt } from '@/lib/format';
 import { PayslipDocument } from './shared';
 import type { Payslip } from './types';
@@ -9,6 +10,7 @@ import type { Payslip } from './types';
 export default function PayslipPrintPage({ self }: { self?: boolean }) {
   const { id = '' } = useParams();
   const navigate = useNavigate();
+  const { schoolName } = useSchoolBrand();
   const valid = /^[0-9a-f-]{36}$/i.test(id);
   const q = useApiQuery<Payslip>(valid ? (self ? `/me/payslips/${id}` : `/payslips/${id}`) : null);
   const s = q.data;
@@ -33,7 +35,7 @@ export default function PayslipPrintPage({ self }: { self?: boolean }) {
             <div className="row g-3">
               <Lotus size={40} />
               <div>
-                <div className="serif payslip-head__school">{s.campusName ?? 'Holy Sai'}</div>
+                <div className="serif payslip-head__school">{s.campusName ?? schoolName}</div>
                 <div className="t-xs t-muted">{s.campusAddress}</div>
               </div>
             </div>

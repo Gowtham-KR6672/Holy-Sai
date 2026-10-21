@@ -56,8 +56,8 @@ export default function SignIn() {
     }
   };
 
-  const school = config.data?.schoolName ?? 'Holy Sai International School';
-  const tagline = config.data?.tagline || 'Growing Minds. Inspiring Futures.';
+  const school = config.data?.schoolName?.trim() || t('Your school');
+  const tagline = config.data?.tagline?.trim();
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.bg }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
@@ -74,11 +74,11 @@ export default function SignIn() {
         </View>
 
         <View style={styles.brand}>
-          <Image source={require('../../assets/images/logo-mark.webp')} style={styles.logo} resizeMode="contain" accessibilityLabel={school} />
-          <Txt variant="display" center color={colors.brandStrong}>{t('Holy Sai')}</Txt>
-          <Txt variant="h3" center color={colors.brand}>{t('Smart School 360')}</Txt>
+          <Image source={require('../../assets/images/logo-mark.png')} style={styles.logo} resizeMode="contain" accessibilityLabel="We School" />
+          <Txt variant="display" center color={colors.brandStrong}>We School</Txt>
+          <Txt variant="h3" center color={colors.brand}>{t('Connected school platform')}</Txt>
           <Txt variant="small" center>{school}</Txt>
-          <Txt variant="small" center color={colors.accentStrong} weight="semibold">{t(tagline)}</Txt>
+          {!!tagline && <Txt variant="small" center color={colors.accentStrong} weight="semibold">{t(tagline)}</Txt>}
         </View>
 
         <View style={styles.card}>
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   langPill: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.pill, borderWidth: 1, borderColor: colors.brandLine, backgroundColor: colors.surface },
   langPillOn: { backgroundColor: colors.brand, borderColor: colors.brand },
   brand: { alignItems: 'center', gap: 2, marginTop: space.sm },
-  logo: { width: 128, height: 96, marginBottom: space.sm },
+  logo: { width: 88, height: 88, marginBottom: space.sm },
   card: {
     backgroundColor: colors.surface, borderRadius: 20, padding: space.xl - 4, gap: space.md, borderTopWidth: 4, borderTopColor: colors.accent,
     shadowColor: colors.brandStrong, shadowOpacity: 0.08, shadowRadius: 16, shadowOffset: { width: 0, height: 6 }, elevation: 3,

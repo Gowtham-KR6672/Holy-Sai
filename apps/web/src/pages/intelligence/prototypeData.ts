@@ -97,8 +97,8 @@ export const HUMAN_GATES: [string, string][] = [
 export interface ChatMessage { from: 'parent' | 'ai'; text: string; time: string; quick?: string[] }
 
 export const WHATSAPP: ChatMessage[] = [
-  { from: 'parent', text: 'Hi, does Holy Sai offer Cambridge IGCSE?', time: '09:12' },
-  { from: 'ai', text: 'Yes. Holy Sai offers Cambridge IGCSE at the Guduvanchery campus, along with Cambridge Primary, Lower Secondary, AS and A Level. Would you like to know about subjects, transport, or schedule a campus visit?', time: '09:12', quick: ['View Curriculum', 'Transport', 'Book Visit', 'Talk to Counsellor'] },
+  { from: 'parent', text: 'Hi, does the school offer Cambridge IGCSE?', time: '09:12' },
+  { from: 'ai', text: 'Yes. The school offers Cambridge IGCSE at the main campus, along with Cambridge Primary, Lower Secondary, AS and A Level. Would you like to know about subjects, transport, or schedule a campus visit?', time: '09:12', quick: ['View Curriculum', 'Transport', 'Book Visit', 'Talk to Counsellor'] },
   { from: 'parent', text: 'What subjects are available for Grade 9?', time: '09:14' },
   { from: 'ai', text: 'At Grade 9 the IGCSE core is English, Mathematics and Combined or Separate Sciences. Options include Computer Science, Business Studies, Economics, Art and Design, and a second language. I can send the full subject sheet, or book a counsellor call.', time: '09:14', quick: ['Send subject sheet', 'Book counsellor call'] },
   { from: 'parent', text: 'Book a visit please, weekend if possible.', time: '09:16' },

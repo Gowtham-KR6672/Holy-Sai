@@ -1,14 +1,15 @@
 /**
  * Dashboard visuals drawn as React SVG: metric cards with sparklines, the
  * attendance line chart (with a hover tooltip), the performance donut, the
- * quote card and the lotus decoration. Colours come from tokens; every chart
+ * quote card and the brand-mark decoration. Colours come from tokens; every chart
  * carries a text summary for screen readers.
  */
 import { useId, useMemo, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { useSchoolBrand } from '@/lib/brand';
 import { Icon } from './primitives';
 
-/** The Holy Sai lotus as a faint decoration (hidden from assistive technology). */
+/** The We School mark as a faint decoration (hidden from assistive technology). */
 export { LotusMark } from './LotusArt';
 import { LotusMark } from './LotusArt';
 
@@ -256,11 +257,12 @@ export function Donut({ bands, center, centerSub, label }: { bands: DonutBand[];
 }
 
 /* ---- Quote card -------------------------------------------------------------- */
-export function QuoteCard({ quote = 'Education builds character, shapes the future.', by = 'Holy Sai International' }: { quote?: string; by?: string }) {
+export function QuoteCard({ quote = 'Education builds character, shapes the future.', by }: { quote?: string; by?: string }) {
+  const { schoolName } = useSchoolBrand();
   return (
     <figure className="quotecard">
       <blockquote className="quotecard__text">{quote}</blockquote>
-      <figcaption className="quotecard__by">{by}</figcaption>
+      <figcaption className="quotecard__by">{by ?? schoolName}</figcaption>
       <LotusMark className="quotecard__lotus" />
     </figure>
   );

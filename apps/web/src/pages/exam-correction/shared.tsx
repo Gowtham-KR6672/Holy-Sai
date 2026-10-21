@@ -1,6 +1,6 @@
 /**
  * Paper Correction (EXAM Vision) — shared types, API paths and small pieces.
- * Every call goes through the Holy Sai API, which forwards /exam-correction/api/* to the
+ * Every call goes through the We School API, which forwards /exam-correction/api/* to the
  * marking service as the signed-in user.
  */
 import { useState, type ReactNode } from 'react';

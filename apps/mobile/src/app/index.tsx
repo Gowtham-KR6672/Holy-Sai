@@ -14,7 +14,7 @@ export default function Index() {
   if (status === 'loading') {
     return (
       <View style={styles.center}>
-        <Image source={require('../../assets/images/logo-mark.webp')} style={styles.logo} resizeMode="contain" accessibilityIgnoresInvertColors />
+        <Image source={require('../../assets/images/logo-mark.png')} style={styles.logo} resizeMode="contain" accessibilityIgnoresInvertColors />
         <Loading label={t('Opening your campus…')} height={80} />
       </View>
     );
@@ -22,7 +22,7 @@ export default function Index() {
   if (status === 'unreachable') {
     return (
       <View style={styles.center}>
-        <Image source={require('../../assets/images/logo-mark.webp')} style={styles.logo} resizeMode="contain" accessibilityIgnoresInvertColors />
+        <Image source={require('../../assets/images/logo-mark.png')} style={styles.logo} resizeMode="contain" accessibilityIgnoresInvertColors />
         <Txt variant="h2" center>{t('Cannot reach the school server')}</Txt>
         <Txt variant="small" center>{restoreError ? t(restoreError) : t('Check your internet connection and try again.')}</Txt>
         <Button label={t('Try again')} icon="refresh" variant="primary" onPress={() => void retryRestore()} />
@@ -37,5 +37,5 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.md, padding: space.xl, backgroundColor: colors.bg },
-  logo: { width: 120, height: 90 },
+  logo: { width: 88, height: 88 },
 });

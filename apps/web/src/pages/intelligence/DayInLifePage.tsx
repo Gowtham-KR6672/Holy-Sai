@@ -17,7 +17,7 @@ export default function DayInLifePage() {
     <Page>
       <PageHead
         title="A day in the life"
-        sub="One day at Holy Sai, following the same event through every role that touches it. This is the connected story, not twelve separate screens."
+        sub="One day at a school, following the same event through every role that touches it. This is the connected story, not twelve separate screens."
         actions={<>
           <Button icon="zap" to="/automations">Automation flows</Button>
           <Button variant="primary" icon={last ? 'refresh' : 'play'} onClick={() => setStep(last ? 0 : step + 1)}>{last ? 'Start again' : 'Play next'}</Button>

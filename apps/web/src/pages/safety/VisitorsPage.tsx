@@ -8,6 +8,7 @@ import {
   Badge, Button, Card, DataTable, ErrorState, FilterSelect, Grid, Icon, Kpi, Modal, Page, PageHead, Pagination, Person,
   SearchInput, Segment, SelectField, TextField, Toolbar, useConfirm,
 } from '@/components/ui';
+import { useSchoolBrand } from '@/lib/brand';
 import { fmt } from '@/lib/format';
 import { FormModal, localInputIn, localToIso, PHONE_RE, SAFETY_KEYS, todayIso, useFieldErrors } from './shared';
 import { VISIT_PURPOSES, type Visitor, type VisitorSummary } from './types';
@@ -169,11 +170,12 @@ function CheckInModal({ onClose, onDone }: { onClose: () => void; onDone: (v: Vi
 }
 
 function BadgeModal({ visitor, onClose }: { visitor: Visitor; onClose: () => void }) {
+  const { schoolName } = useSchoolBrand();
   return (
     <Modal open onClose={onClose} title={`Visitor badge ${visitor.badgeNo}`}
       foot={<><Button onClick={onClose}>Close</Button><Button variant="primary" icon="printer" onClick={() => window.print()}>Print badge</Button></>}>
       <div className="st-badgecard">
-        <div className="eyebrow">Holy Sai International School · Visitor</div>
+        <div className="eyebrow">{`${schoolName} · Visitor`}</div>
         <div className="h1 mt-2 t-num">{visitor.badgeNo}</div>
         <div className="h3 mt-2">{visitor.fullName}</div>
         <div className="t-sm t-muted mt-2">{visitor.purpose}</div>

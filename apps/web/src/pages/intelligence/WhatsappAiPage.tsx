@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useSchoolBrand } from '@/lib/brand';
+import { fmt } from '@/lib/format';
 import { Button, Card, Icon, Illustrative, Page, PageHead, Timeline } from '@/components/ui';
 import { WHATSAPP, WHATSAPP_CRM, WHATSAPP_GUARDRAILS } from './prototypeData';
 import { LabelledPoints } from './shared';
@@ -7,6 +9,7 @@ import { useLiveFigures } from './useLiveFigures';
 export default function WhatsappAiPage() {
   const [shown, setShown] = useState(2);
   const { live } = useLiveFigures();
+  const { schoolName } = useSchoolBrand();
   const done = shown >= WHATSAPP.length;
   const next = () => setShown(done ? 2 : shown + 2);
   const msgs = WHATSAPP.slice(0, shown);
@@ -33,8 +36,8 @@ export default function WhatsappAiPage() {
               <div className="device__status"><span>9:41</span><span className="row g-2"><Icon name="activity" size={12} /><Icon name="zap" size={12} /></span></div>
               <div className="appbar" style={{ background: 'var(--magenta-deep)', color: 'var(--text-on-navy)' }}>
                 <Icon name="chevronLeft" size={18} />
-                <span className="avatar avatar--sm avatar--gold none">HS</span>
-                <span className="col grow"><span className="t-sm t-bold">Holy Sai International</span>
+                <span className="avatar avatar--sm avatar--gold none">{fmt.initials(schoolName)}</span>
+                <span className="col grow"><span className="t-sm t-bold">{schoolName}</span>
                   <span className="t-micro">Business account · replies instantly</span></span>
                 <Icon name="phone" size={17} />
               </div>
