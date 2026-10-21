@@ -39,12 +39,12 @@ export function Svg({ html, className, style }: { html: string; className?: stri
   return <span className={className} style={style ?? { display: 'contents' }} dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
-/** School lotus emblem (cropped from the official logo lockup). */
+/** We School logo mark (public/logo-mark.svg, drawn by tools/brand-render.mjs). */
 export function Lotus({ size = 36 }: { size?: number }) {
   return (
     <img
-      src="/logo-mark.webp"
-      alt="Holy Sai International School"
+      src="/logo-mark.svg"
+      alt="We School"
       width={size}
       height={size}
       className="brandmark"
@@ -53,18 +53,13 @@ export function Lotus({ size = 36 }: { size?: number }) {
   );
 }
 
-/** Full horizontal logo lockup — emblem plus wordmark. */
+/** Full horizontal logo lockup — mark plus the "We School" wordmark (set in the interface font). */
 export function LogoLockup({ height = 48, className }: { height?: number; className?: string }) {
   return (
-    <img
-      src="/logo-full.webp"
-      width={600}
-      height={192}
-      decoding="async"
-      alt="Holy Sai International School"
-      className={cx('brandlockup', className)}
-      style={{ height, width: 'auto', objectFit: 'contain', flex: 'none' }}
-    />
+    <span className={cx('brandlockup', className)} role="img" aria-label="We School" style={{ height, fontSize: height * 0.5 }}>
+      <img src="/logo-mark.svg" width={height} height={height} alt="" style={{ width: height, height }} />
+      <span className="brandlockup__word" aria-hidden="true"><b>We</b> School</span>
+    </span>
   );
 }
 

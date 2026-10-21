@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 
 /**
- * Where the app finds the Holy Sai API and the web portal.
+ * Where the app finds the We School API and the web portal.
  *
  * Set EXPO_PUBLIC_API_URL (and EXPO_PUBLIC_WEB_URL) in apps/mobile/.env or in an eas.json build profile.
  * Defaults suit local development: the Android emulator reaches the host machine at 10.0.2.2,

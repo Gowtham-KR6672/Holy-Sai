@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { ApiError } from '@/api/client';
 import { useApiMutation, useApiQuery } from '@/hooks/useApi';
 import { useAuth } from '@/auth/AuthContext';
+import { useSchoolBrand } from '@/lib/brand';
 import { fmt } from '@/lib/format';
 import {
   Badge, Banner, Button, Checkbox, Dl, Empty, ErrorState, Icon, InlineError, Modal, SearchInput, SelectField, Skeleton,
@@ -107,11 +108,12 @@ export function ReceiptModal({ paymentId, onClose }: { paymentId: string | null;
 }
 
 export function ReceiptBody({ r }: { r: Receipt }) {
+  const { schoolName } = useSchoolBrand();
   return (
     <div className="card card--tint fin-receipt">
       <div className="row between">
         <div>
-          <div className="serif fin-receipt__school">Holy Sai International</div>
+          <div className="serif fin-receipt__school">{schoolName}</div>
           <div className="t-micro t-muted">{r.student.campusShort} · Academic Year {r.academicYear}</div>
         </div>
         <Badge tone={r.status === 'Success' ? 'success' : 'critical'} icon={r.status === 'Success' ? 'check' : 'alert'} lg>

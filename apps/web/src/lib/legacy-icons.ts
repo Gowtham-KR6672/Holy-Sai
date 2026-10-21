@@ -128,37 +128,23 @@ const HS: any = {};
       'stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
   };
 
-  /* Full-fidelity Lotus emblem in brand gradient (Magenta + Gold) */
+  /* We School mark (the "W" with its gold dot) in the brand gradient. Decorative. */
   HS.lotus = function (size, opts) {
     var s = size || 36;
     opts = opts || {};
-    var id = 'lotus-grad-' + Math.floor(Math.random() * 10000);
-    return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 100 85" fill="none" role="img" aria-label="Holy Sai Lotus" class="' + (opts.cls || '') + '">' +
+    var id = 'wsmark-' + Math.floor(Math.random() * 10000);
+    return '<svg width="' + s + '" height="' + s + '" viewBox="8 7 48 48" fill="none" aria-hidden="true" class="' + (opts.cls || '') + '">' +
       '<defs>' +
-      '<linearGradient id="' + id + '-m" x1="0%" y1="0%" x2="0%" y2="100%">' +
-      '<stop offset="0%" stop-color="#E60055"/><stop offset="50%" stop-color="#B30042"/><stop offset="100%" stop-color="#7A0029"/>' +
-      '</linearGradient>' +
-      '<linearGradient id="' + id + '-g" x1="0%" y1="0%" x2="100%" y2="100%">' +
-      '<stop offset="0%" stop-color="#FFF0BE"/><stop offset="100%" stop-color="#FEDB6E"/>' +
+      '<linearGradient id="' + id + '-m" x1="0%" y1="0%" x2="100%" y2="100%">' +
+      '<stop offset="0%" stop-color="#B30042"/><stop offset="55%" stop-color="#990033"/><stop offset="100%" stop-color="#4A0A22"/>' +
       '</linearGradient>' +
       '</defs>' +
-      /* Central tallest petal */
-      '<path d="M50 4 C53 18, 59 28, 67 38 C57 37, 50 31, 50 25 C50 31, 43 37, 33 38 C41 28, 47 18, 50 4 Z" fill="url(#' + id + '-m)" stroke="url(#' + id + '-g)" stroke-width="1.2"/>' +
-      /* Inner left & right high petals */
-      '<path d="M50 22 C58 32, 69 40, 80 43 C70 47, 59 44, 52 38 C50 35, 49 28, 50 22 Z" fill="url(#' + id + '-m)" stroke="url(#' + id + '-g)" stroke-width="1"/>' +
-      '<path d="M50 22 C42 32, 31 40, 20 43 C30 47, 41 44, 48 38 C50 35, 51 28, 50 22 Z" fill="url(#' + id + '-m)" stroke="url(#' + id + '-g)" stroke-width="1"/>' +
-      /* Mid side petals */
-      '<path d="M50 36 C64 43, 78 45, 93 41 C82 51, 68 53, 53 48 C50 45, 49 40, 50 36 Z" fill="url(#' + id + '-m)" stroke="url(#' + id + '-g)" stroke-width="1"/>' +
-      '<path d="M50 36 C36 43, 22 45, 7 41 C18 51, 32 53, 47 48 C50 45, 51 40, 50 36 Z" fill="url(#' + id + '-m)" stroke="url(#' + id + '-g)" stroke-width="1"/>' +
-      /* Lower wide base petals */
-      '<path d="M50 48 C68 54, 82 54, 96 48 C83 60, 66 62, 50 58 C34 62, 17 60, 4 48 C18 54, 32 54, 50 48 Z" fill="url(#' + id + '-m)" stroke="url(#' + id + '-g)" stroke-width="1"/>' +
-      /* Water ripples / waves */
-      '<path d="M30 68 C38 65, 44 71, 52 68 C60 65, 66 70, 72 67" stroke="url(#' + id + '-g)" stroke-width="2" stroke-linecap="round" fill="none"/>' +
-      '<path d="M22 76 C34 72, 42 80, 54 76 C66 72, 74 78, 82 74" stroke="url(#' + id + '-g)" stroke-width="2.2" stroke-linecap="round" fill="none"/>' +
+      '<path d="M13 25 L22.5 47 L32 31 L41.5 47 L51 25" stroke="url(#' + id + '-m)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<circle cx="32" cy="17.5" r="5" fill="#FEDB6E"/>' +
       '</svg>';
   };
 
-  /* Brand divider motif (gold line with small center lotus) */
+  /* Brand divider motif (gold line with the small mark in the centre) */
   HS.brandDivider = function (width) {
     var w = width || '100%';
     return '<div class="row center g-3" style="width:' + w + ';margin:10px auto">' +

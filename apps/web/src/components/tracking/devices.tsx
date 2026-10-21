@@ -102,7 +102,7 @@ export function printDeviceLabels(devices: Pick<GpsDevice, 'deviceCode' | 'imei'
       <div class="qr">${qrSvg(d.deviceCode)}</div>
       <div class="code">${esc(d.deviceCode)}</div>
       ${d.imei ? `<div class="meta">IMEI ${esc(d.imei)}</div>` : ''}
-      <div class="meta">Holy Sai · GPS device</div>
+      <div class="meta">We School · GPS device</div>
     </div>`).join('');
   w.document.write(`<!doctype html><html><head><title>Device labels</title><style>
     body{font-family:system-ui,sans-serif;margin:12mm;display:flex;flex-wrap:wrap;gap:6mm}
@@ -301,7 +301,7 @@ export function TokenModal({ deviceCode, deviceType, token, onClose }: { deviceC
           <div className="row g-4 wrap">
             <QrCode text={setupUri} size={220} />
             <div className="col g-2" style={{ flex: '1 1 200px' }}>
-              <div className="t-bold">Scan with the Holy Sai app</div>
+              <div className="t-bold">Scan with the We School app</div>
               <ol className="t-sm" style={{ paddingLeft: 18, margin: 0 }}>
                 <li>Open the app → <strong>GPS Tracker mode</strong>.</li>
                 <li>Tap <strong>Scan setup QR</strong> and point it at this code.</li>

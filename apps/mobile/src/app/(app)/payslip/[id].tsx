@@ -24,7 +24,7 @@ export default function PayslipScreen() {
   return (
     <Screen>
       <Card>
-        <Txt variant="micro">{t('Payslip')} · {s.campusName ?? 'Holy Sai'}</Txt>
+        <Txt variant="micro">{t('Payslip')}{s.campusName ? ` · ${s.campusName}` : ''}</Txt>
         <Txt variant="h2">{s.monthLabel}</Txt>
         <Txt variant="small">{s.employeeName} · {s.employeeCode} · {s.designation}{s.department ? ` · ${s.department}` : ''}</Txt>
         {s.status !== 'Released' && <Banner tone="warning" icon="alert">{t('Draft — this payslip has not been released and may change.')}</Banner>}

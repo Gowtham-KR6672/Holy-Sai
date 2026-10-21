@@ -5,7 +5,7 @@ export default function HelpPage() {
   const { user } = useAuth();
   return (
     <Page>
-      <PageHead title="Help" sub="How Holy Sai Smart School 360 works." />
+      <PageHead title="Help" sub="How We School works." />
       <Grid cols="g-2col">
         <Card title={<span className="row g-2"><Icon name="compass" size={16} />Getting around</span>}>
           <Dl items={[

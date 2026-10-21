@@ -1,4 +1,4 @@
-/** Holy Sai brand tokens (same values as the web app's light theme). */
+/** We School brand tokens (same values as the web app's light theme). */
 export const colors = {
   brand: '#990033',
   brandHover: '#B30042',

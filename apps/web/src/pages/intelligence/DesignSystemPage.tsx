@@ -6,7 +6,7 @@ import {
 } from '@/components/ui';
 
 const SWATCHES: [string, string, string][] = [
-  ['Holy Sai Magenta', '--brand', 'Primary brand color, primary actions, core brand identity'],
+  ['We School Magenta', '--brand', 'Primary brand color, primary actions, core brand identity'],
   ['Deep Magenta', '--brand-hover', 'Vibrant accent, hover highlights, interactive elements'],
   ['Warm Yellow (Gold)', '--accent', 'Secondary accent, badges, active indicators & borders'],
   ['Charcoal Black', '--charcoal', 'Headings, primary typography, high-contrast surfaces'],
@@ -45,20 +45,20 @@ export default function DesignSystemPage() {
     <Page>
       <PageHead
         title="Brand Guidelines & Design System"
-        sub="Official Holy Sai International School Brand Guidelines: Holy Sai Magenta, Deep Magenta, Warm Yellow/Gold, Charcoal Black, Cinzel Display and Montserrat UI. Every sample below is the live component used by the application."
+        sub="We School brand guidelines: We School Magenta, Deep Magenta, Warm Yellow/Gold, Charcoal Black and Montserrat. Every sample below is the live component used by the application."
       />
       <Card flush>
         <div className="row between wrap g-4" style={{ padding: 24, background: 'var(--magenta-deep)', color: 'var(--text-on-navy)', borderRadius: 'var(--r-lg)' }}>
           <div className="row g-4">
             <Lotus size={60} />
             <div>
-              <div className="serif" style={{ fontSize: 24, fontWeight: 700, letterSpacing: '.02em', color: 'var(--text-on-navy)' }}>Holy Sai International School</div>
+              <div className="serif" style={{ fontSize: 24, fontWeight: 700, letterSpacing: '.02em', color: 'var(--text-on-navy)' }}>We School</div>
               <div style={{ fontSize: 12, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '.14em', marginTop: 2 }}>Brand Identity &amp; Digital System</div>
             </div>
           </div>
           <div className="col end">
-            <div className="script-font" style={{ fontSize: 22, color: 'var(--gold)' }}>Growing Minds. Inspiring Futures.</div>
-            <div className="t-micro" style={{ color: 'var(--text-on-navy)', letterSpacing: '.1em', textTransform: 'uppercase' }}>A Brighter Tomorrow Begins Here</div>
+            <div className="script-font" style={{ fontSize: 22, color: 'var(--gold)' }}>Every student. Every family. Connected.</div>
+            <div className="t-micro" style={{ color: 'var(--text-on-navy)', letterSpacing: '.1em', textTransform: 'uppercase' }}>One platform for the whole school</div>
           </div>
         </div>
       </Card>
@@ -79,13 +79,13 @@ export default function DesignSystemPage() {
       </div>
 
       <div className="grid g-2col g-4 mt-4">
-        <Card icon="grid" title="Typography System" sub="Cinzel for Headings & Display, Montserrat for Body & Supporting UI">
+        <Card icon="grid" title="Typography System" sub="Montserrat for headings, display and supporting interface text">
           <div className="col g-4">
-            <div><div className="eyebrow">Primary Typeface · Cinzel Display 32</div><div className="display mt-1">Holy Sai International</div></div>
-            <div><div className="eyebrow">Heading 1 · Cinzel 24</div><div className="h1 mt-1">Student Intelligence 360</div></div>
-            <div><div className="eyebrow">Heading 2 · Cinzel 19</div><div className="h2 mt-1">Academic &amp; Campus Analytics</div></div>
+            <div><div className="eyebrow">Primary Typeface · Montserrat Display 32</div><div className="display mt-1">We School</div></div>
+            <div><div className="eyebrow">Heading 1 · Montserrat 24</div><div className="h1 mt-1">Student Intelligence 360</div></div>
+            <div><div className="eyebrow">Heading 2 · Montserrat 19</div><div className="h2 mt-1">Academic &amp; Campus Analytics</div></div>
             <div><div className="eyebrow">Secondary Typeface · Montserrat 14</div><p className="mt-1">Our typography combines elegance with modern clarity. Built for readability, scalability and cross-platform harmony.</p></div>
-            <div><div className="eyebrow">Script Accent · Caveat</div><div className="script-font mt-1" style={{ fontSize: 24, color: 'var(--magenta)' }}>Learning Beyond Limits · Growing Minds. Inspiring Futures.</div></div>
+            <div><div className="eyebrow">Script Accent · Caveat</div><div className="script-font mt-1" style={{ fontSize: 24, color: 'var(--magenta)' }}>Every student. Every family. Connected.</div></div>
             <div><div className="eyebrow">Data Figures · Montserrat Tabular</div><div className="t-num mt-1" style={{ fontSize: 22, fontWeight: 700, color: 'var(--magenta)' }}>1,284 Students · ₹17.96L · 98.4%</div></div>
           </div>
         </Card>

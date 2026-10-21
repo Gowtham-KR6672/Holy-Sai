@@ -8,6 +8,7 @@ import { useApiMutation, useApiQuery, usePagedQuery } from '@/hooks/useApi';
 import { useListParams } from '@/hooks/useListParams';
 import { useAuth } from '@/auth/AuthContext';
 import { useSchool } from '@/layouts/SchoolContext';
+import { useSchoolBrand } from '@/lib/brand';
 import { fmt } from '@/lib/format';
 import { FormError, FormGrid, StudentPicker, req, useForm, type StudentPick } from './shared';
 
@@ -25,7 +26,7 @@ function esc(s: string) {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 }
 
-function printCertificate(c: Cert) {
+function printCertificate(c: Cert, schoolName: string) {
   const w = window.open('', '_blank', 'width=820,height=900');
   if (!w) return false;
   const body = `<!doctype html><html><head><title>${esc(c.certificateType)} — ${esc(c.studentName)}</title>
@@ -33,11 +34,11 @@ function printCertificate(c: Cert) {
 .sub{text-align:center;color:#666;margin-bottom:40px}.box{border:2px solid #990033;padding:40px;border-radius:8px}p{font-size:17px;line-height:1.7}
 .code{margin-top:40px;display:flex;justify-content:space-between;align-items:flex-end}.qr{border:1px dashed #999;padding:12px 16px;font-family:monospace;font-size:15px}
 .sign{text-align:right}</style></head><body><div class="box">
-<h1>HOLY SAI INTERNATIONAL SCHOOL</h1><div class="sub">${esc(c.campusName)} campus</div>
+<h1>${esc(schoolName.toUpperCase())}</h1><div class="sub">${esc(c.campusName)} campus</div>
 <h1 style="font-size:22px">${esc(c.certificateType.toUpperCase())}</h1>
-<p>This is to certify that <strong>${esc(c.studentName)}</strong> (admission no. ${esc(c.admissionNo)}) ${c.grade ? `is a student of <strong>${esc(c.grade)}${esc(c.section ?? '')}</strong>` : 'is enrolled'} at Holy Sai International School.
+<p>This is to certify that <strong>${esc(c.studentName)}</strong> (admission no. ${esc(c.admissionNo)}) ${c.grade ? `is a student of <strong>${esc(c.grade)}${esc(c.section ?? '')}</strong>` : 'is enrolled'} at ${esc(schoolName)}.
 ${c.purpose ? `This certificate is issued for the purpose of: ${esc(c.purpose)}.` : ''}</p>
-<div class="code"><div class="qr">Verification code<br><strong>${esc(c.verificationCode ?? '')}</strong><br><small>Verify in Holy Sai Smart School 360 → Certificates</small></div>
+<div class="code"><div class="qr">Verification code<br><strong>${esc(c.verificationCode ?? '')}</strong><br><small>Verify in We School → Certificates</small></div>
 <div class="sign">Date: ${esc(fmt.date(c.issuedAt ?? new Date()))}<br><br><br>Principal</div></div></div>
 <script>window.onload=function(){window.print()}</script></body></html>`;
   w.document.write(body);
@@ -59,7 +60,8 @@ export default function CertificatesPage() {
   const act = useApiMutation<{ id: string; action: string }, { status: string }>('post', (v) => `/certificates/${v.id}/decision`,
     { invalidate: ['/certificates'], body: (v) => ({ action: v.action }) });
   const toast = useToast();
-  const print = (c: Cert) => { if (!printCertificate(c)) toast('Allow pop-ups for this site to open the print view.', 'warning'); };
+  const { schoolName } = useSchoolBrand();
+  const print = (c: Cert) => { if (!printCertificate(c, schoolName)) toast('Allow pop-ups for this site to open the print view.', 'warning'); };
   const s = sum.data;
   const st = list.filters.status;
   return (

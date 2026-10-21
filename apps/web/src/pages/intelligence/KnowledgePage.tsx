@@ -68,7 +68,7 @@ export default function KnowledgePage() {
       />
       <div className="grid g-main">
         <div className="col g-4">
-          <Card icon="grid" title="Ask Holy Sai Knowledge">
+          <Card icon="grid" title="Ask We School Knowledge">
             <form onSubmit={(e) => { e.preventDefault(); submit(); }} className="row g-2">
               <div className="input-icon grow" style={{ maxWidth: 'none' }}>
                 <Icon name="brain" size={16} />

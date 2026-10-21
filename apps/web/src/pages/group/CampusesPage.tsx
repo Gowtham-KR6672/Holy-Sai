@@ -3,6 +3,7 @@ import { Badge, Button, Card, Dl, Empty, ErrorState, Icon, InlineError, Modal, P
 import { useApiMutation, useApiQuery } from '@/hooks/useApi';
 import { useAuth } from '@/auth/AuthContext';
 import { useSchool } from '@/layouts/SchoolContext';
+import { useSchoolBrand } from '@/lib/brand';
 import { fmt } from '@/lib/format';
 import { FormGrid, req, useForm } from '../operations/shared';
 import type { CampusMetrics } from './shared';
@@ -10,12 +11,13 @@ import type { CampusMetrics } from './shared';
 export default function CampusesPage() {
   const q = useApiQuery<CampusMetrics[]>('/group/campuses');
   const school = useSchool();
+  const { schoolName } = useSchoolBrand();
   const { can } = useAuth();
   const [edit, setEdit] = useState<CampusMetrics | null>(null);
   const campuses = q.data ?? [];
   return (
     <Page>
-      <PageHead title="Campuses" sub={q.data ? `The ${campuses.length} ${campuses.length === 1 ? 'campus' : 'campuses'} in the Holy Sai group.` : 'The campuses in the Holy Sai group.'}
+      <PageHead title="Campuses" sub={q.data ? (campuses.length === 1 ? `${schoolName} has one campus.` : `${schoolName} has ${campuses.length} campuses.`) : `The campuses of ${schoolName}.`}
         actions={can('dashboard.group') && <Button variant="primary" icon="globe" to="/group-dashboard">Group dashboard</Button>} />
       {q.error ? <ErrorState error={q.error} onRetry={q.refetch} /> : q.isLoading ? (
         <div className="grid g-3col g-4">

@@ -11727,3 +11727,39 @@ a.ov-tile--kpi:hover {
   background: var(--hue-steel-tint);
   color: var(--hue-steel);
 }
+/* We School: logo lockup and the neutral dashboard-banner decoration (in place of the campus photo). */
+.brandlockup {
+  align-items: center;
+  gap: 0.45em;
+  flex: none;
+  display: inline-flex;
+}
+.brandlockup img {
+  flex: none;
+}
+.brandlockup__word {
+  font-family: var(--font-ui);
+  color: var(--text-strong);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  font-weight: 600;
+  line-height: 1;
+}
+.brandlockup__word b {
+  color: var(--brand);
+  font-weight: 800;
+}
+.campusbanner__art svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+@media (width<=767px) {
+  .campusbanner__art {
+    opacity: 0.6;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+}

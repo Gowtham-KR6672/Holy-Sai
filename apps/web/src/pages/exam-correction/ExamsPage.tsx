@@ -84,7 +84,7 @@ export default function ExamsPage() {
 
 // ---------------------------------------------------------------------------
 
-/** Create or edit an examination. Class and section come from Holy Sai so they match the synced roster. */
+/** Create or edit an examination. Class and section come from We School so they match the synced roster. */
 export function ExamModal({ exam, onClose, onSaved }: { exam?: Exam; onClose: () => void; onSaved: (e: Exam) => void }) {
   const { lookups } = useLookups();
   const { campusId } = useSchool();

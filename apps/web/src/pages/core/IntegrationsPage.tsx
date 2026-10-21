@@ -24,7 +24,7 @@ const PURPOSE: Record<string, string> = {
   sms: 'OTP for pickup verification and fallback alerts. Indian SMS needs a DLT-registered sender ID.',
   email: 'Critical alerts, reports and account messages.',
   payment: 'Parent "Pay Now" for fees (UPI, cards, net banking) and settlement reconciliation.',
-  push: 'Notifications on the Holy Sai mobile app (iOS and Android).',
+  push: 'Notifications on the We School mobile app (iOS and Android).',
   gps: 'Student GPS tags, ID-card trackers and bus devices post locations to the ingest address below.',
   gate: 'Card and face readers at the gates post each scan to the webhook below.',
   biometric: 'Staff attendance devices post punches to the webhook below.',

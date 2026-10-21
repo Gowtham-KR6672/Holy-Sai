@@ -1,17 +1,17 @@
 {
   "expo": {
-    "name": "Holy Sai Smart School 360",
-    "slug": "holysai-smart-school-360",
-    "scheme": "holysai",
+    "name": "We School",
+    "slug": "we-school",
+    "scheme": "weschool",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "backgroundColor": "#FAF8F6",
     "primaryColor": "#990033",
-    "description": "Holy Sai Smart School 360 — the connected campus for parents, students, teachers and staff.",
+    "description": "We School — the connected school app for parents, students, teachers and staff.",
     "ios": {
-      "bundleIdentifier": "com.holysai.smartschool360",
+      "bundleIdentifier": "com.weschool.app",
       "buildNumber": "1",
       "supportsTablet": true,
       "infoPlist": {
@@ -22,7 +22,7 @@
       }
     },
     "android": {
-      "package": "com.holysai.smartschool360",
+      "package": "com.weschool.app",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#FAF8F6",

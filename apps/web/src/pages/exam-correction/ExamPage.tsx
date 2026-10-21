@@ -43,7 +43,7 @@ export default function ExamPage() {
   const exam = q.data;
 
   const move = async (to: string) => {
-    if (to === 'published' && !(await confirm({ title: 'Publish results?', body: 'Results become final for this examination. Send them to the marks register from Results & reports so students and parents see them in Holy Sai.', confirmLabel: 'Publish' }))) return;
+    if (to === 'published' && !(await confirm({ title: 'Publish results?', body: 'Results become final for this examination. Send them to the marks register from Results & reports so students and parents see them in We School.', confirmLabel: 'Publish' }))) return;
     step.mutate(to);
   };
   const tabs = [
@@ -130,7 +130,7 @@ function SheetsTab({ exam, ai }: { exam: Exam; ai?: AiStatus }) {
         {subs.error || students.error ? <ErrorState error={subs.error ?? students.error} onRetry={() => { subs.refetch(); students.refetch(); }} /> : (
           <DataTable rows={rows} loading={subs.isLoading || students.isLoading} rowKey={(r) => r.id}
             onRowClick={(r) => (r.sheet ? navigate(`${BASE}/sheets/${r.sheet.id}`) : setUploadFor(r))}
-            emptyText={`No students in ${classLabel}. Students come from Holy Sai — use "Sync students & staff" if a new admission is missing.`}
+            emptyText={`No students in ${classLabel}. Students come from We School — use "Sync students & staff" if a new admission is missing.`}
             columns={[
               { key: 'roll', label: 'Roll', width: '60px', render: (r) => <span className="t-num">{r.rollNo || '—'}</span> },
               { key: 'student', label: 'Student', render: (r) => <><span className="t-bold">{r.name}</span><div className="t-micro t-muted">{r.admissionNo}</div></> },
@@ -567,7 +567,7 @@ function ResultsTab({ exam }: { exam: Exam }) {
       </Grid>
 
       <Card icon="send" title="Marks register"
-        sub={ready ? 'Send the approved totals into a Holy Sai assessment, so they appear in Student 360, report cards and the parent portal.' : 'Approve the results (button at the top) to send them to the marks register.'}
+        sub={ready ? 'Send the approved totals into a We School assessment, so they appear in Student 360, report cards and the parent portal.' : 'Approve the results (button at the top) to send them to the marks register.'}
         actions={<Button variant="primary" icon="send" disabled={!ready} onClick={() => setPushing(true)}>Send to assessment</Button>} />
 
       <Card icon="users" title="Students" flush actions={<Button size="sm" icon="download" onClick={() => api.download(`${EV}/exams/${exam.id}/report.csv`, `${exam.name}_results.csv`)}>Download CSV</Button>}>

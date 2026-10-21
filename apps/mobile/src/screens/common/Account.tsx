@@ -94,7 +94,7 @@ export default function AccountScreen() {
       </Card>
 
       <Button label={t('Sign out')} icon="logout" variant="danger" onPress={() => void doSignOut()} block />
-      <Txt variant="micro" center>{`Holy Sai Smart School 360 · v${Constants.expoConfig?.version ?? '1.0.0'} · ${API_URL}`}</Txt>
+      <Txt variant="micro" center>{`We School · v${Constants.expoConfig?.version ?? '1.0.0'} · ${API_URL}`}</Txt>
     </Screen>
   );
 }

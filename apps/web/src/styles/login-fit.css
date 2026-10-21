@@ -1,63 +1,128 @@
-/* Rebuild change (requested): the sign-in page fits the screen and the page itself never scrolls.
-   Loaded after holysai.css. */
+/* We School sign-in page: brand background, the platform summary on the left and the sign-in card on
+   the right. The page fits the screen and never scrolls. Loaded after holysai.css. */
 .home {
   height: 100dvh;
   min-height: 0;
+}
+/* Soft brand glows and a faint dot grid (replaces the overlay that sat on the campus photo). */
+.home:before {
+  background:
+    radial-gradient(900px 620px at 88% 4%, #fedb6e2e, #0000 60%),
+    radial-gradient(760px 560px at 6% 100%, #b3004266, #0000 62%),
+    radial-gradient(#ffffff12 1px, #0000 1.6px) 0 0 / 24px 24px;
 }
 .home__body {
   min-height: 0;
   grid-template-rows: minmax(0, 1fr);
   align-items: stretch;
 }
+/* No script lines in the right margin any more, so wide screens keep the normal gutter. */
+@media (width>=1360px) {
+  .home__nav,
+  .home__body {
+    padding-right: var(--s-7);
+  }
+}
 .home__left,
 .home__right {
   min-height: 0;
 }
 
-/* Laptop and desktop: the campus picture scales to the height that is left, keeping its proportions. */
-@media (width>=1025px) {
-  .home__left {
-    display: grid;
-    grid-template-rows: minmax(0, 1fr) auto;
-  }
-  .home__shotwrap {
-    container-type: size;
-    min-height: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  .shot {
-    width: min(100cqw, calc(100cqh * 1448 / 1086));
-    flex: none;
-  }
-  .home__left > .row {
-    flex-wrap: nowrap;
-    overflow: hidden;
-  }
+/* Left side: what the platform connects. */
+.home__left {
+  justify-content: center;
+  position: relative;
+}
+.home__hero {
+  z-index: 1;
+  max-width: 720px;
+  position: relative;
+}
+.home__hero .hero__title {
+  font-size: clamp(36px, 3.6vw, 56px);
+}
+.home__lotus {
+  opacity: 0.05;
+  filter: grayscale(1) brightness(4);
+  pointer-events: none;
+  width: 360px;
+  height: 270px;
+  position: absolute;
+  bottom: -24px;
+  right: -12px;
+}
+.featuregrid {
+  gap: var(--s-3);
+  margin: var(--s-6) 0 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: grid;
+}
+.feature {
+  gap: var(--s-3);
+  padding: 14px var(--s-4);
+  border-radius: var(--r-lg);
+  background: #ffffff12;
+  border: 1px solid #fedb6e33;
+  align-items: flex-start;
+  display: flex;
+}
+.feature__ico {
+  color: var(--gold);
+  background: #fedb6e1f;
+  border-radius: 10px;
+  flex: none;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  display: grid;
+}
+.feature__title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.feature__text {
+  color: #f5d2db;
+  margin-top: 2px;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+.home__hero .statsbar {
+  margin-top: var(--s-5);
 }
 
-/* Short laptop screens: drop the decorative extras before anything is cut off. */
+/* Shorter laptop screens: drop the extras before anything is cut off. */
 @media (height<=760px) and (width>=1025px) {
   .home__right > .row.center {
     display: none;
   }
+  .home__hero .hero__title {
+    font-size: clamp(34px, 3.3vw, 48px);
+  }
+  .featuregrid {
+    margin-top: var(--s-5);
+  }
+  .feature {
+    padding: 10px 14px;
+  }
 }
-@media (height<=660px) and (width>=1025px) {
-  .home__left > .row {
+@media (height<=680px) and (width>=1025px) {
+  .hero__lede {
     display: none;
   }
-  .aicard {
+}
+@media (height<=660px) and (width>=1025px) {
+  .aicard,
+  .home__hero .statsbar {
     display: none;
   }
 }
 
-/* Tablets and phones: show only the sign-in side; the hero text and brand values are decorative. */
+/* Tablets and phones: show only the sign-in side; the summary is decorative. */
 @media (width<=1024px) {
-  .herofallback,
-  .home__left > .row {
-    display: none;
-  }
   .home__left {
     display: none;
   }
@@ -72,6 +137,33 @@
   .aicard {
     text-align: left;
     flex-direction: row;
+  }
+  /* The assistant's picture gives its room to the help buttons. */
+  .aicard > span:first-child > svg {
+    display: none;
+  }
+}
+/* Narrow phones: the sign-in card already names the product, so the header keeps only the mark
+   and the language switcher stays whole. */
+@media (width<=480px) {
+  .home__brand > .col {
+    display: none;
+  }
+  /* The three help buttons share one row (without icons); longer Tamil and Hindi labels wrap inside them. */
+  .aicard__actions {
+    grid-template-columns: repeat(3, auto);
+    display: grid;
+  }
+  .aicard__actions .btn {
+    white-space: normal;
+    text-align: center;
+    height: auto;
+    min-height: var(--control-h-sm);
+    padding: 5px 8px;
+    line-height: 1.2;
+  }
+  .aicard__actions .btn > svg {
+    display: none;
   }
 }
 

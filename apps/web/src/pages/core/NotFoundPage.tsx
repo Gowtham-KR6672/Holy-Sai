@@ -7,7 +7,7 @@ export default function NotFoundPage() {
   const navigate = useNavigate();
   return (
     <Page>
-      <PageHead title="Screen not found" sub="This address is not part of Holy Sai Smart School 360." crumbs={false} />
+      <PageHead title="Screen not found" sub="This address is not part of We School." crumbs={false} />
       <Card>
         <Empty
           icon="compass"
