@@ -3,7 +3,10 @@ import type { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import type { Request } from 'express';
 import { randomBytes, randomInt } from 'node:crypto';
-import { conflict, fieldError } from '../common/errors';
+import { rm } from 'node:fs/promises';
+import path from 'node:path';
+import { badRequest, conflict, fieldError, notFound } from '../common/errors';
+import { env } from '../config/env';
 import type { WorkspaceRef } from '../tenancy/context';
 import { LoginDirectory, normaliseEmail } from '../tenancy/login-directory.service';
 import { migrateSchoolSchema } from '../tenancy/migrator';
@@ -119,6 +122,48 @@ export class ProvisioningService {
       if ((err as { status?: number }).status) throw err;
       throw conflict(`The school could not be set up: ${(err as Error).message.split('\n')[0]}. Fix the cause and create it again with the same code.`);
     }
+  }
+
+  /**
+   * Deletes a school for good: its schema (every school table), sign-in entries, device tokens and local uploads.
+   * Only a suspended school (or a failed set-up) can be deleted, and the caller must type its code. Payments and
+   * invoices stay for the accounts; the school row stays behind them as "deleted", with its code and schema name
+   * freed so a new school can use the code again.
+   */
+  async remove(id: string, confirmCode: string, actor: PlatformAdminUser, req?: Request) {
+    const w = await this.platform.workspace.findUnique({ where: { id } });
+    if (!w || w.status === 'deleted') throw notFound('School');
+    const stuck = w.status === 'provisioning' && Date.now() - w.updatedAt.getTime() > 15 * 60_000;
+    if (!['suspended', 'failed'].includes(w.status) && !stuck) throw badRequest('Suspend the school before deleting it');
+    if (confirmCode.trim().toLowerCase() !== w.code) throw fieldError('code', 'Type the school code exactly as shown');
+    if (!/^ws_[a-z0-9_]{2,40}$/.test(w.schemaName)) throw conflict(`Unexpected schema name "${w.schemaName}"`);
+
+    await this.tenancy.forget(w.schemaName);
+    const stamp = Date.now().toString(36);
+    await this.platform.$transaction(
+      async (tx) => {
+        await tx.$executeRawUnsafe(`SET LOCAL lock_timeout = '15s'`);
+        await tx.$executeRawUnsafe(`DROP SCHEMA IF EXISTS "${w.schemaName}" CASCADE`);
+        await tx.loginIdentifier.deleteMany({ where: { workspaceId: w.id } });
+        await tx.deviceToken.deleteMany({ where: { workspaceId: w.id } });
+        await tx.supportCode.deleteMany({ where: { workspaceId: w.id } });
+        await tx.reminderLog.deleteMany({ where: { workspaceId: w.id } });
+        await tx.workspace.update({
+          where: { id: w.id },
+          data: { status: 'deleted', code: `${w.code}~deleted~${stamp}`, schemaName: `${w.schemaName}~deleted~${stamp}`, supportUserId: null },
+        });
+      },
+      { maxWait: 10_000, timeout: 120_000 },
+    );
+    this.tenancy.refreshList();
+
+    // Local uploads (UPLOAD_DIR/<code>). Files in the school's own cloud bucket stay with the school.
+    if (WORKSPACE_CODE.test(w.code)) {
+      await rm(path.join(path.resolve(env().uploadDir), w.code), { recursive: true, force: true }).catch((err: Error) => this.log.warn(`Uploads of ${w.code} not removed: ${err.message}`));
+    }
+    await this.audit.record({ admin: actor, action: 'delete', entityType: 'workspace', entityId: w.id, workspaceId: w.id, description: `Deleted school ${w.name} (${w.code})`, req });
+    this.log.log(`Deleted school ${w.code}`);
+    return { id: w.id, name: w.name, code: w.code };
   }
 
   /** The hidden "We School Support" account used when a platform admin enters the school. */

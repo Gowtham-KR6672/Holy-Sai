@@ -66,6 +66,11 @@ class SuspendDto {
   @IsString() @MinLength(3) @MaxLength(300) reason: string;
 }
 
+class DeleteWorkspaceDto {
+  /** The school code, typed by the admin to confirm. */
+  @IsString() @MaxLength(40) code: string;
+}
+
 class SupportExchangeDto {
   @IsString() @MinLength(20) @MaxLength(100) code: string;
 }
@@ -118,7 +123,7 @@ export class WorkspacesController {
 
   @Get('workspaces')
   async list() {
-    const rows = await this.platform.workspace.findMany({ orderBy: { createdAt: 'desc' } });
+    const rows = await this.platform.workspace.findMany({ where: { status: { not: 'deleted' } }, orderBy: { createdAt: 'desc' } });
     const subs = await Promise.all(rows.map((w) => (['active', 'suspended'].includes(w.status) ? this.status.forWorkspace(w.id) : Promise.resolve(null))));
     return rows.map((w, i) => ({
       id: w.id, code: w.code, name: w.name, status: w.status, currency: w.currency, country: w.country,
@@ -220,6 +225,16 @@ export class WorkspacesController {
     return ok({ id: w.id, status: 'active' }, `${w.name} is active again`);
   }
 
+  /** Deletes a suspended school (or a failed set-up) and all its data; payments and invoices are kept. */
+  @Post('workspaces/:id/delete')
+  @HttpCode(200)
+  async remove(@Param('id') id: string, @Body() dto: DeleteWorkspaceDto, @CurrentAdmin() admin: PlatformAdminUser, @Req() req: Request) {
+    const w = await this.find(id);
+    const done = await this.provisioning.remove(w.id, dto.code, admin, req);
+    this.status.invalidate(w.id);
+    return ok(done, `${done.name} was deleted`);
+  }
+
   /** Support access: a single-use code the console opens in a new tab (/support#code=…). */
   @Post('workspaces/:id/support')
   @HttpCode(200)
@@ -286,7 +301,7 @@ export class WorkspacesController {
   }
 
   private async find(id: string) {
-    const w = await this.platform.workspace.findFirst({ where: { OR: [{ code: id }, ...(/^[0-9a-f-]{36}$/i.test(id) ? [{ id }] : [])] } });
+    const w = await this.platform.workspace.findFirst({ where: { status: { not: 'deleted' }, OR: [{ code: id }, ...(/^[0-9a-f-]{36}$/i.test(id) ? [{ id }] : [])] } });
     if (!w) throw notFound('School');
     return w;
   }

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ApiError, api } from '@/api/client';
 import { Badge, Banner, Button, Card, DataTable, Dl, Grid, InlineError, Kpi, Modal, PageHead, QueryState, TextArea, TextField, useConfirm, useToast } from '@/components/ui';
-import { useApiMutation, useApiQuery, usePagedQuery } from '@/hooks/useApi';
+import { useApiMutation, useApiQuery, useInvalidate, usePagedQuery } from '@/hooks/useApi';
 import { fmt } from '@/lib/format';
 import SchoolSubscription from './SchoolSubscription';
 import { SchoolStatus, TemporaryPassword } from './shared';
@@ -47,7 +47,7 @@ interface AuditRow {
   description: string;
 }
 
-/** One school: profile, usage, its Workspace Admins, support access, suspension and activity. */
+/** One school: profile, usage, its Workspace Admins, support access, suspension, deletion and activity. */
 export default function SchoolPage() {
   const { id = '' } = useParams();
   const q = useApiQuery<School>(`/platform/workspaces/${id}`);
@@ -59,6 +59,7 @@ function SchoolView({ s }: { s: School }) {
   const confirm = useConfirm();
   const [edit, setEdit] = useState(false);
   const [suspendOpen, setSuspendOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
   const [secret, setSecret] = useState<{ title: string; email: string; password: string } | null>(null);
   const activity = usePagedQuery<AuditRow>('/platform/audit', { workspaceId: s.id, pageSize: 10 });
@@ -103,6 +104,7 @@ function SchoolView({ s }: { s: School }) {
                 Resume
               </Button>
             )}
+            {s.status !== 'provisioning' && <Button variant="danger" icon="trash" onClick={() => setDeleteOpen(true)}>Delete</Button>}
           </>
         }
       />
@@ -187,6 +189,7 @@ function SchoolView({ s }: { s: School }) {
 
       <EditSchool s={s} open={edit} onClose={() => setEdit(false)} />
       <SuspendSchool s={s} open={suspendOpen} onClose={() => setSuspendOpen(false)} />
+      <DeleteSchool s={s} open={deleteOpen} onClose={() => setDeleteOpen(false)} onSuspendFirst={() => { setDeleteOpen(false); setSuspendOpen(true); }} />
       <AddAdmin s={s} open={adminOpen} onClose={() => setAdminOpen(false)} onCreated={(email, password) => setSecret({ title: 'Workspace Admin added', email, password })} />
       {secret && <TemporaryPassword open onClose={() => setSecret(null)} title={secret.title} email={secret.email} password={secret.password} />}
     </>
@@ -225,6 +228,41 @@ function SuspendSchool({ s, open, onClose }: { s: School; open: boolean; onClose
     <Modal open={open} onClose={onClose} busy={save.isPending} title={`Suspend ${s.name}?`} sub="Nobody in the school can sign in until you resume it. Its data is kept, and you can still open it for support."
       foot={<><Button onClick={onClose} disabled={save.isPending}>Cancel</Button><Button variant="danger" icon="pause" loading={save.isPending} disabled={reason.trim().length < 3} onClick={() => save.mutate({ reason })}>Suspend school</Button></>}>
       <TextArea label="Reason" required rows={3} value={reason} onChange={setReason} placeholder="e.g. Subscription unpaid since 1 Nov" />
+    </Modal>
+  );
+}
+
+/** Deleting is final, so only a suspended school (or a failed set-up) can be deleted, and the code must be typed. */
+function DeleteSchool({ s, open, onClose, onSuspendFirst }: { s: School; open: boolean; onClose: () => void; onSuspendFirst: () => void }) {
+  const navigate = useNavigate();
+  const invalidate = useInvalidate();
+  const [typed, setTyped] = useState('');
+  const close = () => { setTyped(''); onClose(); };
+  const save = useApiMutation<{ code: string }>('post', `/platform/workspaces/${s.id}/delete`, {
+    error: false,
+    // Leave the page first: refreshing it now would ask for a school that no longer exists.
+    onSuccess: () => { close(); navigate('/platform/schools', { replace: true }); void invalidate('/platform'); },
+  });
+  const err = save.error instanceof ApiError ? save.error.fieldErrors : {};
+  const canDelete = s.status === 'suspended' || s.status === 'failed';
+
+  if (!canDelete) {
+    return (
+      <Modal open={open} onClose={close} title={`Delete ${s.name}?`}
+        foot={<><Button onClick={close}>Cancel</Button><Button variant="danger" icon="pause" onClick={onSuspendFirst}>Suspend first</Button></>}>
+        <Banner tone="warning" icon="pause">Only a suspended school can be deleted. Suspend it first: its users stop signing in, and you can still resume it if you change your mind.</Banner>
+      </Modal>
+    );
+  }
+  return (
+    <Modal open={open} onClose={close} busy={save.isPending} title={`Delete ${s.name}?`}
+      foot={<><Button onClick={close} disabled={save.isPending}>Cancel</Button><Button variant="danger" icon="trash" loading={save.isPending} disabled={typed.trim().toLowerCase() !== s.code} onClick={() => save.mutate({ code: typed })}>Delete school</Button></>}>
+      <div className="col g-3">
+        <Banner tone="critical" icon="alert">This permanently deletes the school and everything in it: campuses, students, staff, fees, attendance, sign-in accounts, uploaded files and its audit trail. It cannot be undone.</Banner>
+        <p className="t-sm t-muted">{`Its payments and invoices stay in the console for your accounts. Its emails, mobile numbers and the code ${s.code} can be used again for another school.`}</p>
+        {save.error && !Object.keys(err).length && <InlineError error={save.error} />}
+        <TextField label={`Type ${s.code} to confirm`} required value={typed} onChange={setTyped} error={err.code} autoComplete="off" />
+      </div>
     </Modal>
   );
 }

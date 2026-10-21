@@ -10,6 +10,7 @@ interface Row {
   id: string;
   school: string;
   schoolCode: string | null;
+  schoolDeleted?: boolean;
   planCode: string;
   amount: number;
   currency: string;
@@ -51,7 +52,7 @@ export default function PaymentsPage() {
           onRowClick={(r) => r.schoolCode && navigate(`/platform/schools/${r.schoolCode}`)}
           columns={[
             { key: 'createdAt', label: 'Date', render: (r) => <span className="t-xs">{fmt.dateTime(r.paidAt ?? r.createdAt)}</span>, width: '160px' },
-            { key: 'school', label: 'School', render: (r) => <span className="t-bold">{r.school}</span> },
+            { key: 'school', label: 'School', render: (r) => <><span className="t-bold">{r.school}</span>{r.schoolDeleted && <div className="t-micro t-muted">Deleted school</div>}</> },
             { key: 'amount', label: 'Amount', className: 'num', render: (r) => money(r.currency, r.amount) },
             { key: 'gateway', label: 'Via', render: (r) => <>{GATEWAY_LABEL[r.gateway] ?? r.gateway}{r.method ? <span className="t-micro t-muted"> · {METHOD_LABEL[r.method] ?? r.method}</span> : null}</> },
             { key: 'reference', label: 'Reference', render: (r) => <span className="t-micro">{r.reference ?? '—'}</span> },

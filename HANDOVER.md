@@ -288,6 +288,9 @@ audit descriptions and gateway error messages.
   trails, works when suspended, cannot change passwords), suspend/resume, extra admins, password resets, platform admins.
 - `tools/tests/campus-admin.test.cjs` — all: own campus only (lists, `campusId=all`, by-id, edits), cannot add campuses or
   school-wide admins, campus dashboard works, Workspace Admin unaffected.
+- `tools/tests/delete-school.test.cjs` — all: only a suspended school with its code typed; schema, sign-ins, sessions,
+  webhooks and uploads gone; payments and invoices kept (marked "Deleted school"); code and admin email reusable by a
+  new, empty school.
 - `tools/tests/billing.test.cjs` — all: plans, tax, masked gateway keys, Test button, trial, manual payment + invoice PDF
   (18% tax), Razorpay and Stripe webhooks (forged / stale / replayed refused or ignored), USD school, expiry (staff blocked,
   admin 402 except Subscription, support allowed), renewal, checkout error with bad keys.
@@ -314,7 +317,10 @@ especially), the platform SMTP sender, school integrations, AI providers, the mo
 5. **Schools outside India:** time zone and fee currency per school (daily jobs and fee amounts still assume
    Asia/Kolkata and ₹ inside schools).
 6. Per-school logo upload (School Setup) — the header shows the school name; a logo field is not built yet.
-7. Deleting / exporting a school is not built (suspend instead).
+7. **Deleting a school** (console › school › Delete): only once suspended (or a failed set-up), with its code typed.
+   Drops its schema, sign-in entries, device tokens and local uploads; keeps its payments and invoices (the school row
+   stays as `deleted`, code renamed `<code>~deleted~<stamp>` so the code can be reused). Files in a school's own S3/R2
+   bucket are not removed. Exporting a school is not built.
 8. Test database holds many throw-away test schools (each test run adds 1–3); clean up or recreate `holysai_test` when it
    gets slow (only with the owner's OK).
 9. Earlier items still open: APK build (EAS), app icons, real-phone tests, features without original screens.

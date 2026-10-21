@@ -69,12 +69,12 @@ export function currentWorkspace(): WorkspaceRef {
   return ws;
 }
 
-/** A cache or lock key that cannot collide with another workspace's. */
+/** A cache or lock key that cannot collide with another workspace's (by id: a code can be reused after a school is deleted). */
 export function workspaceKey(key: string): string {
-  return `${currentWorkspace().code}:${key}`;
+  return `${currentWorkspace().id}:${key}`;
 }
 
-/** One value per workspace, created on first use (in-memory caches, flags, indexes). */
+/** One value per workspace, created on first use (in-memory caches, flags, indexes). Keyed by the workspace id. */
 export class PerWorkspace<T> {
   private readonly values = new Map<string, T>();
 
@@ -82,23 +82,23 @@ export class PerWorkspace<T> {
 
   /** The value for the current workspace. */
   get(): T {
-    const code = currentWorkspace().code;
-    let v = this.values.get(code);
+    const id = currentWorkspace().id;
+    let v = this.values.get(id);
     if (v === undefined) {
       v = this.create();
-      this.values.set(code, v);
+      this.values.set(id, v);
     }
     return v;
   }
 
   /** Replaces the value for the current workspace. */
   set(value: T) {
-    this.values.set(currentWorkspace().code, value);
+    this.values.set(currentWorkspace().id, value);
   }
 
   /** Drops the value of one workspace (or all). */
-  reset(code?: string) {
-    if (code) this.values.delete(code);
+  reset(workspaceId?: string) {
+    if (workspaceId) this.values.delete(workspaceId);
     else this.values.clear();
   }
 }

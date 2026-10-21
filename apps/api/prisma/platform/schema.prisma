@@ -57,7 +57,9 @@ model Workspace {
   code          String            @unique
   name          String
   schemaName    String            @unique
-  /// active | suspended (suspended by a platform admin; subscription expiry is computed separately)
+  /// provisioning | failed | active | suspended | deleted (suspended/deleted by a platform admin; subscription
+  /// expiry is computed separately). A deleted school keeps this row for its payments and invoices; its code and
+  /// schema name get a "~deleted~<stamp>" suffix so the code can be used again.
   status        String            @default("active")
   /// Billing currency: INR | USD
   currency      String            @default("INR")

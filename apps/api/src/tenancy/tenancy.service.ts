@@ -161,6 +161,14 @@ export class TenancyService implements OnModuleDestroy {
     return url.toString();
   }
 
+  /** Closes a school's database client now (before its schema is dropped). */
+  async forget(schema: string) {
+    const live = this.clients.get(schema);
+    this.clients.delete(schema);
+    this.list = null;
+    await live?.client.$disconnect().catch(() => undefined);
+  }
+
   /** Closes clients nobody used for a while (or the least recently used ones when over the limit). */
   private async closeIdle(overLimit = false) {
     const now = Date.now();

@@ -70,7 +70,8 @@ An older single-school database (school tables in `public`) is converted with
 2. **Gateways** — Razorpay (INR), Razorpay International / Stripe / PayPal (USD): keys, mode, **Test**, and the webhook
    URLs to register with each provider.
 3. **Schools › Create school** — name, permanent code, billing currency, contact, first Workspace Admin, and a trial or a
-   paid first period. **Open school (support)** enters it; **Record payment** / **Extend** manage the subscription.
+   paid first period. **Open school (support)** enters it; **Record payment** / **Extend** manage the subscription; **Suspend** then
+   **Delete** removes a school and all its data (its payments and invoices are kept).
 
 Inside a school, the Workspace Admin sets up campuses, years, classes, subjects and houses (**Users & Settings › School
 Setup**), staff and students, sign-in accounts (**Users & Roles**, including Campus Admins), AI providers, integrations
@@ -96,6 +97,7 @@ node tools/tests/workspaces.test.cjs        # schools never see each other's dat
 node tools/tests/platform-console.test.cjs  # console, support access, suspension, admins
 node tools/tests/campus-admin.test.cjs      # campus admins see only their campus
 node tools/tests/billing.test.cjs           # plans, payments, invoices, signed webhooks, expiry and renewal
+node tools/tests/delete-school.test.cjs     # deleting a school: guards, what goes, what stays, code reuse
 node tools/tests/account-links.test.cjs     # account ↔ record linking (inside a test school)
 node tools/tests/student-lifecycle.test.cjs # leaving and re-enrolling, Tamil and Hindi data
 ```

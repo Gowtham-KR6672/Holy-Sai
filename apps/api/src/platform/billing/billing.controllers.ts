@@ -109,12 +109,15 @@ export class PlatformBillingController {
     const [rows, total, schools] = await Promise.all([
       this.platform.payment.findMany({ where, orderBy: { createdAt: 'desc' }, skip: p.skip, take: p.take }),
       this.platform.payment.count({ where }),
-      this.platform.workspace.findMany({ select: { id: true, name: true, code: true } }),
+      this.platform.workspace.findMany({ select: { id: true, name: true, code: true, status: true } }),
     ]);
     const byId = new Map(schools.map((s) => [s.id, s]));
     return paged(
       rows.map((r) => ({
-        id: r.id, school: byId.get(r.workspaceId)?.name ?? '—', schoolCode: byId.get(r.workspaceId)?.code ?? null, planCode: r.planCode,
+        id: r.id, school: byId.get(r.workspaceId)?.name ?? '—', planCode: r.planCode,
+        // A deleted school keeps its payments, but has no page to open.
+        schoolCode: byId.get(r.workspaceId)?.status === 'deleted' ? null : byId.get(r.workspaceId)?.code ?? null,
+        schoolDeleted: byId.get(r.workspaceId)?.status === 'deleted',
         amount: Number(r.amount), currency: r.currency, gateway: r.gateway, method: r.method, status: r.status,
         reference: r.reference ?? r.gatewayPaymentId, paidAt: r.paidAt?.toISOString() ?? null, createdAt: r.createdAt.toISOString(), invoiceId: r.invoiceId, failureReason: r.failureReason,
       })),
@@ -194,7 +197,7 @@ export class PlatformBillingController {
   }
 
   private async schoolId(idOrCode: string): Promise<string> {
-    const w = await this.platform.workspace.findFirst({ where: { OR: [{ code: idOrCode }, ...(/^[0-9a-f-]{36}$/i.test(idOrCode) ? [{ id: idOrCode }] : [])] }, select: { id: true } });
+    const w = await this.platform.workspace.findFirst({ where: { status: { not: 'deleted' }, OR: [{ code: idOrCode }, ...(/^[0-9a-f-]{36}$/i.test(idOrCode) ? [{ id: idOrCode }] : [])] }, select: { id: true } });
     if (!w) throw notFound('School');
     return w.id;
   }

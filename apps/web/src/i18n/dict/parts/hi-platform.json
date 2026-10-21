@@ -246,5 +246,15 @@
   "whsec_…": "whsec_…",
   "Billed in {0}": "बिलिंग मुद्रा: {0}",
   "{0} ({1} days left)": "{0} ({1} दिन शेष)",
-  "{0} (ended {1} days ago)": "{0} ({1} दिन पहले समाप्त)"
+  "{0} (ended {1} days ago)": "{0} ({1} दिन पहले समाप्त)",
+  "Delete school": "स्कूल हटाएँ",
+  "Deleted school": "हटाया गया स्कूल",
+  "Suspend first": "पहले निलंबित करें",
+  "Type {0} to confirm": "पुष्टि के लिए {0} लिखें",
+  "{0} was deleted": "{0} हटा दिया गया",
+  "Only a suspended school can be deleted. Suspend it first: its users stop signing in, and you can still resume it if you change your mind.": "केवल निलंबित स्कूल ही हटाया जा सकता है। पहले इसे निलंबित करें: इसके उपयोगकर्ता साइन इन नहीं कर पाएँगे, और मन बदलने पर आप इसे फिर से शुरू कर सकते हैं।",
+  "This permanently deletes the school and everything in it: campuses, students, staff, fees, attendance, sign-in accounts, uploaded files and its audit trail. It cannot be undone.": "यह स्कूल और उसकी हर चीज़ को स्थायी रूप से हटा देता है: परिसर, विद्यार्थी, कर्मचारी, शुल्क, उपस्थिति, साइन-इन खाते, अपलोड की गई फ़ाइलें और लेखा परीक्षा रिकॉर्ड। इसे वापस नहीं लाया जा सकता।",
+  "Its payments and invoices stay in the console for your accounts. Its emails, mobile numbers and the code {0} can be used again for another school.": "इसके भुगतान और चालान आपके खातों के लिए कंसोल में बने रहते हैं। इसके ईमेल, मोबाइल नंबर और कोड {0} किसी दूसरे स्कूल के लिए फिर से उपयोग किए जा सकते हैं।",
+  "Suspend the school before deleting it": "हटाने से पहले स्कूल को निलंबित करें",
+  "Type the school code exactly as shown": "स्कूल कोड ठीक वैसे ही लिखें जैसा दिखाया गया है"
 }
