@@ -15,6 +15,7 @@ import { randomBytes } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, renameSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import { pgClientConfig } from './pg-config.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
 const api = path.join(root, 'apps', 'api');
@@ -52,7 +53,7 @@ const platformUrl = (() => {
   return u.toString();
 })();
 
-const db = new Client({ connectionString: plain });
+const db = new Client(pgClientConfig(plain));
 await db.connect();
 // Prisma stores timestamps as UTC wall time; the embedded server's own zone is local.
 await db.query("SET TIME ZONE 'UTC'");

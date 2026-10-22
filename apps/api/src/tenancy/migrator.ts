@@ -1,7 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { Client } from 'pg';
+import { Client, type ClientConfig } from 'pg';
 
 /** The school migrations (prisma/schema/migrations), applied to every school's schema. */
 export const SCHOOL_MIGRATIONS_DIR = path.resolve(__dirname, '../../prisma/schema/migrations');
@@ -51,6 +51,21 @@ export function pgConnectionString(url = process.env.DATABASE_URL): string {
   return u.toString();
 }
 
+/**
+ * pg connection settings from DATABASE_URL. With sslmode=require (or prefer / no-verify) the connection is encrypted
+ * without checking the server certificate — what Prisma does with the same URL — because hosted databases such as
+ * Supabase sign theirs with their own CA, which pg would otherwise reject. verify-full / verify-ca are left to pg.
+ */
+export function pgClientConfig(url = process.env.DATABASE_URL): ClientConfig {
+  const u = new URL(pgConnectionString(url));
+  const mode = u.searchParams.get('sslmode');
+  if (mode && ['require', 'prefer', 'no-verify'].includes(mode)) {
+    u.searchParams.delete('sslmode');
+    return { connectionString: u.toString(), ssl: { rejectUnauthorized: false } };
+  }
+  return { connectionString: u.toString() };
+}
+
 const ident = (name: string) => `"${name.replace(/"/g, '""')}"`;
 
 /**
@@ -60,7 +75,7 @@ const ident = (name: string) => `"${name.replace(/"/g, '""')}"`;
  */
 export async function migrateSchoolSchema(schema: string, log: (msg: string) => void = () => undefined): Promise<{ applied: string[]; version: string | null }> {
   if (!SCHEMA_NAME.test(schema)) throw new Error(`Invalid school schema name "${schema}"`);
-  const client = new Client({ connectionString: pgConnectionString() });
+  const client = new Client(pgClientConfig());
   await client.connect();
   await client.query("SET TIME ZONE 'UTC'");
   const applied: string[] = [];

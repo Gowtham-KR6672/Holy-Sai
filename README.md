@@ -63,6 +63,25 @@ if an existing one is not. Managed PostgreSQL in production is UTF-8 by default;
 An older single-school database (school tables in `public`) is converted with
 `node tools/convert-to-weschool.mjs --code <code>` (`--revert` undoes it).
 
+## Deploy
+
+- **Web app on Vercel.** Import the repository, set **Root Directory** to `apps/web` (build, output and rewrites come
+  from `apps/web/vercel.json`). In `vercel.json`, replace `YOUR-API-HOST` with the API's address: Vercel then passes
+  `/api/…` to the API, so the sign-in cookies stay on the web app's own domain. No Vercel environment variables are
+  needed (`VITE_API_BASE_URL` only if the API is called directly instead of through the rewrite).
+- **API on an always-on Node host** (Render, Railway, Fly.io, a VPS…), not Vercel functions: it runs scheduled jobs,
+  background paper correction and keeps a database pool per school. Build `npm ci && npm run build:shared && npm run
+  build -w @holysai/api`, start `npm run start -w @holysai/api`; once per release `npm run db:migrate`, and the first
+  time `npm run db:seed`.
+- **PostgreSQL**: a managed UTF-8 database (Neon, Supabase, Render, RDS…); see `max_connections` above.
+- **API environment** (see `apps/api/.env.example`): `DATABASE_URL`, `NODE_ENV=production`, `WEB_ORIGIN` and
+  `PUBLIC_WEB_URL` (the web app's address), `JWT_ACCESS_SECRET` and `PLATFORM_JWT_SECRET` (two different long random
+  strings), `APP_ENCRYPTION_KEY` (32 random bytes, base64; keep it forever — stored keys cannot be read without it),
+  `SEED_ADMIN_NAME` / `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` (the production Super Admin). Optional: `PORT`,
+  `JWT_ACCESS_TTL`, `UPLOAD_DIR` (only with a persistent disk; otherwise give schools S3/R2 storage),
+  `MAX_LIVE_WORKSPACES`, `WORKSPACE_DB_CONNECTION_LIMIT`, `LOGIN_RATE_LIMIT`, `EXAM_CORRECTION_CONCURRENCY`,
+  `WHATSAPP_APP_SECRET`.
+
 ## First steps in the console
 
 1. **Plans** — prices in INR and USD. **Settings** — billing details printed on invoices (legal name, address, GSTIN, tax

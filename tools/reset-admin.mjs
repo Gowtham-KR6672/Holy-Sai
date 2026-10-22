@@ -5,6 +5,7 @@
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import { pgClientConfig } from './pg-config.mjs';
 
 const api = path.resolve(import.meta.dirname, '..', 'apps', 'api');
 const require = createRequire(path.join(api, 'package.json'));
@@ -22,7 +23,7 @@ if (password.length < 10 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) |
 
 const url = new URL(process.env.DATABASE_URL ?? get('DATABASE_URL'));
 for (const p of ['schema', 'connection_limit', 'pool_timeout']) url.searchParams.delete(p);
-const db = new Client({ connectionString: url.toString() });
+const db = new Client(pgClientConfig(url.toString()));
 await db.connect();
 // Prisma stores timestamps as UTC wall time; the embedded server's own zone is local.
 await db.query("SET TIME ZONE 'UTC'");
