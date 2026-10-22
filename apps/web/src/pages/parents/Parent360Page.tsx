@@ -868,7 +868,7 @@ function MoreTab({ child, autoCompose, onAutoComposeDone }: { child: ChildRow; a
             <Item icon="message" title="Message class teacher" onClick={() => setComposing(true)} />
             <Item icon="calendar" title="Report an absence" meta="Lets the class teacher know in advance" onClick={() => { setMsg({ subject: `Absence — ${child.firstName}`, body: '' }); setComposing(true); }} />
             <Item icon="globe" title="Language" end={
-              <div className="segment">
+              <div className="segment" translate="no">
                 {langs.map((l) => <button key={l.id} type="button" aria-pressed={l.id === lang} onClick={() => { setLang(l.id); toast(l.label, 'success', 'globe'); }}>{l.short}</button>)}
               </div>
             } />

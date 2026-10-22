@@ -297,5 +297,13 @@
   "New account": "புதிய கணக்கு",
   "One sign-in for everyone: school leaders, teachers, office staff, parents and students each see what their role needs.": "அனைவருக்கும் ஒரே உள்நுழைவு: பள்ளித் தலைவர்கள், ஆசிரியர்கள், அலுவலக ஊழியர்கள், பெற்றோர் மற்றும் மாணவர்கள் தங்கள் பணிக்குத் தேவையானதை மட்டும் காண்பார்கள்.",
   "Sign in": "உள்நுழைக",
-  "What's inside": "உள்ளே என்ன உள்ளது"
+  "What's inside": "உள்ளே என்ன உள்ளது",
+  "Keep your account safe": "உங்கள் கணக்கைப் பாதுகாப்பாக வைத்திருங்கள்",
+  "Never share your password — the school will never ask you for it.": "உங்கள் கடவுச்சொல்லை யாருடனும் பகிர வேண்டாம் — பள்ளி ஒருபோதும் அதைக் கேட்காது.",
+  "On a shared computer, untick “Remember me” and sign out when you finish.": "பகிரப்பட்ட கணினியில் “என்னை நினைவில் வை” என்பதைத் தேர்வு நீக்கி, முடித்ததும் வெளியேறுங்கள்.",
+  "Forgot your password? The school office can reset it after checking who you are.": "கடவுச்சொல் மறந்துவிட்டதா? உங்கள் அடையாளத்தைச் சரிபார்த்த பின் பள்ளி அலுவலகம் அதை மீட்டமைக்கும்.",
+  "Secure sign-in": "பாதுகாப்பான உள்நுழைவு",
+  "Passwords stored securely": "கடவுச்சொற்கள் பாதுகாப்பாகச் சேமிக்கப்படுகின்றன",
+  "Your school's own private space": "உங்கள் பள்ளிக்கான தனி இடம்",
+  "Every sign-in is recorded": "ஒவ்வொரு உள்நுழைவும் பதிவு செய்யப்படுகிறது"
 }

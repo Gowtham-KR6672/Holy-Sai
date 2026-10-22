@@ -48,17 +48,19 @@ const TILES: { role: string; label: string; icon: string }[] = [
 ];
 
 /**
- * The sign-in page is a book. intro: the logo zooms out of the screen while a ring loads; cover: the closed book;
- * about: the cover opens on a spread that explains We School; signin: the Sign in corner turns the pages to the
- * spread with the sign-in form. On phones the book shows one page at a time.
+ * The sign-in page is a book. intro: the logo zooms out of the screen while a ring loads; cover: the closed book,
+ * waiting for its Open button; about: the cover opens on a spread that explains We School; signin: the Sign in
+ * corner turns the pages to the spread with the sign-in form. On phones the book shows one page at a time.
  */
 type BookState = 'intro' | 'cover' | 'about' | 'signin';
 
-/** Pages turned between the "about" spread and the sign-in spread (the cover turns first, on its own). */
+/** Pages turned between the "about" spread and the sign-in spread (the cover turns first, with Open). */
 const PAGES = 4;
 const INTRO_MS = 1500;
-const COVER_MS = 650;
 const TURN_GAP_MS = 150;
+
+/** The cover's Open button is a verb ("open the book"); the shared "Open" translation is the status adjective. */
+const OPEN_LABEL: Record<string, string> = { en: 'Open', ta: 'திற', hi: 'खोलें' };
 
 const reducedMotion = () => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
@@ -85,7 +87,7 @@ function useBookZoom(): number {
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const navigate = useNavigate();
   const location = useLocation();
   const toast = useToast();
@@ -97,9 +99,10 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [moreOpen, setMoreOpen] = useState(false);
-  const [book, setBook] = useState<BookState>(() => (reducedMotion() ? 'about' : 'intro'));
+  const [book, setBook] = useState<BookState>(() => (reducedMotion() ? 'cover' : 'intro'));
   const [turning, setTurning] = useState<'forward' | 'back'>('forward');
   const idRef = useRef<HTMLInputElement>(null);
+  const openRef = useRef<HTMLButtonElement>(null);
   const zoom = useBookZoom();
 
   const config = useQuery({ queryKey: ['public-config'], queryFn: () => api.get<PublicConfig>('/public/config'), staleTime: 5 * 60_000 });
@@ -113,11 +116,15 @@ export default function LoginPage() {
     document.title = 'Sign in — We School';
   }, []);
 
-  // intro → cover → about, on a timer; any key or click skips ahead.
+  // intro → cover on a timer (any key or click skips the intro); the cover then waits for its Open button.
   useEffect(() => {
-    if (book !== 'intro' && book !== 'cover') return;
-    const timer = window.setTimeout(() => setBook(book === 'intro' ? 'cover' : 'about'), book === 'intro' ? INTRO_MS : COVER_MS);
-    const skip = () => setBook('about');
+    if (book === 'cover') {
+      openRef.current?.focus({ preventScroll: true });
+      return;
+    }
+    if (book !== 'intro') return;
+    const timer = window.setTimeout(() => setBook('cover'), INTRO_MS);
+    const skip = () => setBook('cover');
     window.addEventListener('keydown', skip);
     return () => {
       window.clearTimeout(timer);
@@ -125,14 +132,31 @@ export default function LoginPage() {
     };
   }, [book]);
 
-  // The flat left page appears once the last leaf has landed (and disappears as soon as pages turn again).
+  const openBook = () => {
+    setTurning('forward');
+    setBook('about');
+  };
+
+  // The flat left page appears once the last leaf has landed (and disappears as soon as pages turn again): the end
+  // of that leaf's turn, with a timer in case the transition never reports (no motion, background tab).
   const [settled, setSettled] = useState(false);
+  const coverRef = useRef<HTMLDivElement>(null);
+  const firstPageRef = useRef<HTMLDivElement>(null);
+  const lastPageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     setSettled(false);
     if (book !== 'about' && book !== 'signin') return;
+    const landing = book === 'signin' ? lastPageRef.current : turning === 'back' ? firstPageRef.current : coverRef.current;
+    const onEnd = (e: TransitionEvent) => {
+      if (e.target === landing && e.propertyName === 'transform') setSettled(true);
+    };
+    landing?.addEventListener('transitionend', onEnd);
     const turned = book === 'about' && turning === 'forward' ? 1100 : 950 + (PAGES - 1) * TURN_GAP_MS;
-    const timer = window.setTimeout(() => setSettled(true), reducedMotion() ? 0 : turned);
-    return () => window.clearTimeout(timer);
+    const timer = window.setTimeout(() => setSettled(true), reducedMotion() ? 0 : turned + 600);
+    return () => {
+      window.clearTimeout(timer);
+      landing?.removeEventListener('transitionend', onEnd);
+    };
   }, [book, turning]);
 
   const openSignIn = () => {
@@ -237,6 +261,14 @@ export default function LoginPage() {
           {help}
         </div>
       </div>
+      <div className="booksafe">
+        <p className="page__kicker">Keep your account safe</p>
+        <ul className="booktips">
+          <li><Icon name="lock" size={16} /><span>Never share your password — the school will never ask you for it.</span></li>
+          <li><Icon name="logout" size={16} /><span>On a shared computer, untick “Remember me” and sign out when you finish.</span></li>
+          <li><Icon name="key" size={16} /><span>Forgot your password? The school office can reset it after checking who you are.</span></li>
+        </ul>
+      </div>
       {privacy}
     </Paper>
   );
@@ -244,7 +276,7 @@ export default function LoginPage() {
   return (
     <section className="home home--book" aria-label="We School — welcome and sign in">
       {book === 'intro' || book === 'cover' ? (
-        <div className="bookintro" data-done={book === 'cover'} onClick={() => setBook('about')} aria-hidden="true">
+        <div className="bookintro" data-done={book === 'cover'} onClick={() => setBook('cover')} aria-hidden="true">
           <div className="bookintro__mark" style={zoom > 1 ? { zoom } : undefined}>
             <svg className="bookintro__ring" viewBox="0 0 140 140"><circle cx="70" cy="70" r="64" /></svg>
             <img src="/logo-mark.svg" alt="" width={92} height={92} />
@@ -253,7 +285,7 @@ export default function LoginPage() {
         </div>
       ) : null}
 
-      <div className="bookstage" onClick={book === 'intro' || book === 'cover' ? () => setBook('about') : undefined}>
+      <div className="bookstage" onClick={book === 'intro' ? () => setBook('cover') : undefined}>
         {/* --k enlarges the book on large screens: the 3D pages by size, their paper by zoom (sharp text). */}
         <div className="bookwrap" data-state={book} style={{ '--k': zoom } as CSSProperties}>
         <div className="book" data-state={book}>
@@ -315,9 +347,11 @@ export default function LoginPage() {
                       <div className="grow">{error}</div>
                     </div>
                   )}
-                  <Button type="submit" variant="primary" block iconRight="arrowRight" loading={busy} className="logincard__btn">
-                    Sign in to Campus
-                  </Button>
+                  <div className="bookform__submit">
+                    <Button type="submit" variant="primary" iconRight="arrowRight" loading={busy} className="logincard__btn">
+                      Sign in to Campus
+                    </Button>
+                  </div>
                 </div>
 
                 {demo.length > 0 && (
@@ -354,11 +388,21 @@ export default function LoginPage() {
                 {help}
                 {privacy}
               </div>
+              {/* The foot of the sign-in page (two-page spread). */}
+              <div className="booktrust">
+                <span className="booktrust__rule">Secure sign-in</span>
+                <ul className="booktrust__list">
+                  <li><Icon name="lock" size={16} />Passwords stored securely</li>
+                  <li><Icon name="building" size={16} />Your school's own private space</li>
+                  <li><Icon name="shieldCheck" size={16} />Every sign-in is recorded</li>
+                </ul>
+                <p className="booktrust__motto">Every student. Every family. Connected.</p>
+              </div>
             </Paper>
           </div>
 
           {/* Leaf 4: its back is the left page of the sign-in spread (help before signing in). */}
-          <div className="leaf" data-flipped={leaf(4).flipped} style={leaf(4).style}>
+          <div className="leaf" ref={lastPageRef} data-flipped={leaf(4).flipped} style={leaf(4).style}>
             <div className="leaf__face leaf__front" aria-hidden="true"><BlankPage side="right" n={8} /></div>
             <div className="leaf__face leaf__back" inert aria-hidden="true">{helpLeftPage}</div>
           </div>
@@ -372,7 +416,7 @@ export default function LoginPage() {
           ))}
 
           {/* Leaf 1: what's inside (right page of the "about" spread), with the Sign in corner. */}
-          <div className="leaf" data-flipped={leaf(1).flipped} style={leaf(1).style}>
+          <div className="leaf" ref={firstPageRef} data-flipped={leaf(1).flipped} style={leaf(1).style}>
             <div className="leaf__face leaf__front" inert={book !== 'about'}>
               <Paper side="right" n={2} corner={
                 <button type="button" className="pagecorner" onClick={openSignIn}>
@@ -407,7 +451,7 @@ export default function LoginPage() {
           </div>
 
           {/* Leaf 0: the cover (front) and the inside of the cover (back, the left page of the "about" spread). */}
-          <div className="leaf leaf--cover" data-flipped={leaf(0).flipped} style={leaf(0).style}>
+          <div className="leaf leaf--cover" ref={coverRef} data-flipped={leaf(0).flipped} style={leaf(0).style}>
             <div className="leaf__face leaf__front" inert={book !== 'intro' && book !== 'cover'}>
               <div className="cover">
                 <div className="cover__center">
@@ -416,6 +460,9 @@ export default function LoginPage() {
                   <p className="cover__tag">School platform</p>
                   <span className="cover__rule" />
                   <p className="cover__motto">Every student. Every family. Connected.</p>
+                  <button ref={openRef} type="button" className="cover__open" onClick={openBook} translate="no">
+                    <Icon name="bookOpen" size={18} />{OPEN_LABEL[lang] ?? OPEN_LABEL.en}
+                  </button>
                 </div>
                 <p className="cover__foot">Admissions · Academics · Parents · Safety · Finance · Workforce</p>
               </div>
@@ -476,7 +523,8 @@ function BlankPage({ side, n }: { side: 'left' | 'right'; n: number }) {
 function LangPill() {
   const { langs, lang, setLang } = useI18n();
   return (
-    <div className="langpill langpill--paper">
+    // Language names stay in their own language (translate="no" keeps the page translator off them).
+    <div className="langpill langpill--paper" translate="no">
       {langs.map((l) => (
         <button type="button" key={l.id} aria-pressed={lang === l.id} onClick={() => setLang(l.id)}>{l.label}</button>
       ))}

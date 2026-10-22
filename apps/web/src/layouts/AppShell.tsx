@@ -487,8 +487,9 @@ function Topbar({ onMenu, mobileSearch, onToggleSearch, alertCount }: { onMenu: 
             setLangAnchor(null);
             toast(`${l.label}`, 'success', 'globe');
           }}>
-            <span className="menu__code">{l.short}</span>
-            <span className="grow">{l.label}</span>
+            {/* Language names stay in their own language. */}
+            <span className="menu__code" translate="no">{l.short}</span>
+            <span className="grow" translate="no">{l.label}</span>
             {l.id === lang && <Icon name="check" size={15} />}
           </button>
         ))}

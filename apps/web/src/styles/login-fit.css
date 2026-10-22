@@ -351,6 +351,50 @@
   font-style: italic;
   line-height: 1.5;
 }
+/* The cover's Open button: gold, with a soft glow that invites the click. */
+.cover__open {
+  color: #4a0019;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  background: linear-gradient(180deg, #ffe9a6, #e3b04b 60%, #c99434);
+  border: 0;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 12px 34px;
+  font-size: 15px;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  display: inline-flex;
+  box-shadow:
+    0 0 0 1px #fff3,
+    0 12px 28px -12px #140006cc;
+  animation: we-glow 2.6s ease-in-out 0.6s infinite;
+}
+.cover__open:hover {
+  transform: translateY(-2px);
+}
+.cover__open:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+@keyframes we-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px #fff3,
+      0 12px 28px -12px #140006cc;
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px #fff3,
+      0 0 0 10px #fedb6e26,
+      0 12px 28px -12px #140006cc;
+  }
+}
 .cover__foot {
   color: #fedb6e99;
   letter-spacing: 0.08em;
@@ -642,6 +686,33 @@
   gap: 4px;
   margin-top: 20px;
 }
+/* Account-safety tips under the help box (they fill the rest of the help page). */
+.booksafe {
+  margin-top: 24px;
+}
+.booksafe .page__kicker {
+  margin-bottom: 12px;
+}
+.booktips {
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+.booktips li {
+  color: var(--text-muted);
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  display: flex;
+}
+.booktips li > svg {
+  color: var(--brand);
+  flex: none;
+  margin-top: 2px;
+}
 .bookprivacy {
   color: var(--text-muted);
   align-items: center;
@@ -659,9 +730,77 @@
   margin-top: 8px;
   padding-top: 0;
 }
-/* The form sits on the paper without a card of its own. */
+/* The form sits on the paper without a card of its own, centred on the sign-in page; a small round button. */
 .bookform {
   color: var(--text);
+}
+.book__base .bookform {
+  margin: auto 0;
+}
+.bookform__submit {
+  justify-content: center;
+  margin-top: 6px;
+  display: flex;
+}
+.bookform__submit .logincard__btn {
+  border-radius: var(--r-pill);
+  min-width: 220px;
+  height: 46px;
+  padding: 0 34px;
+}
+/* The foot of the sign-in page: three facts about signing in and the motto. */
+.booktrust {
+  text-align: center;
+  margin-top: 24px;
+}
+.booktrust__rule {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a3123f;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+}
+.booktrust__rule:before,
+.booktrust__rule:after {
+  content: "";
+  background: var(--border);
+  flex: 1;
+  height: 1px;
+}
+.booktrust__list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+.booktrust__list li {
+  color: var(--text-muted);
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+  display: flex;
+}
+.booktrust__list svg {
+  color: var(--brand);
+  box-sizing: content-box;
+  background: #9900331a;
+  border-radius: 50%;
+  padding: 8px;
+}
+.booktrust__motto {
+  font-family: var(--font-serif), "Noto Sans Tamil", "Noto Sans Devanagari", serif;
+  color: var(--text-muted);
+  margin-top: 14px;
+  font-size: 13px;
+  font-style: italic;
 }
 .bookform .logincard__title {
   font-family: var(--font-serif), "Noto Sans Tamil", "Noto Sans Devanagari", serif;
@@ -781,7 +920,8 @@
   }
   .book__leftbase,
   .book__spine,
-  .book__flat {
+  .book__flat,
+  .booktrust {
     display: none;
   }
   .leaf[data-flipped="true"] {
@@ -885,7 +1025,8 @@
 /* Very short windows: the closing notes and the assistant's picture give way to the essentials. */
 @media (height<=700px) and (width>=900px) {
   .book__note,
-  .bookhelp > span:first-child {
+  .bookhelp > span:first-child,
+  .booktrust {
     display: none;
   }
   .booksteps {
@@ -894,6 +1035,26 @@
   }
   .booksteps li {
     font-size: 13px;
+  }
+}
+
+/* Short windows: the cover keeps its title and Open button, without the line of modules at its foot. */
+@media (height<=620px) {
+  .cover__foot {
+    display: none;
+  }
+  .cover__open {
+    margin-top: 18px;
+  }
+}
+
+/* Very short windows (under ~560 px): the sign-in page keeps only the essentials. */
+@media (height<=560px) and (width>=900px) {
+  .bookform .logincard__sub {
+    display: none;
+  }
+  .page__head {
+    margin-bottom: 10px;
   }
 }
 
@@ -908,6 +1069,7 @@
     transition: none !important;
   }
   .pagecorner__fold,
+  .cover__open,
   .bookintro__mark,
   .bookintro__ring circle,
   .bookintro__name {
