@@ -66,7 +66,7 @@ An older single-school database (school tables in `public`) is converted with
 ## Deploy
 
 - **Web app on Vercel.** Import the repository, set **Root Directory** to `apps/web` (build, output and rewrites come
-  from `apps/web/vercel.json`). In `vercel.json`, replace `YOUR-API-HOST` with the API's address: Vercel then passes
+  from `apps/web/vercel.json`). In `vercel.json`, the `/api` rewrite points at the API (we-school.onrender.com): Vercel passes
   `/api/…` to the API, so the sign-in cookies stay on the web app's own domain. No Vercel environment variables are
   needed (`VITE_API_BASE_URL` only if the API is called directly instead of through the rewrite).
 - **API on an always-on Node host** (Render, Railway, Fly.io, a VPS…), not Vercel functions: it runs scheduled jobs,
